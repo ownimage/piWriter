@@ -1,21 +1,28 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<app-track
-  *ngFor = "let track of tracks"
-  [track] = "track"
->
-</app-track>
+<header style="background-color: #FEE">
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark static-top bg-dark">
+        <a class="navbar-brand" href="#" (click)="setMode('Home')">{{ title }}</a>
+    </nav>
+</header>
+
+<main role="main" class="container">
+
+    <app-browse-playlists *ngIf="mode === 'Play'"></app-browse-playlists>
+    <app-playlist *ngIf="mode === 'Edit'"></app-playlist>
+    <app-track *ngIf="mode === 'Create'"></app-track>
+
+    <div *ngIf="mode === 'Home'" class="row mt-5">
+        <button class="btn btn-primary btn-lg btn-block" (click)="setMode('Play')">Play Playlist</button>
+        <button class="btn btn-primary btn-lg btn-block" (click)="setMode('Edit')">Edit Playlist</button>
+        <button class="btn btn-primary btn-lg btn-block" (click)="setMode('Create')">Create Playlist</button>
+    </div>
+
+</main>
 
 
-<hr>
-<div class="row">
-  <div class="col-xs-12">
-    <button class="btn btn-primary" (click)="onChangeFirst()">Change first Element</button>
-    <button class="btn btn-danger" (click)="onDestroyFirst()">Destroy first Component</button>
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted">(c) ownimage, 2018.</span>
   </div>
-</div>
+</footer>
+

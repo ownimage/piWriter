@@ -13,5 +13,12 @@ export class AppComponent {
     new Track("trackName2", "trackLocation")
   ];
 
-  title = 'app';
+  title = 'piWriter';
+  mode: string = 'Home';
+
+  setMode(mode)  {
+      this.mode = mode;
+      console.log("Mode changed to: " + this.mode);
+  }
+
 }
