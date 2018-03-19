@@ -13,10 +13,6 @@ const httpOptions = {
   styleUrls: ['./app.component.css', ]
 })
 export class AppComponent {
-  tracks: Track[] = [
-    new Track("trackName1", "trackLocation"),
-    new Track("trackName2", "trackLocation")
-  ];
 
   title = 'piWriter';
   mode: string = 'Home';

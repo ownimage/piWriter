@@ -1,4 +1,6 @@
-<p>
-  playlist works!
-  {{ playlist }}
-</p>
+<h1>{{ name }}</h1>
+<app-track
+  *ngFor="let track of playlist"
+  [track] = "track"
+>
+</app-track>

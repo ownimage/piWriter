@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { PlaylistService } from './playlist.service';
+import { Track } from '../shared/track.model';
 
 @Component({
   selector: 'app-playlist',
@@ -16,14 +17,15 @@ export class PlaylistComponent implements OnInit{
       private route: ActivatedRoute
   ) {}
 
-  playlist: string = "";
+    name: string = "";
+  playlist: Track[] = [];
 
   ngOnInit() {
-      let playlist = this.route.snapshot.params.playlist;
-      console.log('Playlist component start ' + playlist);
+      this.name = this.route.snapshot.params.playlist;
+      console.log('Playlist component start ' + this.name);
       //this.setPlaylists("Hello world");
       console.log("this.playlists 1 = " + JSON.stringify(this.playlist));
-      this.playlistService.getPlaylist(playlist).subscribe( data => {
+      this.playlistService.getPlaylist(this.name).subscribe( data => {
           //console.log("data2 " + JSON.stringify(data));
           console.log("this.playlists ? = " + JSON.stringify(this.playlist));
           this.playlist = data.body;

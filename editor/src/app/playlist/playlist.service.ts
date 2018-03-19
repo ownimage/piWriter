@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
 
+import { Track } from '../shared/track.model';
+
 @Injectable()
 export class PlaylistService {
     playlistsUrl = 'http://localhost:3000/v1/playlists/';
@@ -16,8 +18,8 @@ export class PlaylistService {
     //     this.http.get(this.playlistsUrl).subscribe( data => { console.log("data " + JSON.stringify(data)); callback(null, data); });
     // }
 
-    getPlaylist(playlist): Observable<HttpResponse<string>>  {
-        return this.http.get<string>(this.playlistsUrl + playlist, { observe: 'response' });
+    getPlaylist(playlist): Observable<HttpResponse<Track[]>>  {
+        return this.http.get<Track[]>(this.playlistsUrl + playlist, { observe: 'response' });
         //});
             // .pipe(
             //     retry(3), // retry a failed request up to 3 times
