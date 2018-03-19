@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap/dist/css/bootstrap-grid.css";
+@import "~font-awesome/css/font-awesome.min.css";
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -8,6 +9,7 @@ html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
