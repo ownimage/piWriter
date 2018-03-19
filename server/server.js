@@ -20,6 +20,7 @@ const getPlaylistV1 = (req, res) => {
     fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
         if (!err) {
             console.log('received data: ' + data);
+            res.header("Access-Control-Allow-Origin", "*");
             res.send(data);
         } else {
             console.log(err);

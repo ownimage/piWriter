@@ -16,19 +16,20 @@ export class PlaylistComponent implements OnInit{
       private route: ActivatedRoute
   ) {}
 
-  playlists:string[] = [];
+  playlist: string = "";
 
   ngOnInit() {
-      console.log('Playlist component start ' + this.route.snapshot.params.playlist);
+      let playlist = this.route.snapshot.params.playlist;
+      console.log('Playlist component start ' + playlist);
       //this.setPlaylists("Hello world");
-      console.log("this.playlists = " + JSON.stringify(this.playlists));
-      this.playlistService.getPlaylists1().subscribe( data => {
+      console.log("this.playlists 1 = " + JSON.stringify(this.playlist));
+      this.playlistService.getPlaylist(playlist).subscribe( data => {
           //console.log("data2 " + JSON.stringify(data));
-          console.log("this.playlists = " + JSON.stringify(this.playlists));
-          this.playlists = data.body;
-          console.log("this.playlists = " + JSON.stringify(this.playlists));
+          console.log("this.playlists ? = " + JSON.stringify(this.playlist));
+          this.playlist = data.body;
+          console.log("this.playlists end 0= " + JSON.stringify(this.playlist));
       });
-      console.log("this.playlists = " + JSON.stringify(this.playlists));
+      console.log("this.playlists end = " + JSON.stringify(this.playlist));
   }
 
 }
