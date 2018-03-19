@@ -1,6 +1,6 @@
-<ul class="list-group mt-5">
+<ul class="list-group">
   <li
-      (click)='showPlaylist(playlist)'
+      routerLink="/playlists/{{ playlist }}"
       class="list-group-item"
       *ngFor="let playlist of playlists"
   >
