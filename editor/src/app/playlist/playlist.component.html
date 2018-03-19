@@ -1,6 +1,11 @@
 <h1>{{ name }}</h1>
 <app-track
-  *ngFor="let track of playlist"
-  [track] = "track"
+    *ngFor="let track of playlist"
+    [track] = "track"
 >
 </app-track>
+
+<div class="row mt-1">
+    <button class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2">Edit</button>
+    <button class="btn btn-success btn-lg offset-md-1 col-md-3 mt-2">Play</button>
+</div>

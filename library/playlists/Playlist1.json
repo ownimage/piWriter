@@ -2,13 +2,13 @@
     {
         "name": "picture1a",
         "path": "pictures/picture1a.jpg",
-        "repeat": false,
+        "repeat": true,
         "autostartNext": false
     },
     {
         "name": "picture1b",
         "path": "pictures/picture1b.jpg",
         "repeat": false,
-        "autostartNext": false
+        "autostartNext": true
     }
 ]

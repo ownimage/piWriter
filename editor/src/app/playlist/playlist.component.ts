@@ -17,7 +17,7 @@ export class PlaylistComponent implements OnInit{
       private route: ActivatedRoute
   ) {}
 
-    name: string = "";
+  name: string = "";
   playlist: Track[] = [];
 
   ngOnInit() {
