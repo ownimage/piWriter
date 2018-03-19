@@ -8,9 +8,11 @@ import { AppComponent } from './app.component';
 import { TrackComponent } from './track/track.component';
 import { BrowsePlaylistsComponent } from './browse-playlists/browse-playlists.component';
 import { PlaylistComponent } from './playlist/playlist.component';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-    { path: 'playlists', component: BrowsePlaylistsComponent}
+    { path: '', component: HomeComponent},
+    { path: 'playlists', component: BrowsePlaylistsComponent},
 ];
 
 @NgModule({
@@ -18,7 +20,8 @@ const appRoutes: Routes = [
     AppComponent,
     TrackComponent,
     BrowsePlaylistsComponent,
-    PlaylistComponent
+    PlaylistComponent,
+    HomeComponent
   ],
   imports: [
       HttpClientModule,
