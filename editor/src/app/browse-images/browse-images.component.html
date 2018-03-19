@@ -1,0 +1,21 @@
+<ul class="list-group">
+  <li
+          routerLink="/playlists/{{ playlist }}/{{ mode }}"
+          class="list-group-item"
+          *ngFor="let image of images"
+  >
+    <img src="http://localhost:3000/images/{{image}}"/>
+    <span>{{ image }}</span>
+    <app-checkbox
+        class="float-right"
+        [value]="isImageSelected()" [enabled]="true">
+    </app-checkbox>
+  </li>
+</ul>
+
+<div class="row mt-1">
+  <button
+          routerLink="/images"
+          class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
+  >Add</button>
+</div>

@@ -2,9 +2,17 @@ const express = require('express')
 const fs = require('fs');
 const path = require('path');
 
+const imagesFolder = '../library/images';
 const playlistFolder = '../library/playlists';
 
 const app = express();
+
+const getImagesV1 = (req, res) => {
+    fs.readdir(imagesFolder, (err, files) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(files);
+    });
+};
 
 const getPlaylistsV1 = (req, res) => {
     fs.readdir(playlistFolder, (err, files) => {
@@ -30,13 +38,9 @@ const getPlaylistV1 = (req, res) => {
 
 
 app.get('/', (req, res) => res.send('Hello World!'));
-
-app.get('/users/:userId/books/:bookId', function (req, res) {
-    res.send(req.params)
-});
-
+app.use('/images', express.static(imagesFolder));
+app.get('/v1/images', getImagesV1);
 app.get('/v1/playlists', getPlaylistsV1);
-
 app.get('/v1/playlists/:playlist', getPlaylistV1);
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));

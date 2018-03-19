@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BrowsePlaylistsService } from './browse-playlists.service';
+import {ActivatedRoute} from "@angular/router";
 
+import { BrowsePlaylistsService } from './browse-playlists.service';
+``
 @Component({
   selector: 'app-browse-playlists',
   templateUrl: './browse-playlists.component.html',
@@ -9,12 +11,18 @@ import { BrowsePlaylistsService } from './browse-playlists.service';
 })
 export class BrowsePlaylistsComponent implements OnInit {
 
-    constructor(private browsePlaylistsService: BrowsePlaylistsService) {}
+    constructor(
+        private browsePlaylistsService: BrowsePlaylistsService,
+        private route: ActivatedRoute
+    ) {}
 
     playlists:string[] = [];
+    mode: string = "";
 
     ngOnInit() {
         console.log('Playlist component start');
+        this.mode = this.route.snapshot.params.mode;
+        console.log("this.mode = " + this.mode);
         //this.setPlaylists("Hello world");
         console.log("this.playlists = " + JSON.stringify(this.playlists));
         this.browsePlaylistsService.getPlaylists().subscribe( data => {

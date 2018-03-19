@@ -10,11 +10,13 @@ import { BrowsePlaylistsComponent } from './browse-playlists/browse-playlists.co
 import { PlaylistComponent } from './playlist/playlist.component';
 import { HomeComponent } from './home/home.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { BrowseImagesComponent } from './browse-images/browse-images.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent},
-    { path: 'playlists', component: BrowsePlaylistsComponent},
-    { path: 'playlists/:playlist', component: PlaylistComponent},
+    { path: 'images', component: BrowseImagesComponent},
+    { path: 'playlists/:mode', component: BrowsePlaylistsComponent},
+    { path: 'playlists/:playlist/:mode', component: PlaylistComponent},
 ];
 
 @NgModule({
@@ -24,7 +26,8 @@ const appRoutes: Routes = [
     BrowsePlaylistsComponent,
     PlaylistComponent,
     HomeComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    BrowseImagesComponent
   ],
   imports: [
       HttpClientModule,
