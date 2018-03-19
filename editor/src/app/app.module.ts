@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 const appRoutes: Routes = [
     { path: '', component: HomeComponent},
     { path: 'playlists', component: BrowsePlaylistsComponent},
+    { path: 'playlists/:playlist', component: PlaylistComponent},
 ];
 
 @NgModule({

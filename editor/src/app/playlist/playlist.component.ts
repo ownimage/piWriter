@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { PlaylistService } from './playlist.service';
 
 @Component({
@@ -9,12 +11,15 @@ import { PlaylistService } from './playlist.service';
 })
 export class PlaylistComponent implements OnInit{
 
-  constructor(private playlistService: PlaylistService) {}
+  constructor(
+      private playlistService: PlaylistService,
+      private route: ActivatedRoute
+  ) {}
 
   playlists:string[] = [];
 
   ngOnInit() {
-      console.log('Playlist component start');
+      console.log('Playlist component start ' + this.route.snapshot.params.playlist);
       //this.setPlaylists("Hello world");
       console.log("this.playlists = " + JSON.stringify(this.playlists));
       this.playlistService.getPlaylists1().subscribe( data => {
