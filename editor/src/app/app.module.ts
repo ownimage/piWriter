@@ -9,6 +9,7 @@ import { TrackComponent } from './track/track.component';
 import { BrowsePlaylistsComponent } from './browse-playlists/browse-playlists.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { HomeComponent } from './home/home.component';
+import { CheckboxComponent } from './checkbox/checkbox.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent},
@@ -22,7 +23,8 @@ const appRoutes: Routes = [
     TrackComponent,
     BrowsePlaylistsComponent,
     PlaylistComponent,
-    HomeComponent
+    HomeComponent,
+    CheckboxComponent
   ],
   imports: [
       HttpClientModule,

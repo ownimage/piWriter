@@ -1,7 +1,7 @@
 <ul class="list-group">
     <li class="list-group-item">
         {{ track.name }}<br/>
-        repeat: {{ track.repeat }}<br>
-        autostart: {{ track.autostartNext }}
+        repeat: <app-checkbox [value]="track.repeat" [enabled]="true"></app-checkbox>
+        autostart: <app-checkbox [value]="track.autostartNext" [enabled]="true"></app-checkbox>
     </li>
 </ul>
