@@ -7,9 +7,10 @@
     <img src="http://localhost:3000/images/{{image}}"/>
     <span>{{ image }}</span>
     <app-checkbox
+        [value]="isImageSelected()" [enabled]="true"
+        (toggleEvent)="toggleImage(image)" [enabled]="true"
         class="float-right"
-        [value]="isImageSelected()" [enabled]="true">
-    </app-checkbox>
+    ></app-checkbox>
   </li>
 </ul>
 

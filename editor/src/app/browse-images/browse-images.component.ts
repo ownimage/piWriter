@@ -11,12 +11,12 @@ import {BrowsePlaylistsService} from "../browse-playlists/browse-playlists.servi
 })
 export class BrowseImagesComponent implements OnInit {
 
+    images:string[] = [];
+
     constructor(
         private browseImagesService: BrowseImagesService,
         private route: ActivatedRoute
     ) {}
-
-    images:string[] = [];
 
     ngOnInit() {
         console.log('BrowseImages component start');
@@ -27,5 +27,10 @@ export class BrowseImagesComponent implements OnInit {
 
     isImageSelected(image) {
         return true;
+    }
+
+    toggleImage(image) {
+        console.log("toggleImage(" + image + ")");
+        console.log("images = " + JSON.stringify(this.images));
     }
 }
