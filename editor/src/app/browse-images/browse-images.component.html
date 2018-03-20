@@ -1,14 +1,15 @@
 <ul class="list-group">
   <li
-          routerLink="/playlists/{{ playlist }}/{{ mode }}"
-          class="list-group-item"
-          *ngFor="let image of images"
+      class="list-group-item"
+      *ngFor="let image of images"
   >
-    <img src="http://localhost:3000/images/{{image}}"/>
-    <span>{{ image }}</span>
+    <img src="http://localhost:3000/images/{{ image.name }}"/>
+    <span>{{ image.name }}</span>
     <app-checkbox
-        [value]="isImageSelected()" [enabled]="true"
-        (toggleEvent)="toggleImage(image)" [enabled]="true"
+        [value]="image.selected"
+        [enabled]="true"
+        [forObject]="image"
+        (toggleEvent)="toggleImage($event)"
         class="float-right"
     ></app-checkbox>
   </li>
@@ -16,7 +17,8 @@
 
 <div class="row mt-1">
   <button
-          routerLink="/images"
-          class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
+      (click)="onClick($event)"
+      routerLink="/images"
+      class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
   >Add</button>
 </div>

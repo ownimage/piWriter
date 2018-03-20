@@ -9,9 +9,15 @@ import {Track} from "../shared/track.model";
 export class CheckboxComponent implements OnInit {
     @Input() value: boolean;
     @Input() enabled: boolean;
+    @Input() forObject: any;
     @Output() toggleEvent = new EventEmitter();
 
+    trueStyle = "fa fa-check";
+    falseStyle = "fa fa-times";
+
     constructor() {}
+
+    ngOnInit() {}
 
     getColor() {
         if (!this.enabled) return "grey";
@@ -19,12 +25,14 @@ export class CheckboxComponent implements OnInit {
         return "red";
     }
 
-    ngOnInit() {}
+    getClass() {
+        return this.value ? this.trueStyle : this.falseStyle;
+    }
 
     toggle() {
-        console.log("toggle");
-        this.value = !this.value;
-        this.toggleEvent.emit();
+        console.log("toggle " + JSON.stringify(this.forObject));
+        //this.value = !this.value;
+        this.toggleEvent.emit(this.forObject);
     }
 
 }

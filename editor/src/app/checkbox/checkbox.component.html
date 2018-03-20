@@ -1,2 +1,7 @@
-<span *ngIf="value" (click)="toggle()" [ngStyle]="{'color': getColor()}" class="float-right fa fa-check" style="font-size: 200%" aria-hidden="true"></span>
-<span *ngIf="!value" (click)="toggle()" [ngStyle]="{'color': getColor()}" class="float-right fa fa-times" style="font-size: 200%" aria-hidden="true"></span>
+<span (click)="toggle()"
+      [ngStyle]="{'color': getColor()}"
+      [ngClass]="getClass()"
+      class="float-right"
+      style="font-size: 200%"
+      aria-hidden="true"
+></span>
