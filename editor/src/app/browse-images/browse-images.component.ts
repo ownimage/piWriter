@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import { RepositoryService } from "../shared/repository.service";
 
@@ -9,6 +9,7 @@ import { RepositoryService } from "../shared/repository.service";
     providers: [ RepositoryService ],
 })
 export class BrowseImagesComponent implements OnInit {
+    @Output() selectedImages = new EventEmitter<string[]>();
 
     images:{name: string, selected: boolean}[] = [];
 
@@ -26,8 +27,11 @@ export class BrowseImagesComponent implements OnInit {
         });
     }
 
-    onClick() {
+    buttonClick() {
         console.log("images = " + JSON.stringify(this.images));
+        var si = this.images.filter( i => i.selected).map( i => i.name );
+        console.log("si = " + JSON.stringify(si));
+        this.selectedImages.emit(si);
     }
 
     toggleImage(image) {

@@ -19,6 +19,7 @@ export class PlaylistComponent implements OnInit{
 
   name: string = "";
   playlist: Track[] = [];
+  mode: string = "showPlaylist";
 
   ngOnInit() {
       this.name = this.route.snapshot.params.playlist;
@@ -32,6 +33,23 @@ export class PlaylistComponent implements OnInit{
           console.log("this.playlists end 0= " + JSON.stringify(this.playlist));
       });
       console.log("this.playlists end = " + JSON.stringify(this.playlist));
+  }
+
+  addTracks(data) {
+    console.log(`addTracks ` + JSON.stringify(data));
+    data.map( i => new Track(i, i, false, false))
+        .map( t => this.playlist.push(t));
+    this.mode = "showPlaylist";
+  }
+
+  showAddTrack() {
+    this.mode = "addTrack";
+  }
+  modeShowPlaylist() {
+      return this.mode == "showPlaylist";
+  }
+  modeAddTrack() {
+      return !this.modeShowPlaylist();
   }
 
 }

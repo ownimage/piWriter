@@ -35,7 +35,7 @@ export class RepositoryService {
     }
 
     cachedGet<T>(cacheKey, url): Observable<T>  {
-        if (cache[cacheKey]) return Observable.create(observer => { observer.next(cache[cacheKey]]); });
+        if (cache[cacheKey]) return Observable.create(observer => { observer.next(cache[cacheKey]); });
 
         var myObservable: Observable<T> = Observable.create(observer => {
             console.log("fetch");

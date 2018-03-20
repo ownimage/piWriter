@@ -1,18 +1,27 @@
 <h1>{{ name }}</h1>
-<app-track
-    *ngFor="let track of playlist"
-    [track] = "track"
->
-</app-track>
 
-<div class="row mt-1">
-    <button class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2">Edit</button>
-    <button class="btn btn-success btn-lg offset-md-1 col-md-3 mt-2">Play</button>
+<div *ngIf="modeShowPlaylist()">
+    <app-track
+        *ngFor="let track of playlist"
+        [track] = "track"
+    >
+    </app-track>
+
+    <div class="row mt-1">
+        <button class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2">Edit</button>
+        <button class="btn btn-success btn-lg offset-md-1 col-md-3 mt-2">Play</button>
+    </div>
+
+    <div class="row mt-1">
+        <button
+            (click)="showAddTrack()"
+            class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
+        >Add Track</button>
+    </div>
 </div>
 
-<div class="row mt-1">
-    <button
-        routerLink="/images"
-        class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
-    >Add Track</button>
+<div *ngIf="modeAddTrack()">
+    <app-browse-images
+        (selectedImages)="addTracks($event)"
+    ></app-browse-images>
 </div>
