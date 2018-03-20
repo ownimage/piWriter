@@ -2,10 +2,14 @@
 
 <div *ngIf="modeShowPlaylist()">
     <app-track
-        *ngFor="let track of playlist"
-        [track] = "track"
-    >
-    </app-track>
+            *ngFor="let track of playlist; first as isFirst; last as isLast"
+            [track]="track"
+            [isFirst]="isFirst"
+            [isLast]="isLast"
+            (onMoveDown)="moveDown($event)"
+            (onMoveUp)="moveUp($event)"
+    ></app-track>
+
 
     <div class="row mt-1">
         <button class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2">Edit</button>
@@ -14,21 +18,23 @@
 
     <div class="row mt-1">
         <button
-        (click)="showAddTrack()"
-        class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
-        >Add Track</button>
+                (click)="showAddTrack()"
+                class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
+        >Add Track
+        </button>
     </div>
 
     <div class="row mt-1">
         <button
-            (click)="save()"
-            class="btn btn-danger btn-lg offset-md-4 col-md-3 mt-2"
-        >Save</button>
+                (click)="save()"
+                class="btn btn-danger btn-lg offset-md-4 col-md-3 mt-2"
+        >Save
+        </button>
     </div>
 </div>
 
 <div *ngIf="modeAddTrack()">
     <app-browse-images
-        (selectedImages)="addTracks($event)"
+            (selectedImages)="addTracks($event)"
     ></app-browse-images>
 </div>

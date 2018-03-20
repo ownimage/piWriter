@@ -1,29 +1,45 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import { Track }from '../shared/track.model';
+import {Track} from '../shared/track.model';
 
 @Component({
-  selector: 'app-track',
-  templateUrl: './track.component.html',
-  styleUrls: ['./track.component.css']
+    selector: 'app-track',
+    templateUrl: './track.component.html',
+    styleUrls: ['./track.component.css']
 })
 export class TrackComponent implements OnInit {
-  @Input('track') track: Track;
+    @Input() track: Track;
+    @Input() isFirst: boolean;
+    @Input() isLast: boolean;
+    @Input() showButtons: boolean = true;
+    @Output() onMoveUp = new EventEmitter()
+    @Output() onMoveDown = new EventEmitter()
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  toggleRepeat() {
-    console.log("toggleRepeat");
-    this.track.repeat = ! this.track.repeat;
-    console.log("this.track.repeat " + this.track.repeat);
-  }
+    toggleRepeat() {
+        console.log("toggleRepeat");
+        this.track.repeat = !this.track.repeat;
+        console.log("this.track.repeat " + this.track.repeat);
+    }
 
     toggleAutostartNext() {
         console.log("toggleAutostartNext");
-        this.track.autostartNext = ! this.track.autostartNext;
+        this.track.autostartNext = !this.track.autostartNext;
         console.log("this.track.autostartNext " + this.track.autostartNext);
+    }
+
+    moveUp(data) {
+        console.log("up " + JSON.stringify(data));
+        this.onMoveUp.emit(data);
+    }
+
+    moveDown(data) {
+        console.log("down " + JSON.stringify(data));
+        this.onMoveDown.emit(data);
     }
 }

@@ -26,5 +26,26 @@
                 </div>
             </div>
         </div>
+        <button
+                *ngIf="showButtons && !isFirst"
+                (click)="moveUp(track)"
+                class="btn btn-secondary btn-lg col-sm-1 mt-2"
+        >
+            <span
+                    class="fa fa-angle-double-up"
+                    style="font-size: 200%"
+            ></span>
+        </button>
+
+        <button
+                *ngIf="showButtons && !isLast"
+                (click)="moveDown(track)"
+                class="btn btn-secondary btn-lg col-sm-1 mt-2"
+        >
+            <span
+                    class="fa fa-angle-double-down"
+                    style="font-size: 200%"
+            ></span>
+        </button>
     </li>
 </ul>
