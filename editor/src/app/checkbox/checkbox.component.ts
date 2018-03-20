@@ -8,10 +8,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class CheckboxComponent implements OnInit {
     @Input() value: boolean;
     @Input() enabled: boolean;
+    @Input() trueStyle: string = "fa fa-check";
+    @Input() falseStyle: string = "fa fa-times";
+    @Input() colors: string[] = ["green", "red", "grey"];
     @Output() toggleEvent = new EventEmitter();
-
-    trueStyle = "fa fa-check";
-    falseStyle = "fa fa-times";
 
     constructor() {
     }
@@ -20,9 +20,9 @@ export class CheckboxComponent implements OnInit {
     }
 
     getColor() {
-        if (!this.enabled) return "grey";
-        if (this.value) return "green";
-        return "red";
+        if (!this.enabled) return this.colors[2];
+        if (this.value) return this.colors[0];
+        return this.colors[1];
     }
 
     getClass() {

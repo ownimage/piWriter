@@ -6,6 +6,12 @@
     "autostartNext": false
   },
   {
+    "name": "PacMan-Pinky.jpg",
+    "path": "PacMan-Pinky.jpg",
+    "repeat": false,
+    "autostartNext": false
+  },
+  {
     "name": "PacMan-Clyde.jpg",
     "path": "PacMan-Clyde.jpg",
     "repeat": false,

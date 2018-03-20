@@ -2,50 +2,56 @@
     <li class="list-group-item container-fluid">
         <div class="row">
             <div class="col-sm-12 col-md-6">
-                <img src="http://localhost:3000/images/{{ track.name }}"/>
+                <div>{{ track.name }}</div>
             </div>
             <div class="col-sm-12 col-md-6">
-                <div>{{ track.name }}</div>
-                <div class="float-right" style="clear: both;">
-                    <p>repeat:
-                        <app-checkbox
-                                [value]="track.repeat"
-                                [enabled]="true"
-                                (toggleEvent)="toggleRepeat($event)"
-                        ></app-checkbox>
-                    <p>
-                </div>
-                <div class="float-right" style="clear: both;">
-                    <p>autostart:
-                        <app-checkbox
-                                [value]="track.autostartNext"
-                                [enabled]="true"
-                                (toggleEvent)="toggleAutostartNext($event)"
-                        ></app-checkbox>
-                    </p>
-                </div>
+                <img src="http://localhost:3000/images/{{ track.name }}"/>
             </div>
         </div>
-        <button
-                *ngIf="showButtons && !isFirst"
-                (click)="moveUp(track)"
-                class="btn btn-secondary btn-lg col-sm-1 mt-2"
-        >
-            <span
-                    class="fa fa-angle-double-up"
-                    style="font-size: 200%"
-            ></span>
-        </button>
 
-        <button
-                *ngIf="showButtons && !isLast"
-                (click)="moveDown(track)"
-                class="btn btn-secondary btn-lg col-sm-1 mt-2"
-        >
-            <span
-                    class="fa fa-angle-double-down"
-                    style="font-size: 200%"
-            ></span>
-        </button>
+        <div class="row">
+            <div class="col-sm-3">
+                <div
+                        *ngIf="showButtons && !isFirst"
+                        (click)="moveUp(track)"
+                        class="fa fa-angle-double-up"
+                        style="font-size: 400%"
+                ></div>
+            </div>
+
+
+            <div class="col-sm-3">
+                <div
+                        *ngIf="showButtons && !isLast"
+                        (click)="moveDown(track)"
+                        class="fa fa-angle-double-down"
+                        style="font-size: 400%"
+                ></div>
+            </div>
+
+            <div class="col-sm-3">
+                <app-checkbox
+                        [value]="track.repeat"
+                        [enabled]="true"
+                        [trueStyle]="'fa fa-refresh'"
+                        [falseStyle]="'fa fa-refresh'"
+                        [colors]="['green', 'grey', 'grey']"
+                        (toggleEvent)="toggleRepeat($event)"
+                        style="font-size:200%"
+                ></app-checkbox>
+            </div>
+
+            <div class="col-sm-3">
+                <app-checkbox
+                        [value]="track.autostartNext"
+                        [enabled]="true"
+                        [trueStyle]="'fa fa-fast-forward'"
+                        [falseStyle]="'fa fa-fast-forward'"
+                        [colors]="['green', 'grey', 'grey']"
+                        (toggleEvent)="toggleAutostartNext($event)"
+                        style="font-size:200%"
+                ></app-checkbox>
+            </div>
+        </div>
     </li>
 </ul>
