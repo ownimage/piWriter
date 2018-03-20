@@ -9,7 +9,11 @@ import {Track} from "./track.model";
 var imagessUrl = 'http://localhost:3000/v1/images';
 var playlistsUrl = 'http://localhost:3000/v1/playlists/';
 
-var cache = { };
+var playlistsCache: String[];
+var playlistCache: Track[];
+var imagesCache: String[];
+
+var cache = {playlistsCache, playlistCache,  imagesCache} ;
 
 @Injectable()
 export class RepositoryService {
@@ -17,19 +21,21 @@ export class RepositoryService {
     constructor(private http: HttpClient) { }
 
     getPlaylistsV1(): Observable<string[]>  {
-        return this.cachedGet<string[]>("playlists", playlistsUrl);
+        return this.cachedGet<string[]>("playlistsCache", playlistsUrl);
     }
 
     getPlaylistV1(playlist): Observable<Track[]> {
-        return this.cachedGet<Track[]>("playlist", playlistsUrl + playlist);
+        var cacheKey = "playlistCache/" + playlist;
+        if (!cache[cacheKey]) cache[cacheKey] = null;
+        return this.cachedGet<Track[]>(cacheKey, playlistsUrl + playlist);
     }
 
     getImagesV1(): Observable<string[]>  {
-        return this.cachedGet<string[]>("images", imagessUrl);
+        return this.cachedGet<string[]>("imagesCache", imagessUrl);
     }
 
     cachedGet<T>(cacheKey, url): Observable<T>  {
-        if (cache[cacheKey]) return Observable.create(observer => { observer.next(cache[cacheKey]); });
+        if (cache[cacheKey]) return Observable.create(observer => { observer.next(cache[cacheKey]]); });
 
         var myObservable: Observable<T> = Observable.create(observer => {
             console.log("fetch");
