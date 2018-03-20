@@ -10,6 +10,14 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//following form http://johnzhang.io/options-request-in-express
+app.options("/*", function(req, res, next){
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    res.send(200);
+});
+
 const getImagesV1 = (req, res) => {
     fs.readdir(imagesFolder, (err, files) => {
         console.log(`getImagesV1 ` + JSON.stringify(files));
@@ -48,7 +56,9 @@ const postPlaylistV1 = (req, res) => {
     const filePath = path.join(playlistFolder, playlist);
     fs.writeFile(filePath, JSON.stringify(req.body, null, 2), function(err) {
         if (!err) {
-            res.sendStatus(200);
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Content-Type", "text/plain");
+            res.end();
         } else {
             res.sendStatus(500);
         }

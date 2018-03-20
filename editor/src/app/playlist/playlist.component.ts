@@ -54,6 +54,7 @@ export class PlaylistComponent implements OnInit{
 
   save() {
       console.log("save");
+      this.repositoryService.postPlaylistV1(this.name, this.playlist);
   }
 
 }

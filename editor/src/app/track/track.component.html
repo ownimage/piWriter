@@ -1,19 +1,29 @@
 <ul class="list-group">
-    <li class="list-group-item">
-        <img src="http://localhost:3000/images/{{ track.name }}"/>
-        <span>{{ track.name }}</span>
-        <span>
-            repeat:
-            <app-checkbox
-                [value]="track.repeat"
-                [enabled]="true"
-                (toggleEvent)="toggleRepeat($event)"
-            ></app-checkbox></span>
-        <span>
-            autostart:
-            <app-checkbox
-                [value]="track.autostartNext"
-                [enabled]="true"
-            ></app-checkbox></span>
+    <li class="list-group-item container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <img src="http://localhost:3000/images/{{ track.name }}"/>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div>{{ track.name }}</div>
+                <div class="float-right" style="clear: both;">
+                    <p>repeat:
+                        <app-checkbox
+                                [value]="track.repeat"
+                                [enabled]="true"
+                                (toggleEvent)="toggleRepeat($event)"
+                        ></app-checkbox>
+                    <p>
+                </div>
+                <div class="float-right" style="clear: both;">
+                    <p>autostart:
+                        <app-checkbox
+                                [value]="track.autostartNext"
+                                [enabled]="true"
+                        ></app-checkbox>
+                    </p>
+                </div>
+            </div>
+        </div>
     </li>
 </ul>
