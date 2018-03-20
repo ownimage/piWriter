@@ -9,6 +9,7 @@ const app = express();
 
 const getImagesV1 = (req, res) => {
     fs.readdir(imagesFolder, (err, files) => {
+        console.log(`getImagesV1 ` + JSON.stringify(files));
         res.header("Access-Control-Allow-Origin", "*");
         res.send(files);
     });
@@ -16,6 +17,7 @@ const getImagesV1 = (req, res) => {
 
 const getPlaylistsV1 = (req, res) => {
     fs.readdir(playlistFolder, (err, files) => {
+        console.log(`getPlaylistsV1 ` + JSON.stringify(files));
         res.header("Access-Control-Allow-Origin", "*");
         res.send(files);
     });
