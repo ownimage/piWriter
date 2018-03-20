@@ -4,9 +4,10 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import {Track} from "./track.model";
 
 var imagessUrl = 'http://localhost:3000/v1/images';
-var playlistsUrl = 'http://localhost:3000/v1/playlists';
+var playlistsUrl = 'http://localhost:3000/v1/playlists/';
 
 var cache = { };
 
@@ -16,19 +17,23 @@ export class RepositoryService {
     constructor(private http: HttpClient) { }
 
     getPlaylistsV1(): Observable<string[]>  {
-        return this.cachedGet("playlists", playlistsUrl);
+        return this.cachedGet<string[]>("playlists", playlistsUrl);
+    }
+
+    getPlaylistV1(playlist): Observable<Track[]> {
+        return this.cachedGet<Track[]>("playlist", playlistsUrl + playlist);
     }
 
     getImagesV1(): Observable<string[]>  {
-        return this.cachedGet("images", imagessUrl);
+        return this.cachedGet<string[]>("images", imagessUrl);
     }
 
-    cachedGet(cacheKey, url): Observable<any>  {
+    cachedGet<T>(cacheKey, url): Observable<T>  {
         if (cache[cacheKey]) return Observable.create(observer => { observer.next(cache[cacheKey]); });
 
-        var myObservable = Observable.create(observer => {
+        var myObservable: Observable<T> = Observable.create(observer => {
             console.log("fetch");
-            let repository =  this.http.get<string[]>(url, { observe: 'response' });
+            let repository =  this.http.get<T>(url, { observe: 'response' });
             repository.subscribe(
                 data => { cache[cacheKey] = data.body; observer.next(cache[cacheKey]); },
                 error => {observer.error(this.handleError(error))},
