@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 
-import { BrowsePlaylistsService } from './browse-playlists.service';
-``
+import { RepositoryService } from "../shared/repository.service";
+
 @Component({
   selector: 'app-browse-playlists',
   templateUrl: './browse-playlists.component.html',
   styleUrls: ['./browse-playlists.component.css'],
-  providers: [ BrowsePlaylistsService ],
+  providers: [ RepositoryService ],
 })
 export class BrowsePlaylistsComponent implements OnInit {
 
     constructor(
-        private browsePlaylistsService: BrowsePlaylistsService,
+        private repositoryService: RepositoryService,
         private route: ActivatedRoute
     ) {}
 
@@ -25,10 +25,10 @@ export class BrowsePlaylistsComponent implements OnInit {
         console.log("this.mode = " + this.mode);
         //this.setPlaylists("Hello world");
         console.log("this.playlists = " + JSON.stringify(this.playlists));
-        this.browsePlaylistsService.getPlaylists().subscribe( data => {
+        this.repositoryService.getPlaylistsV1().subscribe( data => {
             //console.log("data2 " + JSON.stringify(data));
             console.log("this.playlists = " + JSON.stringify(this.playlists));
-            this.playlists = data.body;
+            this.playlists = data;
             console.log("this.playlists = " + JSON.stringify(this.playlists));
         });
         console.log("this.playlists = " + JSON.stringify(this.playlists));

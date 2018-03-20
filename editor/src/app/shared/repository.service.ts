@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 var imagessUrl = 'http://localhost:3000/v1/images';
+var playlistsUrl = 'http://localhost:3000/v1/playlists';
 
 var cache = { };
 
@@ -13,6 +14,10 @@ var cache = { };
 export class RepositoryService {
 
     constructor(private http: HttpClient) { }
+
+    getPlaylistsV1(): Observable<string[]>  {
+        return this.cachedGet("playlists", playlistsUrl);
+    }
 
     getImagesV1(): Observable<string[]>  {
         return this.cachedGet("images", imagessUrl);
