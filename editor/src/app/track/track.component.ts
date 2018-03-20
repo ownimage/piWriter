@@ -16,6 +16,14 @@ export class TrackComponent implements OnInit {
   }
 
   toggleRepeat() {
+    console.log("toggleRepeat");
     this.track.repeat = ! this.track.repeat;
+    console.log("this.track.repeat " + this.track.repeat);
   }
+
+    toggleAutostartNext() {
+        console.log("toggleAutostartNext");
+        this.track.autostartNext = ! this.track.autostartNext;
+        console.log("this.track.autostartNext " + this.track.autostartNext);
+    }
 }

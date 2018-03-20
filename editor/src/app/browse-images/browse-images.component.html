@@ -8,8 +8,7 @@
     <app-checkbox
         [value]="image.selected"
         [enabled]="true"
-        [forObject]="image"
-        (toggleEvent)="toggleImage($event)"
+        (toggleEvent)="toggleImage(image)"
         class="float-right"
     ></app-checkbox>
   </li>
