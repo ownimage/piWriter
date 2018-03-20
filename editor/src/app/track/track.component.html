@@ -1,7 +1,19 @@
 <ul class="list-group">
     <li class="list-group-item">
-        {{ track.name }}<br/>
-        repeat: <app-checkbox [value]="track.repeat" [enabled]="true"></app-checkbox>
-        autostart: <app-checkbox [value]="track.autostartNext" [enabled]="true"></app-checkbox>
+        <img src="http://localhost:3000/images/{{ track.name }}"/>
+        <span>{{ track.name }}</span>
+        <span>
+            repeat:
+            <app-checkbox
+                [value]="track.repeat"
+                [enabled]="true"
+                (toggleEvent)="toggleRepeat($event)"
+            ></app-checkbox></span>
+        <span>
+            autostart:
+            <app-checkbox
+                [value]="track.autostartNext"
+                [enabled]="true"
+            ></app-checkbox></span>
     </li>
 </ul>

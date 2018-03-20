@@ -15,4 +15,7 @@ export class TrackComponent implements OnInit {
   ngOnInit() {
   }
 
+  toggleRepeat() {
+    this.track.repeat = ! this.track.repeat;
+  }
 }

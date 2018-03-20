@@ -1,13 +1,13 @@
 [
     {
-        "name": "picture1a",
-        "path": "pictures/picture1a.jpg",
+        "name": "PacMan-Blinky.jpg",
+        "path": "PacMan-Blinky.jpg",
         "repeat": true,
         "autostartNext": false
     },
     {
-        "name": "picture1b",
-        "path": "pictures/picture1b.jpg",
+        "name": "PacMan-Inky.jpg",
+        "path": "PacMan-Inky.jpg",
         "repeat": false,
         "autostartNext": true
     }

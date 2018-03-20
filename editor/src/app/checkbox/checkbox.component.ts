@@ -9,7 +9,7 @@ import {Track} from "../shared/track.model";
 export class CheckboxComponent implements OnInit {
     @Input() value: boolean;
     @Input() enabled: boolean;
-    @Input() forObject: any;
+    @Input() forObject: any; // if a forObject is specified then it will be sent the toggle event, otherwise value will be toggled
     @Output() toggleEvent = new EventEmitter();
 
     trueStyle = "fa fa-check";
@@ -31,8 +31,11 @@ export class CheckboxComponent implements OnInit {
 
     toggle() {
         console.log("toggle " + JSON.stringify(this.forObject));
-        //this.value = !this.value;
-        this.toggleEvent.emit(this.forObject);
+        if (this.forObject) {
+            this.toggleEvent.emit(this.forObject);
+        } else {
+            this.value = !this.value;
+        }
     }
 
 }
