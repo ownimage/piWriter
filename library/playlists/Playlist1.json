@@ -1,14 +1,14 @@
 [
-    {
-        "name": "PacMan-Blinky.jpg",
-        "path": "PacMan-Blinky.jpg",
-        "repeat": true,
-        "autostartNext": false
-    },
-    {
-        "name": "PacMan-Inky.jpg",
-        "path": "PacMan-Inky.jpg",
-        "repeat": false,
-        "autostartNext": true
-    }
+  {
+    "name": "PacMan-Inky.jpg",
+    "path": "PacMan-Inky.jpg",
+    "repeat": true,
+    "autostartNext": true
+  },
+  {
+    "name": "PacMan-Inky.jpg",
+    "path": "PacMan-Inky.jpg",
+    "repeat": false,
+    "autostartNext": true
+  }
 ]

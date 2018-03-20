@@ -52,4 +52,8 @@ export class PlaylistComponent implements OnInit{
       return !this.modeShowPlaylist();
   }
 
+  save() {
+      console.log("save");
+  }
+
 }
