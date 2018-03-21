@@ -74,4 +74,10 @@ export class PlaylistComponent implements OnInit {
         }
     };
 
+    cut = function (item) {
+        var crntPos = this.playlist.indexOf(item);
+        if (crntPos < this.playlist.length) {
+            this.playlist.splice(crntPos, 1);
+        }
+    };
 }

@@ -8,7 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class CheckboxComponent implements OnInit {
     @Input() value: boolean;
     @Input() enabled: boolean = true;
-    @Input() styles: string[] = ["fa fa-check", "fa fa-cross"];
+    @Input() styles: string[] = ["fa fa-check", "fa fa-times"];
     @Input() colors: string[] = ["green", "red", "grey"];
     @Output() toggleEvent = new EventEmitter();
 
@@ -25,9 +25,9 @@ export class CheckboxComponent implements OnInit {
     }
 
     getClass() {
-        if (this.styles.length == 1 || this.value || (this.styles.length == 2 && !this.enabled)) return this.styles[0];
-        if (this.styles.length == 2 && !this.value) return this.styles[1];
-        if (this.styles.length == 3 && !this.enabled) return this.styles[2];
+        if (!this.enabled && this.styles.length >= 3) return this.styles[2];
+        else if (!this.value && this.styles.length >= 2) return this.styles[1];
+        else return this.styles[0];
     }
 
     toggle() {

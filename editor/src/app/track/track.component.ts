@@ -12,8 +12,9 @@ export class TrackComponent implements OnInit {
     @Input() isFirst: boolean;
     @Input() isLast: boolean;
     @Input() showButtons: boolean = true;
-    @Output() onMoveUp = new EventEmitter()
-    @Output() onMoveDown = new EventEmitter()
+    @Output() onMoveUp = new EventEmitter();
+    @Output() onMoveDown = new EventEmitter();
+    @Output() onCut = new EventEmitter();
 
     constructor() {
     }
@@ -42,4 +43,8 @@ export class TrackComponent implements OnInit {
         console.log("down " + JSON.stringify(data));
         this.onMoveDown.emit(data);
     }
-}
+
+    cut(data) {
+        console.log("down " + JSON.stringify(data));
+        this.onCut.emit(data);
+    }}
