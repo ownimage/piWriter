@@ -32,9 +32,7 @@
             <div class="col-sm-3">
                 <app-checkbox
                         [value]="track.repeat"
-                        [enabled]="true"
-                        [trueStyle]="'fa fa-refresh'"
-                        [falseStyle]="'fa fa-refresh'"
+                        [styles]="['fa fa-refresh', 'fa fa-refresh']"
                         [colors]="['green', 'grey', 'grey']"
                         (toggleEvent)="toggleRepeat($event)"
                         style="font-size:200%"
@@ -44,9 +42,7 @@
             <div class="col-sm-3">
                 <app-checkbox
                         [value]="track.autostartNext"
-                        [enabled]="true"
-                        [trueStyle]="'fa fa-fast-forward'"
-                        [falseStyle]="'fa fa-fast-forward'"
+                        [styles]="['fa fa-fast-forward', 'fa fa-fast-forward']"
                         [colors]="['green', 'grey', 'grey']"
                         (toggleEvent)="toggleAutostartNext($event)"
                         style="font-size:200%"
