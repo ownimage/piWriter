@@ -25,7 +25,9 @@ export class CheckboxComponent implements OnInit {
     }
 
     getClass() {
-        return this.value ? this.styles[0] : this.styles[1];
+        if (this.styles.length == 1 || this.value || (this.styles.length == 2 && !this.enabled)) return this.styles[0];
+        if (this.styles.length == 2 && !this.value) return this.styles[1];
+        if (this.styles.length == 3 && !this.enabled) return this.styles[2];
     }
 
     toggle() {
