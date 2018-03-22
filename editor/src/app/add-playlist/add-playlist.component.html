@@ -5,7 +5,7 @@
 <div class="col-sm-12">
     <div class="form-group">
         <input
-                #nameInput
+                [(ngModel)]="name"
                 type="text"
                 class="form-control"
                 aria-describedby="emailHelp"
@@ -25,8 +25,9 @@
 
 <div class="row mt-5">
     <button
-            (click)="addPlaylist(nameInput.value)"
+            (click)="addPlaylist()"
             class="btn btn-primary btn-lg btn-block"
+            [disabled]="!name"
     >Add
     </button>
 </div>

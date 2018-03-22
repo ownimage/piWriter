@@ -11,6 +11,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class AddPlaylistComponent implements OnInit {
 
+    name: string;
     messages: string[] = ["", ""];
 
     constructor(private repositoryService: RepositoryService) {
@@ -19,16 +20,18 @@ export class AddPlaylistComponent implements OnInit {
     ngOnInit() {
     }
 
-    addPlaylist(name: string) {
-        console.log("nameChange " + JSON.stringify(name));
-        if (!name) {
+    addPlaylist() {
+        console.log("addPlaylist " + JSON.stringify(this.name));
+        if (!this.name) {
             this.messages = ["", "Cannot save empty name."];
             return;
         }
-        if (!name.endsWith(".json")) {
-            name = name + ".json";
+        if (!this.name.endsWith(".json")) {
+            this.name = this.name + ".json";
+            this.messages = ["", "Name changed, please check and press 'Add'."];
+            return;
         }
-        this.repositoryService.playlistExists(name).subscribe(
+        this.repositoryService.playlistExists(this.name).subscribe(
             exists => {
                 if (exists) {
                     this.messages = ["", "Sorry, that name already exists."];
