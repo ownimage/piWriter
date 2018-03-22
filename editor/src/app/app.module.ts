@@ -11,10 +11,12 @@ import { PlaylistComponent } from './playlist/playlist.component';
 import { HomeComponent } from './home/home.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { BrowseImagesComponent } from './browse-images/browse-images.component';
+import { AddPlaylistComponent } from './add-playlist/add-playlist.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent},
     { path: 'images', component: BrowseImagesComponent},
+    { path: 'playlists/create/:mode', component: AddPlaylistComponent},
     { path: 'playlists/:mode', component: BrowsePlaylistsComponent},
     { path: 'playlists/:playlist/:mode', component: PlaylistComponent},
 ];
@@ -27,7 +29,8 @@ const appRoutes: Routes = [
     PlaylistComponent,
     HomeComponent,
     CheckboxComponent,
-    BrowseImagesComponent
+    BrowseImagesComponent,
+    AddPlaylistComponent
   ],
   imports: [
       HttpClientModule,

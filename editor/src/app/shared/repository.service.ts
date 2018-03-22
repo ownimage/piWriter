@@ -47,6 +47,25 @@ export class RepositoryService {
             );
     }
 
+    playlistExists(playlist): Observable<boolean> {
+        var myObservable: Observable<boolean> = Observable.create(observer => {
+            this.getPlaylistsV1()
+                .subscribe(
+                    data => {
+                        let result = data.includes(playlist);
+                        observer.next(result);
+                    },
+                    error => {
+                        observer.error(error);
+                    },
+                    () => {
+                        observer.complete()
+                    }
+                )
+        });
+        return myObservable;
+    }
+
     getImagesV1(): Observable<string[]> {
         return this.cachedGet<string[]>("imagesCache", imagessUrl);
     }
