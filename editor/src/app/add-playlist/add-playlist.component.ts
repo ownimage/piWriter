@@ -31,13 +31,16 @@ export class AddPlaylistComponent implements OnInit {
             this.messages = ["", "Name changed, please check and press 'Add'."];
             return;
         }
-        this.repositoryService.playlistExists(this.name).subscribe(
+        this.repositoryService.playlistExistsV1(this.name).subscribe(
             exists => {
                 if (exists) {
                     this.messages = ["", "Sorry, that name already exists."];
                 }
                 else {
                     this.messages = ["Saving ...", ""];
+                    RepositoryService.cachePlaylistV1(this.name, []).subscribe(
+                        result => {this.messages = ["", ""];}
+                    )
                 }
             }
         );

@@ -6,14 +6,14 @@ import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 import {Track} from "./track.model";
 
-var imagessUrl = 'http://localhost:3000/v1/images';
-var playlistsUrl = 'http://localhost:3000/v1/playlists/';
+let imagessUrl = 'http://localhost:3000/v1/images';
+let playlistsUrl = 'http://localhost:3000/v1/playlists/';
 
-var playlistsCache: String[];
-var playlistCache: Track[];
-var imagesCache: String[];
+let playlistsCache: String[] = null;
+let playlistCache: Track[] = null;
+let imagesCache: String[] = null;
 
-var cache = {playlistsCache, playlistCache, imagesCache};
+let cache = {playlistsCache, playlistCache, imagesCache};
 
 @Injectable()
 export class RepositoryService {
@@ -22,33 +22,41 @@ export class RepositoryService {
     }
 
     getPlaylistsV1(): Observable<string[]> {
-        return this.cachedGet<string[]>("playlistsCache", playlistsUrl);
+        return this.cachedGetV1<string[]>("playlistsCache", playlistsUrl);
     }
 
     getPlaylistV1(playlist): Observable<Track[]> {
-        var cacheKey = "playlistCache/" + playlist;
+        let cacheKey = "playlistCache/" + playlist;
         if (!cache[cacheKey]) cache[cacheKey] = null;
-        return this.cachedGet<Track[]>(cacheKey, playlistsUrl + playlist);
+        return this.cachedGetV1<Track[]>(cacheKey, playlistsUrl + playlist);
     }
 
     postPlaylistV1(playlist, value) {
         console.log("RepositoryService.postPlaylistV1( " + JSON.stringify(value));
-        var cacheKey = "playlistCache/" + playlist;
+        let cacheKey = "playlistCache/" + playlist;
         cache[cacheKey] = value;
 
-        const req = this.http.post(playlistsUrl + playlist, value)
+        this.http.post(playlistsUrl + playlist, value)
             .subscribe(
                 res => {
                     console.log(res);
                 },
                 err => {
-                    this.handleError(err);
+                    RepositoryService.handleError(err);
                 }
             );
     }
 
-    playlistExists(playlist): Observable<boolean> {
-        var myObservable: Observable<boolean> = Observable.create(observer => {
+    static cachePlaylistV1(playlist, value) {
+        let cacheKey = "playlistCache/" + playlist;
+        cache[cacheKey] = value;
+        return  Observable.create(observer => {
+            observer.next();
+        });
+    }
+
+    playlistExistsV1(playlist): Observable<boolean> {
+        return Observable.create(observer => {
             this.getPlaylistsV1()
                 .subscribe(
                     data => {
@@ -63,19 +71,18 @@ export class RepositoryService {
                     }
                 )
         });
-        return myObservable;
     }
 
     getImagesV1(): Observable<string[]> {
-        return this.cachedGet<string[]>("imagesCache", imagessUrl);
+        return this.cachedGetV1<string[]>("imagesCache", imagessUrl);
     }
 
-    cachedGet<T>(cacheKey, url): Observable<T> {
+    cachedGetV1<T>(cacheKey, url): Observable<T> {
         if (cache[cacheKey]) return Observable.create(observer => {
             observer.next(cache[cacheKey]);
         });
 
-        var myObservable: Observable<T> = Observable.create(observer => {
+        return Observable.create(observer => {
             console.log("fetch");
             let repository = this.http.get<T>(url, {observe: 'response'});
             repository.subscribe(
@@ -84,17 +91,16 @@ export class RepositoryService {
                     observer.next(cache[cacheKey]);
                 },
                 error => {
-                    observer.error(this.handleError(error))
+                    observer.error(RepositoryService.handleError(error))
                 },
                 () => {
                     observer.complete()
                 }
             )
         });
-        return myObservable;
     }
 
-    private handleError(error: HttpErrorResponse) {
+    private static handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred. Handle it accordingly.
             console.error('An error occurred:', error.error.message);
