@@ -1,9 +1,25 @@
 <main role="main" class="container">
 
-  <div class="row mt-5">
-    <button class="btn btn-primary btn-lg btn-block" routerLink="/playlists/play">Play Playlist</button>
-    <button class="btn btn-primary btn-lg btn-block" routerLink="/playlists/edit">Edit Playlist</button>
-    <button class="btn btn-primary btn-lg btn-block" routerLink="/playlists/create/edit">Create Playlist</button>
-  </div>
+    <div class="row mt-5">
+        <button
+                routerLink="/playlists"
+                [queryParams]="{mode: 'play'}"
+                class="btn btn-primary btn-lg btn-block"
+        >Play Playlist
+        </button>
+
+        <button
+                routerLink="/playlists"
+                [queryParams]="{mode: 'edit'}"
+                class="btn btn-primary btn-lg btn-block"
+        >Edit Playlist
+        </button>
+
+        <button
+                routerLink="/playlists/create"
+                class="btn btn-primary btn-lg btn-block"
+        >Create Playlist
+        </button>
+    </div>
 
 </main>

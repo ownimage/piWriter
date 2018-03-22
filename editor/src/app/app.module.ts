@@ -18,9 +18,9 @@ import { AddPlaylistComponent } from './add-playlist/add-playlist.component';
 const appRoutes: Routes = [
     { path: '', component: HomeComponent},
     { path: 'images', component: BrowseImagesComponent},
-    { path: 'playlists/create/:mode', component: AddPlaylistComponent},
-    { path: 'playlists/:mode', component: BrowsePlaylistsComponent},
-    { path: 'playlists/:playlist/:mode', component: PlaylistComponent},
+    { path: 'playlists/create', component: AddPlaylistComponent},
+    { path: 'playlists', component: BrowsePlaylistsComponent},
+    { path: 'playlists/:playlist', component: PlaylistComponent},
 ];
 
 @NgModule({
