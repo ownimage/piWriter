@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {RepositoryService} from "../shared/repository.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
-import {ActivatedRoute} from "@angular/router";
+import {RepositoryService} from "../shared/repository.service";
 
 @Component({
     selector: 'app-add-playlist',
@@ -14,7 +14,8 @@ export class AddPlaylistComponent implements OnInit {
     name: string;
     messages: string[] = ["", ""];
 
-    constructor(private repositoryService: RepositoryService) {
+    constructor(private repositoryService: RepositoryService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -39,7 +40,10 @@ export class AddPlaylistComponent implements OnInit {
                 else {
                     this.messages = ["Saving ...", ""];
                     this.repositoryService.cachePlaylistV1(this.name, []).subscribe(
-                        () => {this.messages = ["", ""];}
+                        () => {
+                            this.messages = ["", ""];
+                            this.router.navigate(["/playlists", this.name], {queryParams: {mode: "edit"}});
+                        }
                     )
                 }
             }
