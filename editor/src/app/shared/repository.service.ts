@@ -47,11 +47,17 @@ export class RepositoryService {
             );
     }
 
-    static cachePlaylistV1(playlist, value) {
-        let cacheKey = "playlistCache/" + playlist;
-        cache[cacheKey] = value;
-        return  Observable.create(observer => {
-            observer.next();
+    cachePlaylistV1(playlist, value) {
+        return Observable.create(observer => {
+            this.getPlaylistsV1().subscribe(
+                () => {
+                    cache.playlistsCache.push(playlist);
+                    let cacheKey = "playlistCache/" + playlist;
+                    cache[cacheKey] = value;
+                    console.log("cache " + JSON.stringify(cache));
+                    observer.next();
+                }
+            )
         });
     }
 

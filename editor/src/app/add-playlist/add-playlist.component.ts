@@ -38,8 +38,8 @@ export class AddPlaylistComponent implements OnInit {
                 }
                 else {
                     this.messages = ["Saving ...", ""];
-                    RepositoryService.cachePlaylistV1(this.name, []).subscribe(
-                        result => {this.messages = ["", ""];}
+                    this.repositoryService.cachePlaylistV1(this.name, []).subscribe(
+                        () => {this.messages = ["", ""];}
                     )
                 }
             }
