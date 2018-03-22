@@ -21,7 +21,7 @@ export class BrowsePlaylistsComponent implements OnInit {
 
     ngOnInit() {
         console.log('Playlist component start');
-        this.mode = this.route.snapshot.params.mode;
+        this.mode = this.route.snapshot.queryParams.mode;
         console.log("this.mode = " + this.mode);
         //this.setPlaylists("Hello world");
         console.log("this.playlists = " + JSON.stringify(this.playlists));

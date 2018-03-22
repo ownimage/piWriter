@@ -1,6 +1,7 @@
 <ul class="list-group">
   <li
-      routerLink="/playlists/{{ playlist }}/{{ mode }}"
+      routerLink="/playlists/{{ playlist }}"
+      [queryParams]="{ mode: mode }"
       class="list-group-item"
       *ngFor="let playlist of playlists"
   >

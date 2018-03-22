@@ -7,10 +7,11 @@
             <img src="http://localhost:3000/images/{{ track.name }}"/>
         </div>
 
-        <div class="row">
+        <div
+                class="row">
             <div class="col-sm-2">
                 <div
-                        *ngIf="showButtons && !isFirst"
+                        *ngIf="isEditMode() && !isFirst"
                         (click)="moveUp(track)"
                         class="fa fa-angle-double-up"
                         style="font-size: 400%"
@@ -20,7 +21,7 @@
 
             <div class="col-sm-2">
                 <div
-                        *ngIf="showButtons && !isLast"
+                        *ngIf="isEditMode() && !isLast"
                         (click)="moveDown(track)"
                         class="fa fa-angle-double-down"
                         style="font-size: 400%"
@@ -49,6 +50,7 @@
 
             <div class="col-sm-2">
                 <app-checkbox
+                        *ngIf="isEditMode()"
                         [value]="true"
                         [styles]="['fa fa-cut']"
                         [colors]="['red']"

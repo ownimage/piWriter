@@ -17,14 +17,16 @@ export class PlaylistComponent implements OnInit {
     }
 
     name: string = "";
+    mode: string = "";
     playlist: Track[] = [];
-    mode: string = "showPlaylist";
+    show: string = "showPlaylist";
 
     ngOnInit() {
         this.name = this.route.snapshot.params.playlist;
+        this.mode = this.route.snapshot.queryParams.mode;
         console.log('Playlist component start ' + this.name);
-        //this.setPlaylists("Hello world");
         console.log("this.playlists 1 = " + JSON.stringify(this.playlist));
+        console.log("mode " + this.mode);
         this.repositoryService.getPlaylistV1(this.name).subscribe(data => {
             //console.log("data2 " + JSON.stringify(data));
             console.log("this.playlists ? = " + JSON.stringify(this.playlist));
@@ -38,19 +40,15 @@ export class PlaylistComponent implements OnInit {
         console.log(`addTracks ` + JSON.stringify(data));
         data.map(i => new Track(i, i, false, false))
             .map(t => this.playlist.push(t));
-        this.mode = "showPlaylist";
+        this.show = "showPlaylist";
+    }
+
+    showPlaylist() {
+        return this.show == "showPlaylist";
     }
 
     showAddTrack() {
-        this.mode = "addTrack";
-    }
-
-    modeShowPlaylist() {
-        return this.mode == "showPlaylist";
-    }
-
-    modeAddTrack() {
-        return !this.modeShowPlaylist();
+        return !this.showPlaylist();
     }
 
     save() {
@@ -59,7 +57,7 @@ export class PlaylistComponent implements OnInit {
     }
 
     moveUp = function (item) {
-        var crntPos = this.playlist.indexOf(item);
+        let crntPos = this.playlist.indexOf(item);
         if (crntPos > 0) {
             this.playlist.splice(crntPos, 1);
             this.playlist.splice(crntPos - 1, 0, item);
@@ -67,7 +65,7 @@ export class PlaylistComponent implements OnInit {
     };
 
     moveDown = function (item) {
-        var crntPos = this.playlist.indexOf(item);
+        let crntPos = this.playlist.indexOf(item);
         if (crntPos < this.playlist.length) {
             this.playlist.splice(crntPos, 1);
             this.playlist.splice(crntPos + 1, 0, item);
@@ -75,9 +73,17 @@ export class PlaylistComponent implements OnInit {
     };
 
     cut = function (item) {
-        var crntPos = this.playlist.indexOf(item);
+        let crntPos = this.playlist.indexOf(item);
         if (crntPos < this.playlist.length) {
             this.playlist.splice(crntPos, 1);
         }
     };
+
+    isPlayMode() {
+        return this.mode == 'play';
+    }
+
+    isEditMode() {
+        return !this.isPlayMode();
+    }
 }

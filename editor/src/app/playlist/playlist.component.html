@@ -1,11 +1,12 @@
 <h1>{{ name }}</h1>
 
-<div *ngIf="modeShowPlaylist()">
+<div *ngIf="showPlaylist()">
     <app-track
             *ngFor="let track of playlist; first as isFirst; last as isLast"
             [track]="track"
             [isFirst]="isFirst"
             [isLast]="isLast"
+            [mode]="mode"
             (onMoveDown)="moveDown($event)"
             (onMoveUp)="moveUp($event)"
             (onCut)="cut($event)"
@@ -13,13 +14,16 @@
 
 
     <div class="row mt-1">
-        <button class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2">Edit</button>
-        <button class="btn btn-success btn-lg offset-md-1 col-md-3 mt-2">Play</button>
+        <button
+                *ngIf="mode == 'play'"
+                class="btn btn-success btn-lg offset-md-1 col-md-3 mt-2"
+        >Play</button>
     </div>
 
     <div class="row mt-1">
         <button
-                (click)="showAddTrack()"
+                *ngIf="mode == 'edit'"
+                (click)="show = 'showAddTrack'"
                 class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
         >Add Track
         </button>
@@ -27,6 +31,7 @@
 
     <div class="row mt-1">
         <button
+                *ngIf="mode == 'edit'"
                 (click)="save()"
                 class="btn btn-danger btn-lg offset-md-4 col-md-3 mt-2"
         >Save
@@ -34,7 +39,7 @@
     </div>
 </div>
 
-<div *ngIf="modeAddTrack()">
+<div *ngIf="showAddTrack()">
     <app-browse-images
             (selectedImages)="addTracks($event)"
     ></app-browse-images>
