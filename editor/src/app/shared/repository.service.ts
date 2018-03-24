@@ -6,8 +6,8 @@ import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 import {Track} from "./track.model";
 
-let imagessUrl = 'http://localhost:3000/v1/images';
-let playlistsUrl = 'http://localhost:3000/v1/playlists/';
+let imagessUrl = '/v1/images';
+let playlistsUrl = '/v1/playlists/';
 
 let playlistsCache: String[] = null;
 let playlistCache: Track[] = null;
