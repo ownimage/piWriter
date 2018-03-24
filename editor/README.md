@@ -1,6 +1,10 @@
 # PiWriter - editor
+This is the editor build folder.  
+Once development is fixed at a given release build the code, which will create the dist folder.
+This will be picked up by the server (in the parent folder) and served.
+
 ## Install
-Currently only the editor piece is being worked on.  Run 
+Run 
 ``` 
 npm i
 ```
@@ -14,7 +18,12 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run 
+```
+ng build --prod --aot --base-href http://localhost:3000/app/
+```
+to build the project. The build artifacts will be stored in the `dist/` directory. 
+Note that there is a trailing space and the that URL needs to point to the Raspberry Pi WiFi access point
 
 ## Further help
 

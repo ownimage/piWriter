@@ -3,15 +3,16 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require("body-parser");
 
+const appFolder = '../editor/dist';
 const imagesFolder = '../library/images';
 const playlistFolder = '../library/playlists';
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //following form http://johnzhang.io/options-request-in-express
-app.options("/*", function(req, res, next){
+app.options("/*", function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
@@ -38,7 +39,7 @@ const getPlaylistV1 = (req, res) => {
     console.log(req.params.playlist);
     const playlist = req.params.playlist;
     const filePath = path.join(playlistFolder, playlist);
-    fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+    fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
         if (!err) {
             console.log('received data: ' + data);
             res.header("Access-Control-Allow-Origin", "*");
@@ -54,7 +55,7 @@ const postPlaylistV1 = (req, res) => {
     console.log("req.body =" + JSON.stringify(req.body));
     const playlist = req.params.playlist;
     const filePath = path.join(playlistFolder, playlist);
-    fs.writeFile(filePath, JSON.stringify(req.body, null, 2), function(err) {
+    fs.writeFile(filePath, JSON.stringify(req.body, null, 2), function (err) {
         if (!err) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Content-Type", "text/plain");
@@ -66,7 +67,17 @@ const postPlaylistV1 = (req, res) => {
 }
 
 app.get('/', (req, res) => res.send('Hello World!'));
+
+// app.get('/app', function (req, res) {
+//     res.sendFile(path.join(__dirname, appFolder, '/index.html'));
+// });
+// app.get('/app/index.html/', function (req, res) {
+//     res.sendFile(path.join(__dirname, appFolder, '/index.html'));
+// });
+app.use('/app', express.static(appFolder));
+
 app.use('/images', express.static(imagesFolder));
+
 app.get('/v1/images', getImagesV1);
 app.get('/v1/playlists', getPlaylistsV1);
 app.get('/v1/playlists/:playlist', getPlaylistV1);

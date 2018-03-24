@@ -33,7 +33,7 @@
                         [value]="track.repeat"
                         [styles]="['fa fa-refresh', 'fa fa-refresh']"
                         [colors]="['green', 'grey', 'grey']"
-                        (toggleEvent)="toggleRepeat($event)"
+                        (toggleEvent)="toggleRepeat()"
                         style="font-size:200%"
                 ></app-checkbox>
             </div>
@@ -43,7 +43,7 @@
                         [value]="track.autostartNext"
                         [styles]="['fa fa-fast-forward', 'fa fa-stop']"
                         [colors]="['green', 'red', 'grey']"
-                        (toggleEvent)="toggleAutostartNext($event)"
+                        (toggleEvent)="toggleAutostartNext()"
                         style="font-size:200%"
                 ></app-checkbox>
             </div>
