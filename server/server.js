@@ -67,17 +67,8 @@ const postPlaylistV1 = (req, res) => {
 }
 
 app.get('/', (req, res) => res.send('Hello World!'));
-
-// app.get('/app', function (req, res) {
-//     res.sendFile(path.join(__dirname, appFolder, '/index.html'));
-// });
-// app.get('/app/index.html/', function (req, res) {
-//     res.sendFile(path.join(__dirname, appFolder, '/index.html'));
-// });
 app.use('/app', express.static(appFolder));
-
 app.use('/images', express.static(imagesFolder));
-
 app.get('/v1/images', getImagesV1);
 app.get('/v1/playlists', getPlaylistsV1);
 app.get('/v1/playlists/:playlist', getPlaylistV1);
