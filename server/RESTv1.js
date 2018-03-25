@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const neopixelDriverV1 =  require('./neoPixelDriverV1');
 
 const config = require("./config");
 
@@ -59,6 +60,8 @@ module.exports = {
     playV1: (req, res) => {
         console.log("playV1");
         console.log("req.body =" + JSON.stringify(req.body));
+        neopixelDriverV1.playPlaylist(req.body);
+
         // const playlist = req.params.playlist;
         // const filePath = path.join(config.playlistFolder, playlist);
         // fs.writeFile(filePath, JSON.stringify(req.body, null, 2), function (err) {

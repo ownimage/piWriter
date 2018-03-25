@@ -4,15 +4,17 @@ const url = require('url');
 const sleep = require('sleep');
 const Jimp = require("jimp");
 
-const NUM_LEDS = parseInt(process.argv[2], 10) || 10;
+const NUM_LEDS = parseInt(process.argv[2], 10) || 60;
 const blankArray = new Uint32Array(NUM_LEDS);
 const PORT = 8081;
 const TEST_BUTTON_PORT = 8082;
 
+const imagePath = '../library/images/';
 var gallery;
 var playlist;
 var playlistState;
 
+console.log("NUM_LEDS = " + NUM_LEDS);
 ws281x.init(NUM_LEDS);
 
 // ---- trap the SIGINT and reset before exit
@@ -172,7 +174,7 @@ function showPicture(picture, repeat) {
             let timedArray = picture.timedArrays[i];
             //console.log('timedArray = ' + JSON.stringify(timedArray, null, 2));
             ws281x.render(timedArray.ca);
-            setTimeout(show, timedArray.t * 1, picture, i+1); /// was 1000
+            setTimeout(show, timedArray.t * 100, picture, i+1); /// was 1000
         }
         else {
             if (playlistState.state == 'Looping') {
@@ -242,11 +244,41 @@ function playlistNext() {
     console.log('playlistState = ' + JSON.stringify(playlistState, null, 2));
 }
 
-function playPlaylist(playlist) {
-    this.playlist = playlist;
-    this.playlistState == null;
-}
+module.exports = {
+    playPlaylist: (playlist) => {
+        gallery = { pictures: {} };
+        playlistState = {};
 
+        Jimp.read(imagePath + playlist[0].path, function (err, image) {
+            if (err) {
+                console.log("Error: " + err);
+            }
+            else {
+                image.getPixelColor(10, 10);
+                console.log('looking good ' + image.bitmap.width + 'x' + image.bitmap.height);
+                gallery.pictures.test = {};
+                gallery.pictures.test.timedArrays = [];
+
+                let height = Math.min(image.bitmap.height, NUM_LEDS);
+                let width = 1.0 * height * image.bitmap.width / image.bitmap.height;
+                image = image.resize(width, height);
+                for (let i = 0; i < image.bitmap.width; i++) {
+                    let colorArray = new Uint32Array(NUM_LEDS);
+                    for (let j = 0; j < height; j++) {
+                        let color = Jimp.intToRGBA(image.getPixelColor(i, j));
+                        colorArray[j] = rgbObject2Int(color);
+                    }
+                    let a = {t: 1, ca: colorArray};
+                    gallery.pictures.test.timedArrays.push(a);
+                }
+
+                showPicture(gallery.pictures.test , false);
+                console.log('Done ' + image.getPixelColor(10, 1));
+                console.log('Done ' + image.getPixelColor(0, 14));
+            }
+        });
+    }
+}
 // http.createServer(function (req, res) {
 //     let urlObject = url.parse(req.url, true);
 //     console.log(JSON.stringify(urlObject));
@@ -307,6 +339,3 @@ function playPlaylist(playlist) {
 // console.log('Server running on port ' + TEST_BUTTON_PORT +  '.');
 
 
-modeule.export = {
-    playPlaylist: playPlaylist
-}
