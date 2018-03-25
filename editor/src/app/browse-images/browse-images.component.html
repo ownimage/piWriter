@@ -3,14 +3,16 @@
       class="list-group-item"
       *ngFor="let image of images"
   >
-    <img src="/images/{{ image.name }}"/>
+    <img
+            src="{{ restURL }}/images/{{ image.name }}"
+            style="max-height: 50px;"
+    />
     <span>{{ image.name }}</span>
     <app-checkbox
         [value]="image.selected"
         [enabled]="true"
         (toggleEvent)="toggleImage(image)"
         class="float-right"
-        style="font-size: 200%"
     ></app-checkbox>
   </li>
 </ul>

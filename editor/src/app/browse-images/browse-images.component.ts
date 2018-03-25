@@ -1,5 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+
+import { environment } from '../../environments/environment';
 import { RepositoryService } from "../shared/repository.service";
 
 @Component({
@@ -12,6 +14,7 @@ export class BrowseImagesComponent implements OnInit {
     @Output() selectedImages = new EventEmitter<string[]>();
 
     images:{name: string, selected: boolean}[] = [];
+    restURL = environment.restURL;
 
     constructor(
         private repositoryService: RepositoryService,

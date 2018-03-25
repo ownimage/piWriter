@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Track }from './shared/track.model';
+import { environment }from '../environments/environment';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
+
+console.log("environment = " + JSON.stringify(environment));
 
 @Component({
   selector: 'app-root',
@@ -13,13 +15,5 @@ const httpOptions = {
   styleUrls: ['./app.component.css', ]
 })
 export class AppComponent {
-
   title = 'piWriter';
-  mode: string = 'Home';
-
-  setMode(mode)  {
-      this.mode = mode;
-      console.log("Mode changed to: " + this.mode);
-  }
-
 }

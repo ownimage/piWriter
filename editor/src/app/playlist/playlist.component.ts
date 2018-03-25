@@ -79,6 +79,10 @@ export class PlaylistComponent implements OnInit {
         }
     };
 
+    play = function () {
+        this.repositoryService.postPlayV1(this.playlist);
+    };
+
     isPlayMode() {
         return this.mode == 'play';
     }

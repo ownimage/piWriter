@@ -1,61 +1,60 @@
 <ul class="list-group">
     <li class="list-group-item container-fluid">
         <div class="row">
-            <h3>{{ track.name }}</h3>
+            <p>{{ track.name }}</p>
         </div>
         <div class="row">
-            <img src="/images/{{ track.name }}"/>
+            <img
+                    src="{{ restURL }}/images/{{ track.name }}"
+                    style="max-height: 50px;"
+            />
         </div>
 
-        <div
-                class="row">
-            <div class="col-sm-2">
-                <div
+        <div class="row">
+
+            <div class="col-2">
+                <app-checkbox
                         *ngIf="isEditMode() && !isFirst"
-                        (click)="moveUp(track)"
-                        class="fa fa-angle-double-up"
-                        style="font-size: 400%"
-                ></div>
+                        [styles]="['fa fa fa-arrow-up']"
+                        [colors]="['grey']"
+                        (toggleEvent)="moveUp(track)"
+                ></app-checkbox>
             </div>
 
-
-            <div class="col-sm-2">
-                <div
+            <div class="col-2">
+                <app-checkbox
                         *ngIf="isEditMode() && !isLast"
-                        (click)="moveDown(track)"
-                        class="fa fa-angle-double-down"
-                        style="font-size: 400%"
-                ></div>
+                        [styles]="['fa fa fa-arrow-down']"
+                        [colors]="['grey']"
+                        (toggleEvent)="moveDown(track)"
+                ></app-checkbox>
             </div>
 
-            <div class="col-sm-2">
+            <div class="col-2">
                 <app-checkbox
                         [value]="track.repeat"
                         [styles]="['fa fa-refresh', 'fa fa-refresh']"
                         [colors]="['green', 'grey', 'grey']"
                         (toggleEvent)="toggleRepeat()"
-                        style="font-size:200%"
                 ></app-checkbox>
             </div>
 
-            <div class="col-sm-2">
+            <div class="col-2">
                 <app-checkbox
                         [value]="track.autostartNext"
                         [styles]="['fa fa-fast-forward', 'fa fa-stop']"
                         [colors]="['green', 'red', 'grey']"
                         (toggleEvent)="toggleAutostartNext()"
-                        style="font-size:200%"
                 ></app-checkbox>
             </div>
 
-            <div class="col-sm-2">
+            <div class="col-2">
                 <app-checkbox
                         *ngIf="isEditMode()"
                         [value]="true"
                         [styles]="['fa fa-cut']"
                         [colors]="['red']"
                         (toggleEvent)="cut(track)"
-                        style="font-size:200%"
                 ></app-checkbox>
             </div>
 

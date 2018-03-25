@@ -4,10 +4,13 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
+import { environment } from '../../environments/environment';
+
 import {Track} from "./track.model";
 
-let imagessUrl = '/v1/images';
-let playlistsUrl = '/v1/playlists/';
+const imagessUrl = environment.restURL + '/v1/images';
+const playlistsUrl = environment.restURL + '/v1/playlists/';
+const playUrl = environment.restURL + '/v1/play';
 
 let playlistsCache: String[] = null;
 let playlistCache: Track[] = null;
@@ -81,6 +84,19 @@ export class RepositoryService {
 
     getImagesV1(): Observable<string[]> {
         return this.cachedGetV1<string[]>("imagesCache", imagessUrl);
+    }
+
+    postPlayV1(playlist) {
+        console.log("Play x" + JSON.stringify(playlist));
+        this.http.post(playUrl , playlist)
+            .subscribe(
+                res => {
+                    console.log(res);
+                },
+                err => {
+                    RepositoryService.handleError(err);
+                }
+            );
     }
 
     cachedGetV1<T>(cacheKey, url): Observable<T> {

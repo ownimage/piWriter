@@ -6,6 +6,7 @@ const config = require("./config");
 module.exports = {
 
     getImagesV1: (req, res) => {
+        console.log("getImagesV1");
         fs.readdir(config.imagesFolder, (err, files) => {
             console.log(`getImagesV1 ` + JSON.stringify(files));
             res.header("Access-Control-Allow-Origin", "*");
@@ -14,6 +15,7 @@ module.exports = {
     },
 
     getPlaylistsV1: (req, res) => {
+        console.log("getPlaylistsV1");
         fs.readdir(config.playlistFolder, (err, files) => {
             console.log(`getPlaylistsV1 ` + JSON.stringify(files));
             res.header("Access-Control-Allow-Origin", "*");
@@ -22,6 +24,7 @@ module.exports = {
     },
 
     getPlaylistV1: (req, res) => {
+        console.log("getPlaylistV1");
         console.log(req.params.playlist);
         const playlist = req.params.playlist;
         const filePath = path.join(config.playlistFolder, playlist);
@@ -37,6 +40,7 @@ module.exports = {
     },
 
     postPlaylistV1: (req, res) => {
+        console.log("postPlaylistV1");
         console.log(req.params.playlist);
         console.log("req.body =" + JSON.stringify(req.body));
         const playlist = req.params.playlist;
@@ -50,5 +54,22 @@ module.exports = {
                 res.sendStatus(500);
             }
         });
+    },
+
+    playV1: (req, res) => {
+        console.log("playV1");
+        console.log("req.body =" + JSON.stringify(req.body));
+        // const playlist = req.params.playlist;
+        // const filePath = path.join(config.playlistFolder, playlist);
+        // fs.writeFile(filePath, JSON.stringify(req.body, null, 2), function (err) {
+        //     if (!err) {
+        //         res.header("Access-Control-Allow-Origin", "*");
+        //         res.header("Content-Type", "text/plain");
+        //         res.end();
+        //     } else {
+        //         res.sendStatus(500);
+        //     }
+        //});
     }
+
 }

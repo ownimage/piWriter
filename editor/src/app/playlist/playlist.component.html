@@ -16,8 +16,10 @@
     <div class="row mt-1">
         <button
                 *ngIf="mode == 'play'"
+                (click)="play()"
                 class="btn btn-success btn-lg offset-md-1 col-md-3 mt-2"
-        >Play</button>
+        >Play
+        </button>
     </div>
 
     <div class="row mt-1">
