@@ -8,7 +8,6 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-
 //following form http://johnzhang.io/options-request-in-express
 app.options("/*", function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -16,7 +15,6 @@ app.options("/*", function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
     res.send(200);
 });
-
 
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/app', express.static(config.appFolder));
