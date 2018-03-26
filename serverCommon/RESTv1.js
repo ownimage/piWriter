@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const neopixelDriverV1 = require('./NeoPixelDriverV1');
+const neopixelDriver = require('./NeoPixelDriver');
 
 const config = require("./config").getConfig();
 
@@ -58,7 +58,7 @@ const postPlaylistV1 = (req, res) => {
 const playV1 = (req, res) => {
     console.log("playV1");
     console.log("req.body =" + JSON.stringify(req.body));
-    neopixelDriverV1.playPlaylist(req.body);
+    neopixelDriver.setPlaylist(req.body);
 };
 
 module.exports = {
