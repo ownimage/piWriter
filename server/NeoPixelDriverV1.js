@@ -180,7 +180,7 @@ function showPicture(picture, repeat) {
             let timedArray = picture.timedArrays[i];
             //console.log('timedArray = ' + JSON.stringify(timedArray, null, 2));
             ws281x.render(timedArray.ca);
-            setTimeout(show, timedArray.t * 100, picture, i+1); /// was 1000
+            setTimeout(show, timedArray.t * 50, picture, i+1); /// was 1000
         }
         else {
             if (playlistState.state == 'Looping') {
