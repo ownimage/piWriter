@@ -1,12 +1,12 @@
 const http = require('http');
 const url = require('url');
-//const sleep = require('sleep');
 const Jimp = require("jimp");
-const config = require('./config');
 
-const ws281x = config.hasNeopixelLib ?
-    require('rpi-ws281x-native') :
-    require('../emulator/NeoPixelEmulator');
+const server = require('./server');
+const config = require('./config').getConfig();
+console.log('finalConfig = ' + JSON.stringify(config));
+const ws281x = config.neopixelLib;
+// *****  should rename this to NeoPixelLib
 
 const NUM_LEDS = parseInt(process.argv[2], 10) || 60;
 const blankArray = new Uint32Array(NUM_LEDS);

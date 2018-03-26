@@ -7,12 +7,13 @@
 <script type="text/javascript">
 
     function init() {
-        canvas = document.getElementById('canvas');
-        ctx = canvas.getContext("2d");
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext("2d");
 
-        var colorArray = [];
+        let colorArray = [];
+        let status = "red";
 
-        var cnt = 0;
+        let cnt = 0;
         console.log("at start");
         setInterval(() => {
             console.log("colorArray.length = " + colorArray.length);
@@ -26,11 +27,15 @@
                 ctx.fillRect(cnt, y + 10, 1, 1);
             }
             cnt = ++cnt % canvas.width;
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "white";
             ctx.fillRect(cnt, 0, 1, fixedColorArray.length + 20);
+
+            ctx.fillStyle = status;
+            ctx.fillRect(cnt, fixedColorArray.length + 20, 1, 2);
+
         }, 20);
 
-        var connection = new WebSocket('ws://localhost:8085');
+        let connection = new WebSocket('ws://localhost:8085');
 
         // When the connection is open, send some data to the server
         connection.onopen = function () {
@@ -42,26 +47,24 @@
             console.log('WebSocket Error ' + JSON.stringify(error));
         };
 
-        // Log messages from the server
         connection.onmessage = function (e) {
-            //console.log('Server: ' + e.data);
+            status = 'green';
             var data = JSON.parse(e.data);
             var newArray = [];
             for (var i = 0; ; i++) {
                 if (data[i] === undefined) break;
                 newArray.push(data[i]);
             }
-            //console.log("newArray = " + JSON.stringify(newArray));
             colorArray = newArray;
         };
 
         setInterval(() => {
-            console.log("sending");
+            status = 'red';
             connection.send('Heartbeat');
         }, 1000);
 
         buttonPress = () => {
-            console.log("button press");
+            connection.send('Button');
         };
 
         resize = () => {

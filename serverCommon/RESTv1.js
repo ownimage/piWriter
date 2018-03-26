@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const neopixelDriverV1 =  require('./NeoPixelDriverV1');
 
-const config = require("./config");
+const config = require("./config").getConfig();
 
 module.exports = {
 
@@ -61,18 +61,6 @@ module.exports = {
         console.log("playV1");
         console.log("req.body =" + JSON.stringify(req.body));
         neopixelDriverV1.playPlaylist(req.body);
-
-        // const playlist = req.params.playlist;
-        // const filePath = path.join(config.playlistFolder, playlist);
-        // fs.writeFile(filePath, JSON.stringify(req.body, null, 2), function (err) {
-        //     if (!err) {
-        //         res.header("Access-Control-Allow-Origin", "*");
-        //         res.header("Content-Type", "text/plain");
-        //         res.end();
-        //     } else {
-        //         res.sendStatus(500);
-        //     }
-        //});
     }
 
 }

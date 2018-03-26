@@ -1,12 +1,12 @@
 const WebSocket = require('ws');
-const config = require('../server/config');
+const config = require('../serverCommon/config').getConfig();
 
 console.log("NeoPixelEmulator");
 
 var NUM_LEDS = 10;
 var NeoPixelArray = new Uint32Array(NUM_LEDS);
 
-const wss = new WebSocket.Server({port: config.emulatorServerPort});
+const webSocketServer = new WebSocket.Server({port: config.emulatorServerPort});
 
 const init = (size) => {
     console.log("init");
@@ -22,27 +22,20 @@ const reset = () => {
 const render = (array) => {
     console.log("render");
     NeoPixelArray = array;
-    wss.clients.forEach(function each(ws) {
+    webSocketServer.clients.forEach(function each(ws) {
         ws.send(JSON.stringify(NeoPixelArray));
     });
 }
 
-wss.on('connection', function connection(ws) {
+webSocketServer.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
-        console.log('received: %s', message);
-        render(NeoPixelArray);
+        if (message == 'Heartbeat') {
+            render(NeoPixelArray);
+        } else if (message == 'Button') {
+            console.log('Button');
+        }
     });
-
-    ws.send('something');
-
 });
-
-setInterval(() => {
-    console.log("sending");
-    NeoPixelArray[0] = Math.floor(Math.random() * 100) + 1;
-    render(NeoPixelArray);
-}, 1000);
-
 
 module.exports = {
     init,
