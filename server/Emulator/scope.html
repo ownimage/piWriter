@@ -1,0 +1,60 @@
+<html>
+<script type="text/javascript">
+
+    function init() {
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+        w = canvas.width;
+        h = canvas.height;
+        var imageData = ctx.getImageData(0, 0, w, h);
+
+        for (var x = 10; x < 100; x++) {
+            for (var y = 10; y < 100; y++) {
+                //ctx.fillStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
+                ctx.fillStyle = "red";
+                ctx.fillRect(x, y, 1, 1);
+            }
+        }
+
+        var cnt = 0;
+        console.log("at start");
+        setInterval(() => {
+            cnt = ++cnt % w;
+            //console.log("cnt = " + cnt);
+            for (var y = 10; y < 110; y++) {
+                ctx.fillStyle = "rgb(" + cnt % 255 + "," + y + ", 100)";
+                //ctx.fillStyle = "red";
+                ctx.fillRect(cnt, y, 1, 1);
+            }
+        }, 20);
+
+        var connection = new WebSocket('ws://localhost:8085');
+
+        // When the connection is open, send some data to the server
+        connection.onopen = function () {
+            connection.send('Ping'); // Send the message 'Ping' to the server
+        };
+
+// Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + JSON.stringify(error));
+        };
+
+// Log messages from the server
+        connection.onmessage = function (e) {
+            console.log('Server: ' + e.data);
+        };
+
+        setInterval(() => {
+            console.log("sending");
+            connection.send('Heartbeat');
+        }, 1000);
+
+
+    }
+</script>
+<body onload="init()">
+<canvas id="can" width="400" height="400" style="position:absolute;top:10%;left:10%;border:2px solid;"></canvas>
+<input type="button" value="clear" id="clr" size="23" onclick="erase()">
+</body>
+</html>
