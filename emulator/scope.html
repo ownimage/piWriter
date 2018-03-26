@@ -7,43 +7,28 @@
 <script type="text/javascript">
 
     function init() {
-        canvas = document.getElementById('can');
+        canvas = document.getElementById('canvas');
         ctx = canvas.getContext("2d");
-        w = canvas.width;
-        h = canvas.height;
-        //var imageData = ctx.getImageData(0, 0, w, h);
 
         var colorArray = [];
-        function rgbValues2Int(r, g, b) {
-            return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
-        }
-
-        // for (var x = 10; x < 100; x++) {
-        //     for (var y = 10; y < 100; y++) {
-        //         //ctx.fillStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
-        //         ctx.fillStyle = "red";
-        //         ctx.fillRect(x, y, 1, 1);
-        //     }
-        // }
 
         var cnt = 0;
         console.log("at start");
         setInterval(() => {
             console.log("colorArray.length = " + colorArray.length);
-            cnt = ++cnt % w;
             var fixedColorArray = colorArray;
             for (var y = 0; y < fixedColorArray.length; y++) {
-                //ctx.fillStyle = "rgb(" + cnt % 255 + "," + y + ", 100)"
-                //ctx.fillStyle = "red";
                 let color = colorArray[y];
                 let blue = color & 255;
-                let green = ( color >> 8) & 255;
-                let red = ( color >> 16) & 255;
+                let green = (color >> 8) & 255;
+                let red = (color >> 16) & 255;
                 ctx.fillStyle = "rgb(" + red + "," + green + "," + blue + ")";
-                //ctx.fillStyle = "red";
                 ctx.fillRect(cnt, y + 10, 1, 1);
             }
-        }, 50);
+            cnt = ++cnt % canvas.width;
+            ctx.fillStyle = "red";
+            ctx.fillRect(cnt, 0, 1, fixedColorArray.length + 20);
+        }, 20);
 
         var connection = new WebSocket('ws://localhost:8085');
 
@@ -75,17 +60,28 @@
             connection.send('Heartbeat');
         }, 1000);
 
+        buttonPress = () => {
+            console.log("button press");
+        };
+
+        resize = () => {
+            canvas.width = document.getElementById('button').offsetWidth;
+        };
+        resize();
 
     }
 </script>
-<body onload="init()">
-    <div class="container">
-        <div class="row mt-5">
-            <input type="button" class="btn btn-primary btn-block" value="Button" id="clr" size="23" onclick="erase()"/>
-        </div>
-        <div class="row mt-1">
-            <canvas id="can" width="400" height="400"></canvas>
-        </div>
+<body
+        onload="init()"
+        onresize="resize()"
+>
+<div class="container">
+    <div class="row mt-5">
+        <input id="button" type="button" class="btn btn-primary btn-block" value="Button" onclick="buttonPress()"/>
     </div>
+    <div class="row mt-2">
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
+</div>
 </body>
 </html>
