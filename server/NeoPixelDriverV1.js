@@ -1,8 +1,12 @@
-const ws281x = require('rpi-ws281x-native');
 const http = require('http');
 const url = require('url');
-const sleep = require('sleep');
+//const sleep = require('sleep');
 const Jimp = require("jimp");
+const config = require('./config');
+
+const ws281x = config.hasNeopixelLib ?
+    require('rpi-ws281x-native') :
+    require('../emulator/NeoPixelEmulator');
 
 const NUM_LEDS = parseInt(process.argv[2], 10) || 60;
 const blankArray = new Uint32Array(NUM_LEDS);
@@ -15,6 +19,8 @@ var playlist;
 var playlistState;
 
 console.log("NUM_LEDS = " + NUM_LEDS);
+console.log("Test = " + ws281x.test);
+
 ws281x.init(NUM_LEDS);
 
 // ---- trap the SIGINT and reset before exit

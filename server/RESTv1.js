@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const neopixelDriverV1 =  require('./neoPixelDriverV1');
+const neopixelDriverV1 =  require('./NeoPixelDriverV1');
 
 const config = require("./config");
 
