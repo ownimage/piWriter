@@ -10,6 +10,9 @@ const server = require('../serverCommon/server');
 server.startServer();
 
 
+//const np = require('../serverCommon/NeoPixelDriver' );
+//console.log(`SE np = ${JSON.stringify(np)}`);
+
 
 
 

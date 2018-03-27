@@ -2,10 +2,10 @@ const http = require('http');
 const url = require('url');
 const Jimp = require("jimp");
 
-const server = require('./server');
-const config = require('./config').getConfig();
-console.log('finalConfig = ' + JSON.stringify(config));
-const ws281x = config.neopixelLib;
+//const server = require('./server');
+const config = require('./config');
+console.log('finalConfig = ' + JSON.stringify(config.getConfig()));
+const ws281x = config.getConfig().neopixelLib;
 // *****  should rename this to NeoPixelLib
 
 const NUM_LEDS = parseInt(process.argv[2], 10) || 60;
@@ -29,7 +29,7 @@ var playlistState;
 //     process.nextTick(function () { process.exit(0); });
 // });
 //
-function isString (obj) {
+function isString(obj) {
     return (Object.prototype.toString.call(obj) === '[object String]');
 }
 
@@ -37,7 +37,7 @@ function isString (obj) {
 function rgbHex2Int(hex) {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+    hex = hex.replace(shorthandRegex, function (m, r, g, b) {
         return r + r + g + g + b + b;
     });
 
@@ -171,7 +171,7 @@ function rgbObject2Int(o) {
 // }
 //
 function showPicture(picture, repeat) {
-    console.log('showPicture picture = ' + JSON.stringify(picture, null, 2));
+    console.log('showPicture picture ');// = ' + JSON.stringify(picture, null, 2));
     playlistState.state = (repeat) ? 'Looping' : 'Single';
 
     function show(picture, i) {
@@ -179,8 +179,8 @@ function showPicture(picture, repeat) {
         if (i < picture.timedArrays.length) {
             let timedArray = picture.timedArrays[i];
             //console.log('timedArray = ' + JSON.stringify(timedArray, null, 2));
-            ws281x.render(timedArray.ca);
-            setTimeout(show, timedArray.t * 50, picture, i+1); /// was 1000
+            config.getConfig().neopixelLib.render(timedArray.ca);
+            setTimeout(show, timedArray.t * 50, picture, i + 1); /// was 1000
         }
         else {
             if (playlistState.state == 'Looping') {
@@ -192,7 +192,7 @@ function showPicture(picture, repeat) {
                     playlistNext();
                 }
                 else {
-                    ws281x.render(blankArray);
+                    config.getConfig().neopixelLib.render(blankArray);
                 }
             }
         }
@@ -216,42 +216,42 @@ function showPicture(picture, repeat) {
     //ws281x.render(blankArray);
 }
 
-// function playlistNext() {
-//     console.log('playlistNext');
-//     if (playlistState === undefined) {
-//         console.log("playlistState set")
-//         playlistState = {currentPicture: -1, state: "Idle", autoplay: false};
-//     }
-//
-//     if (playlistState.state === "Idle") {
-//         console.log("Idle")
-//         playlistState.currentPicture++;
-//         if (playlistState.currentPicture >= playlist.length) {
-//             console.log("currentPicture wrap round")
-//             playlistState.currentPicture = 0;
-//         }
-//         let picture = gallery.pictures[playlist[playlistState.currentPicture].picture];
-//         let repeat = playlist[playlistState.currentPicture].repeat;
-//         playlistState.autoplay = playlist[playlistState.currentPicture].playNext;
-//         showPicture(picture, repeat);
-//     }
-//     else if (playlistState.state === "Single") {
-//         console.log("Single")
-//         playlistState.autoplay = true;
-//     }
-//     else if (playlistState.state === "Looping") {
-//         console.log("Looping")
-//         playlistState.state = "ReqStop"
-//     }
-//     else if (playlistState.state === "ReqStop") {
-//         console.log("ReqStop")
-//         playlistState.autoplay = true;
-//     }
-//     console.log('playlistState = ' + JSON.stringify(playlistState, null, 2));
-// }
+const next = () => {
+    console.log('next !! :)');
+    // if (playlistState === undefined) {
+    //     console.log("playlistState set")
+    //     playlistState = {currentPicture: -1, state: "Idle", autoplay: false};
+    // }
+    //
+    // if (playlistState.state === "Idle") {
+    //     console.log("Idle")
+    //     playlistState.currentPicture++;
+    //     if (playlistState.currentPicture >= playlist.length) {
+    //         console.log("currentPicture wrap round")
+    //         playlistState.currentPicture = 0;
+    //     }
+    //     let picture = gallery.pictures[playlist[playlistState.currentPicture].picture];
+    //     let repeat = playlist[playlistState.currentPicture].repeat;
+    //     playlistState.autoplay = playlist[playlistState.currentPicture].playNext;
+    //     showPicture(picture, repeat);
+    // }
+    // else if (playlistState.state === "Single") {
+    //     console.log("Single")
+    //     playlistState.autoplay = true;
+    // }
+    // else if (playlistState.state === "Looping") {
+    //     console.log("Looping")
+    //     playlistState.state = "ReqStop"
+    // }
+    // else if (playlistState.state === "ReqStop") {
+    //     console.log("ReqStop")
+    //     playlistState.autoplay = true;
+    // }
+    // console.log('playlistState = ' + JSON.stringify(playlistState, null, 2));
+};
 
 const setPlaylist = (playlist) => {
-    gallery = { pictures: {} };
+    gallery = {pictures: {}};
     playlistState = {};
 
     Jimp.read(imagePath + playlist[0].path, function (err, image) {
@@ -277,15 +277,17 @@ const setPlaylist = (playlist) => {
                 gallery.pictures.test.timedArrays.push(a);
             }
 
-            showPicture(gallery.pictures.test , false);
+            showPicture(gallery.pictures.test, false);
             console.log('Done ' + image.getPixelColor(10, 1));
             console.log('Done ' + image.getPixelColor(0, 14));
         }
     });
-}
+};
 
 module.exports = {
-    setPlaylist
+    setPlaylist,
+    next,
+    a: 'b'
 };
 
 

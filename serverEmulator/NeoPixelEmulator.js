@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const NeoPixelDriver = require('../serverCommon/NeoPixelDriver');
 const config = require('../serverCommon/config').getConfig();
 
 console.log("NeoPixelEmulator");
@@ -33,6 +34,7 @@ webSocketServer.on('connection', function connection(ws) {
             render(NeoPixelArray);
         } else if (message == 'Button') {
             console.log('Button');
+            NeoPixelDriver.next();
         }
     });
 });
