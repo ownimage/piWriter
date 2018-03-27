@@ -8,8 +8,7 @@ let config;
 
 const NUM_LEDS = parseInt(process.argv[2], 10) || 60;
 const blankArray = new Uint32Array(NUM_LEDS);
-const PORT = 8081;
-const TEST_BUTTON_PORT = 8082;
+
 
 const imagePath = '../library/images/';
 var gallery;
@@ -23,13 +22,11 @@ const init = (newConfig) => {
     config.neopixelLib.init(NUM_LEDS);
 }
 
-
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
     config.neopixelLib.reset();
     process.nextTick(function () { process.exit(0); });
 });
-
 
 function isString(obj) {
     return (Object.prototype.toString.call(obj) === '[object String]');

@@ -61,7 +61,7 @@ const playV1 = (req, res) => {
     console.log("playV1");
     console.log("req.body =" + JSON.stringify(req.body));
     console.log("NeoPixelDriver =" + JSON.stringify(NeoPixelDriver));
-    //NeoPixelDriver.next();
+    NeoPixelDriver.next();
     NeoPixelDriver.setPlaylist(req.body);
 };
 
