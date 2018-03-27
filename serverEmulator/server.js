@@ -1,4 +1,4 @@
-console.log("### serverEmulator/server")
+console.log("### serverEmulator/server");
 
 const commonConfig = require('../serverCommon/config');
 const neopixelLib = require('./NeoPixelEmulator');
