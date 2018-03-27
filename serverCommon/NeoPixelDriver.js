@@ -1,12 +1,10 @@
+console.log("### serverCommon/NeoPixelDriver");
+
 const http = require('http');
 const url = require('url');
 const Jimp = require("jimp");
 
-//const server = require('./server');
-const config = require('./config');
-console.log('finalConfig = ' + JSON.stringify(config.getConfig()));
-const ws281x = config.getConfig().neopixelLib;
-// *****  should rename this to NeoPixelLib
+let config;
 
 const NUM_LEDS = parseInt(process.argv[2], 10) || 60;
 const blankArray = new Uint32Array(NUM_LEDS);
@@ -18,17 +16,21 @@ var gallery;
 var playlist;
 var playlistState;
 
-// console.log("NUM_LEDS = " + NUM_LEDS);
-// console.log("Test = " + ws281x.test);
-//
-// ws281x.init(NUM_LEDS);
-//
-// // ---- trap the SIGINT and reset before exit
-// process.on('SIGINT', function () {
-//     ws281x.reset();
-//     process.nextTick(function () { process.exit(0); });
-// });
-//
+const init = (newConfig) => {
+    console.log("serverCommon/NeoPixelDriver:init");
+    config = newConfig;
+    console.log("NUM_LEDS = " + NUM_LEDS);
+    config.neopixelLib.init(NUM_LEDS);
+}
+
+
+// ---- trap the SIGINT and reset before exit
+process.on('SIGINT', function () {
+    config.neopixelLib.reset();
+    process.nextTick(function () { process.exit(0); });
+});
+
+
 function isString(obj) {
     return (Object.prototype.toString.call(obj) === '[object String]');
 }
@@ -172,6 +174,7 @@ function rgbObject2Int(o) {
 //
 function showPicture(picture, repeat) {
     console.log('showPicture picture ');// = ' + JSON.stringify(picture, null, 2));
+    console.log(`config = ${JSON.stringify(config)}`);
     playlistState.state = (repeat) ? 'Looping' : 'Single';
 
     function show(picture, i) {
@@ -179,7 +182,7 @@ function showPicture(picture, repeat) {
         if (i < picture.timedArrays.length) {
             let timedArray = picture.timedArrays[i];
             //console.log('timedArray = ' + JSON.stringify(timedArray, null, 2));
-            config.getConfig().neopixelLib.render(timedArray.ca);
+            config.neopixelLib.render(timedArray.ca);
             setTimeout(show, timedArray.t * 50, picture, i + 1); /// was 1000
         }
         else {
@@ -192,7 +195,7 @@ function showPicture(picture, repeat) {
                     playlistNext();
                 }
                 else {
-                    config.getConfig().neopixelLib.render(blankArray);
+                    config.neopixelLib.render(blankArray);
                 }
             }
         }
@@ -203,7 +206,7 @@ function showPicture(picture, repeat) {
     //   do {
     //       for (let i = 0; i < picture.timedArrays.length; i++) {
     //           let timedArray = picture.timedArrays[i];
-    //           ws281x.render(timedArray.ca);
+    //           NeoPixelLib.render(timedArray.ca);
     //           sleep.sleep(timedArray.t);
     //       }
     //   } while (playlistState.state == 'Looping');
@@ -213,7 +216,7 @@ function showPicture(picture, repeat) {
     //playlistState.autoplay = false;
     //process.nextTick(function () { playlistNext(); });
     //}
-    //ws281x.render(blankArray);
+    //NeoPixelLib.render(blankArray);
 }
 
 const next = () => {
@@ -285,9 +288,9 @@ const setPlaylist = (playlist) => {
 };
 
 module.exports = {
+    init,
     setPlaylist,
-    next,
-    a: 'b'
+    next
 };
 
 

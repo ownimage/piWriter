@@ -1,13 +1,17 @@
-const express = require('express')
+console.log("### serverCommon/server");
+
+const express = require('express');
 const bodyParser = require("body-parser");
-const config = require('./config').getConfig();
 
 const RESTv1 = require('./RESTv1');
+const NeoPixelDriver = require('./NeoPixelDriver');
 
-const startServer = () => {
-
+const startServer = (config) => {
     console.log('serverCommon/server:serverStart');
     console.log(`config = ${JSON.stringify(config)}`);
+
+    NeoPixelDriver.init(config);
+
     const app = express();
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(bodyParser.json());

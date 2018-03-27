@@ -1,8 +1,10 @@
+console.log("### serverCommon/RESTv1");
+
 const fs = require('fs');
 const path = require('path');
 const NeoPixelDriver = require('./NeoPixelDriver');
 
-const config = require("./config").getConfig();
+const {config} = require("./config");
 
 const getImagesV1 = (req, res) => {
     console.log("getImagesV1");
@@ -62,10 +64,6 @@ const playV1 = (req, res) => {
     //NeoPixelDriver.next();
     NeoPixelDriver.setPlaylist(req.body);
 };
-
-const np = require('./NeoPixelDriver' );
-console.log(`REST np = ${JSON.stringify(np)}`);
-console.log(`REST NeoPixelDriver = ${JSON.stringify(NeoPixelDriver)}`);
 
 module.exports = {
     getImagesV1,
