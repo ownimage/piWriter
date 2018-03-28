@@ -85,17 +85,22 @@ export class RepositoryService {
         return this.cachedGetV1<string[]>("imagesCache", imagessUrl);
     }
 
-    postPlaylistsV1(playlist) {
-        console.log("Select x" + JSON.stringify(playlist));
-        this.http.post(playlistsUrl , playlist)
-            .subscribe(
-                res => {
-                    console.log(res);
-                },
-                err => {
-                    RepositoryService.handleError(err);
-                }
-            );
+    postPlaylistsV1(playlist):Observable<string> {
+        console.log("shared/respoitory.service:postPlaylistsV1 " + JSON.stringify(playlist));
+        return Observable.create(observer => {
+            this.http.post(playlistsUrl, playlist)
+                .subscribe(
+                    res => {
+                        console.log(`shared/respoitory.service:postPlaylistsV1 post returns ${JSON.stringify(res)}`);
+                        observer.next("Success !!");
+                    },
+                    err => {
+                        console.log(`shared/respoitory.service:postPlaylistsV1 post returns Error ${JSON.stringify(err)}`);
+                        observer.error("Failure :(");
+                        RepositoryService.handleError(err);
+                    }
+                );
+        });
     }
 
     cachedGetV1<T>(cacheKey, url): Observable<T> {

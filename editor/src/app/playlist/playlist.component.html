@@ -12,12 +12,25 @@
             (onCut)="cut($event)"
     ></app-track>
 
+    <div
+            *ngIf="successMessage"
+            class="alert alert-primary mt-1"
+            role="alert">
+        {{ successMessage }}
+    </div>
+
+    <div
+            *ngIf="errorMessage"
+            class="alert alert-danger mt-1"
+            role="alert">
+        {{ errorMessage }}
+    </div>
 
     <div class="row mt-1">
         <button
                 *ngIf="mode == 'play'"
                 (click)="play()"
-                class="btn btn-success btn-lg offset-md-1 col-md-3 mt-2"
+                class="btn btn-success btn-lg offset-md-1 col-md-3 mt-1"
         >Play
         </button>
     </div>
@@ -26,7 +39,7 @@
         <button
                 *ngIf="mode == 'edit'"
                 (click)="show = 'showAddTrack'"
-                class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-2"
+                class="btn btn-primary btn-lg offset-md-4 col-md-3 mt-1"
         >Add Track
         </button>
     </div>
@@ -35,7 +48,7 @@
         <button
                 *ngIf="mode == 'edit'"
                 (click)="save()"
-                class="btn btn-danger btn-lg offset-md-4 col-md-3 mt-2"
+                class="btn btn-danger btn-lg offset-md-4 col-md-3 mt-1"
         >Save
         </button>
     </div>

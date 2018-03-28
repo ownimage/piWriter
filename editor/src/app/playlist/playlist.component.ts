@@ -18,8 +18,12 @@ export class PlaylistComponent implements OnInit {
 
     name: string = "";
     mode: string = "";
+
     playlist: Track[] = [];
     show: string = "showPlaylist";
+
+    errorMessage: string = "";
+    successMessage: string = "";
 
     ngOnInit() {
         this.name = this.route.snapshot.params.playlist;
@@ -80,7 +84,24 @@ export class PlaylistComponent implements OnInit {
     };
 
     play = function () {
-        this.repositoryService.postPlaylistsV1({ name: this.name});
+        this.successMessage = 'Sending ...';
+        this.repositoryService.postPlaylistsV1({name: this.name})
+            .subscribe(
+                res => {
+                    console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
+                    this.successMessage = 'Success !!';
+                    setTimeout(() => {
+                        this.successMessage = "";
+                    }, 5000);
+                },
+                err => {
+                    console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
+                    this.successMessage = '';
+                    this.errorMessage = 'Not sent :(';
+                    setTimeout(() => {
+                        this.errorMessage = "";
+                    }, 5000);
+                });
     };
 
     isPlayMode() {
