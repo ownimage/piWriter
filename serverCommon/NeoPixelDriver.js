@@ -25,7 +25,9 @@ const init = (newConfig) => {
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
     config.neopixelLib.reset();
-    process.nextTick(function () { process.exit(0); });
+    process.nextTick(function () {
+        process.exit(0);
+    });
 });
 
 function isString(obj) {
@@ -250,7 +252,7 @@ const next = () => {
     // console.log('playlistState = ' + JSON.stringify(playlistState, null, 2));
 };
 
-const setPlaylist = (playlist) => {
+const setPlaylistOLD = (playlist) => {
     gallery = {pictures: {}};
     playlistState = {};
 
@@ -282,6 +284,12 @@ const setPlaylist = (playlist) => {
             console.log('Done ' + image.getPixelColor(0, 14));
         }
     });
+};
+
+const setPlaylist = (newPlaylist) => {
+    console.log("serverCommon/NeoPixelDriver:setPlaylist")
+    this.playlist = newPlaylist;
+    console.log(`playlist = ${JSON.stringify(this.playlist)}`)
 };
 
 module.exports = {

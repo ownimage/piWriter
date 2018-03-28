@@ -13,7 +13,6 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.2.0",
-    "@angular/cli": "^1.7.3",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
     "@angular/core": "^5.2.0",
@@ -24,7 +23,9 @@
     "@angular/router": "^5.2.0",
     "@ng-bootstrap/ng-bootstrap": "^1.0.1",
     "bootstrap": "^4.0.0",
+    "compressible": "^2.0.13",
     "core-js": "^2.4.1",
+    "ejs": "^2.5.8",
     "font-awesome": "^4.7.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"

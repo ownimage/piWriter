@@ -10,7 +10,6 @@ import {Track} from "./track.model";
 
 const imagessUrl = environment.restURL + '/v1/images';
 const playlistsUrl = environment.restURL + '/v1/playlists/';
-const playUrl = environment.restURL + '/v1/play';
 
 let playlistsCache: String[] = null;
 let playlistCache: Track[] = null;
@@ -86,9 +85,9 @@ export class RepositoryService {
         return this.cachedGetV1<string[]>("imagesCache", imagessUrl);
     }
 
-    postPlayV1(playlist) {
-        console.log("Play x" + JSON.stringify(playlist));
-        this.http.post(playUrl , playlist)
+    postPlaylistsV1(playlist) {
+        console.log("Select x" + JSON.stringify(playlist));
+        this.http.post(playlistsUrl , playlist)
             .subscribe(
                 res => {
                     console.log(res);

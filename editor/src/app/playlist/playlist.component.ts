@@ -80,7 +80,7 @@ export class PlaylistComponent implements OnInit {
     };
 
     play = function () {
-        this.repositoryService.postPlayV1(this.playlist);
+        this.repositoryService.postPlaylistsV1({ name: this.name});
     };
 
     isPlayMode() {

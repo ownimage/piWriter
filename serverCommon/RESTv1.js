@@ -7,7 +7,7 @@ const NeoPixelDriver = require('./NeoPixelDriver');
 const {config} = require("./config");
 
 const getImagesV1 = (req, res) => {
-    console.log("getImagesV1");
+    console.log("serverCommon/RESTv1:getImagesV1");
     fs.readdir(config.imagesFolder, (err, files) => {
         console.log(`getImagesV1 ` + JSON.stringify(files));
         res.header("Access-Control-Allow-Origin", "*");
@@ -16,7 +16,7 @@ const getImagesV1 = (req, res) => {
 };
 
 const getPlaylistsV1 = (req, res) => {
-    console.log("getPlaylistsV1");
+    console.log("serverCommon/RESTv1:getPlaylistsV1");
     fs.readdir(config.playlistFolder, (err, files) => {
         console.log(`getPlaylistsV1 ` + JSON.stringify(files));
         res.header("Access-Control-Allow-Origin", "*");
@@ -25,7 +25,7 @@ const getPlaylistsV1 = (req, res) => {
 };
 
 const getPlaylistV1 = (req, res) => {
-    console.log("getPlaylistV1");
+    console.log("serverCommon/RESTv1:getPlaylistV1");
     console.log(req.params.playlist);
     const playlist = req.params.playlist;
     const filePath = path.join(config.playlistFolder, playlist);
@@ -41,7 +41,7 @@ const getPlaylistV1 = (req, res) => {
 };
 
 const postPlaylistV1 = (req, res) => {
-    console.log("postPlaylistV1");
+    console.log("serverCommon/RESTv1:postPlaylistV1");
     console.log(req.params.playlist);
     console.log("req.body =" + JSON.stringify(req.body));
     const playlist = req.params.playlist;
@@ -57,12 +57,25 @@ const postPlaylistV1 = (req, res) => {
     });
 };
 
-const playV1 = (req, res) => {
-    console.log("playV1");
-    console.log("req.body =" + JSON.stringify(req.body));
-    console.log("NeoPixelDriver =" + JSON.stringify(NeoPixelDriver));
-    NeoPixelDriver.next();
-    NeoPixelDriver.setPlaylist(req.body);
+const postPlaylistsV1 = (req, res) => {
+    console.log('serverCommon/RESTv1:postPlaylistsV1');
+    console.log(`req.body = ${JSON.stringify(req.body)}`);
+
+    const filePath = path.join(config.playlistFolder, req.body.name);
+    fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
+        if (!err) {
+            console.log('received data: ' + data);
+            NeoPixelDriver.setPlaylist(data);
+            res.header("Access-Control-Allow-Origin", "*");
+            res.send({ result: "OK" });
+        } else {
+            console.log(err);
+        }
+    });
+
+    //console.log(`playlist =" + ${JSON.stringify(playlist)}`);
+    //NeoPixelDriver.next();
+    //NeoPixelDriver.setPlaylist(req.body);
 };
 
 module.exports = {
@@ -70,5 +83,5 @@ module.exports = {
     getPlaylistsV1,
     getPlaylistV1,
     postPlaylistV1,
-    playV1
+    postPlaylistsV1
 };
