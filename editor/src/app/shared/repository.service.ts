@@ -25,16 +25,17 @@ export class RepositoryService {
 
     getPlaylistsV1(): Observable<string[]> {
         return this.cachedGetV1<string[]>("playlistsCache", playlistsUrl);
-    }
+    };
 
     getPlaylistV1(playlist): Observable<Track[]> {
         let cacheKey = "playlistCache/" + playlist;
         if (!cache[cacheKey]) cache[cacheKey] = null;
         return this.cachedGetV1<Track[]>(cacheKey, playlistsUrl + playlist);
-    }
+    };
 
     postPlaylistV1(playlist, value) {
         console.log("RepositoryService.postPlaylistV1( " + JSON.stringify(value));
+        return Observable.create(observer => {
         let cacheKey = "playlistCache/" + playlist;
         cache[cacheKey] = value;
 
@@ -42,12 +43,15 @@ export class RepositoryService {
             .subscribe(
                 res => {
                     console.log(res);
+                    observer.next("Success !!");
                 },
                 err => {
+                    observer.error("Failure :(");
                     RepositoryService.handleError(err);
                 }
             );
-    }
+        });
+    };
 
     cachePlaylistV1(playlist, value) {
         return Observable.create(observer => {
@@ -79,11 +83,11 @@ export class RepositoryService {
                     }
                 )
         });
-    }
+    };
 
     getImagesV1(): Observable<string[]> {
         return this.cachedGetV1<string[]>("imagesCache", imagessUrl);
-    }
+    };
 
     postPlaylistsV1(playlist):Observable<string> {
         console.log("shared/respoitory.service:postPlaylistsV1 " + JSON.stringify(playlist));
@@ -101,7 +105,7 @@ export class RepositoryService {
                     }
                 );
         });
-    }
+    };
 
     cachedGetV1<T>(cacheKey, url): Observable<T> {
         if (cache[cacheKey]) return Observable.create(observer => {
@@ -124,7 +128,7 @@ export class RepositoryService {
                 }
             )
         });
-    }
+    };
 
     private static handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {

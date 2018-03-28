@@ -58,8 +58,19 @@ export class PlaylistComponent implements OnInit {
 
     save() {
         console.log("save");
-        this.repositoryService.postPlaylistV1(this.name, this.playlist);
-    }
+        this.successMessage.message = 'Sending ...';
+        this.repositoryService.postPlaylistV1(this.name, this.playlist)
+            .subscribe(
+                res => {
+                    console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
+                    this.successMessage.setMessage('Success !!');
+                },
+                err => {
+                    console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
+                    this.successMessage.message = '';
+                    this.errorMessage.setMessage('Not sent :(');
+                });
+    };
 
     moveUp = function (item) {
         let crntPos = this.playlist.indexOf(item);
@@ -85,6 +96,7 @@ export class PlaylistComponent implements OnInit {
     };
 
     play = function () {
+        console.log("play");
         this.successMessage.message = 'Sending ...';
         this.repositoryService.postPlaylistsV1({name: this.name})
             .subscribe(
