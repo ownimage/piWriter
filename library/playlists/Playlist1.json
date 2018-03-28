@@ -1,9 +1,21 @@
 [
   {
+    "name": "PacMan-Blinky.jpg",
+    "path": "PacMan-Blinky.jpg",
+    "repeat": true,
+    "autostartNext": true
+  },
+  {
+    "name": "PacMan-Clyde.jpg",
+    "path": "PacMan-Clyde.jpg",
+    "repeat": false,
+    "autostartNext": false
+  },
+  {
     "name": "PacMan-Inky.jpg",
     "path": "PacMan-Inky.jpg",
     "repeat": false,
-    "autostartNext": false
+    "autostartNext": true
   },
   {
     "name": "PacMan-Pinky.jpg",
