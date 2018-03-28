@@ -13,17 +13,17 @@
     ></app-track>
 
     <div
-            *ngIf="successMessage"
+            *ngIf="successMessage.message"
             class="alert alert-primary mt-1"
             role="alert">
-        {{ successMessage }}
+        {{ successMessage.message }}
     </div>
 
     <div
-            *ngIf="errorMessage"
+            *ngIf="errorMessage.message"
             class="alert alert-danger mt-1"
             role="alert">
-        {{ errorMessage }}
+        {{ errorMessage.message }}
     </div>
 
     <div class="row mt-1">

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {RepositoryService} from "../shared/repository.service";
+import {TimedMessage} from "../shared/timedMessage";
 import {Track} from '../shared/track.model';
 
 @Component({
@@ -22,8 +23,8 @@ export class PlaylistComponent implements OnInit {
     playlist: Track[] = [];
     show: string = "showPlaylist";
 
-    errorMessage: string = "";
-    successMessage: string = "";
+    errorMessage = new TimedMessage();
+    successMessage = new TimedMessage();
 
     ngOnInit() {
         this.name = this.route.snapshot.params.playlist;
@@ -84,23 +85,17 @@ export class PlaylistComponent implements OnInit {
     };
 
     play = function () {
-        this.successMessage = 'Sending ...';
+        this.successMessage.message = 'Sending ...';
         this.repositoryService.postPlaylistsV1({name: this.name})
             .subscribe(
                 res => {
                     console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
-                    this.successMessage = 'Success !!';
-                    setTimeout(() => {
-                        this.successMessage = "";
-                    }, 5000);
+                    this.successMessage.setMessage('Success !!');
                 },
                 err => {
                     console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
-                    this.successMessage = '';
-                    this.errorMessage = 'Not sent :(';
-                    setTimeout(() => {
-                        this.errorMessage = "";
-                    }, 5000);
+                    this.successMessage.message = '';
+                    this.errorMessage.setMessage('Not sent :(');
                 });
     };
 
