@@ -33,7 +33,7 @@ const startServer = (config) => {
     app.post('/v1/playlists/:playlist', RESTv1.postPlaylistV1);
     app.post('/v1/playlists', RESTv1.postPlaylistsV1);
 
-    app.listen(config.serverPort, () => console.log('Example app listening on port 3000!'));
+    app.listen(config.serverPort, () => console.log(`Example app listening on port ${config.serverPort}!`));
 };
 
 module.exports = {

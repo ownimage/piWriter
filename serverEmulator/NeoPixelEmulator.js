@@ -1,5 +1,7 @@
 console.log("### serverEmulator/NeoPixelEmulator");
 
+const express = require('express');
+const http = require('http');
 const WebSocket = require('ws');
 
 const { config } = require('../serverCommon/config');
@@ -27,7 +29,17 @@ const render = (array) => {
     });
 };
 
-const webSocketServer = new WebSocket.Server({port: config.emulatorServerPort});
+// based on https://medium.com/factory-mind/websocket-node-js-express-step-by-step-using-typescript-725114ad5fe4
+const app = express();
+app.use("/index.html", express.static("index.html"));
+app.use("/node_modules", express.static(__dirname + "/node_modules"));
+
+const server = http.createServer(app);
+server.listen( config.emulatorServerPort, () => {
+    console.log(`Server started on port ${server.address().port} :)`);
+});
+
+const webSocketServer = new WebSocket.Server({server});
 webSocketServer.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         if (message == 'Heartbeat') {
