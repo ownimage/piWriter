@@ -171,7 +171,6 @@ function rgbObject2Int(o) {
 //
 function showPicture(picture, repeat) {
     console.log('showPicture picture ');// = ' + JSON.stringify(picture, null, 2));
-
     playlistState.state = (repeat) ? 'Looping' : 'Single';
 
     function show(picture, i) {
@@ -198,21 +197,6 @@ function showPicture(picture, repeat) {
     }
 
     show(picture, 0);
-
-    //   do {
-    //       for (let i = 0; i < picture.timedArrays.length; i++) {
-    //           let timedArray = picture.timedArrays[i];
-    //           NeoPixelLib.render(timedArray.ca);
-    //           sleep.sleep(timedArray.t);
-    //       }
-    //   } while (playlistState.state == 'Looping');
-
-    //playlistState.state = "Idle";
-    //if (picture.playNext || playlistState.autoplay) {
-    //playlistState.autoplay = false;
-    //process.nextTick(function () { playlistNext(); });
-    //}
-    //NeoPixelLib.render(blankArray);
 }
 
 
