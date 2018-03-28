@@ -25,7 +25,7 @@ export class BrowseImagesComponent implements OnInit {
         console.log('BrowseImages component start');
         this.repositoryService.getImagesV1().subscribe( data => {
             for (let image of data) {
-                this.images.push( {name: image, selected: false});
+                this.images.push( {name: image, selected: true});
             }
         });
     }
