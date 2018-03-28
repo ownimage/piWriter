@@ -22,7 +22,7 @@ const reset = () => {
 };
 
 const render = (array) => {
-    console.log("serverEmulator/NeoPixelEmulator:render");
+    //console.log("serverEmulator/NeoPixelEmulator:render");
     NeoPixelArray = array;
     webSocketServer.clients.forEach(function each(ws) {
         ws.send(JSON.stringify(NeoPixelArray));

@@ -9,17 +9,15 @@ let config;
 const NUM_LEDS = parseInt(process.argv[2], 10) || 60;
 const blankArray = new Uint32Array(NUM_LEDS);
 
-
-const imagePath = '../library/images/';
 var gallery;
 var playlist;
 var playlistState;
 
-const init = (newConfig) => {
+const init = (config) => {
     console.log("serverCommon/NeoPixelDriver:init");
-    config = newConfig;
+    this.config = config;
     console.log("NUM_LEDS = " + NUM_LEDS);
-    config.neopixelLib.init(NUM_LEDS);
+    this.config.neopixelLib.init(NUM_LEDS);
 }
 
 // ---- trap the SIGINT and reset before exit
@@ -171,9 +169,9 @@ function rgbObject2Int(o) {
 //     return gallery;
 // }
 //
-function showPicture(picture, repeat) {
+function showPicture(picture, repeat, playlistState) {
     console.log('showPicture picture ');// = ' + JSON.stringify(picture, null, 2));
-    console.log(`config = ${JSON.stringify(config)}`);
+    console.log(`playlistState = ${JSON.stringify(playlistState)}`);
     playlistState.state = (repeat) ? 'Looping' : 'Single';
 
     function show(picture, i) {
@@ -186,7 +184,7 @@ function showPicture(picture, repeat) {
         }
         else {
             if (playlistState.state == 'Looping') {
-                show(picture, 0);
+                show(picture, 0, playlistState);
             }
             else {
                 playlistState.state = "Idle";
@@ -200,7 +198,7 @@ function showPicture(picture, repeat) {
         }
     }
 
-    show(picture, 0);
+    show(picture, 0, playlistState);
 
     //   do {
     //       for (let i = 0; i < picture.timedArrays.length; i++) {
@@ -219,77 +217,125 @@ function showPicture(picture, repeat) {
 }
 
 const next = () => {
-    console.log('next !! :)');
-    // if (playlistState === undefined) {
-    //     console.log("playlistState set")
-    //     playlistState = {currentPicture: -1, state: "Idle", autoplay: false};
+    console.log('serverCommon/NeoPixelDriver:next');
+    console.log(`playlist = ${JSON.stringify(playlist)}`);
+    console.log(`gallery = ${JSON.stringify(gallery)}`);
+    // console.log(`playlistState = ${JSON.stringify(this.playlistState)}`);
+    // console.log(`gallery = ${this.gallery}`);
+    // if (this.playlistState.currentPicture === undefined) {
+    //     console.log("playlistState set");
+    //     this.playlistState = {currentPicture: -1, state: "Idle", autoplay: false};
     // }
     //
-    // if (playlistState.state === "Idle") {
-    //     console.log("Idle")
-    //     playlistState.currentPicture++;
-    //     if (playlistState.currentPicture >= playlist.length) {
-    //         console.log("currentPicture wrap round")
-    //         playlistState.currentPicture = 0;
+    // if (this.playlistState.state === "Idle") {
+    //     console.log("Idle");
+    //     this.playlistState.currentPicture++;
+    //     if (this.playlistState.currentPicture >= this.playlist.length) {
+    //         console.log("currentPicture wrap round");
+    //         this.playlistState.currentPicture = 0;
     //     }
-    //     let picture = gallery.pictures[playlist[playlistState.currentPicture].picture];
-    //     let repeat = playlist[playlistState.currentPicture].repeat;
-    //     playlistState.autoplay = playlist[playlistState.currentPicture].playNext;
-    //     showPicture(picture, repeat);
+    //     let picture = this.gallery[this.playlist[this.playlistState.currentPicture].name];
+    //     let repeat = this.playlist[this.playlistState.currentPicture].repeat;
+    //     this.playlistState.autoplay = this.playlist[this.playlistState.currentPicture].playNext;
+    //     showPicture(picture, repeat, this.playlistState);
     // }
-    // else if (playlistState.state === "Single") {
-    //     console.log("Single")
-    //     playlistState.autoplay = true;
+    // else if (this.playlistState.state === "Single") {
+    //     console.log("Single");
+    //     this.playlistState.autoplay = true;
     // }
-    // else if (playlistState.state === "Looping") {
-    //     console.log("Looping")
-    //     playlistState.state = "ReqStop"
+    // else if (this.playlistState.state === "Looping") {
+    //     console.log("Looping");
+    //     this.playlistState.state = "ReqStop"
     // }
-    // else if (playlistState.state === "ReqStop") {
-    //     console.log("ReqStop")
-    //     playlistState.autoplay = true;
+    // else if (this.playlistState.state === "ReqStop") {
+    //     console.log("ReqStop");
+    //     this.playlistState.autoplay = true;
     // }
-    // console.log('playlistState = ' + JSON.stringify(playlistState, null, 2));
+    // console.log('playlistState = ' + JSON.stringify(this.playlistState, null, 2));
 };
 
-const setPlaylistOLD = (playlist) => {
-    gallery = {pictures: {}};
-    playlistState = {};
+// const setPlaylistOLD = (playlist) => {
+//     gallery = {pictures: {}};
+//     playlistState = {};
+//
+//     Jimp.read(imagePath + playlist[0].path, function (err, image) {
+//         if (err) {
+//             console.log("Error: " + err);
+//         }
+//         else {
+//             image.getPixelColor(10, 10);
+//             console.log('looking good ' + image.bitmap.width + 'x' + image.bitmap.height);
+//             gallery.pictures.test = {};
+//             gallery.pictures.test.timedArrays = [];
+//
+//             let height = Math.min(image.bitmap.height, NUM_LEDS);
+//             let width = 1.0 * height * image.bitmap.width / image.bitmap.height;
+//             image = image.resize(width, height);
+//             for (let i = 0; i < image.bitmap.width; i++) {
+//                 let colorArray = new Uint32Array(NUM_LEDS);
+//                 for (let j = 0; j < height; j++) {
+//                     let color = Jimp.intToRGBA(image.getPixelColor(i, j));
+//                     colorArray[j] = rgbObject2Int(color);
+//                 }
+//                 let a = {t: 1, ca: colorArray};
+//                 gallery.pictures.test.timedArrays.push(a);
+//             }
+//
+//             showPicture(gallery.pictures.test, false);
+//             console.log('Done ' + image.getPixelColor(10, 1));
+//             console.log('Done ' + image.getPixelColor(0, 14));
+//         }
+//     });
+// };
 
-    Jimp.read(imagePath + playlist[0].path, function (err, image) {
-        if (err) {
-            console.log("Error: " + err);
-        }
-        else {
-            image.getPixelColor(10, 10);
-            console.log('looking good ' + image.bitmap.width + 'x' + image.bitmap.height);
-            gallery.pictures.test = {};
-            gallery.pictures.test.timedArrays = [];
-
-            let height = Math.min(image.bitmap.height, NUM_LEDS);
-            let width = 1.0 * height * image.bitmap.width / image.bitmap.height;
-            image = image.resize(width, height);
-            for (let i = 0; i < image.bitmap.width; i++) {
-                let colorArray = new Uint32Array(NUM_LEDS);
-                for (let j = 0; j < height; j++) {
-                    let color = Jimp.intToRGBA(image.getPixelColor(i, j));
-                    colorArray[j] = rgbObject2Int(color);
-                }
-                let a = {t: 1, ca: colorArray};
-                gallery.pictures.test.timedArrays.push(a);
-            }
-
-            showPicture(gallery.pictures.test, false);
-            console.log('Done ' + image.getPixelColor(10, 1));
-            console.log('Done ' + image.getPixelColor(0, 14));
-        }
-    });
-};
-
-const setPlaylist = (newPlaylist) => {
+const setPlaylist = (playlist) => {
     console.log("serverCommon/NeoPixelDriver:setPlaylist")
-    this.playlist = newPlaylist;
-    console.log(`playlist = ${JSON.stringify(this.playlist)}`)
+    this.playlist = playlist;
+    console.log(`this.playlist = ${JSON.stringify(this.playlist)}`)
+    console.log(`this.playlistState = ${JSON.stringify(this.playlistState)}`)
+
+    let gallery = {pictures: {}};
+    this.playlistState = {};
+
+    console.log(`A ${JSON.stringify(gallery)}`);
+
+    this.playlist.map( p => {
+        Jimp.read(this.config.imagesFolder + p.path, function (err, image) {// should come from config
+            //console.log(`B ${JSON.stringify(p)}`);
+            //console.log(`B ${JSON.stringify(gallery)}`);
+            if (err) {
+                console.log("Error: " + err);
+            }
+            else {
+                image.getPixelColor(10, 10);
+                //console.log('looking good ' + image.bitmap.width + 'x' + image.bitmap.height);
+                //console.log(`A ${JSON.stringify(gallery)}`);
+                gallery.pictures[p.name] = {timedArrays: []};
+
+                //console.log(`B ${JSON.stringify(gallery)}`);
+                let height = Math.min(image.bitmap.height, NUM_LEDS);
+                let width = 1.0 * height * image.bitmap.width / image.bitmap.height;
+                //console.log(`height = ${height}, width = ${width}, NUM_LEDS = ${NUM_LEDS}`);
+                image = image.resize(width, height);
+                for (let i = 0; i < image.bitmap.width; i++) {
+                    let colorArray = new Uint32Array(NUM_LEDS);
+                    for (let j = 0; j < height; j++) {
+                        let color = Jimp.intToRGBA(image.getPixelColor(i, j));
+                        colorArray[j] = rgbObject2Int(color);
+                    }
+                    let a = {t: 1, ca: colorArray};
+                    gallery.pictures[p.name].timedArrays.push(a);
+                }
+
+                //showPicture(gallery.pictures.test, false);
+                //console.log('Done ' + image.getPixelColor(10, 1));
+                //console.log('Done ' + image.getPixelColor(0, 14));
+            }
+        });
+
+    });
+
+    this.gallery = gallery;
 };
 
 module.exports = {
