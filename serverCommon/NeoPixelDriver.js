@@ -13,11 +13,11 @@ var gallery;
 var playlist;
 var playlistState;
 
-const init = (config) => {
+const init = (newConfig) => {
     console.log("serverCommon/NeoPixelDriver:init");
-    this.config = config;
+    config = newConfig;
     console.log("NUM_LEDS = " + NUM_LEDS);
-    this.config.neopixelLib.init(NUM_LEDS);
+    config.neopixelLib.init(NUM_LEDS);
 }
 
 // ---- trap the SIGINT and reset before exit
@@ -171,7 +171,9 @@ function rgbObject2Int(o) {
 //
 function showPicture(picture, repeat, playlistState) {
     console.log('showPicture picture ');// = ' + JSON.stringify(picture, null, 2));
+    console.log(`picture = ${JSON.stringify(picture)}`);
     console.log(`playlistState = ${JSON.stringify(playlistState)}`);
+
     playlistState.state = (repeat) ? 'Looping' : 'Single';
 
     function show(picture, i) {
@@ -181,21 +183,23 @@ function showPicture(picture, repeat, playlistState) {
             //console.log('timedArray = ' + JSON.stringify(timedArray, null, 2));
             config.neopixelLib.render(timedArray.ca);
             setTimeout(show, timedArray.t * 50, picture, i + 1); /// was 1000
+        } else {
+            config.neopixelLib.render(blankArray);
         }
-        else {
-            if (playlistState.state == 'Looping') {
-                show(picture, 0, playlistState);
-            }
-            else {
-                playlistState.state = "Idle";
-                if (playlistState.autoplay) {
-                    playlistNext();
-                }
-                else {
-                    config.neopixelLib.render(blankArray);
-                }
-            }
-        }
+        // else {
+        //     if (playlistState.state == 'Looping') {
+        //         show(picture, 0, playlistState);
+        //     }
+        //     else {
+        //         playlistState.state = "Idle";
+        //         if (playlistState.autoplay) {
+        //             playlistNext();
+        //         }
+        //         else {
+        //             config.neopixelLib.render(blankArray);
+        //         }
+        //     }
+        // }
     }
 
     show(picture, 0, playlistState);
@@ -220,6 +224,9 @@ const next = () => {
     console.log('serverCommon/NeoPixelDriver:next');
     console.log(`playlist = ${JSON.stringify(playlist)}`);
     console.log(`gallery = ${JSON.stringify(gallery)}`);
+
+    showPicture(gallery.pictures[playlist[0].name], false, 0);
+
     // console.log(`playlistState = ${JSON.stringify(this.playlistState)}`);
     // console.log(`gallery = ${this.gallery}`);
     // if (this.playlistState.currentPicture === undefined) {
@@ -288,19 +295,19 @@ const next = () => {
 //     });
 // };
 
-const setPlaylist = (playlist) => {
+const setPlaylist = (newPlaylist) => {
     console.log("serverCommon/NeoPixelDriver:setPlaylist")
-    this.playlist = playlist;
-    console.log(`this.playlist = ${JSON.stringify(this.playlist)}`)
-    console.log(`this.playlistState = ${JSON.stringify(this.playlistState)}`)
+    playlist = newPlaylist;
+    console.log(`playlist = ${JSON.stringify(playlist)}`)
+    console.log(`playlistState = ${JSON.stringify(playlistState)}`)
 
-    let gallery = {pictures: {}};
-    this.playlistState = {};
+    gallery = {pictures: {}};
+    playlistState = {};
 
     console.log(`A ${JSON.stringify(gallery)}`);
 
-    this.playlist.map( p => {
-        Jimp.read(this.config.imagesFolder + p.path, function (err, image) {// should come from config
+    playlist.map( p => {
+        Jimp.read(config.imagesFolder + p.path, function (err, image) {// should come from config
             //console.log(`B ${JSON.stringify(p)}`);
             //console.log(`B ${JSON.stringify(gallery)}`);
             if (err) {
@@ -334,8 +341,6 @@ const setPlaylist = (playlist) => {
         });
 
     });
-
-    this.gallery = gallery;
 };
 
 module.exports = {
