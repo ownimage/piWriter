@@ -295,31 +295,26 @@ const next = () => {
 //     });
 // };
 
+// a playlist is of the format [{name: string, path: string, repeat: boolean, autostartNext: boolean }]
+// setPlaylist will take the playlist given and
+// 1) for each item in the playlist will create an entry in the global gallery.pictures object with
+//    name equal to the name of the playlist element, and
+//    timedArray which has been derrived from the image given in the playlists path element
+// 2) it will set the global playlist to the newPlaylist variable.
 const setPlaylist = (newPlaylist) => {
     console.log("serverCommon/NeoPixelDriver:setPlaylist")
     playlist = newPlaylist;
-    console.log(`playlist = ${JSON.stringify(playlist)}`)
-    console.log(`playlistState = ${JSON.stringify(playlistState)}`)
-
     gallery = {pictures: {}};
-    playlistState = {};
-
-    console.log(`A ${JSON.stringify(gallery)}`);
 
     playlist.map( p => {
         Jimp.read(config.imagesFolder + p.path, function (err, image) {// should come from config
-            //console.log(`B ${JSON.stringify(p)}`);
-            //console.log(`B ${JSON.stringify(gallery)}`);
             if (err) {
                 console.log("Error: " + err);
             }
             else {
                 image.getPixelColor(10, 10);
-                //console.log('looking good ' + image.bitmap.width + 'x' + image.bitmap.height);
-                //console.log(`A ${JSON.stringify(gallery)}`);
                 gallery.pictures[p.name] = {timedArrays: []};
 
-                //console.log(`B ${JSON.stringify(gallery)}`);
                 let height = Math.min(image.bitmap.height, NUM_LEDS);
                 let width = 1.0 * height * image.bitmap.width / image.bitmap.height;
                 //console.log(`height = ${height}, width = ${width}, NUM_LEDS = ${NUM_LEDS}`);
@@ -333,10 +328,6 @@ const setPlaylist = (newPlaylist) => {
                     let a = {t: 1, ca: colorArray};
                     gallery.pictures[p.name].timedArrays.push(a);
                 }
-
-                //showPicture(gallery.pictures.test, false);
-                //console.log('Done ' + image.getPixelColor(10, 1));
-                //console.log('Done ' + image.getPixelColor(0, 14));
             }
         });
 
