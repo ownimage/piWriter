@@ -178,7 +178,7 @@ function showPicture(picture, repeat) {
             let timedArray = picture.timedArrays[i];
             //console.log('timedArray = ' + JSON.stringify(timedArray, null, 2));
             config.neopixelLib.render(timedArray.ca);
-            setTimeout(show, timedArray.t * 50, picture, i + 1); /// was 1000
+            setTimeout(show, timedArray.t * 20, picture, i + 1); /// was 1000
         } else {
             config.neopixelLib.render(blankArray);
             if (playlistState.state == 'Looping') {
@@ -264,9 +264,8 @@ const setPlaylist = (newPlaylist) => {
                     gallery.pictures[p.name] = {timedArrays: []};
 
                     let height = Math.min(image.bitmap.height, NUM_LEDS);
-                    let width = 1.0 * height * image.bitmap.width / image.bitmap.height;
-                    //console.log(`height = ${height}, width = ${width}, NUM_LEDS = ${NUM_LEDS}`);
-                    image = image.resize(width, height);
+                    // dont resize width as this affects timing
+                    image = image.resize(image.bitmap.width, height);
                     for (let i = 0; i < image.bitmap.width; i++) {
                         let colorArray = new Uint32Array(NUM_LEDS);
                         for (let j = 0; j < height; j++) {
