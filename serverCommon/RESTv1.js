@@ -85,6 +85,7 @@ const postPlaylistsV1 = (req, res) => {
             if (!err) {
                 console.log('received data: ' + data);
                 NeoPixelDriver.setPlaylist(JSON.parse(data));
+                setTimeout( () => NeoPixelDriver.next(), 2000);
                 res.header('Access-Control-Allow-Origin', '*');
                 res.send({result: 'OK'});
             } else {
