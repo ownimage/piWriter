@@ -63,12 +63,12 @@ export class PlaylistComponent implements OnInit {
             .subscribe(
                 res => {
                     console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
-                    this.successMessage.setMessage('Success !!');
+                    this.successMessage.setMessage('Success !!', null);
                 },
                 err => {
                     console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
                     this.successMessage.message = '';
-                    this.errorMessage.setMessage('Not sent :(');
+                    this.errorMessage.setMessage('Not sent :(', null);
                 });
     };
 
@@ -102,12 +102,12 @@ export class PlaylistComponent implements OnInit {
             .subscribe(
                 res => {
                     console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
-                    this.successMessage.setMessage('Success !!');
+                    this.successMessage.setMessage('Success !!', null);
                 },
                 err => {
                     console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
                     this.successMessage.message = '';
-                    this.errorMessage.setMessage('Not sent :(');
+                    this.errorMessage.setMessage('Not sent :(', null);
                 });
     };
 
