@@ -9,6 +9,7 @@
   "author": "ownimage",
   "license": "MIT",
   "dependencies": {
-    "rpi-ws281x-native": "^0.8.2"
+    "rpi-ws281x-native": "^0.8.2",
+    "rpi-gpio": "^0.9.1"
   }
 }

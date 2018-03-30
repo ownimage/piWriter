@@ -208,6 +208,8 @@ const next = () => {
     console.log('serverCommon/NeoPixelDriver:next');
     console.log(`playlistState = ${JSON.stringify(playlistState)}`);
 
+    if (!playlist) return;
+
     if (!playlistState) {
         console.log("creating playlistState");
         playlistState = { state: "Idle", currentPicture: -1, autoplay: false};
