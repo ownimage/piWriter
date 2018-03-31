@@ -24,7 +24,7 @@
                 let green = (color >> 8) & 255;
                 let red = (color >> 16) & 255;
                 ctx.fillStyle = "rgb(" + red + "," + green + "," + blue + ")";
-                ctx.fillRect(cnt, y + 10, 1, 1);
+                ctx.fillRect(cnt, 10 + fixedColorArray.length - y, 1, 1);
             }
             cnt = ++cnt % canvas.width;
             ctx.fillStyle = "white";

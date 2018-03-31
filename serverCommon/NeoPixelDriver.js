@@ -212,7 +212,7 @@ const next = () => {
 
     if (!playlistState) {
         console.log("creating playlistState");
-        playlistState = { state: "Idle", currentPicture: -1, autoplay: false};
+        playlistState = {state: "Idle", currentPicture: -1, autoplay: false};
     }
 
     if (playlistState.state === "Idle") {
@@ -255,7 +255,7 @@ const setPlaylist = (newPlaylist) => {
     playlist = newPlaylist;
     playlistState = null;
 
-    playlist.map( p => {
+    playlist.map(p => {
         if (!gallery.pictures[p.name]) { // dont process duplicates
             Jimp.read(config.imagesFolder + p.path, function (err, image) {// should come from config
                 if (err) {
@@ -272,7 +272,7 @@ const setPlaylist = (newPlaylist) => {
                         let colorArray = new Uint32Array(NUM_LEDS);
                         for (let j = 0; j < height; j++) {
                             let color = Jimp.intToRGBA(image.getPixelColor(i, j));
-                            colorArray[j] = rgbObject2Int(color);
+                            colorArray[height - 1 - j] = rgbObject2Int(color);
                         }
                         let a = {t: 1, ca: colorArray};
                         gallery.pictures[p.name].timedArrays.push(a);
