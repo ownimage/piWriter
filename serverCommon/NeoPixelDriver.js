@@ -12,6 +12,7 @@ const blankArray = new Uint32Array(NUM_LEDS);
 var gallery;
 var playlist;
 var playlistState;
+var halt;
 
 const init = (newConfig) => {
     console.log("serverCommon/NeoPixelDriver:init");
@@ -181,6 +182,7 @@ function showPicture(picture, repeat) {
             setTimeout(show, timedArray.t * 20, picture, i + 1); /// was 1000
         } else {
             config.neopixelLib.render(blankArray);
+            if (halt) return;
             if (playlistState.state == 'Looping') {
                 show(picture, 0);
             }
@@ -209,6 +211,7 @@ const next = () => {
     console.log(`playlistState = ${JSON.stringify(playlistState)}`);
 
     if (!playlist) return;
+    halt = false;
 
     if (!playlistState) {
         console.log("creating playlistState");
@@ -254,6 +257,7 @@ const setPlaylist = (newPlaylist) => {
     gallery = {pictures: {}};
     playlist = newPlaylist;
     playlistState = null;
+    halt = true;
 
     playlist.map(p => {
         if (!gallery.pictures[p.name]) { // dont process duplicates
