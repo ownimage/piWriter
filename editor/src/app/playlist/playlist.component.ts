@@ -27,7 +27,7 @@ export class PlaylistComponent implements OnInit {
     successMessage = new TimedMessage();
 
     ngOnInit() {
-        this.playlistName = this.route.snapshot.params.playlist;
+        this.playlistName = this.route.snapshot.params.playlistName;
         this.mode = this.route.snapshot.queryParams.mode;
         console.log('Playlist component start ' + this.playlistName);
         console.log("this.playlists 1 = " + JSON.stringify(this.playlist));

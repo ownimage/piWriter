@@ -24,7 +24,7 @@ export class BrowseImagesComponent implements OnInit {
 
     ngOnInit() {
         console.log('BrowseImages component start');
-        this.playlistName = this.route.snapshot.params.playlist;
+        this.playlistName = this.route.snapshot.params.playlistName;
         this.repositoryService.getPlaylistV1(this.playlistName).subscribe(data => this.playlist = data);
         this.repositoryService.getImagesV1().subscribe(data => {
             for (let image of data) {
