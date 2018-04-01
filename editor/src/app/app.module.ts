@@ -21,6 +21,7 @@ const appRoutes: Routes = [
     { path: 'playlists/create', component: AddPlaylistComponent},
     { path: 'playlists', component: BrowsePlaylistsComponent},
     { path: 'playlists/:playlist', component: PlaylistComponent},
+    { path: 'playlists/:playlist/addImages', component: BrowseImagesComponent},
 ];
 
 @NgModule({
