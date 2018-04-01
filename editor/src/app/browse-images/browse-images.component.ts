@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../environments/environment';
 import {RepositoryService} from '../shared/repository.service';
-import {Track} from '../shared/track.model';
+import {Track} from '../shared/model/track.model';
+import {TimedMessage} from "../shared/timedMessage";
 
 @Component({
     selector: 'app-browse-images',
@@ -14,8 +15,9 @@ import {Track} from '../shared/track.model';
 export class BrowseImagesComponent implements OnInit {
     playlistName: string;
     playlist = null;
-    images: { name: string, selected: boolean }[] = [];
+    images: { name: string, selected: boolean, added: TimedMessage }[] = [];
     restURL = environment.restURL;
+    addedMessage = new TimedMessage();
 
     constructor(private repositoryService: RepositoryService,
                 private route: ActivatedRoute,
@@ -28,24 +30,45 @@ export class BrowseImagesComponent implements OnInit {
         this.repositoryService.getPlaylistV1(this.playlistName).subscribe(data => this.playlist = data);
         this.repositoryService.getImagesV1().subscribe(data => {
             for (let image of data) {
-                this.images.push({name: image, selected: true});
+                this.images.push({name: image, selected: false, added: new TimedMessage()});
             }
         });
     }
 
-    buttonClick() {
+    toggleImage(image) {
+        console.log("toggleImage(" + JSON.stringify(image) + ")");
+        // console.log("images = " + JSON.stringify(this.images));
+        image.selected = !image.selected;
+    }
+
+    addImage(image) {
+        console.log("addImage(" + JSON.stringify(image) + ")");
+        //console.log("images = " + JSON.stringify(this.images));
+        let track = new Track(image.name, image.name, false, false);
+        this.playlist.push(track);
+        image.added.setMessage('green', 1000);
+    }
+
+    addSelected() {
         console.log("images = " + JSON.stringify(this.images));
         this.images
             .filter(i => i.selected)
             .map(i => i.name)
             .map(n => new Track(n, n, false, false))
             .map(t => this.playlist.push(t));
+        this.returnToPlaylist();
+    }
+
+    returnToPlaylist() {
         this.router.navigate(["/playlists", this.playlistName], {queryParams: {mode: "edit"}})
     }
 
-    toggleImage(image) {
-        console.log("toggleImage(" + JSON.stringify(image) + ")");
-        console.log("images = " + JSON.stringify(this.images));
-        image.selected = !image.selected;
+    selectAll() {
+        this.images.map( i => i.selected = true )
     }
+
+    unselectAll() {
+        this.images.map( i => i.selected = false )
+    }
+
 }

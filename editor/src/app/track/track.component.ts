@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import { environment } from '../../environments/environment';
-import {Track} from '../shared/track.model';
+import {Track} from '../shared/model/track.model';
 
 @Component({
     selector: 'app-track',

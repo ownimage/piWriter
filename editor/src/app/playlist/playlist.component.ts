@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {RepositoryService} from "../shared/repository.service";
 import {TimedMessage} from "../shared/timedMessage";
-import {Track} from '../shared/track.model';
+import {Track} from '../shared/model/track.model';
 
 @Component({
     selector: 'app-playlist',

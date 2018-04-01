@@ -6,7 +6,7 @@ import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 import { environment } from '../../environments/environment';
 
-import {Track} from "./track.model";
+import {Track} from "./model/track.model";
 
 const imagessUrl = environment.restURL + '/v1/images';
 const playlistsUrl = environment.restURL + '/v1/playlists/';
