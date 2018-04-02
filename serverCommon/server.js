@@ -4,6 +4,8 @@ const express = require('express');
 const bodyParser = require("body-parser");
 
 const RESTv1 = require('./RESTv1');
+const RESTv2 = require('./RESTv2');
+
 const NeoPixelDriver = require('./NeoPixelDriver');
 
 const startServer = (config) => {
@@ -28,6 +30,7 @@ const startServer = (config) => {
     app.use('/app', express.static(config.appFolder));
     app.use('/images', express.static(config.imagesFolder));
     app.get('/v1/images', RESTv1.getImagesV1);
+    app.get('/v2/images/:dir', RESTv2.getImagesV2);
     app.get('/v1/playlists', RESTv1.getPlaylistsV1);
     app.get('/v1/playlists/:playlist', RESTv1.getPlaylistV1);
     app.post('/v1/playlists/:playlist', RESTv1.postPlaylistV1);
