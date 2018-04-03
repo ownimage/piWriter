@@ -2,7 +2,9 @@ console.log("### serverCommon/NeoPixelDriver");
 
 const http = require('http');
 const url = require('url');
-const Jimp = require("jimp");
+const Jimp = require('jimp');
+
+const { logError } = require('./common');
 
 let config;
 
@@ -207,42 +209,47 @@ function showPicture(picture, repeat) {
 //    currentPicture: int shows the index of the picture that is being shown
 //    autostartNext: boolean whether the next picture is to be started automatically
 const next = () => {
-    console.log('serverCommon/NeoPixelDriver:next');
-    console.log(`playlistState = ${JSON.stringify(playlistState)}`);
+    try {
+        console.log('serverCommon/NeoPixelDriver:next');
+        console.log(`playlistState = ${JSON.stringify(playlistState)}`);
 
-    if (!playlist) return;
-    halt = false;
+        if (!playlist) return;
+        halt = false;
 
-    if (!playlistState) {
-        console.log("creating playlistState");
-        playlistState = {state: "Idle", currentPicture: -1, autoplay: false};
-    }
-
-    if (playlistState.state === "Idle") {
-        console.log("Idle");
-        playlistState.currentPicture++;
-        if (playlistState.currentPicture >= playlist.length) {
-            console.log("currentPicture wrap round");
-            playlistState.currentPicture = 0;
+        if (!playlistState) {
+            console.log("creating playlistState");
+            playlistState = {state: "Idle", currentPicture: -1, autoplay: false};
         }
-        let picture = gallery.pictures[playlist[playlistState.currentPicture].name];
-        let repeat = playlist[playlistState.currentPicture].repeat;
-        playlistState.autostartNext = playlist[playlistState.currentPicture].autostartNext;
-        showPicture(picture, repeat);
+
+        if (playlistState.state === "Idle") {
+            console.log("Idle");
+            playlistState.currentPicture++;
+            if (playlistState.currentPicture >= playlist.length) {
+                console.log("currentPicture wrap round");
+                playlistState.currentPicture = 0;
+            }
+            let picture = gallery.pictures[playlist[playlistState.currentPicture].path];
+            //console.log(`picture = ${JSON.stringify(picture)}`);
+            let repeat = playlist[playlistState.currentPicture].repeat;
+            playlistState.autostartNext = playlist[playlistState.currentPicture].autostartNext;
+            showPicture(picture, repeat);
+        }
+        else if (playlistState.state === "Single") {
+            console.log("Single");
+            playlistState.autostartNext = true;
+        }
+        else if (playlistState.state === "Looping") {
+            console.log("Looping");
+            playlistState.state = "ReqStop"
+        }
+        else if (playlistState.state === "ReqStop") {
+            console.log("ReqStop");
+            playlistState.autostartNext = true;
+        }
+        console.log(`playlistState = ${JSON.stringify(playlistState, null, 2)}`);
+    } catch(err) {
+        logError(err);
     }
-    else if (playlistState.state === "Single") {
-        console.log("Single");
-        playlistState.autostartNext = true;
-    }
-    else if (playlistState.state === "Looping") {
-        console.log("Looping");
-        playlistState.state = "ReqStop"
-    }
-    else if (playlistState.state === "ReqStop") {
-        console.log("ReqStop");
-        playlistState.autostartNext = true;
-    }
-    console.log(`playlistState = ${JSON.stringify(playlistState, null, 2)}`);
 };
 
 // a playlist is of the format [{name: string, path: string, repeat: boolean, autostartNext: boolean }]
@@ -260,14 +267,16 @@ const setPlaylist = (newPlaylist) => {
     halt = true;
 
     playlist.map(p => {
-        if (!gallery.pictures[p.name]) { // dont process duplicates
-            Jimp.read(config.imagesFolder + p.path, function (err, image) {// should come from config
+        if (!gallery.pictures[p.path]) { // dont process duplicates
+            let fullPicturePath = config.imagesFolder + p.path;
+            console.log(`fullPicturePath = ${fullPicturePath}`);
+            Jimp.read(fullPicturePath, function (err, image) {// should come from config
                 if (err) {
-                    console.log("Error: " + err);
+                    console.log("Jimp Error: " + err);
                 }
                 else {
                     image.getPixelColor(10, 10);
-                    gallery.pictures[p.name] = {timedArrays: []};
+                    gallery.pictures[p.path] = {timedArrays: []};
 
                     let height = Math.min(image.bitmap.height, NUM_LEDS);
                     // dont resize width as this affects timing
@@ -279,7 +288,7 @@ const setPlaylist = (newPlaylist) => {
                             colorArray[height - 1 - j] = rgbObject2Int(color);
                         }
                         let a = {t: 1, ca: colorArray};
-                        gallery.pictures[p.name].timedArrays.push(a);
+                        gallery.pictures[p.path].timedArrays.push(a);
                     }
                 }
             });
