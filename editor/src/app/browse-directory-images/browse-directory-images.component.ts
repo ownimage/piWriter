@@ -89,8 +89,7 @@ export class BrowseDirectoryImagesComponent implements OnInit {
         console.log("imagesV2 = " + JSON.stringify(this.imagesV2));
         this.imagesV2
             .filter(i => i.selected)
-            .map(i => i.name)
-            .map(n => new Track(n, n, false, false))
+            .map(i => new Track(i.name, i.dirName + '/' + i.name, false, false))
             .map(t => this.playlist.push(t));
         this.returnToPlaylist();
     }
