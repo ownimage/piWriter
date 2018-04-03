@@ -30,12 +30,31 @@ export class BrowseDirectoryImagesComponent implements OnInit {
         console.log('BrowseImages component start');
         this.playlistName = this.route.snapshot.params.playlistName;
         this.repositoryService.getPlaylistV1(this.playlistName).subscribe(data => this.playlist = data);
-        this.changeDirectory('');
+        this.changeDirectory(null);
     }
 
-    changeDirectory(newDirName) {
-        this.dirName = newDirName;
+    changeDirectory(dir) {
+        console.log(`changeDirectory dir = ${JSON.stringify(dir)}`);
+        this.dirName = '';
         this.imagesV2 = [];
+        if (dir) {
+            if (dir.name == '..') this.dirName = dir.dirName;
+            else this.dirName = `${dir.dirName}/${dir.name}`;
+
+            let parentDirName = this.dirName.substring(0, this.dirName.lastIndexOf("/"));
+            if (this.dirName != '') {
+                let dotdot = {
+                    parentDirName: '',
+                    dirName: parentDirName,
+                    name: '..',
+                    isFile: false,
+                    selected: false,
+                    added: new TimedMessage()
+                }
+                this.imagesV2.push(dotdot);
+            }
+        }
+
         this.repositoryService.getImagesV2(this.dirName).subscribe(data => {
             for (let image of data) {
                 console.log(`image = ${JSON.stringify(image)}`);
@@ -48,6 +67,7 @@ export class BrowseDirectoryImagesComponent implements OnInit {
                     added: new TimedMessage()
                 });
             }
+            console.log(`this.imagesV2 = ${JSON.stringify(this.imagesV2)}`);
         });
     }
 
@@ -87,11 +107,6 @@ export class BrowseDirectoryImagesComponent implements OnInit {
         this.imagesV2.map( i => i.selected = false )
     }
 
-    navigateTo(image) {
-        console.log(`navigateTo image = ${JSON.stringify(image)}`);
-        let dirName = `${image.dirName}/${image.name}`;
-        console.log(`dirName = ${dirName}`);
-        this.changeDirectory(dirName);
-    }
+
 
 }

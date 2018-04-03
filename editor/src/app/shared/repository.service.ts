@@ -97,7 +97,7 @@ export class RepositoryService {
         return Observable.create(observer => {
             let images = this.cachedGet<ImageV2[]>("imagesCacheV2", imagessUrlV2).subscribe(
                 res => {
-                    console.log(`shared/RepositoryService:getImagesv2 res = ${JSON.stringify(res)}`);
+                    //console.log(`shared/RepositoryService:getImagesv2 res = ${JSON.stringify(res)}`);
                     observer.next(
                         res.filter(i => i.dirName == dirName)
                             .sort((a, b) => {
