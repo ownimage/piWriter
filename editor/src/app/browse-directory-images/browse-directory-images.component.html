@@ -42,35 +42,29 @@
         </div>
     </li>
 </ul>
+<div class="container">
+    <div class="row mt-2">
+        <button
+                (click)="addSelected()"
+                class="btn btn-primary btn-lg btn-block"
+        >Add Selected
+        </button>
 
-<div class="row mt-1">
-    <button
-            (click)="addSelected()"
-            class="btn btn-primary btn-lg btn-block"
-    >Add Selected
-    </button>
-</div>
+        <button
+                (click)="returnToPlaylist()"
+                class="btn btn-success btn-lg btn-block"
+        >Return
+        </button>
 
-<div class="row mt-1">
-    <button
-            (click)="returnToPlaylist()"
-            class="btn btn-success btn-lg btn-block"
-    >Return
-    </button>
-</div>
-
-<div class="row mt-1">
-    <button
-            (click)="selectAll()"
-            class="btn btn-primary btn-lg btn-block"
-    >Select All
-    </button>
-</div>
-
-<div class="row mt-1">
-    <button
-            (click)="unselectAll()"
-            class="btn btn-danger btn-lg btn-block"
-    >Un-select All
-    </button>
+        <button
+                (click)="selectAll()"
+                class="btn btn-primary btn-lg btn-block"
+        >Select All
+        </button>
+        <button
+                (click)="unselectAll()"
+                class="btn btn-danger btn-lg btn-block"
+        >Un-select All
+        </button>
+    </div>
 </div>
