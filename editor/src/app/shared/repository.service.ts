@@ -9,16 +9,11 @@ import {environment} from '../../environments/environment';
 import {Track} from "./model/track.model";
 import {ImageV2} from "./model/imageV2.model";
 
-const imagessUrlV1 = environment.restURL + '/v1/images';
 const imagessUrlV2 = environment.restURL + '/v2/images/';
-const playlistsUrlV2 = environment.restURL + '/v1/playlists/';
+const playlistsUrlV1 = environment.restURL + '/v1/playlists/';
 
-let playlistsCacheV1: String[] = null;
-let playlistCacheV1: Track[] = null;
-let imagesCacheV1: String[] = null;
-let imagesCacheV2: ImageV2[] = null;
 
-let cache = {playlistsCache: playlistsCacheV1, playlistCacheV1, imagesCache: imagesCacheV1};
+let cache = {playlistsCache: []};
 
 @Injectable()
 export class RepositoryService {
@@ -27,13 +22,13 @@ export class RepositoryService {
     }
 
     getPlaylistsV1(): Observable<string[]> {
-        return this.cachedGet<string[]>("playlistsCacheV1", playlistsUrlV2);
+        return this.cachedGet<string[]>("playlistsCacheV1", playlistsUrlV1);
     };
 
     getPlaylistV1(playlist): Observable<Track[]> {
         let cacheKey = "playlistCacheV1/" + playlist;
         if (!cache[cacheKey]) cache[cacheKey] = null;
-        return this.cachedGet<Track[]>(cacheKey, playlistsUrlV2 + playlist);
+        return this.cachedGet<Track[]>(cacheKey, playlistsUrlV1 + playlist);
     };
 
     postPlaylistV1(playlist, value) {
@@ -42,7 +37,7 @@ export class RepositoryService {
             let cacheKey = "playlistCacheV1/" + playlist;
             cache[cacheKey] = value;
 
-            this.http.post(playlistsUrlV2 + playlist, value)
+            this.http.post(playlistsUrlV1 + playlist, value)
                 .subscribe(
                     res => {
                         console.log(res);
@@ -114,7 +109,7 @@ export class RepositoryService {
     postPlaylistsV1(playlist): Observable<string> {
         console.log("shared/respoitory.service:postPlaylistsV1 " + JSON.stringify(playlist));
         return Observable.create(observer => {
-            this.http.post(playlistsUrlV2, playlist)
+            this.http.post(playlistsUrlV1, playlist)
                 .subscribe(
                     res => {
                         console.log(`shared/respoitory.service:postPlaylistsV1 post returns ${JSON.stringify(res)}`);
