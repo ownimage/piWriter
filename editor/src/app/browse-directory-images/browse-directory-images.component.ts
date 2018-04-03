@@ -50,7 +50,7 @@ export class BrowseDirectoryImagesComponent implements OnInit {
                     isFile: false,
                     selected: false,
                     added: new TimedMessage()
-                }
+                };
                 this.imagesV2.push(dotdot);
             }
         }
@@ -80,7 +80,7 @@ export class BrowseDirectoryImagesComponent implements OnInit {
     addImage(image) {
         console.log("addImage(" + JSON.stringify(image) + ")");
         //console.log("imagesV2 = " + JSON.stringify(this.imagesV2));
-        let track = new Track(image.name, image.name, false, false);
+        let track = new Track(image.name, image.dirName + '/' + image.name, false, false);
         this.playlist.push(track);
         image.added.setMessage('green', 1000);
     }
