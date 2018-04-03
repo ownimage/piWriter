@@ -1,5 +1,5 @@
 <div class="col-sm-12">
-    <h2>Enter Playlist Name</h2>
+    <h4>Enter Playlist Name</h4>
 </div>
 
 <div class="col-sm-12">
@@ -22,12 +22,13 @@
     {{ messages[1] }}
 </div>
 
-
-<div class="row mt-5">
-    <button
-            (click)="addPlaylist()"
-            class="btn btn-primary btn-lg btn-block"
-            [disabled]="!name"
-    >Add
-    </button>
+<div class="container">
+    <div class="row mt-2">
+        <button
+                (click)="addPlaylist()"
+                class="btn btn-primary btn-lg btn-block"
+                [disabled]="!name"
+        >Add
+        </button>
+    </div>
 </div>
