@@ -1,0 +1,71 @@
+<ul class="list-group">
+    <li
+            class="list-group-item"
+            *ngFor="let image of imagesV2"
+    >
+        <div >
+            <img
+                    *ngIf="image.isFile"
+                    src="{{ restURL }}/images/{{image.dirName}}/{{ image.name }}"
+                    style="max-height: 50px;"
+            />
+            <span
+                    *ngIf="!image.isFile"
+                    (click)="navigateTo(image)"
+                    class="fa fa-folder"
+                    style="font-size: 50px; color: #f6d473"
+            ></span>
+
+            <span>{{ image.name }}</span>
+
+            <app-checkbox
+                    *ngIf="image.isFile"
+                    [value]="image.selected"
+                    (toggleEvent)="toggleImage(image)"
+                    class="float-right"
+            ></app-checkbox>
+
+            <app-checkbox
+                    *ngIf="image.isFile"
+                    [value]="image.added.message"
+                    [styles]="['fa fa-check', 'fa fa-plus']"
+                    [colors]="['green', 'blue']"
+                    (toggleEvent)="addImage(image)"
+                    class="float-right"
+            ></app-checkbox>
+
+        </div>
+    </li>
+</ul>
+
+<div class="row mt-1">
+    <button
+            (click)="addSelected()"
+            class="btn btn-primary btn-lg btn-block"
+    >Add Selected
+    </button>
+</div>
+
+<div class="row mt-1">
+    <button
+            (click)="returnToPlaylist()"
+            class="btn btn-success btn-lg btn-block"
+    >Return
+    </button>
+</div>
+
+<div class="row mt-1">
+    <button
+            (click)="selectAll()"
+            class="btn btn-primary btn-lg btn-block"
+    >Select All
+    </button>
+</div>
+
+<div class="row mt-1">
+    <button
+            (click)="unselectAll()"
+            class="btn btn-danger btn-lg btn-block"
+    >Un-select All
+    </button>
+</div>
