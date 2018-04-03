@@ -3,8 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../environments/environment';
 import {RepositoryService} from '../shared/repository.service';
-import {Track} from '../shared/model/track.model';
-import {ImageV2} from '../shared/model/imageV2.model';
+import {Track} from '../shared/model/track.model';;
 import {TimedMessage} from "../shared/timedMessage";
 
 @Component({

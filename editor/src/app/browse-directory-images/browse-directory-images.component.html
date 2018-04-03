@@ -1,9 +1,14 @@
 <ul class="list-group">
+    <li class="list-group-item" style="background-color: #f6d473">
+        <div>
+            Current: <span>{{ dirName ? dirName : '/'}}</span>
+        </div>
+    </li>
     <li
             class="list-group-item"
             *ngFor="let image of imagesV2"
     >
-        <div >
+        <div>
             <img
                     *ngIf="image.isFile"
                     src="{{ restURL }}/images/{{image.dirName}}/{{ image.name }}"
