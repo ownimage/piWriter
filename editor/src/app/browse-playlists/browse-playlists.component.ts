@@ -37,4 +37,9 @@ export class BrowsePlaylistsComponent implements OnInit {
     showPlaylist(playlist) {
         console.log('showPlaylist(' +  playlist + ')');
     }
+
+    getModeDisplayText() {
+        if (this.mode =='edit') return 'Edit Playlist ...';
+        return 'Play Playlist ...';
+    }
 }
