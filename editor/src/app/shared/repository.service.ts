@@ -88,10 +88,6 @@ export class RepositoryService {
         });
     };
 
-    getImagesV1(): Observable<string[]> {
-        return this.cachedGet<string[]>("imagesCacheV1", imagessUrlV1);
-    };
-
     getImagesV2(dirName): Observable<ImageV2[]> {
         console.log(`shared/RepositoryService:getImagesv2 dirName = ${JSON.stringify(dirName)}`);
         return Observable.create(observer => {

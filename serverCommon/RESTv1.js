@@ -7,20 +7,6 @@ const NeoPixelDriver = require('./NeoPixelDriver');
 const {config} = require('./config');
 const {logError} = require('./common');
 
-
-const getImagesV1 = (req, res) => {
-    try {
-        console.log('serverCommon/RESTv1:getImagesV1');
-        fs.readdir(config.imagesFolder, (err, files) => {
-            console.log(`getImagesV1 ` + JSON.stringify(files));
-            res.header('Access-Control-Allow-Origin', '*');
-            res.send(files);
-        });
-    } catch (e) {
-        logError(e);
-    }
-};
-
 const getPlaylistsV1 = (req, res) => {
     try {
         console.log('serverCommon/RESTv1:getPlaylistsV1');
@@ -97,7 +83,6 @@ const postPlaylistsV1 = (req, res) => {
 };
 
 module.exports = {
-    getImagesV1,
     getPlaylistsV1,
     getPlaylistV1,
     postPlaylistV1,

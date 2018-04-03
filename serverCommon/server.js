@@ -29,7 +29,6 @@ const startServer = (config) => {
     app.get('/', (req, res) => res.send('Hello World!'));
     app.use('/app', express.static(config.appFolder));
     app.use('/images', express.static(config.imagesFolder));
-    app.get('/v1/images', RESTv1.getImagesV1);
     app.get('/v2/images/', RESTv2.getImagesV2);
     app.get('/v1/playlists', RESTv1.getPlaylistsV1);
     app.get('/v1/playlists/:playlist', RESTv1.getPlaylistV1);
