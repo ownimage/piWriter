@@ -2,9 +2,16 @@
 
 <ul class="list-group">
     <li class="list-group-item" style="background-color: #f6d473">
-        <div>
-            Current: <span>{{ dirName ? dirName : '/'}}</span>
-        </div>
+        <span>Current: {{ dirName ? dirName : '/'}}</span>
+        <app-checkbox
+                (toggleEvent)="unselectAll()"
+                class="float-right"
+        ></app-checkbox>
+        <app-checkbox
+                [value]="true"
+                (toggleEvent)="selectAll()"
+                class="float-right mr-3"
+        ></app-checkbox>
     </li>
     <li
             class="list-group-item"
@@ -58,15 +65,5 @@
         >Return
         </button>
 
-        <button
-                (click)="selectAll()"
-                class="btn btn-primary btn-lg btn-block"
-        >Select All
-        </button>
-        <button
-                (click)="unselectAll()"
-                class="btn btn-danger btn-lg btn-block"
-        >Un-select All
-        </button>
     </div>
 </div>
