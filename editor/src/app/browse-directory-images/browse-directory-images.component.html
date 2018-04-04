@@ -1,4 +1,7 @@
-<app-header></app-header>
+<app-header
+        leftIcon="fa fa-angle-double-left"
+        (click)="returnToPlaylist()"
+></app-header>
 
 <ul class="list-group">
     <li class="list-group-item" style="background-color: #f6d473">
@@ -58,12 +61,5 @@
                 class="btn btn-primary btn-lg btn-block"
         >Add Selected
         </button>
-
-        <button
-                (click)="returnToPlaylist()"
-                class="btn btn-success btn-lg btn-block"
-        >Return
-        </button>
-
     </div>
 </div>
