@@ -53,6 +53,7 @@ const postPlaylistV1 = (req, res) => {
                 res.header('Content-Type', 'text/plain');
                 res.end();
             } else {
+                logError(err);
                 res.sendStatus(500);
             }
         });
