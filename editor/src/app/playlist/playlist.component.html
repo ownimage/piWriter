@@ -1,4 +1,4 @@
-<h4 class="ml-3">Play {{ playlistName }}</h4>
+<h4 class="ml-3">{{ getModeDisplay() }} {{ playlistName }}</h4>
 
 <div>
     <app-track
@@ -28,13 +28,6 @@
 
     <div class="container mt-2">
         <button
-                *ngIf="mode == 'play'"
-                (click)="play()"
-                class="btn btn-success btn-lg btn-block mt-1"
-        >Play
-        </button>
-
-        <button
                 *ngIf="mode == 'edit'"
                 (click)="navigateAddTrack()"
                 class="btn btn-primary btn-lg btn-block mt-1"
@@ -47,6 +40,13 @@
                 class="btn btn-danger btn-lg btn-block mt-1"
         >Save
         </button>
+
+        <button
+                (click)="play()"
+                class="btn btn-success btn-lg btn-block mt-1"
+        >Play
+        </button>
+
     </div>
 </div>
 

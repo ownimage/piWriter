@@ -16,6 +16,9 @@ export class PlaylistComponent implements OnInit {
     constructor(private repositoryService: RepositoryService,
                 private route: ActivatedRoute,
                 private router: Router) {
+        this.router.routeReuseStrategy.shouldReuseRoute = function(){
+            return false;
+        }
     }
 
     playlistName: string = "";
@@ -84,8 +87,16 @@ export class PlaylistComponent implements OnInit {
         }
     };
 
-    play = function () {
+    play() {
         console.log("play");
+        if (this.isPlayMode()) this.sendPlaylist();
+        else {
+            this.router.navigate(["/playlists", this.playlistName], {queryParams: {mode: "play"}});
+        }
+    }
+
+    sendPlaylist() {
+        console.log("sendPlaylist");
         this.successMessage.message = 'Sending ...';
         this.repositoryService.postPlaylistsV1({name: this.playlistName})
             .subscribe(
@@ -106,5 +117,10 @@ export class PlaylistComponent implements OnInit {
 
     isEditMode() {
         return !this.isPlayMode();
+    }
+
+    getModeDisplay() {
+        if (this.isPlayMode()) return 'Play';
+        return 'Edit';
     }
 }
