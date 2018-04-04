@@ -8,7 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class HeaderComponent implements OnInit {
 
     @Input() leftIcon: string = '';
-    @Output() click = new EventEmitter();
+    @Output() leftIconClick = new EventEmitter();
 
     constructor() {
     }
@@ -19,9 +19,13 @@ export class HeaderComponent implements OnInit {
         console.log(`leftIcon =${this.leftIcon}`);
     }
 
-    doClick(x) {
+    doLeftIconClick(x) {
         console.log('onClick()');
-        this.click.emit(x);
+        this.leftIconClick.emit(x);
     }
+    doMenuClick() {
+        console.log('x doMenuClick()');
+    }
+
 
 }
