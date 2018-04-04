@@ -48,6 +48,10 @@ export class PlaylistComponent implements OnInit {
         this.router.navigate(["/playlists", this.playlistName, "addImages"], {queryParams: {mode: "edit"}})
     }
 
+    navigateToPlaylists() {
+        this.router.navigate(["/playlists"], {queryParams: {mode: this.mode}})
+    }
+
     save() {
         console.log("save");
         this.successMessage.message = 'Sending ...';

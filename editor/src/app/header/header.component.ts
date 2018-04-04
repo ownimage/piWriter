@@ -1,17 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+    @Input() leftIcon: string = '';
+    @Output() click = new EventEmitter();
 
-  title = 'piWriter';
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    title = 'piWriter';
+
+    ngOnInit() {
+        console.log(`leftIcon =${this.leftIcon}`);
+    }
+
+    doClick(x) {
+        console.log('onClick()');
+        this.click.emit(x);
+    }
 
 }
