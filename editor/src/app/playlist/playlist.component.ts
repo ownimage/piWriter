@@ -45,7 +45,7 @@ export class PlaylistComponent implements OnInit {
     }
 
     navigateAddTrack() {
-        this.router.navigate(["/playlists", this.playlistName, "", "addImages"], {queryParams: {mode: "edit"}})
+        this.router.navigate(["/playlists", this.playlistName, "addImages"], {queryParams: {mode: "edit"}})
     }
 
     save() {

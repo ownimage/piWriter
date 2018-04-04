@@ -20,7 +20,7 @@ const appRoutes: Routes = [
     {path: 'playlists/create', component: AddPlaylistComponent},
     {path: 'playlists', component: BrowsePlaylistsComponent},
     {path: 'playlists/:playlistName', component: PlaylistComponent},
-    {path: 'playlists/:playlistName/:dirName/addImages', component: BrowseDirectoryImagesComponent},
+    {path: 'playlists/:playlistName/addImages', component: BrowseDirectoryImagesComponent},
 ];
 
 @NgModule({
