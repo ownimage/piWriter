@@ -13,6 +13,7 @@ import {HomeComponent} from './home/home.component';
 import {CheckboxComponent} from './checkbox/checkbox.component';
 import {AddPlaylistComponent} from './add-playlist/add-playlist.component';
 import {BrowseDirectoryImagesComponent} from './browse-directory-images/browse-directory-images.component';
+import { HeaderComponent } from './header/header.component';
 
 
 const appRoutes: Routes = [
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
         CheckboxComponent,
         AddPlaylistComponent,
         BrowseDirectoryImagesComponent,
+        HeaderComponent,
 
     ],
     imports: [
