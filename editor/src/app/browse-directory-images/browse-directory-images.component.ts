@@ -3,14 +3,17 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../environments/environment';
 import {RepositoryService} from '../shared/repository.service';
-import {Track} from '../shared/model/track.model';;
+import {Track} from '../shared/model/track.model';
 import {TimedMessage} from "../shared/timedMessage";
+import {slideInOutAnimation} from '../shared/animations';
 
 @Component({
     selector: 'app-browse-images',
     templateUrl: './browse-directory-images.component.html',
     styleUrls: ['./browse-directory-images.component.css'],
     providers: [RepositoryService],
+    animations: [slideInOutAnimation],
+    host: {'[@slideInOutAnimation]': ''},
 })
 export class BrowseDirectoryImagesComponent implements OnInit {
     playlistName: string;
@@ -18,6 +21,7 @@ export class BrowseDirectoryImagesComponent implements OnInit {
     playlist = null;
     imagesV2: { parentDirName: string, dirName: string, name: string, isFile: boolean, selected: boolean, added: TimedMessage }[] = [];
     restURL = environment.restURL;
+
     //addedMessage = new TimedMessage();
 
     constructor(private repositoryService: RepositoryService,
@@ -98,13 +102,12 @@ export class BrowseDirectoryImagesComponent implements OnInit {
     }
 
     selectAll() {
-        this.imagesV2.map( i => i.selected = true )
+        this.imagesV2.map(i => i.selected = true)
     }
 
     unselectAll() {
-        this.imagesV2.map( i => i.selected = false )
+        this.imagesV2.map(i => i.selected = false)
     }
-
 
 
 }

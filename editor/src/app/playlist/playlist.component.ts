@@ -4,12 +4,15 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {RepositoryService} from "../shared/repository.service";
 import {TimedMessage} from "../shared/timedMessage";
 import {Track} from '../shared/model/track.model';
+import {slideInOutAnimation} from '../shared/animations'
 
 @Component({
     selector: 'app-playlist',
     templateUrl: './playlist.component.html',
     styleUrls: ['./playlist.component.css'],
     providers: [RepositoryService],
+    animations: [slideInOutAnimation],
+    host: {'[@slideInOutAnimation]': ''},
 })
 export class PlaylistComponent implements OnInit {
 
