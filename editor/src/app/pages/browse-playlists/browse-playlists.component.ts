@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 import { RepositoryService } from "../../shared/repository.service";
 
@@ -13,6 +13,7 @@ export class BrowsePlaylistsComponent implements OnInit {
 
     constructor(
         private repositoryService: RepositoryService,
+        private router: Router,
         private route: ActivatedRoute
     ) {}
 
@@ -42,4 +43,8 @@ export class BrowsePlaylistsComponent implements OnInit {
         if (this.mode =='edit') return 'Edit Playlist ...';
         return 'Play Playlist ...';
     }
+    navigateToHome() {
+        this.router.navigate(['/']);
+    }
+
 }

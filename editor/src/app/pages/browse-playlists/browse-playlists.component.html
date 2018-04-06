@@ -1,4 +1,7 @@
-<app-header></app-header>
+<app-header
+        leftIcon="fa fa-angle-double-left"
+        (leftIconClick)="navigateToHome()"
+></app-header>
 
 <h4 class="ml-3">{{ getModeDisplayText() }}</h4>
 <ul class="list-group">
