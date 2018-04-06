@@ -45,7 +45,7 @@
             <app-checkbox
                     *ngIf="image.isFile"
                     [value]="image.added.message"
-                    [styles]="[icons.tick, icons.cross]"
+                    [styles]="[icons.tick, icons.plus]"
                     [colors]="['green', 'blue']"
                     (toggleEvent)="addImage(image)"
                     class="float-right"

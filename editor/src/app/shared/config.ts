@@ -13,6 +13,7 @@ const config = {
         tick: 'fa fa-check',
         cross: 'fa fa-times',
         folder: 'fa fa-folder',
+        plus: 'fa fa-plus',
     }
 };
 
