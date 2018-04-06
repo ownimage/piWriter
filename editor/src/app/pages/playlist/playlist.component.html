@@ -18,16 +18,12 @@
 
 
 <div class="container">
-    <div class="row mt-5">
-        
-        <div style="width: 100%">
-            <app-message [model]="saveMessage"></app-message>
-        </div>
+    <div class="row mt-2">
 
         <button
                 *ngIf="mode == 'edit'"
                 (click)="navigateAddTrack()"
-                class="btn btn-primary btn-lg btn-block"
+                class="btn btn-primary btn-lg btn-block mt-1"
         >Add Track
         </button>
 
@@ -43,6 +39,11 @@
                 class="btn btn-success btn-lg btn-block mt-1"
         >Play
         </button>
+
+        <div class="mt-1" style="width: 100%">
+            <app-message [model]="saveMessage"></app-message>
+        </div>
+
     </div>
 </div>
 

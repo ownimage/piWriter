@@ -60,9 +60,8 @@
 
             <div class="col">
                 <app-checkbox
-                        *ngIf="isEditMode()"
                         [value]="track.enabled"
-                        [styles]="['fa fa-check-square','fa fa-square']"
+                        [styles]="[icons.enabled, icons.disabled]"
                         [colors]="['green', 'grey']"
                         (toggleEvent)="toggleEnabled(track)"
                 ></app-checkbox>

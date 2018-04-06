@@ -14,6 +14,8 @@ const config = {
         cross: 'fa fa-times',
         folder: 'fa fa-folder',
         plus: 'fa fa-plus',
+        enabled: 'fa fa-check-square',
+        disabled: 'fa fa-square',
     }
 };
 

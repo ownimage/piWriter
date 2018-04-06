@@ -262,10 +262,11 @@ const next = () => {
 const setPlaylist = (newPlaylist) => {
     console.log("serverCommon/NeoPixelDriver:setPlaylist")
     gallery = {pictures: {}};
-    playlist = newPlaylist;
+    playlist = newPlaylist.filter(p => p.enabled);
     playlistState = null;
     halt = true;
 
+    console.log(`playlist = ${JSON.stringify(playlist)}`);
     playlist.map(p => {
         if (!gallery.pictures[p.path]) { // dont process duplicates
             let fullPicturePath = config.imagesFolder + p.path;
