@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {config} from "../../shared/config";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-header',
@@ -14,9 +15,8 @@ export class HeaderComponent implements OnInit {
     title = 'piWriter';
     icons = config.icons;
 
-    constructor() {
+    constructor(private router: Router) {
     }
-
 
     ngOnInit() {
         console.log(`leftIcon =${this.leftIcon}`);
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
     }
 
     doMenuClick() {
-        console.log('x doMenuClick()');
+        this.router.navigate(['/', 'settings']);
     }
 
 

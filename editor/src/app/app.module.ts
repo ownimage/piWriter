@@ -14,10 +14,12 @@ import {CheckboxComponent} from './pageComponents/checkbox/checkbox.component';
 import {AddPlaylistComponent} from './pages/add-playlist/add-playlist.component';
 import {AddImagesComponent} from './pages/add-images/add-images.component';
 import { HeaderComponent } from './pageComponents/header/header.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponent},
+    {path: 'settings', component: SettingsComponent},
     {path: 'playlists', component: BrowsePlaylistsComponent},
     {path: 'playlists/create', component: AddPlaylistComponent},
     {path: 'playlists/:playlistName', component: PlaylistComponent},
@@ -35,7 +37,7 @@ const appRoutes: Routes = [
         AddPlaylistComponent,
         AddImagesComponent,
         HeaderComponent,
-
+        SettingsComponent,
     ],
     imports: [
         HttpClientModule,
