@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {config} from '../../shared/config';
 import {RepositoryService} from '../../shared/repository.service';
-import {TimedMessage} from '../../shared/timedMessage';
+import {MessageModel} from '../../pageComponents/message/message.component.model';
 import {Track} from '../../shared/model/track.model';
 
 @Component({
@@ -26,9 +26,7 @@ export class PlaylistComponent implements OnInit {
     mode: string = "";
     icons = config.icons;
     playlist: Track[] = [];
-
-    errorMessage = new TimedMessage();
-    successMessage = new TimedMessage();
+    saveMessage = new MessageModel();
 
     ngOnInit() {
         this.playlistName = this.route.snapshot.params.playlistName;
@@ -55,17 +53,17 @@ export class PlaylistComponent implements OnInit {
 
     save() {
         console.log('save');
-        this.successMessage.message = 'Sending ...';
+        this.saveMessage.setMessage('Saving ...');
         this.repositoryService.postPlaylistV1(this.playlistName, this.playlist)
             .subscribe(
                 res => {
                     console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
-                    this.successMessage.setMessage('Success !!', null);
+                    this.saveMessage.setMessageTimeout('Save Success !!', null);
                 },
                 err => {
                     console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
-                    this.successMessage.message = '';
-                    this.errorMessage.setMessage('Not sent :(', null);
+                    this.saveMessage.setMessage('');
+                    this.saveMessage.setErrorTimeout('Save Failed :(', null);
                 });
     };
 
@@ -102,17 +100,17 @@ export class PlaylistComponent implements OnInit {
 
     sendPlaylist() {
         console.log('sendPlaylist');
-        this.successMessage.message = 'Sending ...';
+        this.saveMessage.setMessage('Sending Playlist ...');
         this.repositoryService.postPlaylistsV1({name: this.playlistName})
             .subscribe(
                 res => {
                     console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
-                    this.successMessage.setMessage('Success !!', null);
+                    this.saveMessage.setMessageTimeout('Send Playlist Success !!', null);
                 },
                 err => {
                     console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
-                    this.successMessage.message = '';
-                    this.errorMessage.setMessage('Not sent :(', null);
+                    this.saveMessage.setMessage('');
+                    this.saveMessage.setErrorTimeout('Send Playlist Failed :(', null);
                 });
     };
 

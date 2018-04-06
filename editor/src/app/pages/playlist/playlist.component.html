@@ -5,37 +5,29 @@
 
 <h4 class="ml-3">{{ getModeDisplay() }} {{ playlistName }}</h4>
 
-<div>
-    <app-track
-            *ngFor="let track of playlist; first as isFirst; last as isLast"
-            [track]="track"
-            [isFirst]="isFirst"
-            [isLast]="isLast"
-            [mode]="mode"
-            (onMoveDown)="moveDown($event)"
-            (onMoveUp)="moveUp($event)"
-            (onCut)="cut($event)"
-    ></app-track>
+<app-track
+        *ngFor="let track of playlist; first as isFirst; last as isLast"
+        [track]="track"
+        [isFirst]="isFirst"
+        [isLast]="isLast"
+        [mode]="mode"
+        (onMoveDown)="moveDown($event)"
+        (onMoveUp)="moveUp($event)"
+        (onCut)="cut($event)"
+></app-track>
 
-    <div
-            *ngIf="successMessage.message"
-            class="alert alert-primary mt-1"
-            role="alert">
-        {{ successMessage.message }}
-    </div>
 
-    <div
-            *ngIf="errorMessage.message"
-            class="alert alert-danger mt-1"
-            role="alert">
-        {{ errorMessage.message }}
-    </div>
+<div class="container">
+    <div class="row mt-5">
+        
+        <div style="width: 100%">
+            <app-message [model]="saveMessage"></app-message>
+        </div>
 
-    <div class="container mt-2">
         <button
                 *ngIf="mode == 'edit'"
                 (click)="navigateAddTrack()"
-                class="btn btn-primary btn-lg btn-block mt-1"
+                class="btn btn-primary btn-lg btn-block"
         >Add Track
         </button>
 
@@ -51,7 +43,11 @@
                 class="btn btn-success btn-lg btn-block mt-1"
         >Play
         </button>
-
     </div>
 </div>
+
+
+
+
+
 
