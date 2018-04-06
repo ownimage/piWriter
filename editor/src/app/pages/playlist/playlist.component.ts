@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {RepositoryService} from "../shared/repository.service";
-import {TimedMessage} from "../shared/timedMessage";
-import {Track} from '../shared/model/track.model';
+import {RepositoryService} from "../../shared/repository.service";
+import {TimedMessage} from "../../shared/timedMessage";
+import {Track} from '../../shared/model/track.model';
 
 @Component({
     selector: 'app-playlist',

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 
-import {RepositoryService} from "../shared/repository.service";
+import {RepositoryService} from "../../shared/repository.service";
 
 @Component({
     selector: 'app-add-playlist',

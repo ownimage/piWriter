@@ -6,22 +6,22 @@ import {FormsModule} from "@angular/forms";
 import {RouterModule, Routes} from '@angular/router';
 
 import {AppComponent} from './app.component';
-import {TrackComponent} from './track/track.component';
-import {BrowsePlaylistsComponent} from './browse-playlists/browse-playlists.component';
-import {PlaylistComponent} from './playlist/playlist.component';
-import {HomeComponent} from './home/home.component';
-import {CheckboxComponent} from './checkbox/checkbox.component';
-import {AddPlaylistComponent} from './add-playlist/add-playlist.component';
-import {BrowseDirectoryImagesComponent} from './browse-directory-images/browse-directory-images.component';
-import { HeaderComponent } from './header/header.component';
+import {TrackComponent} from './pageComponents/track/track.component';
+import {BrowsePlaylistsComponent} from './pages/browse-playlists/browse-playlists.component';
+import {PlaylistComponent} from './pages/playlist/playlist.component';
+import {HomeComponent} from './pages/home/home.component';
+import {CheckboxComponent} from './pageComponents/checkbox/checkbox.component';
+import {AddPlaylistComponent} from './pages/add-playlist/add-playlist.component';
+import {AddImagesComponent} from './pages/add-images/add-images.component';
+import { HeaderComponent } from './pageComponents/header/header.component';
 
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponent},
-    {path: 'playlists/create', component: AddPlaylistComponent},
     {path: 'playlists', component: BrowsePlaylistsComponent},
+    {path: 'playlists/create', component: AddPlaylistComponent},
     {path: 'playlists/:playlistName', component: PlaylistComponent},
-    {path: 'playlists/:playlistName/addImages', component: BrowseDirectoryImagesComponent},
+    {path: 'playlists/:playlistName/addImages', component: AddImagesComponent},
 ];
 
 @NgModule({
@@ -33,7 +33,7 @@ const appRoutes: Routes = [
         HomeComponent,
         CheckboxComponent,
         AddPlaylistComponent,
-        BrowseDirectoryImagesComponent,
+        AddImagesComponent,
         HeaderComponent,
 
     ],

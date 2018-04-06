@@ -1,18 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {environment} from '../../environments/environment';
-import {RepositoryService} from '../shared/repository.service';
-import {Track} from '../shared/model/track.model';;
-import {TimedMessage} from "../shared/timedMessage";
+import {environment} from '../../../environments/environment';
+import {RepositoryService} from '../../shared/repository.service';
+import {Track} from '../../shared/model/track.model';;
+import {TimedMessage} from "../../shared/timedMessage";
 
 @Component({
     selector: 'app-browse-images',
-    templateUrl: './browse-directory-images.component.html',
-    styleUrls: ['./browse-directory-images.component.css'],
+    templateUrl: './add-images.component.html',
+    styleUrls: ['./add-images.component.css'],
     providers: [RepositoryService],
 })
-export class BrowseDirectoryImagesComponent implements OnInit {
+export class AddImagesComponent implements OnInit {
     playlistName: string;
     dirName: string;
     playlist = null;
