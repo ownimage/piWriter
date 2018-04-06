@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
+import {config} from '../../shared/config';
+
 @Component({
     selector: 'app-checkbox',
     templateUrl: './checkbox.component.html',
@@ -8,7 +10,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class CheckboxComponent implements OnInit {
     @Input() value: boolean;
     @Input() enabled: boolean = true;
-    @Input() styles: string[] = ["fa fa-check", "fa fa-times"];
+    @Input() styles: string[] = [config.icons.tick, config.icons.cross];
     @Input() colors: string[] = ["green", "red", "grey"];
     @Output() toggleEvent = new EventEmitter();
 

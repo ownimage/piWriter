@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {RepositoryService} from "../../shared/repository.service";
-import {TimedMessage} from "../../shared/timedMessage";
+import {config} from '../../shared/config';
+import {RepositoryService} from '../../shared/repository.service';
+import {TimedMessage} from '../../shared/timedMessage';
 import {Track} from '../../shared/model/track.model';
 
 @Component({
@@ -23,7 +24,7 @@ export class PlaylistComponent implements OnInit {
 
     playlistName: string = "";
     mode: string = "";
-
+    icons = config.icons;
     playlist: Track[] = [];
 
     errorMessage = new TimedMessage();
@@ -33,27 +34,27 @@ export class PlaylistComponent implements OnInit {
         this.playlistName = this.route.snapshot.params.playlistName;
         this.mode = this.route.snapshot.queryParams.mode;
         console.log('Playlist component start ' + this.playlistName);
-        console.log("this.playlists 1 = " + JSON.stringify(this.playlist));
-        console.log("mode " + this.mode);
+        console.log('this.playlists 1 = ' + JSON.stringify(this.playlist));
+        console.log('mode ' + this.mode);
         this.repositoryService.getPlaylistV1(this.playlistName).subscribe(data => {
-            //console.log("data2 " + JSON.stringify(data));
-            console.log("this.playlists ? = " + JSON.stringify(this.playlist));
+            //console.log('data2 ' + JSON.stringify(data));
+            console.log('this.playlists ? = ' + JSON.stringify(this.playlist));
             this.playlist = data;
-            console.log("this.playlists end 0= " + JSON.stringify(this.playlist));
+            console.log('this.playlists end 0= ' + JSON.stringify(this.playlist));
         });
-        console.log("this.playlists end = " + JSON.stringify(this.playlist));
+        console.log('this.playlists end = ' + JSON.stringify(this.playlist));
     }
 
     navigateAddTrack() {
-        this.router.navigate(["/playlists", this.playlistName, "addImages"], {queryParams: {mode: "edit"}})
+        this.router.navigate(['/playlists', this.playlistName, 'addImages'], {queryParams: {mode: 'edit'}})
     }
 
     navigateToPlaylists() {
-        this.router.navigate(["/playlists"], {queryParams: {mode: this.mode}})
+        this.router.navigate(['/playlists'], {queryParams: {mode: this.mode}})
     }
 
     save() {
-        console.log("save");
+        console.log('save');
         this.successMessage.message = 'Sending ...';
         this.repositoryService.postPlaylistV1(this.playlistName, this.playlist)
             .subscribe(
@@ -92,15 +93,15 @@ export class PlaylistComponent implements OnInit {
     };
 
     play() {
-        console.log("play");
+        console.log('play');
         if (this.isPlayMode()) this.sendPlaylist();
         else {
-            this.router.navigate(["/playlists", this.playlistName], {queryParams: {mode: "play"}});
+            this.router.navigate(['/playlists', this.playlistName], {queryParams: {mode: 'play'}});
         }
     }
 
     sendPlaylist() {
-        console.log("sendPlaylist");
+        console.log('sendPlaylist');
         this.successMessage.message = 'Sending ...';
         this.repositoryService.postPlaylistsV1({name: this.playlistName})
             .subscribe(

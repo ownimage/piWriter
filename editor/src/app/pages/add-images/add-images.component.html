@@ -1,5 +1,5 @@
 <app-header
-        leftIcon="fa fa-angle-double-left"
+        [leftIcon]="icons.navigateBack"
         (click)="returnToPlaylist()"
 ></app-header>
 
@@ -29,7 +29,7 @@
             <span
                     *ngIf="!image.isFile"
                     (click)="changeDirectory(image)"
-                    class="fa fa-folder"
+                    [ngClass]="icons.folder"
                     style="font-size: 50px; color: #f6d473"
             ></span>
 
@@ -45,7 +45,7 @@
             <app-checkbox
                     *ngIf="image.isFile"
                     [value]="image.added.message"
-                    [styles]="['fa fa-check', 'fa fa-plus']"
+                    [styles]="[icons.tick, icons.cross]"
                     [colors]="['green', 'blue']"
                     (toggleEvent)="addImage(image)"
                     class="float-right"

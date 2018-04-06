@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 
+import {config} from "../../shared/config";
 import {RepositoryService} from "../../shared/repository.service";
 
 @Component({
@@ -13,6 +14,7 @@ export class AddPlaylistComponent implements OnInit {
 
     name: string;
     messages: string[] = ["", ""];
+    icons = config.icons;
 
     constructor(private repositoryService: RepositoryService,
                 private router: Router) {

@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
+import {config} from "../../shared/config";
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -9,11 +11,12 @@ export class HeaderComponent implements OnInit {
 
     @Input() leftIcon: string = '';
     @Output() leftIconClick = new EventEmitter();
+    title = 'piWriter';
+    icons = config.icons;
 
     constructor() {
     }
 
-    title = 'piWriter';
 
     ngOnInit() {
         console.log(`leftIcon =${this.leftIcon}`);
@@ -23,6 +26,7 @@ export class HeaderComponent implements OnInit {
         console.log('onClick()');
         this.leftIconClick.emit(x);
     }
+
     doMenuClick() {
         console.log('x doMenuClick()');
     }

@@ -1,5 +1,5 @@
 <app-header
-        leftIcon="fa fa-angle-double-left"
+        [leftIcon]="icons.navigateBack"
         (leftIconClick)="navigateToHome()"
 ></app-header>
 
@@ -12,6 +12,10 @@
             *ngFor="let playlist of playlists"
     >
         {{ playlist }}
-        <span class="float-right fa fa-arrow-right" aria-hidden="true"></span>
+        <span
+                [ngClass]="icons.navigateForward"
+                class="float-right"
+                aria-hidden="true"
+        ></span>
     </li>
 </ul>

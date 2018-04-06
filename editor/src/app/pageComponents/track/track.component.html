@@ -15,7 +15,7 @@
             <div class="col-2">
                 <app-checkbox
                         *ngIf="isEditMode() && !isFirst"
-                        [styles]="['fa fa fa-arrow-up']"
+                        [styles]="[icons.moveUp]"
                         [colors]="['grey']"
                         (toggleEvent)="moveUp(track)"
                 ></app-checkbox>
@@ -24,7 +24,7 @@
             <div class="col-2">
                 <app-checkbox
                         *ngIf="isEditMode() && !isLast"
-                        [styles]="['fa fa fa-arrow-down']"
+                        [styles]="[icons.moveDown]"
                         [colors]="['grey']"
                         (toggleEvent)="moveDown(track)"
                 ></app-checkbox>
@@ -33,7 +33,7 @@
             <div class="col-2">
                 <app-checkbox
                         [value]="track.repeat"
-                        [styles]="['fa fa-refresh', 'fa fa-refresh']"
+                        [styles]="[icons.repeat]"
                         [colors]="['green', 'grey', 'grey']"
                         (toggleEvent)="toggleRepeat()"
                 ></app-checkbox>
@@ -42,7 +42,7 @@
             <div class="col-2">
                 <app-checkbox
                         [value]="track.autostartNext"
-                        [styles]="['fa fa-fast-forward', 'fa fa-stop']"
+                        [styles]="[icons.autoStartNext, icons.stop]"
                         [colors]="['green', 'red', 'grey']"
                         (toggleEvent)="toggleAutostartNext()"
                 ></app-checkbox>
@@ -52,7 +52,7 @@
                 <app-checkbox
                         *ngIf="isEditMode()"
                         [value]="true"
-                        [styles]="['fa fa-times']"
+                        [styles]="[icons.cross]"
                         [colors]="['red']"
                         (toggleEvent)="cut(track)"
                 ></app-checkbox>

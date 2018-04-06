@@ -4,7 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {RepositoryService} from '../../shared/repository.service';
 import {Track} from '../../shared/model/track.model';;
-import {TimedMessage} from "../../shared/timedMessage";
+import {TimedMessage} from '../../shared/timedMessage';
+import {config} from '../../shared/config';
 
 @Component({
     selector: 'app-browse-images',
@@ -18,7 +19,7 @@ export class AddImagesComponent implements OnInit {
     playlist = null;
     imagesV2: { parentDirName: string, dirName: string, name: string, isFile: boolean, selected: boolean, added: TimedMessage }[] = [];
     restURL = environment.restURL;
-    //addedMessage = new TimedMessage();
+    icons = config.icons;
 
     constructor(private repositoryService: RepositoryService,
                 private route: ActivatedRoute,
@@ -40,7 +41,7 @@ export class AddImagesComponent implements OnInit {
             if (dir.name == '..') this.dirName = dir.dirName;
             else this.dirName = `${dir.dirName}/${dir.name}`;
 
-            let parentDirName = this.dirName.substring(0, this.dirName.lastIndexOf("/"));
+            let parentDirName = this.dirName.substring(0, this.dirName.lastIndexOf('/'));
             if (this.dirName != '') {
                 let dotdot = {
                     parentDirName: '',
@@ -71,21 +72,22 @@ export class AddImagesComponent implements OnInit {
     }
 
     toggleImage(image) {
-        console.log("toggleImage(" + JSON.stringify(image) + ")");
-        // console.log("imagesV2 = " + JSON.stringify(this.imagesV2));
+        console.log('toggleImage(' + JSON.stringify(image) + ')');
+        console.log('icons(' + JSON.stringify(this.icons) + ')');
+        // console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
         image.selected = !image.selected;
     }
 
     addImage(image) {
-        console.log("addImage(" + JSON.stringify(image) + ")");
-        //console.log("imagesV2 = " + JSON.stringify(this.imagesV2));
+        console.log('addImage(' + JSON.stringify(image) + ')');
+        //console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
         let track = new Track(image.name, image.dirName + '/' + image.name, false, false);
         this.playlist.push(track);
         image.added.setMessage('green', 1000);
     }
 
     addSelected() {
-        console.log("imagesV2 = " + JSON.stringify(this.imagesV2));
+        console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
         this.imagesV2
             .filter(i => i.selected && i.isFile)
             .map(i => new Track(i.name, i.dirName + '/' + i.name, false, false))

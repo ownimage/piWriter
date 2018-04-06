@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import { environment } from '../../../environments/environment';
+import {config} from '../../shared/config'
+import {environment} from '../../../environments/environment';
 import {Track} from '../../shared/model/track.model';
 
 @Component({
@@ -16,7 +17,7 @@ export class TrackComponent implements OnInit {
     @Output() onMoveUp = new EventEmitter();
     @Output() onMoveDown = new EventEmitter();
     @Output() onCut = new EventEmitter();
-
+    icons = config.icons;
     restURL = environment.restURL;
 
     constructor() {
