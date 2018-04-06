@@ -50,4 +50,8 @@ export class AddPlaylistComponent implements OnInit {
         );
     }
 
+    navigateToHome() {
+        this.router.navigate(['/']);
+    }
+
 }
