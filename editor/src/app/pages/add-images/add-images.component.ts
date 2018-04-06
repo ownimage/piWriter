@@ -81,7 +81,7 @@ export class AddImagesComponent implements OnInit {
     addImage(image) {
         console.log('addImage(' + JSON.stringify(image) + ')');
         //console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
-        let track = new Track(image.name, image.dirName + '/' + image.name, false, false);
+        let track = new Track(image.name, image.dirName + '/' + image.name, false, false, true);
         this.playlist.push(track);
         image.added.setMessage('green', 1000);
     }
@@ -90,7 +90,7 @@ export class AddImagesComponent implements OnInit {
         console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
         this.imagesV2
             .filter(i => i.selected && i.isFile)
-            .map(i => new Track(i.name, i.dirName + '/' + i.name, false, false))
+            .map(i => new Track(i.name, i.dirName + '/' + i.name, false, false, true))
             .map(t => this.playlist.push(t));
         this.returnToPlaylist();
     }

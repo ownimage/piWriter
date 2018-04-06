@@ -21,10 +21,9 @@ export class CheckboxComponent implements OnInit {
     }
 
     getColor() {
-        if (!this.enabled) return this.colors[2];
-        if (this.value) return this.colors[0];
-        return this.colors[1];
-    }
+        if (!this.enabled && this.colors.length >= 3) return this.colors[2];
+        else if (!this.value && this.colors.length >= 2) return this.colors[1];
+        else return this.colors[0];    }
 
     getClass() {
         if (!this.enabled && this.styles.length >= 3) return this.styles[2];

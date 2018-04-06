@@ -3,6 +3,7 @@ export class Track {
       public name: string,
       public path: string,
       public repeat: boolean,
-      public autostartNext : boolean
+      public autostartNext: boolean,
+      public enabled: boolean,
   ) {}
 }

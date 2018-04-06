@@ -12,25 +12,25 @@
 
         <div class="row">
 
-            <div class="col-2">
+            <div class="col">
                 <app-checkbox
                         *ngIf="isEditMode() && !isFirst"
                         [styles]="[icons.moveUp]"
-                        [colors]="['grey']"
+                        [colors]="['black']"
                         (toggleEvent)="moveUp(track)"
                 ></app-checkbox>
             </div>
 
-            <div class="col-2">
+            <div class="col">
                 <app-checkbox
                         *ngIf="isEditMode() && !isLast"
                         [styles]="[icons.moveDown]"
-                        [colors]="['grey']"
+                        [colors]="['black']"
                         (toggleEvent)="moveDown(track)"
                 ></app-checkbox>
             </div>
 
-            <div class="col-2">
+            <div class="col">
                 <app-checkbox
                         [value]="track.repeat"
                         [styles]="[icons.repeat]"
@@ -39,7 +39,7 @@
                 ></app-checkbox>
             </div>
 
-            <div class="col-2">
+            <div class="col">
                 <app-checkbox
                         [value]="track.autostartNext"
                         [styles]="[icons.autoStartNext, icons.stop]"
@@ -48,13 +48,23 @@
                 ></app-checkbox>
             </div>
 
-            <div class="col-2">
+            <div class="col">
                 <app-checkbox
                         *ngIf="isEditMode()"
                         [value]="true"
                         [styles]="[icons.cross]"
                         [colors]="['red']"
                         (toggleEvent)="cut(track)"
+                ></app-checkbox>
+            </div>
+
+            <div class="col">
+                <app-checkbox
+                        *ngIf="isEditMode()"
+                        [value]="track.enabled"
+                        [styles]="['fa fa-check-square','fa fa-square']"
+                        [colors]="['green', 'grey']"
+                        (toggleEvent)="toggleEnabled(track)"
                 ></app-checkbox>
             </div>
 
