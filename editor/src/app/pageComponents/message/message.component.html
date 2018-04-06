@@ -1,0 +1,13 @@
+<div
+        *ngIf="model.message"
+        class="alert alert-primary mt-1"
+        role="alert">
+    {{ model.message }}
+</div>
+
+<div
+        *ngIf="model.error"
+        class="alert alert-danger mt-1"
+        role="alert">
+    {{ model.error }}
+</div>

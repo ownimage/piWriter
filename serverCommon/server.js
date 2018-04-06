@@ -41,7 +41,7 @@ const startServer = (config) => {
 
 const ping = (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.send('is alive!');
+    res.send({message: 'is alive!'});
 };
 
 module.exports = {

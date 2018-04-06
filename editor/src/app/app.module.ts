@@ -15,6 +15,7 @@ import {AddPlaylistComponent} from './pages/add-playlist/add-playlist.component'
 import {AddImagesComponent} from './pages/add-images/add-images.component';
 import { HeaderComponent } from './pageComponents/header/header.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { MessageComponent } from './pageComponents/message/message.component';
 
 
 const appRoutes: Routes = [
@@ -38,6 +39,7 @@ const appRoutes: Routes = [
         AddImagesComponent,
         HeaderComponent,
         SettingsComponent,
+        MessageComponent,
     ],
     imports: [
         HttpClientModule,

@@ -9,7 +9,8 @@ import {environment} from '../../environments/environment';
 import {Track} from "./model/track.model";
 import {ImageV2} from "./model/imageV2.model";
 
-const imagessUrlV2 = environment.restURL + '/v2/images/';
+const pingUrl = environment.restURL + '/ping';
+const imagesUrlV2 = environment.restURL + '/v2/images/';
 const playlistsUrlV1 = environment.restURL + '/v1/playlists/';
 
 
@@ -20,6 +21,22 @@ export class RepositoryService {
 
     constructor(private http: HttpClient) {
     }
+
+    ping(): Observable<string> {
+        return Observable.create(observer => {
+            this.http.get<{ message: string }>(pingUrl, {observe: 'response'})
+                .subscribe(
+                    data => {
+                        observer.next(data.body.message);
+                    },
+                    err => {
+                        observer.error("Failure :(");
+                        RepositoryService.handleError(err);
+                    }
+                );
+        });
+
+    };
 
     getPlaylistsV1(): Observable<string[]> {
         return this.cachedGet<string[]>("playlistsCacheV1", playlistsUrlV1);
@@ -86,7 +103,7 @@ export class RepositoryService {
     getImagesV2(dirName): Observable<ImageV2[]> {
         console.log(`shared/RepositoryService:getImagesv2 dirName = ${JSON.stringify(dirName)}`);
         return Observable.create(observer => {
-            let images = this.cachedGet<ImageV2[]>("imagesCacheV2", imagessUrlV2).subscribe(
+            let images = this.cachedGet<ImageV2[]>("imagesCacheV2", imagesUrlV2).subscribe(
                 res => {
                     //console.log(`shared/RepositoryService:getImagesv2 res = ${JSON.stringify(res)}`);
                     observer.next(
@@ -167,8 +184,7 @@ export class RepositoryService {
         // return an ErrorObservable with a user-facing error message
         return new ErrorObservable(
             'Something bad happened; please try again later.');
-    }
-    ;
+    };
 
 }
 
