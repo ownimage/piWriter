@@ -29,6 +29,7 @@ const startServer = (config) => {
     app.get('/', (req, res) => res.send('Hello World!'));
     app.use('/app', express.static(config.appFolder));
     app.use('/images', express.static(config.imagesFolder));
+    app.get('/ping', ping);
     app.get('/v2/images/', RESTv2.getImagesV2);
     app.get('/v1/playlists', RESTv1.getPlaylistsV1);
     app.get('/v1/playlists/:playlist', RESTv1.getPlaylistV1);
@@ -36,6 +37,11 @@ const startServer = (config) => {
     app.post('/v1/playlists', RESTv1.postPlaylistsV1);
 
     app.listen(config.serverPort, () => console.log(`Example app listening on port ${config.serverPort}!`));
+};
+
+const ping = (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.send('is alive!');
 };
 
 module.exports = {
