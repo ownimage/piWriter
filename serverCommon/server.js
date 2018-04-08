@@ -26,8 +26,6 @@ const startServer = (config) => {
         res.sendStatus(200);
     });
 
-    app.get('/', (req, res) => res.send('Hello World!'));
-    app.use('/app', express.static(config.appFolder));
     app.use('/images', express.static(config.imagesFolder));
     app.get('/ping', ping);
     app.get('/v2/images/', RESTv2.getImagesV2);
@@ -35,6 +33,7 @@ const startServer = (config) => {
     app.get('/v1/playlists/:playlist', RESTv1.getPlaylistV1);
     app.post('/v1/playlists/:playlist', RESTv1.postPlaylistV1);
     app.post('/v1/playlists', RESTv1.postPlaylistsV1);
+    app.use('/', express.static(config.appFolder));
 
     app.listen(config.serverPort, () => console.log(`Example app listening on port ${config.serverPort}!`));
 };
