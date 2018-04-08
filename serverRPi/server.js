@@ -10,10 +10,11 @@ const server = require('../serverCommon/server');
 let config = {
     ...commonConfig.config,
     neopixelLib,
-    environment: 'RPi'
+    environment: 'RPi',
+    debounceTimout: 300,
 };
 
-
+let preventDebounce = false;
 let buttonState;
 gpio.setMode(gpio.MODE_BCM);
 gpio.on('change', function(channel, value) {
@@ -22,8 +23,12 @@ gpio.on('change', function(channel, value) {
         if (buttonState != value) {
             buttonState = value;
             if (!value) {
-                console.log('Button press!');
-                NeoPixelDriver.next();
+                console.log('Button press! ' + JSON.stringify(Date.now()));
+                if (!this.preventDebounce) {
+                    this.preventDebounce = true;
+                    setTimeout(() => this.preventDebounce = false, config.debounceTimout);
+                    NeoPixelDriver.next();
+                }
             }
         }
     }
