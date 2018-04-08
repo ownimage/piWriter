@@ -32,6 +32,7 @@ const startServer = (config) => {
     app.use('/images', express.static(config.imagesFolder));
     app.get('/ping', ping);
     app.get('/config', getConfig);
+    app.post('/config', postConfig);
     app.get('/v2/images/', RESTv2.getImagesV2);
     app.get('/v1/playlists', RESTv1.getPlaylistsV1);
     app.get('/v1/playlists/:playlist', RESTv1.getPlaylistV1);
@@ -43,13 +44,25 @@ const startServer = (config) => {
 };
 
 const ping = (req, res) => {
+    console.log('serverCommon/server:ping');
     res.header('Access-Control-Allow-Origin', '*');
     res.send({message: 'is alive!'});
 };
 
 const getConfig = (req, res) => {
+    console.log('serverCommon/server:getConfig');
     res.header('Access-Control-Allow-Origin', '*');
     res.send(this.config);
+};
+
+const postConfig = (req, res) => {
+    try {
+        console.log('serverCommon/server:postConfig');
+        console.log('req.body =' + JSON.stringify(req.body));
+        const config = req.body;
+    } catch (e) {
+        logError(e);
+    }
 };
 
 module.exports = {
