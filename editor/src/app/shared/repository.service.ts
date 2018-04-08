@@ -8,6 +8,7 @@ import {environment} from '../../environments/environment';
 
 import {Track} from "./model/track.model";
 import {ImageV2} from "./model/imageV2.model";
+import {Playlist} from "./model/playlist.model";
 
 const pingUrl = environment.restURL + '/ping';
 const imagesUrlV2 = environment.restURL + '/v2/images/';
@@ -42,10 +43,23 @@ export class RepositoryService {
         return this.cachedGet<string[]>("playlistsCacheV1", playlistsUrlV1);
     };
 
-    getPlaylistV1(playlist): Observable<Track[]> {
-        let cacheKey = "playlistCacheV1/" + playlist;
-        if (!cache[cacheKey]) cache[cacheKey] = null;
-        return this.cachedGet<Track[]>(cacheKey, playlistsUrlV1 + playlist);
+    getPlaylistV1(playlistName): Observable<Playlist> {
+        return Observable.create(observer => {
+            let cacheKey = "playlistCacheV1/" + playlistName;
+            if (!cache[cacheKey]) cache[cacheKey] = null;
+
+            this.cachedGet<Track[]>(cacheKey, playlistsUrlV1 + playlistName)
+                .subscribe(
+                    tracks => {
+                        let playlist = new Playlist(this, playlistName, tracks);
+                        observer.next(playlist);
+                    },
+                    err => {
+                        observer.error("Failure :(");
+                        RepositoryService.handleError(err);
+                    }
+                )
+        })
     };
 
     postPlaylistV1(playlist, value) {

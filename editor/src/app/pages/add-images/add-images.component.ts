@@ -6,6 +6,7 @@ import {RepositoryService} from '../../shared/repository.service';
 import {Track} from '../../shared/model/track.model';;
 import {TimedMessage} from '../../shared/timedMessage';
 import {config} from '../../shared/config';
+import {Playlist} from "../../shared/model/playlist.model";
 
 @Component({
     selector: 'app-browse-images',
@@ -16,7 +17,7 @@ import {config} from '../../shared/config';
 export class AddImagesComponent implements OnInit {
     playlistName: string;
     dirName: string;
-    playlist = null;
+    playlist: Playlist = null;
     imagesV2: { parentDirName: string, dirName: string, name: string, isFile: boolean, selected: boolean, added: TimedMessage }[] = [];
     restURL = environment.restURL;
     icons = config.icons;
@@ -82,7 +83,7 @@ export class AddImagesComponent implements OnInit {
         console.log('addImage(' + JSON.stringify(image) + ')');
         //console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
         let track = new Track(image.name, image.dirName + '/' + image.name, false, false, true);
-        this.playlist.push(track);
+        this.playlist.addTrack(track);
         image.added.setMessage('green', 1000);
     }
 
@@ -91,7 +92,7 @@ export class AddImagesComponent implements OnInit {
         this.imagesV2
             .filter(i => i.selected && i.isFile)
             .map(i => new Track(i.name, i.dirName + '/' + i.name, false, false, true))
-            .map(t => this.playlist.push(t));
+            .map(t => this.playlist.addTrack(t));
         this.returnToPlaylist();
     }
 
