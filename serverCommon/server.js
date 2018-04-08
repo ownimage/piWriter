@@ -8,9 +8,12 @@ const RESTv2 = require('./RESTv2');
 
 const NeoPixelDriver = require('./NeoPixelDriver');
 
+let config;
+
 const startServer = (config) => {
     console.log('serverCommon/server:serverStart');
     console.log(`config = ${JSON.stringify(config)}`);
+    this.config = config;
 
     NeoPixelDriver.init(config);
 
@@ -28,6 +31,7 @@ const startServer = (config) => {
 
     app.use('/images', express.static(config.imagesFolder));
     app.get('/ping', ping);
+    app.get('/config', getConfig);
     app.get('/v2/images/', RESTv2.getImagesV2);
     app.get('/v1/playlists', RESTv1.getPlaylistsV1);
     app.get('/v1/playlists/:playlist', RESTv1.getPlaylistV1);
@@ -41,6 +45,11 @@ const startServer = (config) => {
 const ping = (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.send({message: 'is alive!'});
+};
+
+const getConfig = (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.send(this.config);
 };
 
 module.exports = {
