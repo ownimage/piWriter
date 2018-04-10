@@ -23,13 +23,13 @@ export class Playlist {
     };
 
     post() {
-        console.log('Playlist:post');
+        console.log('Playlist:save');
         return this.playlistRepository.postPlaylistV1(this);
     };
 
     play() {
         console.log('Playlist:play');
-        return this.playlistRepository.postPlaylistsV1(this.name);
+        return this.playlistRepository.postPlaylistsPlayV1(this.name);
     }
 
     moveUp = function (track) {

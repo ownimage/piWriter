@@ -35,9 +35,9 @@ const startServer = (config) => {
     app.post('/config', postConfig);
     app.get('/v2/images/', RESTv2.getImagesV2);
     app.get('/v1/playlists', RESTv1.getPlaylistsV1);
-    app.get('/v1/playlists/:playlist', RESTv1.getPlaylistV1);
-    app.post('/v1/playlists/:playlist', RESTv1.postPlaylistV1);
-    app.post('/v1/playlists', RESTv1.postPlaylistsV1);
+    app.get('/v1/playlists/:playlistName', RESTv1.getPlaylistV1);
+    app.post('/v1/playlists/:playlistName', RESTv1.postPlaylistV1);
+    app.post('/v1/playlists/:playlistName/play', RESTv1.postPlaylistsPlayV1);
     app.use('/', express.static(config.appFolder));
 
     app.listen(config.serverPort, () => console.log(`Example app listening on port ${config.serverPort}!`));

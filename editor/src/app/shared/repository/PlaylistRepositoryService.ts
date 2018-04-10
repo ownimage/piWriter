@@ -100,10 +100,10 @@ export class PlaylistRepositoryService {
         });
     };
 
-    postPlaylistsV1(playlistName): Observable<string> {
+    postPlaylistsPlayV1(playlistName): Observable<string> {
         console.log("shared/respoitory/PlaylistRepostitory.service:postPlaylistsV1 " + JSON.stringify(playlistName));
         return Observable.create(observer => {
-            this.http.post(playlistsUrlV1, {name: playlistName})
+            this.http.post(playlistsUrlV1 + playlistName + '/play', {name: playlistName})
                 .subscribe(
                     res => {
                         console.log(`shared/respoitory.service:postPlaylistsV1 post returns ${JSON.stringify(res)}`);

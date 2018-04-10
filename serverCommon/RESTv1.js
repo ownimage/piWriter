@@ -23,9 +23,9 @@ const getPlaylistsV1 = (req, res) => {
 const getPlaylistV1 = (req, res) => {
     try {
         console.log('serverCommon/RESTv1:getPlaylistV1');
-        console.log(req.params.playlist);
-        const playlist = req.params.playlist;
-        const filePath = path.join(config.playlistFolder, playlist);
+        console.log(req.params.playlistName);
+        const playlistName = req.params.playlistName;
+        const filePath = path.join(config.playlistFolder, playlistName);
         fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
             res.header('Access-Control-Allow-Origin', '*');
             if (!err) {
@@ -50,10 +50,10 @@ const getPlaylistV1 = (req, res) => {
 const postPlaylistV1 = (req, res) => {
     try {
         console.log('serverCommon/RESTv1:postPlaylistV1');
-        console.log(req.params.playlist);
+        console.log(req.params.playlistName);
         console.log('req.body =' + JSON.stringify(req.body));
-        const playlist = req.params.playlist;
-        const filePath = path.join(config.playlistFolder, playlist);
+        const playlistName = req.params.playlistName;
+        const filePath = path.join(config.playlistFolder, playlistName);
         fs.writeFile(filePath, JSON.stringify(req.body, null, 2), function (err) {
             if (!err) {
                 res.header('Access-Control-Allow-Origin', '*');
@@ -69,12 +69,12 @@ const postPlaylistV1 = (req, res) => {
     }
 };
 
-const postPlaylistsV1 = (req, res) => {
+const postPlaylistsPlayV1 = (req, res) => {
     try {
-        console.log('serverCommon/RESTv1:postPlaylistsV1');
-        console.log(`req.body = ${JSON.stringify(req.body)}`);
+        console.log('serverCommon/RESTv1:postPlaylistsPlayV1');
+        const playlistName = req.params.playlistName;
 
-        const filePath = path.join(config.playlistFolder, req.body.name);
+        const filePath = path.join(config.playlistFolder, playlistName);
         fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
             if (!err) {
                 console.log('received data: ' + data);
@@ -94,5 +94,5 @@ module.exports = {
     getPlaylistsV1,
     getPlaylistV1,
     postPlaylistV1,
-    postPlaylistsV1
+    postPlaylistsPlayV1
 };
