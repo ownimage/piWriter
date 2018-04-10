@@ -5,6 +5,7 @@ import { trackToTrackDTO } from '../mappers/trackToTrackDTO.mapper';
 
 const playlistToPlaylistDTO = (playlist: Playlist) => {
     return new PlaylistDTO(
+        1,
         playlist.tracks
             .map(  t => trackToTrackDTO(t))
     );
