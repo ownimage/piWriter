@@ -1,5 +1,6 @@
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {HttpErrorResponse} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
 
 const handleError = (error: HttpErrorResponse) => {
     if (error.error instanceof ErrorEvent) {

@@ -11,7 +11,7 @@ import {ImageV2DTO} from "./dto/imageV2DTO.model";
 import {Playlist} from "./model/playlist.model";
 import {TrackDTO} from "./dto/trackDTO.model";
 
-const pingUrl = environment.restURL + '/ping';
+
 const imagesUrlV2 = environment.restURL + '/v2/images/';
 const playlistsUrlV1 = environment.restURL + '/v1/playlists/';
 
@@ -23,22 +23,6 @@ export class RepositoryService {
 
     constructor(private http: HttpClient) {
     }
-
-    ping(): Observable<string> {
-        return Observable.create(observer => {
-            this.http.get<{ message: string }>(pingUrl, {observe: 'response'})
-                .subscribe(
-                    data => {
-                        observer.next(data.body.message);
-                    },
-                    err => {
-                        observer.error("Failure :(");
-                        RepositoryService.handleError(err);
-                    }
-                );
-        });
-
-    };
 
     getPlaylistsV1(): Observable<string[]> {
         return this.cachedGet<string[]>("playlistsCacheV1", playlistsUrlV1);

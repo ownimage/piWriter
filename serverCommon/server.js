@@ -52,15 +52,18 @@ const ping = (req, res) => {
 const getConfig = (req, res) => {
     console.log('serverCommon/server:getConfig');
     res.header('Access-Control-Allow-Origin', '*');
-    res.send(this.config);
+    res.send({speed: 1.0, brightness: 255, debounceTimeout: 300, ...this.config});
 };
 
 const postConfig = (req, res) => {
     try {
         console.log('serverCommon/server:postConfig');
         console.log('req.body =' + JSON.stringify(req.body));
-        const config = req.body;
+        res.header('Access-Control-Allow-Origin', '*');
+        res.send({result: 'OK'});
     } catch (e) {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.sendStatus(500);
         logError(e);
     }
 };
