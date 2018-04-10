@@ -1,32 +1,61 @@
+import { PlaylistRepositoryService } from "../repository/PlaylistRepositoryService";
 import {Track} from './track.model';
-import {RepositoryService} from "../repository.service";
 
 export class Playlist {
-    constructor(private repositoryService: RepositoryService,
-                private playlistName: string,
-                private tracks: Track[],) {
+
+    constructor(private playlistRepository: PlaylistRepositoryService,
+                private _name: string,
+                private _tracks: Track[],) {
+    };
+
+    public _isClean = true;
+
+    get name() {
+        return this._name;
+    };
+
+    get tracks() {
+        return this._tracks;
+    };
+
+    get isClean() {
+        return this._isClean;
+    };
+
+    get isDirty() {
+        return !this._isClean;
+    };
+
+    markDirty() {
+        this._isClean = false;
     }
 
-    getName() {
-        return this.playlistName;
-    };
-
-    getTracks() {
-        return this.tracks;
-    };
+    markClean() {
+        this._isClean = true;
+    }
 
     addTrack(track) {
-        this.tracks.push(track);
+        console.log('Playlist:addTrack');
+        this.markDirty();
+        this._tracks.push(track);
+        return true;
     };
 
-    save() {
-        console.log('save');
-        return this.repositoryService.postPlaylistV1(this.playlistName, this.tracks);
+    post() {
+        console.log('Playlist:post');
+        this.markClean();
+        return this.playlistRepository.postPlaylistV1(this);
     };
+
+    play() {
+        console.log('Playlist:play');
+        return this.playlistRepository.postPlaylistsPlayV1(this.name);
+    }
 
     moveUp = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos > 0) {
+            this.markDirty();
             this.tracks.splice(crntPos, 1);
             this.tracks.splice(crntPos - 1, 0, track);
         }
@@ -35,6 +64,7 @@ export class Playlist {
     moveDown = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos < this.tracks.length) {
+            this.markDirty();
             this.tracks.splice(crntPos, 1);
             this.tracks.splice(crntPos + 1, 0, track);
         }
@@ -43,12 +73,9 @@ export class Playlist {
     cut = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos < this.tracks.length) {
+            this.markDirty();
             this.tracks.splice(crntPos, 1);
         }
     };
 
-    sendPlaylist() {
-        console.log('sendPlaylist');
-        return this.repositoryService.postPlaylistsV1({name: this.playlistName});
-    };
 }

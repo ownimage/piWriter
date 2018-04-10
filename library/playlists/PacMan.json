@@ -1,0 +1,32 @@
+{
+  "tracks": [
+    {
+      "name": "PacMan-Blinky.jpg",
+      "path": "/PacMan-Blinky.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true
+    },
+    {
+      "name": "PacMan-Clyde.jpg",
+      "path": "/PacMan-Clyde.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": false
+    },
+    {
+      "name": "PacMan-Inky.jpg",
+      "path": "/PacMan-Inky.jpg",
+      "repeat": true,
+      "autostartNext": true,
+      "enabled": true
+    },
+    {
+      "name": "PacMan-Pinky.jpg",
+      "path": "/PacMan-Pinky.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true
+    }
+  ]
+}

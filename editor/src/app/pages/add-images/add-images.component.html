@@ -7,13 +7,13 @@
     <li class="list-group-item" style="background-color: #f6d473">
         <span>Current: {{ dirName ? dirName : '/'}}</span>
         <app-checkbox
-                (toggleEvent)="unselectAll()"
-                class="float-right"
-        ></app-checkbox>
-        <app-checkbox
                 [value]="true"
                 (toggleEvent)="selectAll()"
                 class="float-right mr-3"
+        ></app-checkbox>
+        <app-checkbox
+                (toggleEvent)="unselectAll()"
+                class="float-right"
         ></app-checkbox>
     </li>
     <li

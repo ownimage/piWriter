@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 import {config} from "../../shared/config";
-import {RepositoryService} from "../../shared/repository.service";
+import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
+import {Playlist} from "../../shared/model/playlist.model";
 
 @Component({
     selector: 'app-add-playlist',
     templateUrl: './add-playlist.component.html',
     styleUrls: ['./add-playlist.component.css'],
-    providers: [RepositoryService],
+    providers: [PlaylistRepositoryService],
 })
 export class AddPlaylistComponent implements OnInit {
 
@@ -16,7 +17,7 @@ export class AddPlaylistComponent implements OnInit {
     messages: string[] = ["", ""];
     icons = config.icons;
 
-    constructor(private repositoryService: RepositoryService,
+    constructor(private playlistRepositoryService: PlaylistRepositoryService,
                 private router: Router) {
     }
 
@@ -34,19 +35,17 @@ export class AddPlaylistComponent implements OnInit {
             this.messages = ["", "Name changed, please check and press 'Add'."];
             return;
         }
-        this.repositoryService.playlistExistsV1(this.name).subscribe(
+        this.playlistRepositoryService.playlistExistsV1(this.name).subscribe(
             exists => {
                 if (exists) {
                     this.messages = ["", "Sorry, that name already exists."];
                 }
                 else {
                     this.messages = ["Saving ...", ""];
-                    this.repositoryService.cachePlaylistV1(this.name, []).subscribe(
-                        () => {
-                            this.messages = ["", ""];
-                            this.router.navigate(["/playlists", this.name], {queryParams: {mode: "edit"}});
-                        }
-                    )
+                    let playlist = this.playlistRepositoryService.createPlaylist(this.name);
+                    playlist.post();
+                    this.messages = ["", ""];
+                    this.router.navigate(["/playlists", this.name], {queryParams: {mode: "edit"}});
                 }
             }
         );

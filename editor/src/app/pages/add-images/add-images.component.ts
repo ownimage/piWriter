@@ -2,17 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {RepositoryService} from '../../shared/repository.service';
 import {Track} from '../../shared/model/track.model';;
 import {TimedMessage} from '../../shared/timedMessage';
 import {config} from '../../shared/config';
 import {Playlist} from "../../shared/model/playlist.model";
+import {RepositoryService} from "../../shared/repository.service";
+import {PlaylistRepositoryService} from "../../shared/repository/PlaylistRepositoryService";
 
 @Component({
     selector: 'app-browse-images',
     templateUrl: './add-images.component.html',
     styleUrls: ['./add-images.component.css'],
-    providers: [RepositoryService],
+    providers: [RepositoryService, PlaylistRepositoryService],
 })
 export class AddImagesComponent implements OnInit {
     playlistName: string;
@@ -23,6 +24,7 @@ export class AddImagesComponent implements OnInit {
     icons = config.icons;
 
     constructor(private repositoryService: RepositoryService,
+                private playlistRepositoryService: PlaylistRepositoryService,
                 private route: ActivatedRoute,
                 private router: Router) {
     }
@@ -30,7 +32,7 @@ export class AddImagesComponent implements OnInit {
     ngOnInit() {
         console.log('BrowseImages component start');
         this.playlistName = this.route.snapshot.params.playlistName;
-        this.repositoryService.getPlaylistV1(this.playlistName).subscribe(data => this.playlist = data);
+        this.playlistRepositoryService.getPlaylistV1(this.playlistName).subscribe(data => this.playlist = data);
         this.changeDirectory(null);
     }
 
@@ -82,7 +84,7 @@ export class AddImagesComponent implements OnInit {
     addImage(image) {
         console.log('addImage(' + JSON.stringify(image) + ')');
         //console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
-        let track = new Track(image.name, image.dirName + '/' + image.name, false, false, true);
+        let track = new Track(this.playlist, image.name, image.dirName + '/' + image.name, false, false, true);
         this.playlist.addTrack(track);
         image.added.setMessage('green', 1000);
     }
@@ -91,12 +93,13 @@ export class AddImagesComponent implements OnInit {
         console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
         this.imagesV2
             .filter(i => i.selected && i.isFile)
-            .map(i => new Track(i.name, i.dirName + '/' + i.name, false, false, true))
+            .map(i => new Track(this.playlist, i.name, i.dirName + '/' + i.name, false, false, true))
             .map(t => this.playlist.addTrack(t));
         this.returnToPlaylist();
     }
 
     returnToPlaylist() {
+        this.playlist.post();
         this.router.navigate(['/playlists', this.playlistName], {queryParams: {mode: 'edit'}});
     }
 

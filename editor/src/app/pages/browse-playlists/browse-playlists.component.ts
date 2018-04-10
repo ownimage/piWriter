@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {config} from '../../shared/config';
-import { RepositoryService } from '../../shared/repository.service';
+import {PlaylistRepositoryService} from "../../shared/repository/PlaylistRepositoryService";
 
 @Component({
   selector: 'app-browse-playlists',
   templateUrl: './browse-playlists.component.html',
   styleUrls: ['./browse-playlists.component.css'],
-  providers: [ RepositoryService ],
+  providers: [ PlaylistRepositoryService ],
 })
 export class BrowsePlaylistsComponent implements OnInit {
 
     constructor(
-        private repositoryService: RepositoryService,
+        private repositoryService: PlaylistRepositoryService,
         private router: Router,
         private route: ActivatedRoute
     ) {}
