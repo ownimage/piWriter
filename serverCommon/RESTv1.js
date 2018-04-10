@@ -27,12 +27,19 @@ const getPlaylistV1 = (req, res) => {
         const playlist = req.params.playlist;
         const filePath = path.join(config.playlistFolder, playlist);
         fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
+            res.header('Access-Control-Allow-Origin', '*');
             if (!err) {
                 console.log('received data: ' + data);
                 res.header('Access-Control-Allow-Origin', '*');
                 res.send(data);
             } else {
                 console.log(err);
+                if (err.errno == -4058) { //no such file or directory
+                    res.sendStatus(404);
+                }
+                else {
+                    res.sendStatus(500);
+                }
             }
         });
     } catch (e) {
@@ -71,7 +78,7 @@ const postPlaylistsV1 = (req, res) => {
         fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
             if (!err) {
                 console.log('received data: ' + data);
-                NeoPixelDriver.setPlaylist(JSON.parse(data));
+                NeoPixelDriver.setPlaylist(JSON.parse(data).tracks);
                 res.header('Access-Control-Allow-Origin', '*');
                 res.send({result: 'OK'});
             } else {

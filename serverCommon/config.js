@@ -5,7 +5,8 @@ const config = {
     emulatorServerPort: 8085,
     appFolder: '../editor/dist/',
     imagesFolder: '../library/images/',
-    playlistFolder: '../library/playlists/'
+    playlistFolder: '../library/playlists/',
+    NUM_LEDS: 60,
 };
 
 module.exports = {

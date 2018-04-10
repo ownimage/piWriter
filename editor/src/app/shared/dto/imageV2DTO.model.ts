@@ -1,4 +1,4 @@
-export class ImageV2 {
+export class ImageV2DTO {
   constructor(
       public parentDirName: string,
       public dirName: string,

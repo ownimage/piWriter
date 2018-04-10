@@ -48,19 +48,19 @@ export class TrackComponent implements OnInit {
     }
 
     moveUp(data) {
-        console.log('up ' + JSON.stringify(data));
+        //console.log('up ' + JSON.stringify(data));
         if (this.isPlayMode()) return;
         this.onMoveUp.emit(data);
     }
 
     moveDown(data) {
-        console.log('down ' + JSON.stringify(data));
+        //console.log('down ' + JSON.stringify(data));
         if (this.isPlayMode()) return;
         this.onMoveDown.emit(data);
     }
 
     cut(data) {
-        console.log('down ' + JSON.stringify(data));
+        //console.log('down ' + JSON.stringify(data));
         if (this.isPlayMode()) return;
         this.onCut.emit(data);
     }

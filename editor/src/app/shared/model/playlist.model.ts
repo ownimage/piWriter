@@ -1,28 +1,36 @@
+import { PlaylistRepositoryService } from "../repository/PlaylistRepositoryService";
 import {Track} from './track.model';
-import {RepositoryService} from "../repository.service";
 
 export class Playlist {
-    constructor(private repositoryService: RepositoryService,
-                private playlistName: string,
-                private tracks: Track[],) {
-    }
 
-    getName() {
-        return this.playlistName;
+    constructor(private playlistRepository: PlaylistRepositoryService,
+                private _name: string,
+                private _tracks: Track[],) {
     };
 
-    getTracks() {
-        return this.tracks;
+    get name() {
+        return this._name;
+    };
+
+    get tracks() {
+        return this._tracks;
     };
 
     addTrack(track) {
-        this.tracks.push(track);
+        console.log('Playlist:addTrack');
+        this._tracks.push(track);
+        return true;
     };
 
-    save() {
-        console.log('save');
-        return this.repositoryService.postPlaylistV1(this.playlistName, this.tracks);
+    post() {
+        console.log('Playlist:post');
+        return this.playlistRepository.postPlaylistV1(this);
     };
+
+    play() {
+        console.log('Playlist:play');
+        return this.playlistRepository.postPlaylistsV1(this.name);
+    }
 
     moveUp = function (track) {
         let crntPos = this.tracks.indexOf(track);
@@ -47,8 +55,4 @@ export class Playlist {
         }
     };
 
-    sendPlaylist() {
-        console.log('sendPlaylist');
-        return this.repositoryService.postPlaylistsV1({name: this.playlistName});
-    };
 }
