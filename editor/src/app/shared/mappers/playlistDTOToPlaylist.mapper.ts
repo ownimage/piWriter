@@ -7,6 +7,7 @@ const playlistDTOToPlaylist = (playlistRepositoryService, playlistName: string, 
     playlist.tracks
         .map(t => trackDTOToTrack(t, model))
         .map(t => model.addTrack(t));
+    model.markClean();
     return model;
 };
 

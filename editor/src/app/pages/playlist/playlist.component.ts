@@ -136,6 +136,12 @@ export class PlaylistComponent implements OnInit {
 
     getModeDisplay() {
         if (this.isPlayMode()) return 'Play';
-        return 'Edit';
+        if (this.playlist.isClean)        return 'Edit';
+        return "*Edit";
+    }
+
+    getPlayLabel() {
+        if (this.isPlayMode()) return 'Play';
+        return "Goto Play";
     }
 }

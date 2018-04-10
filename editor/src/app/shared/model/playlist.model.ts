@@ -8,6 +8,8 @@ export class Playlist {
                 private _tracks: Track[],) {
     };
 
+    public _isClean = true;
+
     get name() {
         return this._name;
     };
@@ -16,14 +18,32 @@ export class Playlist {
         return this._tracks;
     };
 
+    get isClean() {
+        return this._isClean;
+    };
+
+    get isDirty() {
+        return !this._isClean;
+    };
+
+    markDirty() {
+        this._isClean = false;
+    }
+
+    markClean() {
+        this._isClean = true;
+    }
+
     addTrack(track) {
         console.log('Playlist:addTrack');
+        this.markDirty();
         this._tracks.push(track);
         return true;
     };
 
     post() {
-        console.log('Playlist:save');
+        console.log('Playlist:post');
+        this.markClean();
         return this.playlistRepository.postPlaylistV1(this);
     };
 
@@ -35,6 +55,7 @@ export class Playlist {
     moveUp = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos > 0) {
+            this.markDirty();
             this.tracks.splice(crntPos, 1);
             this.tracks.splice(crntPos - 1, 0, track);
         }
@@ -43,6 +64,7 @@ export class Playlist {
     moveDown = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos < this.tracks.length) {
+            this.markDirty();
             this.tracks.splice(crntPos, 1);
             this.tracks.splice(crntPos + 1, 0, track);
         }
@@ -51,6 +73,7 @@ export class Playlist {
     cut = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos < this.tracks.length) {
+            this.markDirty();
             this.tracks.splice(crntPos, 1);
         }
     };

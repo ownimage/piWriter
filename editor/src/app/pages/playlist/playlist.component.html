@@ -28,16 +28,17 @@
         </button>
 
         <button
-                *ngIf="mode == 'edit'"
+                *ngIf="mode == 'edit' && playlist.isDirty"
                 (click)="save()"
                 class="btn btn-danger btn-lg btn-block mt-1"
         >Save
         </button>
 
         <button
+                *ngIf="playlist.isClean"
                 (click)="play()"
                 class="btn btn-success btn-lg btn-block mt-1"
-        >Play
+        >{{getPlayLabel()}}
         </button>
 
         <div class="mt-1" style="width: 100%">

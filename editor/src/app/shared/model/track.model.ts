@@ -30,14 +30,17 @@ export class Track {
     }
 
     set repeat(value: boolean) {
+        this.markDirty();
         this._repeat = value;
     }
 
     set autostartNext(value: boolean) {
+        this.markDirty();
         this._autostartNext = value;
     }
 
     set enabled(value: boolean) {
+        this.markDirty();
         this._enabled = value;
     }
 
@@ -45,4 +48,11 @@ export class Track {
         this.playlist.moveUp(this);
     }
 
+    moveDown() {
+        this.playlist.moveDown(this);
+    }
+
+    markDirty() {
+        this.playlist.markDirty();
+    }
 }
