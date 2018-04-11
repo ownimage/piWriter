@@ -1,5 +1,7 @@
 console.log("### serverCommon/server");
 
+
+const http = require('http');
 const express = require('express');
 const bodyParser = require("body-parser");
 
@@ -12,7 +14,7 @@ const NeoPixelDriver = require('./NeoPixelDriver');
 
 let config;
 
-const startServer = (config) => {
+const startServer = (config, functionHooks) => {
     console.log('serverCommon/server:serverStart');
     console.log(`config = ${JSON.stringify(config)}`);
     this.config = config;
@@ -42,7 +44,14 @@ const startServer = (config) => {
     app.post('/v1/playlists/:playlistName/play', RESTv1.postPlaylistsPlayV1);
     app.use('/', express.static(config.appFolder));
 
-    app.listen(config.serverPort, () => console.log(`Example app listening on port ${config.serverPort}!`));
+    functionHooks.app(app);
+
+    const server = http.createServer(app);
+    server.listen(config.serverPort, () => {
+        console.log(`Server started on port ${server.address().port} :)`);
+    });
+
+    functionHooks.server(server);
 };
 
 const ping = (req, res) => {

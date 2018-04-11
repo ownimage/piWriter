@@ -35,5 +35,10 @@ gpio.on('change', function(channel, value) {
 });
 gpio.setup(4, gpio.DIR_IN, gpio.EDGE_RISING);//, (channel, value) => console.log('Channel ' + channel + ' value is now ' + value));
 
-server.startServer(config);
+const functionHooks = {
+    app: app => {},
+    server: server => {}
+};
+
+server.startServer(config, functionHooks);
 
