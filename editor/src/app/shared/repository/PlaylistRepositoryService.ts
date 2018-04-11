@@ -9,6 +9,7 @@ import {cachedGet} from '../CacheService';
 import {Playlist} from "../model/playlist.model";
 import {playlistDTOToPlaylist} from "../mappers/playlistDTOToPlaylist.mapper";
 import {playlistToPlaylistDTO} from "../mappers/playlistToPlaylistDTO.mapper";
+import {handleError} from "./repositoryUtilities";
 
 const playlistsUrlV1 = environment.restURL + '/v1/playlists/';
 
@@ -51,19 +52,27 @@ export class PlaylistRepositoryService {
                         observer.next(this.createPlaylist(playlistName));
                     }
                 },
-                err => observer.error(err),
+                err => {
+                    observer.error(err);
+                    handleError(err);
+                },
                 () => observer.complete()
             );
         });
     };
 
-    postPlaylistV1(playlist) {
-        console.log('PlaylistRepositoryService:postPlaylistV1');
+    savePlaylistV1(playlist) {
+        console.log('PlaylistRepositoryService:savePlaylistV1');
         let cacheKey = playlistCacheKey + playlist.name;
         cache[cacheKey] = playlist;
         if (!cache[playlistsCacheKey].includes(playlist.name)) {
             cache[playlistsCacheKey].push(playlist.name);
         }
+    }    ;
+
+    postPlaylistV1(playlist) {
+        console.log('PlaylistRepositoryService:postPlaylistV1');
+        this.savePlaylistV1(playlist);
 
         return Observable.create(observer => {
             this.http.post(
@@ -72,15 +81,17 @@ export class PlaylistRepositoryService {
             ).subscribe(
                 res => {
                     console.log(res);
+                    playlist.markClean();
                     observer.next("Success !!");
                 },
                 err => {
                     observer.error("Failure :(");
-                    //PlaylistRepositoryService.handleError(err);
+                    handleError(err);
                 }
             );
         });
-    };
+    }
+    ;
 
     playlistExistsV1(playlistName): Observable<boolean> {
         return Observable.create(observer => {
@@ -92,13 +103,15 @@ export class PlaylistRepositoryService {
                     },
                     error => {
                         observer.error(error);
+                        handleError(error);
                     },
                     () => {
                         observer.complete()
                     }
                 )
         });
-    };
+    }
+    ;
 
     postPlaylistsPlayV1(playlistName): Observable<string> {
         console.log("shared/respoitory/PlaylistRepostitory.service:postPlaylistsV1 " + JSON.stringify(playlistName));
@@ -112,29 +125,13 @@ export class PlaylistRepositoryService {
                     err => {
                         console.log(`shared/respoitory.service:postPlaylistsV1 post returns Error ${JSON.stringify(err)}`);
                         observer.error("Failure :(");
-                        //PlaylistRepositoryService.handleError(err);
+                        handleError(err);
                     }
                 );
         });
-    }    ;
+    }
+    ;
 
-    //
-    //
-    // private static handleError(error: HttpErrorResponse) {
-    //     if (error.error instanceof ErrorEvent) {
-    //         // A client-side or network error occurred. Handle it accordingly.
-    //         console.error('An error occurred:', error.error.message);
-    //     } else {
-    //         // The backend returned an unsuccessful response code.
-    //         // The response body may contain clues as to what went wrong,
-    //         console.error(
-    //             `Backend returned code ${error.status}, ` +
-    //             `body was: ${error.error}`);
-    //     }
-    //     // return an ErrorObservable with a user-facing error message
-    //     return new ErrorObservable(
-    //         'Something bad happened; please try again later.');
-    // };
 
 }
 

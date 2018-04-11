@@ -29,7 +29,7 @@ export class AddPlaylistComponent implements OnInit {
         console.log("addPlaylist " + JSON.stringify(this.name));
         this.infoMessage.clearAll();
         if (!this.name) {
-            this.infoMessage.setErrorTimeout('Cannot save empty name.');
+            this.infoMessage.setErrorTimeout('Cannot post empty name.');
             return;
         }
         if (!this.name.endsWith(".json")) {
@@ -45,7 +45,7 @@ export class AddPlaylistComponent implements OnInit {
                 else {
                     this.infoMessage.setMessage('Saving ...');
                     let playlist = this.playlistRepositoryService.createPlaylist(this.name);
-                    playlist.post();
+                    playlist.save();
                     this.infoMessage.clearMessage();
                     this.router.navigate(["/playlists", this.name], {queryParams: {mode: "edit"}});
                 }

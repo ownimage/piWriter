@@ -99,7 +99,7 @@ export class AddImagesComponent implements OnInit {
     }
 
     returnToPlaylist() {
-        this.playlist.post();
+        this.playlist.save();
         this.router.navigate(['/playlists', this.playlistName], {queryParams: {mode: 'edit'}});
     }
 

@@ -55,7 +55,7 @@ export class PlaylistComponent implements OnInit {
     }
 
     navigateAddTrack() {
-        this.playlist.post();
+        this.playlist.save();
         this.router.navigate(['/playlists', this.playlist.name, 'addImages'], {queryParams: {mode: 'edit'}})
     }
 
@@ -64,7 +64,7 @@ export class PlaylistComponent implements OnInit {
     }
 
     post() {
-        console.log('save');
+        console.log('post');
         this.infoMessage.setMessage('Saving ...');
         this.playlistRepositoryService.postPlaylistV1(this)
             .subscribe(
@@ -98,7 +98,7 @@ export class PlaylistComponent implements OnInit {
         }
     }
 
-    save() {
+    post() {
         console.log('sendPlaylist');
         this.infoMessage.setMessage('Sending Playlist ...');
         this.playlist.post()

@@ -1,11 +1,13 @@
 import { PlaylistRepositoryService } from "../repository/PlaylistRepositoryService";
 import {Track} from './track.model';
+import {markDirty} from "@angular/core/src/render3";
 
 export class Playlist {
 
     constructor(private playlistRepository: PlaylistRepositoryService,
                 private _name: string,
                 private _tracks: Track[],) {
+        this.markDirty();
     };
 
     public _isClean = true;
@@ -43,8 +45,12 @@ export class Playlist {
 
     post() {
         console.log('Playlist:post');
-        this.markClean();
         return this.playlistRepository.postPlaylistV1(this);
+    };
+
+    save() {
+        console.log('Playlist:post');
+        return this.playlistRepository.savePlaylistV1(this);
     };
 
     play() {
