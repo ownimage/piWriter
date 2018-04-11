@@ -8,7 +8,7 @@ export class MessageModel {
     message: string = null;
     error: string = null;
 
-    setMessageTimeout = (message, timeout) => {
+    setMessageTimeout = (message, timeout?) => {
         this.message = message;
         setTimeout(() => {
                 this.message = null;
@@ -17,7 +17,7 @@ export class MessageModel {
         );
     };
 
-    setErrorTimeout = (error, timeout) => {
+    setErrorTimeout = (error, timeout?) => {
         this.error = error;
         setTimeout(() => {
                 this.error = null;
@@ -30,8 +30,21 @@ export class MessageModel {
         this.message = message;
     };
 
+    clearMessage = () => {
+        this.message = null;
+    };
+
     setError = (error) => {
         this.error = error;
+    };
+
+    clearError = () => {
+        this.error = null;
+    };
+
+    clearAll = () => {
+        this.message = null;
+        this.error = null;
     };
 
     getMessage = () => this.message;

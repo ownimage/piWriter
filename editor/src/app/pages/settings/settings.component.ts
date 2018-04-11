@@ -51,11 +51,11 @@ export class SettingsComponent implements OnInit {
         this.configRepositoryService.ping().subscribe(
             res => {
                 console.log(`ping returns ${JSON.stringify(res)}`);
-                this.testRestMessage.setMessageTimeout(JSON.stringify(res), null);
+                this.testRestMessage.setMessageTimeout(JSON.stringify(res));
             },
             err => {
                 console.log(`ping returns Error ${JSON.stringify(err)}`);
-                this.testRestMessage.setErrorTimeout(JSON.stringify(err), null);
+                this.testRestMessage.setErrorTimeout(JSON.stringify(err));
             });
     }
 
@@ -64,10 +64,10 @@ export class SettingsComponent implements OnInit {
         this.configRepositoryService.setConfig(this.serverConfig).subscribe(
             res => {
                 this.serverConfig = res;
-                this.infoMessage.setMessageTimeout('Success :)', null);
+                this.infoMessage.setMessageTimeout('Success :)');
             },
             err => {
-                this.infoMessage.setErrorTimeout(JSON.stringify(err), null);
+                this.infoMessage.setErrorTimeout(JSON.stringify(err));
                 this.getConfig();
             });
     }

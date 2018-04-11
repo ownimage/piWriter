@@ -70,12 +70,12 @@ export class PlaylistComponent implements OnInit {
             .subscribe(
                 res => {
                     console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
-                    this.infoMessage.setMessageTimeout('Save Success !!', null);
+                    this.infoMessage.setMessageTimeout('Save Success !!');
                 },
                 err => {
                     console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
                     this.infoMessage.setMessage('');
-                    this.infoMessage.setErrorTimeout('Save Failed :(', null);
+                    this.infoMessage.setErrorTimeout('Save Failed :(');
                 });
     };
 
@@ -85,12 +85,12 @@ export class PlaylistComponent implements OnInit {
             this.playlist.play().subscribe(
                 res => {
                     console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
-                    this.infoMessage.setMessageTimeout('Play Playlist Success !!', null);
+                    this.infoMessage.setMessageTimeout('Play Playlist Success !!');
                 },
                 err => {
                     console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
                     this.infoMessage.setMessage('');
-                    this.infoMessage.setErrorTimeout('Play Playlist Failed :(', null);
+                    this.infoMessage.setErrorTimeout('Play Playlist Failed :(');
                 });
         }
         else {
@@ -105,12 +105,12 @@ export class PlaylistComponent implements OnInit {
             .subscribe(
                 res => {
                     console.log(`playlist/playlist.component:save repository returns ${JSON.stringify(res)}`);
-                    this.infoMessage.setMessageTimeout('Send Playlist Success !!', null);
+                    this.infoMessage.setMessageTimeout('Send Playlist Success !!');
                 },
                 err => {
                     console.log(`playlist/playlist.component:save repository returns Error ${JSON.stringify(err)}`);
                     this.infoMessage.setMessage('');
-                    this.infoMessage.setErrorTimeout('Send Playlist Failed :(', null);
+                    this.infoMessage.setErrorTimeout('Send Playlist Failed :(');
                 });
     };
 

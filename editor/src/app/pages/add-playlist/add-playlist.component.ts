@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {config} from "../../shared/config";
 import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
 import {Playlist} from "../../shared/model/playlist.model";
+import {MessageModel} from "../../pageComponents/message/message.component.model";
 
 @Component({
     selector: 'app-add-playlist',
@@ -14,7 +15,7 @@ import {Playlist} from "../../shared/model/playlist.model";
 export class AddPlaylistComponent implements OnInit {
 
     name: string;
-    messages: string[] = ["", ""];
+    infoMessage = new MessageModel();
     icons = config.icons;
 
     constructor(private playlistRepositoryService: PlaylistRepositoryService,
@@ -26,25 +27,26 @@ export class AddPlaylistComponent implements OnInit {
 
     addPlaylist() {
         console.log("addPlaylist " + JSON.stringify(this.name));
+        this.infoMessage.clearAll();
         if (!this.name) {
-            this.messages = ["", "Cannot save empty name."];
+            this.infoMessage.setErrorTimeout('Cannot save empty name.');
             return;
         }
         if (!this.name.endsWith(".json")) {
             this.name = this.name + ".json";
-            this.messages = ["", "Name changed, please check and press 'Add'."];
+            this.infoMessage.setErrorTimeout('Name changed, please check and press "Add".');
             return;
         }
         this.playlistRepositoryService.playlistExistsV1(this.name).subscribe(
             exists => {
                 if (exists) {
-                    this.messages = ["", "Sorry, that name already exists."];
+                    this.infoMessage.setError('Sorry, that name already exists.');
                 }
                 else {
-                    this.messages = ["Saving ...", ""];
+                    this.infoMessage.setMessage('Saving ...');
                     let playlist = this.playlistRepositoryService.createPlaylist(this.name);
                     playlist.post();
-                    this.messages = ["", ""];
+                    this.infoMessage.clearMessage();
                     this.router.navigate(["/playlists", this.name], {queryParams: {mode: "edit"}});
                 }
             }
