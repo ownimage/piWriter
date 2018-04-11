@@ -24,6 +24,10 @@ export class SettingsComponent implements OnInit {
     serverConfig = {};
 
     ngOnInit() {
+        this.getConfig();
+    }
+
+    getConfig() {
         this.configRepositoryService.getConfig().subscribe(
             data => {
                 console.log("config = " + JSON.stringify(data));
@@ -59,10 +63,12 @@ export class SettingsComponent implements OnInit {
         console.log("saveConfig " + JSON.stringify(this.serverConfig));
         this.configRepositoryService.setConfig(this.serverConfig).subscribe(
             res => {
-                this.infoMessage.setMessageTimeout(JSON.stringify(res), null);
+                this.serverConfig = res;
+                this.infoMessage.setMessageTimeout('Success :)', null);
             },
             err => {
                 this.infoMessage.setErrorTimeout(JSON.stringify(err), null);
+                this.getConfig();
             });
     }
 }

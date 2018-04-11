@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const RESTv1 = require('./RESTv1');
 const RESTv2 = require('./RESTv2');
 
+const {logError} = require('./common');
+
 const NeoPixelDriver = require('./NeoPixelDriver');
 
 let config;
@@ -52,15 +54,41 @@ const ping = (req, res) => {
 const getConfig = (req, res) => {
     console.log('serverCommon/server:getConfig');
     res.header('Access-Control-Allow-Origin', '*');
-    res.send({speed: 1.0, brightness: 255, debounceTimeout: 300, ...this.config});
+    res.send(this.config);
 };
 
 const postConfig = (req, res) => {
     try {
         console.log('serverCommon/server:postConfig');
         console.log('req.body =' + JSON.stringify(req.body));
+
+        let NUM_LEDS = req.body.NUM_LEDS;
+        if (12 > NUM_LEDS || NUM_LEDS > 144) {
+            NUM_LEDS = this.config.NUM_LEDS;
+        }
+
+        let brightness = req.body.brightness;
+        if (16 > brightness || brightness > 255) {
+            brightness = this.config.brightness;
+        }
+
+        let speed = req.body.speed;
+        if (0.2 > speed || speed > 5) {
+            speed = this.config.speed;
+        }
+
+        let debounceTimeout = req.body.debounceTimeout;
+        if (10 > debounceTimeout || debounceTimeout > 1000) {
+            debounceTimeout = this.config.debounceTimeout;
+        }
+
+        let newConfig = {...this.config, brightness, speed, debounceTimeout, NUM_LEDS};
+        console.log(`newConfig = ${JSON.stringify(newConfig)}`);
+        this.config = newConfig;
+        NeoPixelDriver.init(this.config);
+
         res.header('Access-Control-Allow-Origin', '*');
-        res.send({result: 'OK'});
+        res.send(this.config);
     } catch (e) {
         res.header('Access-Control-Allow-Origin', '*');
         res.sendStatus(500);

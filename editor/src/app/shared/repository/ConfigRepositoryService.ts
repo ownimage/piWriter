@@ -25,7 +25,7 @@ export class ConfigRepositoryService {
 
     setConfig(config) {
         console.log(`ConfigRepositoryService:setConfig + ${JSON.stringify(config)}`);
-        return this.wrapPost(configUrlV1, config, 'Success !!','Failure :(');
+        return this.wrapPost(configUrlV1, config, data => data,err => 'Failure :(');
     };
 
     wrapGet<T>(url, transformResult, failureMessage): Observable<T> {
@@ -43,15 +43,15 @@ export class ConfigRepositoryService {
         });
     };
 
-    wrapPost<T>(url, payload, successMessage, failureMessage): Observable<T> {
+    wrapPost<T>(url, payload, sucessTransform, failureTransform): Observable<T> {
         return Observable.create(observer => {
             this.http.post(url, payload)
                 .subscribe(
                     next => {
-                        observer.next(successMessage);
+                        observer.next(sucessTransform(next));
                     },
                     err => {
-                        observer.error(failureMessage);
+                        observer.error(failureTransform(err));
                         handleError(err);
                     }
                 )

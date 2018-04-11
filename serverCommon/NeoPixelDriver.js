@@ -8,20 +8,22 @@ const { logError } = require('./common');
 
 let config;
 
-const NUM_LEDS = parseInt(process.argv[2], 10) || 60;
-const blankArray = new Uint32Array(NUM_LEDS);
+let blankArray = [];
 
-var gallery;
-var playlist;
-var playlistState;
-var halt;
+let gallery;
+let playlist;
+let playlistState;
+let halt;
 
 const init = (newConfig) => {
     console.log("serverCommon/NeoPixelDriver:init");
     config = newConfig;
-    console.log("NUM_LEDS = " + NUM_LEDS);
-    config.neopixelLib.init(NUM_LEDS);
-}
+
+    console.log("NUM_LEDS = " + config.NUM_LEDS);
+    blankArray = new Uint32Array(config.NUM_LEDS);
+    config.neopixelLib.reset();
+    config.neopixelLib.init(config.NUM_LEDS);
+};
 
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
@@ -38,12 +40,12 @@ function isString(obj) {
 // from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 function rgbHex2Int(hex) {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, function (m, r, g, b) {
         return r + r + g + g + b + b;
     });
 
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return rgbValues2Int(parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16));
 }
 
@@ -66,7 +68,7 @@ function rgbObject2Int(o) {
 //         colorArray = lib[ca];
 //
 //     } else {
-//         colorArray = new Uint32Array(NUM_LEDS);
+//         colorArray = new Uint32Array(config.NUM_LEDS);
 //         let j = 0;
 //         for (let i = 0; i < ca.length; i++) {
 //             let color = ca[i];
@@ -154,9 +156,9 @@ function rgbObject2Int(o) {
 //             gallery.pictures.test = {};
 //             gallery.pictures.test.timedArrays = [];
 //
-//             let height = Math.min(image.bitmap.height, NUM_LEDS);
+//             let height = Math.min(image.bitmap.height, config.NUM_LEDS);
 //             for (let i = 0; i < image.bitmap.width; i++) {
-//                 let colorArray = new Uint32Array(NUM_LEDS);
+//                 let colorArray = new Uint32Array(config.NUM_LEDS);
 //                 for (let j = 0; j < height; j++) {
 //                     let color = Jimp.intToRGBA(image.getPixelColor(i, j));
 //                     colorArray[j] = rgbObject2Int(color);
@@ -175,13 +177,14 @@ function rgbObject2Int(o) {
 function showPicture(picture, repeat) {
     console.log('showPicture picture ');// = ' + JSON.stringify(picture, null, 2));
     playlistState.state = (repeat) ? 'Looping' : 'Single';
+    let timeout = 20 / config.speed;
 
     function show(picture, i) {
         if (i < picture.timedArrays.length) {
             let timedArray = picture.timedArrays[i];
             //console.log('timedArray = ' + JSON.stringify(timedArray, null, 2));
             config.neopixelLib.render(timedArray.ca);
-            setTimeout(show, timedArray.t * 20, picture, i + 1); /// was 1000
+            setTimeout(show, timedArray.t * timeout, picture, i + 1); /// was 1000
         } else {
             config.neopixelLib.render(blankArray);
             if (halt) return;
@@ -260,7 +263,8 @@ const next = () => {
 // 2) it will set the global playlist to the newPlaylist variable.
 // 3) it will null out the global playlistState so that next will start from the beginning
 const setPlaylist = (newPlaylist) => {
-    console.log("serverCommon/NeoPixelDriver:setPlaylist")
+    console.log("serverCommon/NeoPixelDriver:setPlaylist");
+    //console.log(`config.brightness ${config.brightness}`);
     gallery = {pictures: {}};
     playlist = newPlaylist.filter(p => p.enabled);
     playlistState = null;
@@ -279,14 +283,16 @@ const setPlaylist = (newPlaylist) => {
                     image.getPixelColor(10, 10);
                     gallery.pictures[p.path] = {timedArrays: []};
 
-                    let height = Math.min(image.bitmap.height, NUM_LEDS);
+                    let height = Math.min(image.bitmap.height, config.NUM_LEDS);
                     // dont resize width as this affects timing
                     image = image.resize(image.bitmap.width, height);
                     for (let i = 0; i < image.bitmap.width; i++) {
-                        let colorArray = new Uint32Array(NUM_LEDS);
+                        let colorArray = new Uint32Array(config.NUM_LEDS);
                         for (let j = 0; j < height; j++) {
                             let color = Jimp.intToRGBA(image.getPixelColor(i, j));
-                            colorArray[height - 1 - j] = rgbObject2Int(color);
+                            let brightness = config.brightness / 255.0;
+                            let color2 = {r: color.r * brightness, g: color.g * brightness, b: color.b * brightness,};
+                            colorArray[height - 1 - j] = rgbObject2Int(color2);
                         }
                         let a = {t: 1, ca: colorArray};
                         gallery.pictures[p.path].timedArrays.push(a);
