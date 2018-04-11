@@ -23,6 +23,8 @@ const init = (newConfig) => {
     blankArray = new Uint32Array(config.NUM_LEDS);
     config.neopixelLib.reset();
     config.neopixelLib.init(config.NUM_LEDS);
+
+    setPlaylist(playlist);
 };
 
 // ---- trap the SIGINT and reset before exit
@@ -265,6 +267,8 @@ const next = () => {
 const setPlaylist = (newPlaylist) => {
     console.log("serverCommon/NeoPixelDriver:setPlaylist");
     //console.log(`config.brightness ${config.brightness}`);
+    if (!newPlaylist) return;
+
     gallery = {pictures: {}};
     playlist = newPlaylist.filter(p => p.enabled);
     playlistState = null;
