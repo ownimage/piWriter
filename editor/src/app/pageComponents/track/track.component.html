@@ -17,7 +17,7 @@
                         *ngIf="isEditMode() && !isFirst"
                         [styles]="[icons.moveUp]"
                         [colors]="['black']"
-                        (toggleEvent)="moveUp(track)"
+                        (toggleEvent)="track.moveUp()"
                 ></app-checkbox>
             </div>
 
@@ -26,7 +26,7 @@
                         *ngIf="isEditMode() && !isLast"
                         [styles]="[icons.moveDown]"
                         [colors]="['black']"
-                        (toggleEvent)="moveDown(track)"
+                        (toggleEvent)="track.moveDown()"
                 ></app-checkbox>
             </div>
 
@@ -54,7 +54,7 @@
                         [value]="true"
                         [styles]="[icons.cross]"
                         [colors]="['red']"
-                        (toggleEvent)="cut(track)"
+                        (toggleEvent)="track.cut()"
                 ></app-checkbox>
             </div>
 

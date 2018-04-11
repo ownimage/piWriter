@@ -79,18 +79,6 @@ export class PlaylistComponent implements OnInit {
                 });
     };
 
-    moveUp = function (track) {
-        this.playlist.moveUp(track)
-    };
-
-    moveDown = function (track) {
-        this.playlist.moveDown(track)
-    };
-
-    cut = function (track) {
-        this.playlist.cut(track)
-    };
-
     play() {
         console.log('play');
         if (this.isPlayMode()) {

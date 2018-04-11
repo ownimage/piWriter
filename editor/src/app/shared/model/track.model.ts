@@ -52,6 +52,10 @@ export class Track {
         this.playlist.moveDown(this);
     }
 
+    cut() {
+        this.playlist.cut(this);
+    }
+
     markDirty() {
         this.playlist.markDirty();
     }
