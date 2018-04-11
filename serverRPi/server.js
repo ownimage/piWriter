@@ -23,7 +23,7 @@ gpio.on('change', function(channel, value) {
         if (buttonState != value) {
             buttonState = value;
             if (!value) {
-                console.log('Button press! ' + JSON.stringify(Date.now()));
+                console.log(`Button press! debounceTimeout ${config.debounceTimout} at ${JSON.stringify(Date.now())}`);
                 if (!this.preventDebounce) {
                     this.preventDebounce = true;
                     setTimeout(() => this.preventDebounce = false, config.debounceTimout);
@@ -37,7 +37,7 @@ gpio.setup(4, gpio.DIR_IN, gpio.EDGE_RISING);//, (channel, value) => console.log
 
 const functionHooks = {
     app: app => {},
-    server: server => {}
+    server: server => {},
 };
 
 server.startServer(config, functionHooks);

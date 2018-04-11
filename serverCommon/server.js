@@ -91,9 +91,13 @@ const postConfig = (req, res) => {
             debounceTimeout = this.config.debounceTimeout;
         }
 
-        let newConfig = {...this.config, brightness, speed, debounceTimeout, NUM_LEDS};
-        console.log(`newConfig = ${JSON.stringify(newConfig)}`);
-        this.config = newConfig;
+        this.config.brightness = brightness;
+        this.config.speed = speed;
+        this.config.debounceTimeout = debounceTimeout;
+        this.config.NUM_LEDS = NUM_LEDS;
+
+        console.log(`config = ${JSON.stringify(this.config)}`);
+
         NeoPixelDriver.init(this.config);
 
         res.header('Access-Control-Allow-Origin', '*');
