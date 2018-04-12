@@ -1,6 +1,5 @@
-import { PlaylistRepositoryService } from "../repository/PlaylistRepositoryService";
+import {PlaylistRepositoryService} from "../repository/PlaylistRepositoryService";
 import {Track} from './track.model';
-import {markDirty} from "@angular/core/src/render3";
 
 export class Playlist {
 
@@ -20,13 +19,18 @@ export class Playlist {
         return this._tracks;
     };
 
-    get isClean() {
+    get isClean(): boolean {
         return this._isClean;
     };
 
-    get isDirty() {
+    get isDirty(): boolean {
         return !this._isClean;
     };
+
+    getDisplayName() {
+        if (this.isDirty) return "*" + this._name;
+        return this.name;
+    }
 
     markDirty() {
         this._isClean = false;

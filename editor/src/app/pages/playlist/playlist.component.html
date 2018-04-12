@@ -3,7 +3,7 @@
         (leftIconClick)="navigateToPlaylists()"
 ></app-header>
 
-<h4 class="ml-3">{{ getModeDisplay() }} {{ playlist.name }}</h4>
+<h4 class="ml-3">{{ getDisplayName() }}</h4>
 
 <app-track
         *ngFor="let track of playlist.tracks; first as isFirst; last as isLast"

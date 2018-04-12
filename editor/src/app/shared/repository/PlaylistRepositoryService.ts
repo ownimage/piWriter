@@ -21,7 +21,7 @@ const playlistCacheKey = 'playlistCacheV1/';
 export class PlaylistRepositoryService {
 
     constructor(private http: HttpClient) {
-    }
+    };
 
     createPlaylist(playlistName) {
         return new Playlist(this, playlistName, []);
@@ -68,7 +68,7 @@ export class PlaylistRepositoryService {
         if (!cache[playlistsCacheKey].includes(playlist.name)) {
             cache[playlistsCacheKey].push(playlist.name);
         }
-    }    ;
+    };
 
     postPlaylistV1(playlist) {
         console.log('PlaylistRepositoryService:postPlaylistV1');
@@ -90,8 +90,7 @@ export class PlaylistRepositoryService {
                 }
             );
         });
-    }
-    ;
+    };
 
     playlistExistsV1(playlistName): Observable<boolean> {
         return Observable.create(observer => {
@@ -110,8 +109,7 @@ export class PlaylistRepositoryService {
                     }
                 )
         });
-    }
-    ;
+    };
 
     postPlaylistsPlayV1(playlistName): Observable<string> {
         console.log("shared/respoitory/PlaylistRepostitory.service:postPlaylistsV1 " + JSON.stringify(playlistName));
@@ -129,9 +127,7 @@ export class PlaylistRepositoryService {
                     }
                 );
         });
-    }
-    ;
-
+    };
 
 }
 

@@ -41,7 +41,7 @@ export class PlaylistComponent implements OnInit {
                     //console.log('this.playlists ? = ' + JSON.stringify(this.playlist));
                     if (data) this.playlist = data;
                     else this.playlist = this.playlistRepositoryService.createPlaylist(playlistName);
-                    //console.log('this.playlists end 0= ' + JSON.stringify(this.playlist));
+                    if (this.playlist.isDirty && this.isPlayMode()) this.infoMessage.setMessage("Can't play an unsaved Playlsit");
                 },
                 error => {
                     console.log('data error ');
@@ -106,10 +106,8 @@ export class PlaylistComponent implements OnInit {
         return !this.isPlayMode();
     }
 
-    getModeDisplay() {
-        if (this.isPlayMode()) return 'Play';
-        if (this.playlist.isClean)        return 'Edit';
-        return "*Edit";
+    getDisplayName() {
+        return (this.isPlayMode() ? 'Play ' : ' Edit ') + this.playlist.getDisplayName();
     }
 
     getPlayLabel() {
