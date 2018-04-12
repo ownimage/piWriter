@@ -63,22 +63,6 @@ export class PlaylistComponent implements OnInit {
         this.router.navigate(['/playlists'], {queryParams: {mode: this.mode}})
     }
 
-    post() {
-        console.log('post');
-        this.infoMessage.setMessage('Saving ...');
-        this.playlistRepositoryService.postPlaylistV1(this)
-            .subscribe(
-                res => {
-                    console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
-                    this.infoMessage.setMessageTimeout('Save Success !!');
-                },
-                err => {
-                    console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
-                    this.infoMessage.setMessage('');
-                    this.infoMessage.setErrorTimeout('Save Failed :(');
-                });
-    };
-
     play() {
         console.log('play');
         if (this.isPlayMode()) {

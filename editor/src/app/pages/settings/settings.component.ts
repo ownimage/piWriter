@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {config} from '../../shared/config'
 import {ConfigRepositoryService} from '../../shared/repository/ConfigRepositoryService';
 import {MessageModel} from '../../pageComponents/message/message.component.model';
+import {Config} from "../../shared/model/config.model";
 
 @Component({
     selector: 'app-settings',
@@ -21,7 +22,7 @@ export class SettingsComponent implements OnInit {
     testRestMessage = new MessageModel();
     infoMessage = new MessageModel();
 
-    serverConfig = {};
+    serverConfig: Config;
 
     ngOnInit() {
         this.getConfig();

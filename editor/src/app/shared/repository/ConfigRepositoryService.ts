@@ -5,6 +5,10 @@ import {Observable} from 'rxjs/Observable';
 
 import {environment} from '../../../environments/environment';
 import {handleError} from './repositoryUtilities';
+import {ConfigDTO} from "../dto/configDTO.model";
+import {Config} from "../model/config.model";
+import {configToConfigDTO} from "../mappers/configToConfigDTO.mapper";
+import {configDTOToConfig} from "../mappers/configDTOToConfig.mapper";
 
 const pingUrl = environment.restURL + '/ping';
 const configUrlV1 = environment.restURL + '/config';
@@ -19,13 +23,13 @@ export class ConfigRepositoryService {
         return this.wrapGet(pingUrl, data => data.body.message, 'Failure :(');
     }
 
-    getConfig(): Observable<Object> {
+    getConfig(): Observable<ConfigDTO> {
         return this.wrapGet(configUrlV1, data => data.body, 'Failure :(');
     };
 
-    setConfig(config) {
+    setConfig(config: Config) {
         console.log(`ConfigRepositoryService:setConfig + ${JSON.stringify(config)}`);
-        return this.wrapPost(configUrlV1, config, data => data,err => 'Failure :(');
+        return this.wrapPost<Config>(configUrlV1, configToConfigDTO(config), data => configDTOToConfig(data),err => 'Failure :(');
     };
 
     wrapGet<T>(url, transformResult, failureMessage): Observable<T> {
