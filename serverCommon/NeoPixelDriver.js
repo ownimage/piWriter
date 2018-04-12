@@ -21,7 +21,6 @@ const init = (newConfig) => {
 
     console.log("NUM_LEDS = " + config.NUM_LEDS);
     blankArray = new Uint32Array(config.NUM_LEDS);
-    config.neopixelLib.reset();
     config.neopixelLib.init(config.NUM_LEDS);
 
     setPlaylist(playlist);
