@@ -1,7 +1,7 @@
 console.log("### serverCommon/config");
 
 const config = {
-    serverPort: 3000,
+    serverPort: 80,
     appFolder: '../editor/dist/',
     imagesFolder: '../library/images/',
     playlistFolder: '../library/playlists/',
