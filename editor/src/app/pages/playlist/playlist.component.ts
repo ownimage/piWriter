@@ -38,7 +38,8 @@ export class PlaylistComponent implements OnInit {
             .subscribe(
                 data => {
                     console.log('data recieved ');
-                    //console.log('this.playlists ? = ' + JSON.stringify(this.playlist));
+                    console.log('this.playlists ? = ' + JSON.stringify(this.playlist.getDisplayName()));
+                    console.log('size ? = ' + JSON.stringify(this.playlist.tracks.length));
                     if (data) this.playlist = data;
                     else this.playlist = this.playlistRepositoryService.createPlaylist(playlistName);
                     if (this.playlist.isDirty && this.isPlayMode()) this.infoMessage.setMessage("Can't play an unsaved Playlsit");

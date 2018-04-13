@@ -10,6 +10,8 @@ import {Playlist} from "../model/playlist.model";
 import {playlistDTOToPlaylist} from "../mappers/playlistDTOToPlaylist.mapper";
 import {playlistToPlaylistDTO} from "../mappers/playlistToPlaylistDTO.mapper";
 import {handleError} from "./repositoryUtilities";
+import {PlaylistItem} from "../model/playlistItem.model";
+import {stringToPlaylistItem} from "../mappers/stringToPlaylistItem.mapper";
 
 const playlistsUrlV1 = environment.restURL + '/v1/playlists/';
 
@@ -24,19 +26,22 @@ export class PlaylistRepositoryService {
     };
 
     createPlaylist(playlistName) {
+        console.log(`PlaylistRepositoryService:createPlaylist ${playlistName}`);
         return new Playlist(this, playlistName, []);
     };
 
-    getPlaylistsV1(): Observable<string[]> {
-        return cachedGet<string[]>(
+    getPlaylistsV1(): Observable<PlaylistItem[]> {
+        console.log(`PlaylistRepositoryService:getPlaylistsV1`);
+        return cachedGet<PlaylistItem[]>(
             cache,
             playlistsCacheKey,
             () => this.http.get<string[]>(playlistsUrlV1, {observe: 'response'}),
-            t => t.body
+            t => t.body.map(n => stringToPlaylistItem(n))
         );
     };
 
     getPlaylistV1(playlistName): Observable<Playlist> {
+        console.log(`PlaylistRepositoryService:getPlaylistV1 ${playlistName}`);
         return Observable.create(observer => {
             this.playlistExistsV1(playlistName).subscribe(
                 data => {
@@ -45,7 +50,10 @@ export class PlaylistRepositoryService {
                             cache,
                             playlistCacheKey + playlistName,
                             () => this.http.get<Playlist[]>(playlistsUrlV1 + playlistName, {observe: 'response'}),
-                            p => playlistDTOToPlaylist(this, playlistName, p.body)
+                            p => {
+                                console.log(`playlistDTO = ${JSON.stringify(p.body)}`);
+                                return playlistDTOToPlaylist(this, playlistName, p.body);
+                            }
                         ).subscribe(data => observer.next(data), err => observer.error(err), () => observer.complete());
                     }
                     else {
@@ -61,18 +69,24 @@ export class PlaylistRepositoryService {
         });
     };
 
-    savePlaylistV1(playlist) {
-        console.log('PlaylistRepositoryService:savePlaylistV1');
+    static cacheGetPlaylistV1Sync(playlistName: string):Playlist {
+        console.log('PlaylistRepositoryService:cacheGetPlaylistV1Sync');
+        let cacheKey = playlistCacheKey + playlistName;
+        return cache[cacheKey];
+    };
+
+    savePlaylistV1Sync(playlist) {
+        console.log('PlaylistRepositoryService:savePlaylistV1Sync');
         let cacheKey = playlistCacheKey + playlist.name;
         cache[cacheKey] = playlist;
-        if (!cache[playlistsCacheKey].includes(playlist.name)) {
-            cache[playlistsCacheKey].push(playlist.name);
+        if (!cache[playlistsCacheKey].map(p => p.name).includes(playlist.name)) {
+            cache[playlistsCacheKey].push(stringToPlaylistItem(playlist.name));
         }
     };
 
     postPlaylistV1(playlist) {
         console.log('PlaylistRepositoryService:postPlaylistV1');
-        this.savePlaylistV1(playlist);
+        this.savePlaylistV1Sync(playlist);
 
         return Observable.create(observer => {
             this.http.post(
@@ -93,11 +107,13 @@ export class PlaylistRepositoryService {
     };
 
     playlistExistsV1(playlistName): Observable<boolean> {
+        console.log('PlaylistRepositoryService:playlistExistsV1');
         return Observable.create(observer => {
             this.getPlaylistsV1()
                 .subscribe(
                     data => {
-                        let result = data.includes(playlistName);
+                        let names = data.map(d => d.name);
+                        let result = names.includes(playlistName);
                         observer.next(result);
                     },
                     error => {

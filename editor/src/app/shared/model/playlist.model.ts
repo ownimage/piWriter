@@ -54,7 +54,7 @@ export class Playlist {
 
     save() {
         console.log('Playlist:post');
-        return this.playlistRepository.savePlaylistV1(this);
+        return this.playlistRepository.savePlaylistV1Sync(this);
     };
 
     play() {

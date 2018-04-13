@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {config} from '../../shared/config';
 import {PlaylistRepositoryService} from "../../shared/repository/PlaylistRepositoryService";
+import {PlaylistItem} from "../../shared/model/playlistItem.model";
 
 @Component({
   selector: 'app-browse-playlists',
@@ -18,7 +19,7 @@ export class BrowsePlaylistsComponent implements OnInit {
         private route: ActivatedRoute
     ) {}
 
-    playlists:string[] = [];
+    playlists:PlaylistItem[] = [];
     mode: string = "";
     icons = config.icons;
 

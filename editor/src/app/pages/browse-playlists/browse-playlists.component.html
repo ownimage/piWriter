@@ -6,12 +6,12 @@
 <h4 class="ml-3">{{ getModeDisplayText() }}</h4>
 <ul class="list-group">
     <li
-            routerLink="/playlists/{{ playlist }}"
+            *ngFor="let playlistItem of playlists"
+            routerLink="/playlists/{{ playlistItem.name }}"
             [queryParams]="{ mode: mode }"
             class="list-group-item"
-            *ngFor="let playlist of playlists"
     >
-        {{ playlist }}
+        {{ playlistItem.displayName }}
         <span
                 [ngClass]="icons.navigateForward"
                 class="float-right"
