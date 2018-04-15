@@ -30,10 +30,7 @@ export class BrowsePlaylistsComponent implements OnInit {
         //this.setPlaylists('Hello world');
         console.log('this.playlists = ' + JSON.stringify(this.playlists));
         this.repositoryService.getPlaylistsV1().subscribe( data => {
-            //console.log('data2 ' + JSON.stringify(data));
-            console.log('this.playlists = ' + JSON.stringify(this.playlists));
             this.playlists = data;
-            console.log('this.playlists = ' + JSON.stringify(this.playlists));
         });
         console.log('this.playlists = ' + JSON.stringify(this.playlists));
     }

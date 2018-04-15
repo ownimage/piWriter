@@ -30,13 +30,18 @@ export class PlaylistRepositoryService {
         return new Playlist(this, playlistName, []);
     };
 
+    createPlaylistItem(name: string) {
+        console.log(`PlaylistRepositoryService:createPlaylistItem ${name}`);
+        return new PlaylistItem(this, name);
+    }
+
     getPlaylistsV1(): Observable<PlaylistItem[]> {
         console.log(`PlaylistRepositoryService:getPlaylistsV1`);
         return cachedGet<PlaylistItem[]>(
             cache,
             playlistsCacheKey,
             () => this.http.get<string[]>(playlistsUrlV1, {observe: 'response'}),
-            t => t.body.map(n => stringToPlaylistItem(n))
+            t => t.body.map(n => stringToPlaylistItem(this, n))
         );
     };
 
@@ -71,7 +76,7 @@ export class PlaylistRepositoryService {
         });
     };
 
-    static cacheGetPlaylistV1Sync(playlistName: string): Playlist {
+    cacheGetPlaylistV1Sync(playlistName: string): Playlist {
         console.log('PlaylistRepositoryService:cacheGetPlaylistV1Sync');
         let cacheKey = playlistCacheKey + playlistName;
         return cache[cacheKey];
@@ -82,7 +87,7 @@ export class PlaylistRepositoryService {
         let cacheKey = playlistCacheKey + playlist.name;
         cache[cacheKey] = playlist;
         if (!cache[playlistsCacheKey].map(p => p.name).includes(playlist.name)) {
-            cache[playlistsCacheKey].push(stringToPlaylistItem(playlist.name));
+            cache[playlistsCacheKey].push(stringToPlaylistItem(this, playlist.name));
         }
     };
 

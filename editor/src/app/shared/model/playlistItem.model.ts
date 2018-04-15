@@ -3,7 +3,8 @@ import {Playlist} from "./playlist.model";
 
 export class PlaylistItem {
 
-    constructor(private _name: string) {
+    constructor(private playlistRepositoryService: PlaylistRepositoryService,
+                private _name: string) {
     };
 
     get name() {
@@ -11,7 +12,7 @@ export class PlaylistItem {
     };
 
     get displayName() {
-        let playlist = PlaylistRepositoryService.cacheGetPlaylistV1Sync(this._name);
+        let playlist = this.playlistRepositoryService.cacheGetPlaylistV1Sync(this._name);
         return (playlist) ? playlist.getDisplayName() : this._name;
     }
 }
