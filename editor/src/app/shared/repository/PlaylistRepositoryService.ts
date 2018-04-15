@@ -52,11 +52,14 @@ export class PlaylistRepositoryService {
                             () => this.http.get<Playlist[]>(playlistsUrlV1 + playlistName, {observe: 'response'}),
                             p => {
                                 console.log(`playlistDTO = ${JSON.stringify(p.body)}`);
-                                return playlistDTOToPlaylist(this, playlistName, p.body);
+                                let playlist = playlistDTOToPlaylist(this, playlistName, p.body);
+                                playlist.save();
+                                return playlist;
                             }
                         ).subscribe(data => observer.next(data), err => observer.error(err), () => observer.complete());
                     }
                     else {
+                        console.log('Playlist does not exist - creating one');
                         observer.next(this.createPlaylist(playlistName));
                     }
                 },
@@ -64,12 +67,11 @@ export class PlaylistRepositoryService {
                     observer.error(err);
                     handleError(err);
                 },
-                () => observer.complete()
             );
         });
     };
 
-    static cacheGetPlaylistV1Sync(playlistName: string):Playlist {
+    static cacheGetPlaylistV1Sync(playlistName: string): Playlist {
         console.log('PlaylistRepositoryService:cacheGetPlaylistV1Sync');
         let cacheKey = playlistCacheKey + playlistName;
         return cache[cacheKey];
