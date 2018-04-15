@@ -43,10 +43,9 @@ const startServer = (config, functionHooks) => {
     app.get('/v1/playlists/:playlistName', RESTv1.getPlaylistV1);
     app.post('/v1/playlists/:playlistName', RESTv1.postPlaylistV1);
     app.post('/v1/playlists/:playlistName/play', RESTv1.postPlaylistsPlayV1);
+    functionHooks.app(app);
     app.use('/', express.static(config.appFolder));
     app.use((req, res) => res.sendFile(path.resolve(config.appFolder, 'index.html')));
-
-    functionHooks.app(app);
 
     const server = http.createServer(app);
     server.listen(config.serverPort, () => {
