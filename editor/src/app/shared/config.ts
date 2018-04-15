@@ -3,11 +3,11 @@ const config = {
     getDefaultUIMessageTimeout: () => 2000,
     icons: {
         hamburger: 'fa fa-bars',
-        navigateBack: 'fa fa-angle-double-left', // from nav bar
-        navigateForward: 'fa fa-arrow-right', // from tile
-        moveUp: 'fa fa-arrow-up',
-        moveDown: 'fa fa-arrow-down',
-        repeat: 'fa fa-refresh',
+        navigateBack: 'fas fa-angle-double-left', // from nav bar
+        navigateForward: 'fas fa-angle-double-right', // from tile
+        moveUp: 'fas fa-angle-double-up',
+        moveDown: 'fas fa-angle-double-down',
+        repeat: 'fas fa-sync-alt',
         autoStartNext: 'fa fa-fast-forward',
         stop: 'fa fa-stop',
         tick: 'fa fa-check',
