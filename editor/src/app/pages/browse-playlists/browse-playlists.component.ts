@@ -28,11 +28,9 @@ export class BrowsePlaylistsComponent implements OnInit {
         this.mode = this.route.snapshot.queryParams.mode;
         console.log('this.mode = ' + this.mode);
         //this.setPlaylists('Hello world');
-        console.log('this.playlists = ' + JSON.stringify(this.playlists));
         this.repositoryService.getPlaylistsV1().subscribe( data => {
             this.playlists = data;
         });
-        console.log('this.playlists = ' + JSON.stringify(this.playlists));
     }
 
     showPlaylist(playlist) {
