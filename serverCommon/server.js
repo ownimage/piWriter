@@ -4,6 +4,7 @@ console.log("### serverCommon/server");
 const http = require('http');
 const express = require('express');
 const bodyParser = require("body-parser");
+const path = require('path');
 
 const RESTv1 = require('./RESTv1');
 const RESTv2 = require('./RESTv2');
@@ -43,6 +44,7 @@ const startServer = (config, functionHooks) => {
     app.post('/v1/playlists/:playlistName', RESTv1.postPlaylistV1);
     app.post('/v1/playlists/:playlistName/play', RESTv1.postPlaylistsPlayV1);
     app.use('/', express.static(config.appFolder));
+    app.use((req, res) => res.sendFile(path.resolve(config.appFolder, 'index.html')));
 
     functionHooks.app(app);
 
