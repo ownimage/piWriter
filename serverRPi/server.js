@@ -1,7 +1,7 @@
 console.log("### serverRPi/server");
 
 const neopixelLib = require('rpi-ws281x-native');
-var gpio = require('rpi-gpio');
+const gpio = require('rpi-gpio');
 
 const commonConfig = require('../serverCommon/config');
 const NeoPixelDriver = require('../serverCommon/NeoPixelDriver');
@@ -10,25 +10,36 @@ const server = require('../serverCommon/server');
 let config = {
     ...commonConfig.config,
     neopixelLib,
-    environment: 'RPi'
+    environment: 'RPi',
 };
 
-
-let buttonState;
+let preventDebounce = false;
+let buttonState = null;
 gpio.setMode(gpio.MODE_BCM);
-gpio.on('change', function(channel, value) {
+gpio.on('change', function (channel, value) {
     //console.log('Channel x' + channel + ' value is now ' + value);
-    if (channel == 4) {
+    if (channel === 4) {
         if (buttonState != value) {
             buttonState = value;
             if (!value) {
-                console.log('Button press!');
-                NeoPixelDriver.next();
+                if (!preventDebounce) {
+                    console.log("Button press! debounceTimeout" + config.debounceTimeout + " at " + JSON.stringify(Date.now()));
+                    preventDebounce = true;
+                    setTimeout(() => preventDebounce = false, config.debounceTimeout);
+                    NeoPixelDriver.next();
+                }
             }
         }
     }
 });
 gpio.setup(4, gpio.DIR_IN, gpio.EDGE_RISING);//, (channel, value) => console.log('Channel ' + channel + ' value is now ' + value));
 
-server.startServer(config);
+const functionHooks = {
+    app: app => {
+    },
+    server: server => {
+    },
+};
+
+server.startServer(config, functionHooks);
 

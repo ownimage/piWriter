@@ -1,0 +1,70 @@
+<app-header
+        [leftIcon]="icons.navigateBack"
+        (click)="navigateToHome()"
+></app-header>
+
+<h4 class="ml-3">Settings</h4>
+
+<div class="row ml-3 mr-3">
+    <div class="col-4 mt-1 mb-4"> <!--the error and message boxes have an mt-1 this is to match-->
+        <span class="btn btn-primary btn-lg btn-block ml-3"
+              (click)="testREST()"
+        >Test Server</span>
+    </div>
+
+    <div class="col-8">
+        <app-message [model]="testRestMessage"></app-message>
+    </div>
+</div>
+
+<div class="row mt-2 ml-3 mr-3">
+    <div class="col-4 float-right">
+        Number of LEDs
+    </div>
+    <div class="col-8">
+        <input class="form-control" type="number" [(ngModel)]="serverConfig.NUM_LEDS">
+    </div>
+</div>
+
+<div class="row mt-2 ml-3 mr-3">
+    <div class="col-4 float-right">
+        Speed
+    </div>
+    <div class="col-8">
+        <input class="form-control" type="number" [(ngModel)]="serverConfig.speed">
+    </div>
+</div>
+
+<div class="row mt-2 ml-3 mr-3">
+    <div class="col-4 float-right">
+        Brightness
+    </div>
+    <div class="col-8">
+        <input class="form-control" type="number" [(ngModel)]="serverConfig.brightness">
+    </div>
+</div>
+
+<div class="row mt-2 ml-3 mr-3">
+    <div class="col-4 float-right">
+        Debounce Timeout
+    </div>
+    <div class="col-8">
+        <input class="form-control" type="number" [(ngModel)]="serverConfig.debounceTimeout">
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mt-2">
+
+        <button
+                (click)="saveConfig()"
+                class="btn btn-danger btn-lg btn-block mt-1"
+        >Save
+        </button>
+
+        <div class="mt-1" style="width: 100%">
+            <app-message [model]="infoMessage"></app-message>
+        </div>
+
+    </div>
+</div>

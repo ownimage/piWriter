@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap/dist/css/bootstrap-grid.css";
-@import "~font-awesome/css/font-awesome.min.css";
+@import "external/fontawesome-free-5.0.10/web-fonts-with-css/css/fontawesome-all.min.css";
 
 /* Sticky footer styles
 -------------------------------------------------- */

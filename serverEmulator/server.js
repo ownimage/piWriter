@@ -1,5 +1,7 @@
 console.log("### serverEmulator/server");
 
+const {functionHooks} = require('./NeoPixelEmulator');
+
 const commonConfig = require('../serverCommon/config');
 const neopixelLib = require('./NeoPixelEmulator');
 const server = require('../serverCommon/server');
@@ -10,7 +12,7 @@ let config = {
     environment: 'Emulator'
 };
 
-server.startServer(config);
+server.startServer(config, functionHooks);
 
 
 

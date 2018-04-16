@@ -1,0 +1,72 @@
+<ul class="list-group">
+    <li class="list-group-item container-fluid">
+        <div class="row">
+            <p class="ml-5">{{ track.name }}</p>
+        </div>
+        <div class="row offset-1">
+            <img
+                    src="{{ restURL }}/images/{{ track.path }}"
+                    style="max-height: 50px;"
+            />
+        </div>
+
+        <div class="row">
+
+            <div class="col">
+                <app-checkbox
+                        *ngIf="isEditMode() && !isFirst"
+                        [styles]="[icons.moveUp]"
+                        [colors]="['black']"
+                        (toggleEvent)="track.moveUp()"
+                ></app-checkbox>
+            </div>
+
+            <div class="col">
+                <app-checkbox
+                        *ngIf="isEditMode() && !isLast"
+                        [styles]="[icons.moveDown]"
+                        [colors]="['black']"
+                        (toggleEvent)="track.moveDown()"
+                ></app-checkbox>
+            </div>
+
+            <div class="col">
+                <app-checkbox
+                        [value]="track.repeat"
+                        [styles]="[icons.repeat]"
+                        [colors]="['green', 'grey', 'grey']"
+                        (toggleEvent)="toggleRepeat()"
+                ></app-checkbox>
+            </div>
+
+            <div class="col">
+                <app-checkbox
+                        [value]="track.autostartNext"
+                        [styles]="[icons.autoStartNext, icons.stop]"
+                        [colors]="['green', 'red', 'grey']"
+                        (toggleEvent)="toggleAutostartNext()"
+                ></app-checkbox>
+            </div>
+
+            <div class="col">
+                <app-checkbox
+                        *ngIf="isEditMode()"
+                        [value]="true"
+                        [styles]="[icons.cross]"
+                        [colors]="['red']"
+                        (toggleEvent)="track.cut()"
+                ></app-checkbox>
+            </div>
+
+            <div class="col">
+                <app-checkbox
+                        [value]="track.enabled"
+                        [styles]="[icons.enabled, icons.disabled]"
+                        [colors]="['green', 'grey']"
+                        (toggleEvent)="toggleEnabled()"
+                ></app-checkbox>
+            </div>
+
+        </div>
+    </li>
+</ul>

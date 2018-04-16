@@ -1,5 +1,4 @@
-import {Config} from '../shared/config';
-let config = new Config();
+import {config } from '../shared/config';
 
 export class TimedMessage {
     constructor() {

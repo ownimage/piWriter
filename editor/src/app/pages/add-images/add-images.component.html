@@ -1,0 +1,65 @@
+<app-header
+        [leftIcon]="icons.navigateBack"
+        (click)="returnToPlaylist()"
+></app-header>
+
+<ul class="list-group">
+    <li class="list-group-item" style="background-color: #f6d473">
+        <span>Current: {{ dirName ? dirName : '/'}}</span>
+        <app-checkbox
+                [value]="true"
+                (toggleEvent)="selectAll()"
+                class="float-right mr-3"
+        ></app-checkbox>
+        <app-checkbox
+                (toggleEvent)="unselectAll()"
+                class="float-right"
+        ></app-checkbox>
+    </li>
+    <li
+            class="list-group-item"
+            *ngFor="let image of imagesV2"
+    >
+        <div>
+            <img
+                    *ngIf="image.isFile"
+                    src="{{ restURL }}/images/{{image.dirName}}/{{ image.name }}"
+                    style="max-height: 50px;"
+            />
+            <span
+                    *ngIf="!image.isFile"
+                    (click)="changeDirectory(image)"
+                    [ngClass]="icons.folder"
+                    style="font-size: 50px; color: #f6d473"
+            ></span>
+
+            <span>{{ image.name }}</span>
+
+            <app-checkbox
+                    *ngIf="image.isFile"
+                    [value]="image.selected"
+                    (toggleEvent)="toggleImage(image)"
+                    class="float-right"
+            ></app-checkbox>
+
+            <app-checkbox
+                    *ngIf="image.isFile"
+                    [value]="image.added.message"
+                    [styles]="[icons.tick, icons.plus]"
+                    [colors]="['green', 'blue']"
+                    (toggleEvent)="addImage(image)"
+                    class="float-right"
+            ></app-checkbox>
+
+        </div>
+    </li>
+</ul>
+<div class="container">
+    <div class="row mt-5">
+        <button
+                (click)="addSelected()"
+                class="btn btn-primary btn-lg btn-block"
+        >Add Selected
+        </button>
+    </div>
+</div>

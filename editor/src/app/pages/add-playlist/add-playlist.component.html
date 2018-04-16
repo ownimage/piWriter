@@ -1,0 +1,35 @@
+<app-header
+        [leftIcon]="icons.navigateBack"
+        (leftIconClick)="navigateToHome()"
+></app-header>
+
+<div class="col-sm-12">
+    <h4>Enter Playlist Name</h4>
+</div>
+
+<div class="col-sm-12">
+    <div class="form-group">
+        <input
+                [(ngModel)]="name"
+                type="text"
+                class="form-control"
+                aria-describedby="emailHelp"
+                placeholder="Enter Playlist Name"/>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mt-2">
+        <button
+                (click)="addPlaylist()"
+                class="btn btn-primary btn-lg btn-block"
+                [disabled]="!name"
+        >Add
+        </button>
+
+        <div class="mt-1" style="width: 100%">
+            <app-message [model]="infoMessage"></app-message>
+        </div>
+
+    </div>
+</div>
