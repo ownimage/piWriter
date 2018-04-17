@@ -4,11 +4,12 @@ const http = require('http');
 const url = require('url');
 const Jimp = require('jimp');
 
-const { logError } = require('./common');
+const {logError} = require('./common');
 
 let config;
 
 let blankArray = [];
+let flashArray = null;
 
 let gallery;
 let playlist;
@@ -24,7 +25,36 @@ const init = (newConfig) => {
     config.neopixelLib.init(config.NUM_LEDS);
 
     setPlaylist(playlist);
+    flash(2);
 };
+
+
+function setupFlashArray() {
+    console.log("setupFlashArray");
+    let colors = [
+        rgbValues2Int(64, 0, 0),
+        rgbValues2Int(0, 64, 0),
+        rgbValues2Int(0, 0, 64)
+    ];
+    flashArray = new Uint32Array(config.NUM_LEDS);
+    for (i = 0; i < config.NUM_LEDS; i++) {
+        flashArray[i] = colors[i % 3];
+    }
+}
+
+
+function flash(n) {
+    console.log("flash " + n);
+    if (!n || n <= 0) return;
+
+    if (!flashArray) {
+        setupFlashArray();
+    }
+
+    config.neopixelLib.render(flashArray);
+    setTimeout(() => config.neopixelLib.render(blankArray), 500);
+    setTimeout(() => flash(n - 1), 1000);
+}
 
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
@@ -251,7 +281,7 @@ const next = () => {
             playlistState.autostartNext = true;
         }
         console.log(`playlistState = ${JSON.stringify(playlistState, null, 2)}`);
-    } catch(err) {
+    } catch (err) {
         logError(err);
     }
 };
