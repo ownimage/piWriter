@@ -9,6 +9,7 @@ const NeoPixelDriver = require('../serverCommon/NeoPixelDriver');
 
 let NUM_LEDS = 10;
 let NeoPixelArray = new Uint32Array(NUM_LEDS);
+let webSocketServer = null;
 
 const init = (size) => {
     console.log("serverEmulator/NeoPixelEmulator:init");
@@ -24,9 +25,11 @@ const reset = () => {
 const render = (array) => {
     //console.log("serverEmulator/NeoPixelEmulator:render");
     NeoPixelArray = array;
-    webSocketServer.clients.forEach(function each(ws) {
-        ws.send(JSON.stringify(NeoPixelArray));
-    });
+    if (webSocketServer) {
+        webSocketServer.clients.forEach(function each(ws) {
+            ws.send(JSON.stringify(NeoPixelArray));
+        });
+    }
 };
 
 const functionHooks = {
