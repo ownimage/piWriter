@@ -1,6 +1,8 @@
 import {PlaylistRepositoryService} from "../repository/PlaylistRepositoryService";
 import {Track} from './track.model';
 
+const debug = require('debug')('piWriter/playlist.model.ts');
+
 export class Playlist {
 
     constructor(private playlistRepository: PlaylistRepositoryService,
@@ -41,24 +43,24 @@ export class Playlist {
     }
 
     addTrack(track) {
-        console.log('Playlist:addTrack');
+        debug('Playlist:addTrack');
         this.markDirty();
         this._tracks.push(track);
         return true;
     };
 
     post() {
-        console.log('Playlist:post');
+        debug('Playlist:post');
         return this.playlistRepository.postPlaylistV1(this);
     };
 
     save() {
-        console.log('Playlist:post');
+        debug('Playlist:post');
         return this.playlistRepository.savePlaylistV1Sync(this);
     };
 
     play() {
-        console.log('Playlist:play');
+        debug('Playlist:play');
         return this.playlistRepository.postPlaylistsPlayV1(this.name);
     }
 

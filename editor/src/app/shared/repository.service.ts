@@ -1,16 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 import {environment} from '../../environments/environment';
 
-import {Track} from "./model/track.model";
-import {ImageV2DTO} from "./dto/imageV2DTO.model";
-import {Playlist} from "./model/playlist.model";
-import {TrackDTO} from "./dto/trackDTO.model";
+import {ImageV2DTO} from './dto/imageV2DTO.model';
+import {handleError} from './repository/repositoryUtilities';
 
+const debug = require('debug')('piWriter/CacheService.ts');
 
 const imagesUrlV2 = environment.restURL + '/v2/images/';
 const playlistsUrlV1 = environment.restURL + '/v1/playlists/';
@@ -24,13 +21,13 @@ export class RepositoryService {
     constructor(private http: HttpClient) {
     }
 
-    getPlaylistsV1(): Observable<string[]> {
-        return this.cachedGet<string[]>("playlistsCacheV1", playlistsUrlV1);
-    };
+    // getPlaylistsV1(): Observable<string[]> {
+    //     return this.cachedGet<string[]>('playlistsCacheV1', playlistsUrlV1);
+    // };
 
     // getPlaylistV1(playlistName): Observable<Playlist> {
     //     return Observable.create(observer => {
-    //         let cacheKey = "playlistCacheV1/" + playlistName;
+    //         let cacheKey = 'playlistCacheV1/' + playlistName;
     //
     //         if (cache[cacheKey])
     //             return Observable.create(observer => {
@@ -50,71 +47,69 @@ export class RepositoryService {
     //                     observer.next(playlist);
     //                 },
     //                 err => {
-    //                     observer.error("Failure :(");
+    //                     observer.error('Failure :(');
     //                     RepositoryService.handleError(err);
     //                 }
     //             )
     //     })
     // };
 
-    postPlaylistV1(playlist, value) {
-        //console.log("RepositoryService.postPlaylistV1( " + JSON.stringify(value));
-        return Observable.create(observer => {
-            let cacheKey = "playlistCacheV1/" + playlist;
-            cache[cacheKey] = value;
-
-            this.http.post(playlistsUrlV1 + playlist, value)
-                .subscribe(
-                    res => {
-                        console.log(res);
-                        observer.next("Success !!");
-                    },
-                    err => {
-                        observer.error("Failure :(");
-                        RepositoryService.handleError(err);
-                    }
-                );
-        });
-    };
-
-    cachePlaylistV1(playlist, value) {
-        return Observable.create(observer => {
-            this.getPlaylistsV1().subscribe(
-                () => {
-                    cache.playlistsCache.push(playlist);
-                    let cacheKey = "playlistCacheV1/" + playlist;
-                    cache[cacheKey] = value;
-                    console.log("cache " + JSON.stringify(cache));
-                    observer.next();
-                }
-            )
-        });
-    }
-
-    playlistExistsV1(playlist): Observable<boolean> {
-        return Observable.create(observer => {
-            this.getPlaylistsV1()
-                .subscribe(
-                    data => {
-                        let result = data.includes(playlist);
-                        observer.next(result);
-                    },
-                    error => {
-                        observer.error(error);
-                    },
-                    () => {
-                        observer.complete()
-                    }
-                )
-        });
-    };
+    // postPlaylistV1(playlist, value) {
+    //     return Observable.create(observer => {
+    //         let cacheKey = 'playlistCacheV1/' + playlist;
+    //         cache[cacheKey] = value;
+    //
+    //         this.http.post(playlistsUrlV1 + playlist, value)
+    //             .subscribe(
+    //                 res => {
+    //                     debug('res = %s', res);
+    //                     observer.next('Success !!');
+    //                 },
+    //                 err => {
+    //                     observer.error('Failure :(');
+    //                     RepositoryService.handleError(debug, err);
+    //                 }
+    //             );
+    //     });
+    // };
+    //
+    // cachePlaylistV1(playlist, value) {
+    //     return Observable.create(observer => {
+    //         this.getPlaylistsV1().subscribe(
+    //             () => {
+    //                 cache.playlistsCache.push(playlist);
+    //                 let cacheKey = 'playlistCacheV1/' + playlist;
+    //                 cache[cacheKey] = value;
+    //                 debug('cache ' + JSON.stringify(cache));
+    //                 observer.next();
+    //             }
+    //         )
+    //     });
+    // }
+    //
+    // playlistExistsV1(playlist): Observable<boolean> {
+    //     return Observable.create(observer => {
+    //         this.getPlaylistsV1()
+    //             .subscribe(
+    //                 data => {
+    //                     let result = data.includes(playlist);
+    //                     observer.next(result);
+    //                 },
+    //                 error => {
+    //                     observer.error(error);
+    //                 },
+    //                 () => {
+    //                     observer.complete()
+    //                 }
+    //             )
+    //     });
+    // };
 
     getImagesV2(dirName): Observable<ImageV2DTO[]> {
-        console.log(`shared/RepositoryService:getImagesv2 dirName = ${JSON.stringify(dirName)}`);
+        debug('shared/RepositoryService:getImagesv2 dirName = %s', dirName);
         return Observable.create(observer => {
-            let images = this.cachedGet<ImageV2DTO[]>("imagesCacheV2", imagesUrlV2).subscribe(
+            let images = this.cachedGet<ImageV2DTO[]>('imagesCacheV2', imagesUrlV2).subscribe(
                 res => {
-                    //console.log(`shared/RepositoryService:getImagesv2 res = ${JSON.stringify(res)}`);
                     observer.next(
                         res.filter(i => i.dirName == dirName)
                             .sort((a, b) => {
@@ -132,24 +127,25 @@ export class RepositoryService {
         });
     };
 
-    postPlaylistsV1(playlist): Observable<string> {
-        console.log("shared/respoitory.service:postPlaylistsV1 " + JSON.stringify(playlist));
-        return Observable.create(observer => {
-            this.http.post(playlistsUrlV1, playlist)
-                .subscribe(
-                    res => {
-                        console.log(`shared/respoitory.service:postPlaylistsV1 post returns ${JSON.stringify(res)}`);
-                        observer.next("Success !!");
-                    },
-                    err => {
-                        console.log(`shared/respoitory.service:postPlaylistsV1 post returns Error ${JSON.stringify(err)}`);
-                        observer.error("Failure :(");
-                        RepositoryService.handleError(err);
-                    }
-                );
-        });
-    }
-    ;
+    //
+    // postPlaylistsV1(playlist): Observable<string> {
+    //     debug('shared/respoitory.service:postPlaylistsV1 ' + JSON.stringify(playlist));
+    //     return Observable.create(observer => {
+    //         this.http.post(playlistsUrlV1, playlist)
+    //             .subscribe(
+    //                 res => {
+    //                     debug('shared/respoitory.service:postPlaylistsV1 post returns ${JSON.stringify(res)}');
+    //                     observer.next('Success !!');
+    //                 },
+    //                 err => {
+    //                     debug('shared/respoitory.service:postPlaylistsV1 post returns Error ${JSON.stringify(err)}');
+    //                     observer.error('Failure :(');
+    //                     RepositoryService.handleError(err);
+    //                 }
+    //             );
+    //     });
+    // }
+    // ;
 
     cachedGet<T>(cacheKey, url): Observable<T> {
         if (cache[cacheKey]
@@ -159,7 +155,7 @@ export class RepositoryService {
             });
 
         return Observable.create(observer => {
-            console.log("fetch");
+            debug('fetch');
             let repository = this.http.get<T>(url, {observe: 'response'});
             repository.subscribe(
                 data => {
@@ -167,33 +163,14 @@ export class RepositoryService {
                     observer.next(cache[cacheKey]);
                 },
                 error => {
-                    observer.error(RepositoryService.handleError(error))
+                    observer.error(handleError(debug, error))
                 },
                 () => {
                     observer.complete()
                 }
             )
         });
-    }
-    ;
-
-    private static
-
-    handleError(error: HttpErrorResponse) {
-        if (error.error instanceof ErrorEvent) {
-            // A client-side or network error occurred. Handle it accordingly.
-            console.error('An error occurred:', error.error.message);
-        } else {
-            // The backend returned an unsuccessful response code.
-            // The response body may contain clues as to what went wrong,
-            console.error(
-                `Backend returned code ${error.status}, ` +
-                `body was: ${error.error}`);
-        }
-        // return an ErrorObservable with a user-facing error message
-        return new ErrorObservable(
-            'Something bad happened; please try again later.');
-    };
+    }    ;
 
 }
 

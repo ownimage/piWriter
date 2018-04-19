@@ -6,12 +6,14 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
 
 import {cachedGet} from '../CacheService';
-import {Playlist} from "../model/playlist.model";
-import {playlistDTOToPlaylist} from "../mappers/playlistDTOToPlaylist.mapper";
-import {playlistToPlaylistDTO} from "../mappers/playlistToPlaylistDTO.mapper";
-import {handleError} from "./repositoryUtilities";
-import {PlaylistItem} from "../model/playlistItem.model";
-import {stringToPlaylistItem} from "../mappers/stringToPlaylistItem.mapper";
+import {Playlist} from '../model/playlist.model';
+import {playlistDTOToPlaylist} from '../mappers/playlistDTOToPlaylist.mapper';
+import {playlistToPlaylistDTO} from '../mappers/playlistToPlaylistDTO.mapper';
+import {handleError} from './repositoryUtilities';
+import {PlaylistItem} from '../model/playlistItem.model';
+import {stringToPlaylistItem} from '../mappers/stringToPlaylistItem.mapper';
+
+const debug = require('debug')('piWriter/PlaylistRepositoryService.ts');
 
 const playlistsUrlV1 = environment.restURL + '/v1/playlists/';
 
@@ -26,17 +28,17 @@ export class PlaylistRepositoryService {
     };
 
     createPlaylist(playlistName) {
-        console.log(`PlaylistRepositoryService:createPlaylist ${playlistName}`);
+        debug('PlaylistRepositoryService:createPlaylist %s', playlistName);
         return new Playlist(this, playlistName, []);
     };
 
     createPlaylistItem(name: string) {
-        console.log(`PlaylistRepositoryService:createPlaylistItem ${name}`);
+        debug('PlaylistRepositoryService:createPlaylistItem %s', name);
         return new PlaylistItem(this, name);
     }
 
     getPlaylistsV1(): Observable<PlaylistItem[]> {
-        console.log(`PlaylistRepositoryService:getPlaylistsV1`);
+        debug('PlaylistRepositoryService:getPlaylistsV1');
         return cachedGet<PlaylistItem[]>(
             cache,
             playlistsCacheKey,
@@ -46,7 +48,7 @@ export class PlaylistRepositoryService {
     };
 
     getPlaylistV1(playlistName): Observable<Playlist> {
-        console.log(`PlaylistRepositoryService:getPlaylistV1 ${playlistName}`);
+        debug('PlaylistRepositoryService:getPlaylistV1 %s', playlistName);
         return Observable.create(observer => {
             this.playlistExistsV1(playlistName).subscribe(
                 data => {
@@ -56,7 +58,7 @@ export class PlaylistRepositoryService {
                             playlistCacheKey + playlistName,
                             () => this.http.get<Playlist[]>(playlistsUrlV1 + playlistName, {observe: 'response'}),
                             p => {
-                                console.log(`playlistDTO = ${JSON.stringify(p.body)}`);
+                                debug('playlistDTO = %O', p.body);
                                 let playlist = playlistDTOToPlaylist(this, playlistName, p.body);
                                 playlist.save();
                                 return playlist;
@@ -64,26 +66,26 @@ export class PlaylistRepositoryService {
                         ).subscribe(data => observer.next(data), err => observer.error(err), () => observer.complete());
                     }
                     else {
-                        console.log('Playlist does not exist - creating one');
+                        debug('Playlist does not exist - creating one');
                         observer.next(this.createPlaylist(playlistName));
                     }
                 },
                 err => {
                     observer.error(err);
-                    handleError(err);
+                    handleError(debug, err);
                 },
             );
         });
     };
 
     cacheGetPlaylistV1Sync(playlistName: string): Playlist {
-        console.log('PlaylistRepositoryService:cacheGetPlaylistV1Sync');
+        debug('PlaylistRepositoryService:cacheGetPlaylistV1Sync');
         let cacheKey = playlistCacheKey + playlistName;
         return cache[cacheKey];
     };
 
     savePlaylistV1Sync(playlist) {
-        console.log('PlaylistRepositoryService:savePlaylistV1Sync');
+        debug('PlaylistRepositoryService:savePlaylistV1Sync');
         let cacheKey = playlistCacheKey + playlist.name;
         cache[cacheKey] = playlist;
         if (!cache[playlistsCacheKey].map(p => p.name).includes(playlist.name)) {
@@ -92,7 +94,7 @@ export class PlaylistRepositoryService {
     };
 
     postPlaylistV1(playlist) {
-        console.log('PlaylistRepositoryService:postPlaylistV1');
+        debug('PlaylistRepositoryService:postPlaylistV1');
         this.savePlaylistV1Sync(playlist);
 
         return Observable.create(observer => {
@@ -101,20 +103,20 @@ export class PlaylistRepositoryService {
                 playlistToPlaylistDTO(playlist)
             ).subscribe(
                 res => {
-                    console.log(res);
+                    debug('res = %O', res);
                     playlist.markClean();
-                    observer.next("Success !!");
+                    observer.next('Success !!');
                 },
                 err => {
-                    observer.error("Failure :(");
-                    handleError(err);
+                    observer.error('Failure :(');
+                    handleError(debug, err);
                 }
             );
         });
     };
 
     playlistExistsV1(playlistName): Observable<boolean> {
-        console.log('PlaylistRepositoryService:playlistExistsV1');
+        debug('PlaylistRepositoryService:playlistExistsV1');
         return Observable.create(observer => {
             this.getPlaylistsV1()
                 .subscribe(
@@ -125,7 +127,7 @@ export class PlaylistRepositoryService {
                     },
                     error => {
                         observer.error(error);
-                        handleError(error);
+                        handleError(debug, error);
                     },
                     () => {
                         observer.complete()
@@ -135,18 +137,18 @@ export class PlaylistRepositoryService {
     };
 
     postPlaylistsPlayV1(playlistName): Observable<string> {
-        console.log("shared/respoitory/PlaylistRepostitory.service:postPlaylistsV1 " + JSON.stringify(playlistName));
+        debug('shared/respoitory/PlaylistRepostitory.service:postPlaylistsV1 %s', playlistName);
         return Observable.create(observer => {
             this.http.post(playlistsUrlV1 + playlistName + '/play', {name: playlistName})
                 .subscribe(
                     res => {
-                        console.log(`shared/respoitory.service:postPlaylistsV1 post returns ${JSON.stringify(res)}`);
-                        observer.next("Success !!");
+                        debug('shared/respoitory.service:postPlaylistsV1 post returns %O', res);
+                        observer.next('Success !!');
                     },
                     err => {
-                        console.log(`shared/respoitory.service:postPlaylistsV1 post returns Error ${JSON.stringify(err)}`);
-                        observer.error("Failure :(");
-                        handleError(err);
+                        debug('shared/respoitory.service:postPlaylistsV1 post returns Error %o', err);
+                        observer.error('Failure :(');
+                        handleError(debug, err);
                     }
                 );
         });

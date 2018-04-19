@@ -4,7 +4,9 @@ import {Router} from '@angular/router';
 import {config} from '../../shared/config'
 import {ConfigRepositoryService} from '../../shared/repository/ConfigRepositoryService';
 import {MessageModel} from '../../pageComponents/message/message.component.model';
-import {Config} from "../../shared/model/config.model";
+import {Config} from '../../shared/model/config.model';
+
+const debug = require('debug')('piWriter/settings.component.ts');
 
 @Component({
     selector: 'app-settings',
@@ -31,14 +33,14 @@ export class SettingsComponent implements OnInit {
     getConfig() {
         this.configRepositoryService.getConfig().subscribe(
             data => {
-                console.log("config = " + JSON.stringify(data));
+                debug('config = %O', data);
                 this.serverConfig = data;
             },
             err => {
-                console.log("error " + JSON.stringify(err))
+                debug('error %o', err)
             },
             () => {
-                console.log("closed")
+                debug('closed')
             }
         )
     }
@@ -48,20 +50,20 @@ export class SettingsComponent implements OnInit {
     }
 
     testREST() {
-        console.log('Test rest');
+        debug('Test rest');
         this.configRepositoryService.ping().subscribe(
             res => {
-                console.log(`ping returns ${JSON.stringify(res)}`);
+                debug('ping returns %o', res);
                 this.testRestMessage.setMessageTimeout(JSON.stringify(res));
             },
             err => {
-                console.log(`ping returns Error ${JSON.stringify(err)}`);
+                debug('ping returns Error %o', err);
                 this.testRestMessage.setErrorTimeout(JSON.stringify(err));
             });
     }
 
     saveConfig() {
-        console.log("saveConfig " + JSON.stringify(this.serverConfig));
+        debug('saveConfig %O', this.serverConfig);
         this.configRepositoryService.setConfig(this.serverConfig).subscribe(
             res => {
                 this.serverConfig = res;

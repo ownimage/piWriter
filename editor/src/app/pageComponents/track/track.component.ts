@@ -4,6 +4,8 @@ import {config} from '../../shared/config'
 import {environment} from '../../../environments/environment';
 import {Track} from '../../shared/model/track.model';
 
+const debug = require('debug')('piWriter/track.component.ts');
+
 @Component({
     selector: 'app-track',
     templateUrl: './track.component.html',
@@ -25,24 +27,24 @@ export class TrackComponent implements OnInit {
     }
 
     toggleRepeat() {
-        console.log('toggleRepeat ' + this.isPlayMode());
+        debug('toggleRepeat %s', this.isPlayMode());
         if (this.isPlayMode()) return;
         this.track.repeat = !this.track.repeat;
-        console.log('this.track.repeat ' + this.track.repeat);
+        debug('this.track.repeat %s', this.track.repeat);
     }
 
     toggleAutostartNext() {
-        console.log('toggleAutostartNext');
+        debug('toggleAutostartNext');
         if (this.isPlayMode()) return;
         this.track.autostartNext = !this.track.autostartNext;
-        console.log('this.track.autostartNext ' + this.track.autostartNext);
+        debug('this.track.autostartNext %s', this.track.autostartNext);
     }
 
     toggleEnabled() {
-        console.log('toggleEnabled');
+        debug('toggleEnabled');
         if (this.isPlayMode()) return;
         this.track.enabled = !this.track.enabled;
-        console.log('this.track.enabled ' + this.track.enabled);
+        debug('this.track.enabled %s', this.track.enabled);
     }
 
     isPlayMode() {

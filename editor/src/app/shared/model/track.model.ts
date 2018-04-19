@@ -1,4 +1,4 @@
-import {Playlist} from "./playlist.model";
+import {Playlist} from './playlist.model';
 
 export class Track {
     constructor(private playlist: Playlist,
