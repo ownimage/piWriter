@@ -1,4 +1,5 @@
-console.log("### serverCommon/NeoPixelDriver");
+const debug = require('debug')('serverCommon/NeoPixelDriver');
+debug('### serverCommon/NeoPixelDriver');
 
 const http = require('http');
 const url = require('url');
@@ -17,10 +18,10 @@ let playlistState;
 let halt;
 
 const init = (newConfig) => {
-    console.log("serverCommon/NeoPixelDriver:init");
+    debug('serverCommon/NeoPixelDriver:init');
     config = newConfig;
 
-    console.log("NUM_LEDS = " + config.NUM_LEDS);
+    debug('NUM_LEDS = %d', config.NUM_LEDS);
     blankArray = new Uint32Array(config.NUM_LEDS);
     config.neopixelLib.init(config.NUM_LEDS);
 
@@ -30,7 +31,7 @@ const init = (newConfig) => {
 
 
 function setupFlashArray() {
-    console.log("setupFlashArray");
+    debug('serverCommon/NeoPixelDriver:setupFlashArray');
     let colors = [
         rgbValues2Int(64, 0, 0),
         rgbValues2Int(0, 64, 0),
@@ -44,7 +45,7 @@ function setupFlashArray() {
 
 
 function flash(n) {
-    console.log("flash " + n);
+    debug('serverCommon/NeoPixelDriver:flash %d', n);
     if (!n || n <= 0) return;
 
     if (!flashArray) {
@@ -89,7 +90,7 @@ function rgbObject2Int(o) {
 }
 
 // function buildColorArray(ca, lib) {
-//     console.log("buildColorArray(ca:" + JSON.stringify(ca, 2) + ")");
+//     debug("buildColorArray(ca:" + JSON.stringify(ca, 2) + ")");
 //     if (!ca || !(Array.isArray(ca) || isString(ca)) ) {
 //         throw("buildColorArray: parameter needs to be array or the name of a library.");
 //     }
@@ -104,39 +105,39 @@ function rgbObject2Int(o) {
 //         for (let i = 0; i < ca.length; i++) {
 //             let color = ca[i];
 //             if (color.n) {
-//                 console.log("color.n = " + color.n)
+//                 debug("color.n = " + color.n)
 //                 let c = rgbObject2Int(color.c);
 //                 for (let k = 0; k < color.n; k++) {
-//                     console.log("set ... k = " + k + ", j = " + j);
+//                     debug("set ... k = " + k + ", j = " + j);
 //                     colorArray[j] = c;
 //                     j++;
 //                 }
 //             } else {
-//                 console.log("!color.n")
+//                 debug("!color.n")
 //                 colorArray[j] = rgbObject2Int(ca[i]);
 //                 j++;
 //             }
 //         }
 //     }
-//     console.log("buildColorArray returns: " + JSON.stringify(colorArray, null, 2));
+//     debug("buildColorArray returns: " + JSON.stringify(colorArray, null, 2));
 //     return colorArray;
 // }
 //
 //
 // function buildLib(libIn) {
-//     console.log("buildLib");
+//     debug("buildLib");
 //     var lib = {};
 //     for (name in libIn) {
-//         console.log("name = " + name + ", value = " + JSON.stringify(libIn[name], null, 2));
+//         debug("name = " + name + ", value = " + JSON.stringify(libIn[name], null, 2));
 //         // shoud really check that this is not a duplicate
 //         lib[name] = buildColorArray(libIn[name]);
 //     }
-//     console.log("lib = " + JSON.stringify(lib, null, 2));
+//     debug("lib = " + JSON.stringify(lib, null, 2));
 //     return lib;
 // }
 //
 // function buildPicture(pictureIn) {
-//     console.log("buildPictureArray(pictureIn:" + JSON.stringify(pictureIn, 2) + ")");
+//     debug("buildPictureArray(pictureIn:" + JSON.stringify(pictureIn, 2) + ")");
 //
 //     let picture = {};
 //     picture.numLeds = buildLib(pictureIn.numLeds);
@@ -150,14 +151,14 @@ function rgbObject2Int(o) {
 // }
 //
 // function buildPictures(picturesIn) {
-//     console.log("bulidPictures");
+//     debug("bulidPictures");
 //     var pictures = {};
 //     for (name in picturesIn) {
-//         console.log("name = " + name);
+//         debug("name = " + name);
 //         // shoud really check that this is not a duplicate
 //         pictures[name] = buildPicture(picturesIn[name]);
 //     }
-//     console.log("pictures = " + JSON.stringify(pictures, null, 2));
+//     debug("pictures = " + JSON.stringify(pictures, null, 2));
 //     return pictures;
 // }
 //
@@ -167,7 +168,7 @@ function rgbObject2Int(o) {
 // //let name = psIn[i];
 // //pictureSequence.push(name);
 // //}
-// //console.log("pictureSequence = " + JSON.stringify(pictureSequence, null, 2));
+// //debug("pictureSequence = " + JSON.stringify(pictureSequence, null, 2));
 // //return pictureSequence;
 // //}
 //
@@ -175,15 +176,15 @@ function rgbObject2Int(o) {
 //     let gallery = {}
 //     gallery.pictures = buildPictures(payload.pictures);
 //
-//     console.log('gallery = ' + JSON.stringify(gallery, null, 2));
+//     debug('gallery = ' + JSON.stringify(gallery, null, 2));
 //
 //     Jimp.read("60test.jpg", function (err, image) {
 //         if (err) {
-//             console.log("Error: " + err);
+//             debug("Error: " + err);
 //         }
 //         else {
 //             image.getPixelColor(10, 10);
-//             console.log('looking good ' + image.bitmap.width + 'x' + image.bitmap.height);
+//             debug('looking good ' + image.bitmap.width + 'x' + image.bitmap.height);
 //             gallery.pictures.test = {};
 //             gallery.pictures.test.timedArrays = [];
 //
@@ -197,8 +198,8 @@ function rgbObject2Int(o) {
 //                 let a = { t: 1, ca: colorArray };
 //                 gallery.pictures.test.timedArrays.push(a);
 //             }
-//             console.log('Done ' + image.getPixelColor(10,1));
-//             console.log('Done ' + image.getPixelColor(0,14));
+//             debug('Done ' + image.getPixelColor(10,1));
+//             debug('Done ' + image.getPixelColor(0,14));
 //         }
 //     });
 //
@@ -206,14 +207,13 @@ function rgbObject2Int(o) {
 // }
 //
 function showPicture(picture, repeat) {
-    console.log('showPicture picture ');// = ' + JSON.stringify(picture, null, 2));
+    debug('serverCommon/NeoPixelDriver:showPicture');
     playlistState.state = (repeat) ? 'Looping' : 'Single';
     let timeout = 20 / config.speed;
 
     function show(picture, i) {
         if (i < picture.timedArrays.length) {
             let timedArray = picture.timedArrays[i];
-            //console.log('timedArray = ' + JSON.stringify(timedArray, null, 2));
             config.neopixelLib.render(timedArray.ca);
             setTimeout(show, timedArray.t * timeout, picture, i + 1); /// was 1000
         } else {
@@ -244,43 +244,42 @@ function showPicture(picture, repeat) {
 //    autostartNext: boolean whether the next picture is to be started automatically
 const next = () => {
     try {
-        console.log('serverCommon/NeoPixelDriver:next');
-        console.log(`playlistState = ${JSON.stringify(playlistState)}`);
+        debug('serverCommon/NeoPixelDriver:next');
+        debug('playlistState = %O', playlistState);
 
         if (!playlist) return;
         halt = false;
 
         if (!playlistState) {
-            console.log("creating playlistState");
-            playlistState = {state: "Idle", currentPicture: -1, autoplay: false};
+            debug('creating playlistState');
+            playlistState = {state: 'Idle', currentPicture: -1, autoplay: false};
         }
 
-        if (playlistState.state === "Idle") {
-            console.log("Idle");
+        if (playlistState.state === 'Idle') {
+            debug('Idle');
             playlistState.currentPicture++;
             if (playlistState.currentPicture >= playlist.length) {
-                console.log("currentPicture wrap round");
+                debug('currentPicture wrap round');
                 playlistState.currentPicture = 0;
             }
             let picture = gallery.pictures[playlist[playlistState.currentPicture].path];
-            //console.log(`picture = ${JSON.stringify(picture)}`);
             let repeat = playlist[playlistState.currentPicture].repeat;
             playlistState.autostartNext = playlist[playlistState.currentPicture].autostartNext;
             showPicture(picture, repeat);
         }
-        else if (playlistState.state === "Single") {
-            console.log("Single");
+        else if (playlistState.state === 'Single') {
+            debug('Single');
             playlistState.autostartNext = true;
         }
-        else if (playlistState.state === "Looping") {
-            console.log("Looping");
-            playlistState.state = "ReqStop"
+        else if (playlistState.state === 'Looping') {
+            debug('Looping');
+            playlistState.state = 'ReqStop'
         }
-        else if (playlistState.state === "ReqStop") {
-            console.log("ReqStop");
+        else if (playlistState.state === 'ReqStop') {
+            debug('ReqStop');
             playlistState.autostartNext = true;
         }
-        console.log(`playlistState = ${JSON.stringify(playlistState, null, 2)}`);
+        debug('playlistState = %O', playlistState);
     } catch (err) {
         logError(err);
     }
@@ -294,8 +293,7 @@ const next = () => {
 // 2) it will set the global playlist to the newPlaylist variable.
 // 3) it will null out the global playlistState so that next will start from the beginning
 const setPlaylist = (newPlaylist) => {
-    console.log("serverCommon/NeoPixelDriver:setPlaylist");
-    //console.log(`config.brightness ${config.brightness}`);
+    debug('serverCommon/NeoPixelDriver:setPlaylist');
     if (!newPlaylist) return;
 
     gallery = {pictures: {}};
@@ -303,14 +301,14 @@ const setPlaylist = (newPlaylist) => {
     playlistState = null;
     halt = true;
 
-    console.log(`playlist = ${JSON.stringify(playlist)}`);
+    debug('playlist = %O', playlist);
     playlist.map(p => {
         if (!gallery.pictures[p.path]) { // dont process duplicates
             let fullPicturePath = config.imagesFolder + p.path;
-            console.log(`fullPicturePath = ${fullPicturePath}`);
-            Jimp.read(fullPicturePath, function (err, image) {// should come from config
+            debug('fullPicturePath = %s', fullPicturePath);
+            Jimp.read(fullPicturePath, function (err, image) {
                 if (err) {
-                    console.log("Jimp Error: " + err);
+                    debug('Jimp Error: %o', err);
                 }
                 else {
                     image.getPixelColor(10, 10);

@@ -1,4 +1,5 @@
-console.log("### serverEmulator/server");
+const debug = require('debug')('serverEmulator/server');
+debug('### serverEmulator/server');
 
 const {functionHooks} = require('./NeoPixelEmulator');
 

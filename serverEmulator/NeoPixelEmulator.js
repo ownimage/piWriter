@@ -1,4 +1,5 @@
-console.log("### serverEmulator/NeoPixelEmulator");
+const debug = require('debug')('serverEmulator/NeoPixelEmulator');
+debug('### serverEmulator/server');
 
 const express = require('express');
 const http = require('http');
@@ -12,18 +13,17 @@ let NeoPixelArray = new Uint32Array(NUM_LEDS);
 let webSocketServer = null;
 
 const init = (size) => {
-    console.log("serverEmulator/NeoPixelEmulator:init");
+    debug('serverEmulator/NeoPixelEmulator:init');
     NUM_LEDS = size;
     NeoPixelArray = new Uint32Array(NUM_LEDS);
 };
 
 const reset = () => {
-    console.log("serverEmulator/NeoPixelEmulator:reset");
+    debug('serverEmulator/NeoPixelEmulator:reset');
     NeoPixelArray = new Uint32Array(NUM_LEDS);
 };
 
 const render = (array) => {
-    //console.log("serverEmulator/NeoPixelEmulator:render");
     NeoPixelArray = array;
     if (webSocketServer) {
         webSocketServer.clients.forEach(function each(ws) {
@@ -34,8 +34,8 @@ const render = (array) => {
 
 const functionHooks = {
     app: app => {
-        app.use("/demo", express.static(__dirname + "/index.html"));
-        app.use("/demo/node_modules", express.static(__dirname + "/node_modules"));
+        app.use('/demo', express.static(__dirname + '/index.html'));
+        app.use('/demo/node_modules', express.static(__dirname + '/node_modules'));
     },
     server: server => {
         webSocketServer = new WebSocket.Server({server});

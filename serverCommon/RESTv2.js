@@ -1,4 +1,5 @@
-console.log('### serverCommon/RESTv1');
+const debug = require('debug')('serverCommon/RESTv2');
+debug('### serverCommon/RESTv2');
 
 const fs = require('fs');
 const path = require('path');
@@ -8,12 +9,11 @@ const {logError} = require('./common');
 
 const getFiles = (dirs, result, res) => {
     let dir = dirs.pop();
-    console.log(`dir = ${JSON.stringify(dir)}`);
+    debug('dir = %o', dir);
     let fullPath = path.join(config.imagesFolder, dir.dirName);
-    console.log(`fullPath = ${fullPath}`);
+    debug('fullPath = %s', fullPath);
     fs.readdir(fullPath, (err, files) => {
         files.map(f => {
-            console.log(path.join(dir.dirName, f));
             let stat = fs.lstatSync(path.join(fullPath, f));
             result.push({...dir, name: f, isFile: stat.isFile()});
             if (stat.isDirectory()) {
@@ -31,7 +31,7 @@ const getFiles = (dirs, result, res) => {
 
 const getImagesV2 = (req, res) => {
     try {
-        console.log('serverCommon/RESTv2:getImagesV1');
+        debug('serverCommon/RESTv2:getImagesV1');
         getFiles([{parentDirName: '', dirName: ''}], [], res);
     } catch (e) {
         logError(e);

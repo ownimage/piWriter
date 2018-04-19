@@ -1,4 +1,5 @@
-console.log("### serverCommon/config");
+const debug = require('debug')('serverCommon/config');
+debug('### serverCommon/config');
 
 const config = {
     serverPort: 80,

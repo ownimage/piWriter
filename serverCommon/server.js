@@ -1,5 +1,5 @@
-console.log("### serverCommon/server");
-
+const debug = require('debug')('serverCommon/server');
+debug('### serverCommon/server');
 
 const http = require('http');
 const express = require('express');
@@ -16,8 +16,8 @@ const NeoPixelDriver = require('./NeoPixelDriver');
 let config;
 
 const startServer = (config, functionHooks) => {
-    console.log('serverCommon/server:serverStart');
-    console.log(`config = ${JSON.stringify(config)}`);
+    debug('serverCommon/server:serverStart');
+    debug(`config = ${JSON.stringify(config)}`);
     this.config = config;
 
     NeoPixelDriver.init(config);
@@ -49,28 +49,28 @@ const startServer = (config, functionHooks) => {
 
     const server = http.createServer(app);
     server.listen(config.serverPort, () => {
-        console.log(`Server started on port ${server.address().port} :)`);
+        debug(`Server started on port ${server.address().port} :)`);
     });
 
     functionHooks.server(server);
 };
 
 const ping = (req, res) => {
-    console.log('serverCommon/server:ping');
+    debug('serverCommon/server:ping');
     res.header('Access-Control-Allow-Origin', '*');
     res.send({message: 'is alive!'});
 };
 
 const getConfig = (req, res) => {
-    console.log('serverCommon/server:getConfig');
+    debug('serverCommon/server:getConfig');
     res.header('Access-Control-Allow-Origin', '*');
     res.send(this.config);
 };
 
 const postConfig = (req, res) => {
     try {
-        console.log('serverCommon/server:postConfig');
-        console.log('req.body =' + JSON.stringify(req.body));
+        debug('serverCommon/server:postConfig');
+        debug('req.body =' + JSON.stringify(req.body));
 
         let NUM_LEDS = req.body.NUM_LEDS;
         if (12 > NUM_LEDS || NUM_LEDS > 144) {
@@ -97,7 +97,7 @@ const postConfig = (req, res) => {
         this.config.debounceTimeout = debounceTimeout;
         this.config.NUM_LEDS = NUM_LEDS;
 
-        console.log(`config = ${JSON.stringify(this.config)}`);
+        debug(`config = ${JSON.stringify(this.config)}`);
 
         NeoPixelDriver.init(this.config);
 

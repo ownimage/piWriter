@@ -1,19 +1,19 @@
 // utility to print out diagnostics
-const logError = e => {
-    console.log("error object:");
-    console.log(e);
-    console.log();
+const logError = (debug, e) => {
+    debug('error object:');
+    debug(e);
+    debug();
 
-    console.log("error object toString():");
-    console.log("\t" + e.toString());
+    debug('error object toString():');
+    debug('\t%s', e);
 
-    console.log();
-    console.log("error object attributes: ");
-    console.log('\tname: ' + e.name + ' message: ' + e.message + ' at: ' + e.at + ' text: ' + e.text);
+    debug();
+    debug('error object attributes: ');
+    debug('\tname: %s message: %s at: %s text: %s', e.name , e.message, e.at, e.text);
 
-    console.log();
-    console.log("error object stack: ");
-    console.log(e.stack);
+    debug();
+    debug('error object stack: ');
+    debug(e.stack);
 };
 
 module.exports = {
