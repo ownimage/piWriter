@@ -55,6 +55,10 @@ export class PlaylistComponent implements OnInit {
                 });
     }
 
+    getTracks() {
+        return this.playlist.tracks.filter(t => this.isEditMode() || t.enabled);
+    }
+
     navigateAddTrack() {
         this.playlist.save();
         this.router.navigate(['/playlists', this.playlist.name, 'addImages'], {queryParams: {mode: 'edit'}})

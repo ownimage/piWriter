@@ -6,7 +6,7 @@
 <h4 class="ml-3">{{ getDisplayName() }}</h4>
 
 <app-track
-        *ngFor="let track of playlist.tracks; first as isFirst; last as isLast"
+        *ngFor="let track of getTracks() first as isFirst; last as isLast"
         [track]="track"
         [isFirst]="isFirst"
         [isLast]="isLast"

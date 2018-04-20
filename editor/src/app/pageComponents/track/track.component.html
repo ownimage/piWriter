@@ -1,71 +1,69 @@
-<ul class="list-group">
-    <li class="list-group-item container-fluid">
-        <!--<div class="row">
-            <p class="ml-5">{{ track.name }}</p>
-        </div>
-        -->
-        <div class="row offset-1">
+<ul class='list-group'>
+    <li class='list-group-item container-fluid'>
+
+        <div class='row offset-1'>
             <img
-                    src="{{ restURL }}/images/{{ track.path }}"
-                    style="max-height: 50px;"
+                    src='{{ restURL }}/images/{{ track.path }}'
+                    style='max-height: 50px;'
             />
-            <p class="ml-1">{{ track.name }}</p>
+            <p class='ml-1'>{{ track.name }}</p>
         </div>
 
-        <div class="row mt-1">
+        <div class='row mt-1'>
 
-            <div class="col-1">
+            <div class='col-1'>
                 <app-checkbox
-                        *ngIf="isEditMode() && !isFirst"
-                        [styles]="[icons.moveUp]"
-                        [colors]="['black']"
-                        (toggleEvent)="track.moveUp()"
+                        *ngIf='isEditMode() && !isFirst'
+                        [styles]='[icons.moveUp]'
+                        [colors]='["black"]'
+                        (toggleEvent)='track.moveUp()'
                 ></app-checkbox>
             </div>
 
-            <div class="col-1">
+            <div class='col-1'>
                 <app-checkbox
-                        *ngIf="isEditMode() && !isLast"
-                        [styles]="[icons.moveDown]"
-                        [colors]="['black']"
-                        (toggleEvent)="track.moveDown()"
+                        *ngIf='isEditMode() && !isLast'
+                        [styles]='[icons.moveDown]'
+                        [colors]='["black"]'
+                        (toggleEvent)='track.moveDown()'
                 ></app-checkbox>
             </div>
 
-            <div class="col-2">
+            <div class='col-2'>
                 <app-checkbox
-                        [value]="track.repeat"
-                        [styles]="[icons.repeat]"
-                        [colors]="['green', 'grey', 'grey']"
-                        (toggleEvent)="toggleRepeat()"
+                        [value]='track.repeat'
+                        [styles]='[icons.repeat]'
+                        [colors]='["green", "grey", "grey"]'
+                        (toggleEvent)='toggleRepeat()'
                 ></app-checkbox>
             </div>
 
-            <div class="col-2">
+            <div class='col-2'>
                 <app-checkbox
-                        [value]="track.autostartNext"
-                        [styles]="[icons.autoStartNext, icons.stop]"
-                        [colors]="['green', 'red', 'grey']"
-                        (toggleEvent)="toggleAutostartNext()"
+                        [value]='track.autostartNext'
+                        [styles]='[icons.autoStartNext, icons.stop]'
+                        [colors]='["green", "red", "grey"]'
+                        (toggleEvent)='toggleAutostartNext()'
                 ></app-checkbox>
             </div>
 
-            <div class="col-2">
+            <div class='col-2'>
                 <app-checkbox
-                        *ngIf="isEditMode()"
-                        [value]="true"
-                        [styles]="[icons.cross]"
-                        [colors]="['red']"
-                        (toggleEvent)="track.cut()"
+                        *ngIf='isEditMode()'
+                        [value]='true'
+                        [styles]='[icons.cross]'
+                        [colors]='["red"]'
+                        (toggleEvent)='track.cut()'
                 ></app-checkbox>
             </div>
 
-            <div class="col-2">
+            <div class='col-2'>
                 <app-checkbox
-                        [value]="track.enabled"
-                        [styles]="[icons.enabled, icons.disabled]"
-                        [colors]="['green', 'grey']"
-                        (toggleEvent)="toggleEnabled()"
+                        *ngIf='isEditMode()'
+                        [value]='track.enabled'
+                        [styles]='[icons.enabled, icons.disabled]'
+                        [colors]='["green", "grey"]'
+                        (toggleEvent)='toggleEnabled()'
                 ></app-checkbox>
             </div>
 
