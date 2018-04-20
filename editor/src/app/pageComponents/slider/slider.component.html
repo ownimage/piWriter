@@ -2,9 +2,9 @@
     <input
             class='slider'
             type='range'
-            [min]='min'
-            [max]='max'
-            [(ngModel)]='value'
+            [min]='0'
+            [max]='sliderMax'
+            [(ngModel)]='sliderValue'
             (input)='onBlur()'
     >
 </div>

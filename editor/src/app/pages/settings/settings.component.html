@@ -6,7 +6,7 @@
 <h4 class='ml-3'>Settings</h4>
 
 <div class='row ml-3 mr-3'>
-    <div class='col-5 mt-1 mb-4'> <!--the error and message boxes have an mt-1 this is to match-->
+    <div class='col-5 mt-1'> <!--the error and message boxes have an mt-1 this is to match-->
         <span class='btn btn-primary btn-lg btn-block ml-3'
               (click)='testREST()'
         >Test</span>
@@ -26,7 +26,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.NUM_LEDS'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='1' max='144' [(ngModel)]='serverConfig.NUM_LEDS'></app-slider>
+        <app-slider min='1' max='144' [round]='true' [(ngModel)]='serverConfig.NUM_LEDS'></app-slider>
     </div>
 </div>
 
@@ -52,7 +52,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.brightness'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='16' max='255' [(ngModel)]='serverConfig.brightness'></app-slider>
+        <app-slider min='16' max='255' [round]='true' [(ngModel)]='serverConfig.brightness'></app-slider>
     </div>
 </div>
 
@@ -65,7 +65,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.debounceTimeout'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='0' max='500' [(ngModel)]='serverConfig.debounceTimeout'></app-slider>
+        <app-slider min='0' max='500' [round]='true' [(ngModel)]='serverConfig.debounceTimeout'></app-slider>
     </div>
 </div>
 <hr/>
