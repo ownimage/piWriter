@@ -206,10 +206,11 @@ function rgbObject2Int(o) {
 //     return gallery;
 // }
 //
-function showPicture(picture, repeat) {
+function showPicture(picture, repeat, speed) {
     debug('serverCommon/NeoPixelDriver:showPicture');
+    debug('picture.speed %d', speed);
     playlistState.state = (repeat) ? 'Looping' : 'Single';
-    let timeout = 20 / config.speed;
+    let timeout = 20 / (config.speed * speed);
 
     function show(picture, i) {
         if (i < picture.timedArrays.length) {
@@ -263,9 +264,10 @@ const next = () => {
                 playlistState.currentPicture = 0;
             }
             let picture = gallery.pictures[playlist[playlistState.currentPicture].path];
+            let speed = playlist[playlistState.currentPicture].speed;
             let repeat = playlist[playlistState.currentPicture].repeat;
             playlistState.autostartNext = playlist[playlistState.currentPicture].autostartNext;
-            showPicture(picture, repeat);
+            showPicture(picture, repeat, speed);
         }
         else if (playlistState.state === 'Single') {
             debug('Single');
@@ -321,7 +323,7 @@ const setPlaylist = (newPlaylist) => {
                         let colorArray = new Uint32Array(config.NUM_LEDS);
                         for (let j = 0; j < height; j++) {
                             let color = Jimp.intToRGBA(image.getPixelColor(i, j));
-                            let brightness = config.brightness / 255.0;
+                            let brightness = (p.brightness / 255.0) * (config.brightness / 255.0);
                             let color2 = {r: color.r * brightness, g: color.g * brightness, b: color.b * brightness,};
                             colorArray[height - 1 - j] = rgbObject2Int(color2);
                         }

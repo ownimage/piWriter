@@ -10,7 +10,7 @@ export class Track {
     };
 
     private _speed: number = 1;
-    private  _brightness: number = 256;
+    private  _brightness: number = 255;
 
     get name(): string {
         return this._name;
