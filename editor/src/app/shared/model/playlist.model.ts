@@ -96,6 +96,10 @@ export class Playlist {
         this._showTrack = track;
     };
 
+    getShowTrack = function () {
+        return this._showTrack;
+    };
+
     showAllTracks() {
         this._showTrack = null;
     };
