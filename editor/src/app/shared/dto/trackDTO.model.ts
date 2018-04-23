@@ -3,6 +3,8 @@ export class TrackDTO {
                 public path: string,
                 public repeat: boolean,
                 public autostartNext: boolean,
-                public enabled: boolean,) {
+                public enabled: boolean,
+                public speed: number,
+                public brightness: number) {
     };
 }

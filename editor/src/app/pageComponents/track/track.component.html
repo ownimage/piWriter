@@ -92,10 +92,10 @@
             Speed
         </div>
         <div class='col-5 col-sm-4'>
-            <input class='form-control' type='number' [(ngModel)]='playlist.getShowTrack().speed'>
+            <input class='form-control' type='number' [(ngModel)]='track.speed'>
         </div>
         <div class='col-7 col-sm-4'>
-            <app-slider min='.2' max='5' [(ngModel)]='playlist.getShowTrack().speed'></app-slider>
+            <app-slider min='.2' max='5' [(ngModel)]='track.speed'></app-slider>
         </div>
     </div>
 
@@ -105,10 +105,10 @@
             Brightness
         </div>
         <div class='col-5 col-sm-4'>
-            <input class='form-control' type='number' [(ngModel)]='playlist.getShowTrack().brightness'>
+            <input class='form-control' type='number' [(ngModel)]='track.brightness'>
         </div>
         <div class='col-7 col-sm-4'>
-            <app-slider min='16' max='255' [round]='true' [(ngModel)]='playlist.getShowTrack().brightness'></app-slider>
+            <app-slider min='16' max='255' [round]='true' [(ngModel)]='track.brightness'></app-slider>
         </div>
     </div>
 </div>

@@ -9,8 +9,8 @@ export class Track {
                 private _enabled: boolean,) {
     };
 
-    private _speed: number;
-    private  _brightness: number;
+    private _speed: number = 1;
+    private  _brightness: number = 256;
 
     get name(): string {
         return this._name;
@@ -53,6 +53,16 @@ export class Track {
     set enabled(value: boolean) {
         this.markDirty();
         this._enabled = value;
+    }
+
+    set brightness(value: number) {
+        this.markDirty();
+        this._brightness = value;
+    }
+
+    set speed(value: number) {
+        this.markDirty();
+        this. _speed = value;
     }
 
     moveUp() {

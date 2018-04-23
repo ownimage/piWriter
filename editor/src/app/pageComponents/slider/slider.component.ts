@@ -45,8 +45,8 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
 
     //set accessor including call the onchange callback
     set value(v: any) {
-        if (v !== this._value) {
-            this._value = v;
+        this._value = v;
+        if (v != this._value && this._value) { // dont sent out update when initializing (i.e setting from undefined
             this.onChangeCallback(v);
         }
     }
@@ -73,7 +73,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
 
     //From ControlValueAccessor interface
     writeValue(value: any) {
-        if (value !== this.value) {
+        if (value != this.value) {
             this.value = value;
         }
     }

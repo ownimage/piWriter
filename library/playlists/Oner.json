@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "name": "Kong-1.jpg",
+      "path": "/Donkey Kong/Kong-1.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1.9087999999999998,
+      "brightness": 51
+    }
+  ]
+}
