@@ -1,7 +1,22 @@
 <ul class='list-group'>
     <li class='list-group-item container-fluid'>
 
-        <div class='row offset-1'>
+        <div class='row'>
+            <span class='ml-3'>
+                <app-checkbox
+                        *ngIf='isEditMode() && !isFirst'
+                        [styles]='[icons.moveUp]'
+                        [colors]='["black"]'
+                        (toggleEvent)='track.moveUp()'
+                ></app-checkbox>
+                <br>
+                <app-checkbox
+                        *ngIf='isEditMode() && !isLast'
+                        [styles]='[icons.moveDown]'
+                        [colors]='["black"]'
+                        (toggleEvent)='track.moveDown()'
+                ></app-checkbox>
+            </span>
             <span>
                 <img
                         src='{{ restURL }}/images/{{ track.path }}'
@@ -12,24 +27,6 @@
         </div>
 
         <div class='row mt-1'>
-
-            <div class='col-1'>
-                <app-checkbox
-                        *ngIf='isEditMode() && !isFirst'
-                        [styles]='[icons.moveUp]'
-                        [colors]='["black"]'
-                        (toggleEvent)='track.moveUp()'
-                ></app-checkbox>
-            </div>
-
-            <div class='col-1'>
-                <app-checkbox
-                        *ngIf='isEditMode() && !isLast'
-                        [styles]='[icons.moveDown]'
-                        [colors]='["black"]'
-                        (toggleEvent)='track.moveDown()'
-                ></app-checkbox>
-            </div>
 
             <div class='col-2'>
                 <app-checkbox
@@ -52,16 +49,6 @@
             <div class='col-2'>
                 <app-checkbox
                         *ngIf='isEditMode()'
-                        [value]='true'
-                        [styles]='[icons.cross]'
-                        [colors]='["red"]'
-                        (toggleEvent)='track.cut()'
-                ></app-checkbox>
-            </div>
-
-            <div class='col-2'>
-                <app-checkbox
-                        *ngIf='isEditMode()'
                         [value]='track.enabled'
                         [styles]='[icons.enabled, icons.disabled]'
                         [colors]='["green", "grey"]'
@@ -69,7 +56,26 @@
                 ></app-checkbox>
             </div>
 
-            <div class="co-2">
+            <div class='col-2'>
+                <app-checkbox
+                        *ngIf='isEditMode() && !showAdvanced()'
+                        [value]='true'
+                        [styles]='[icons.cross]'
+                        [colors]='["red"]'
+                        (toggleEvent)='track.cut()'
+                ></app-checkbox>
+            </div>
+
+            <div class="col-2">
+                <app-checkbox
+                        *ngIf='isEditMode() && !showAdvanced()'
+                        [styles]='[icons.plus]'
+                        [colors]='["blue"]'
+                        (toggleEvent)='duplicate(track)'
+                ></app-checkbox>
+            </div>
+
+            <div class="col-2">
                 <app-checkbox
                         *ngIf='isEditMode()'
                         [styles]='[icons.dots]'

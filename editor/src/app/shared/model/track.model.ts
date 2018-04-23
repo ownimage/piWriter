@@ -4,14 +4,27 @@ export class Track {
     constructor(private playlist: Playlist,
                 private _name: string,
                 private _path: string,
-                private _repeat: boolean,
-                private _autostartNext: boolean,
-                private _enabled: boolean,) {
+                private _repeat: boolean = false,
+                private _autostartNext: boolean = false,
+                private _enabled: boolean = true,
+                private _speed: number = 1,
+                private _brightness: number = 255,) {
     };
 
-    private _speed: number = 1;
-    private  _brightness: number = 255;
+    clone(): Track {
+        return new Track(
+            this.playlist,
+            this._name,
+            this._path,
+            this._repeat,
+            this._autostartNext,
+            this._enabled,
+            this._speed,
+            this._brightness
+        );
+    }
 
+    //private _speed: number = 1;
     get name(): string {
         return this._name;
     }
@@ -62,7 +75,7 @@ export class Track {
 
     set speed(value: number) {
         this.markDirty();
-        this. _speed = value;
+        this._speed = value;
     }
 
     moveUp() {
@@ -87,5 +100,9 @@ export class Track {
 
     isAdvancedMode() {
         return !this.playlist.isShowingAllTracks() && this.playlist.showTrack(this);
+    }
+
+    duplicate() {
+        this.playlist.duplicate(this);
     }
 }

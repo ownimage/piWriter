@@ -62,4 +62,8 @@ export class TrackComponent implements OnInit {
     showAdvanced() {
         return this.track.isAdvancedMode()
     }
+
+    duplicate(track: Track) {
+        this.track.duplicate()
+    }
 }

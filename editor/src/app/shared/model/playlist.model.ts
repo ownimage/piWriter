@@ -84,6 +84,12 @@ export class Playlist {
         }
     };
 
+    duplicate(track: Track) {
+        let crntPos = this.tracks.indexOf(track);
+        let duplicate = track.clone()
+        this.tracks.splice(crntPos, 0, duplicate);
+    }
+
     cut = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos < this.tracks.length) {
