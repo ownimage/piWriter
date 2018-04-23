@@ -9,6 +9,9 @@ export class Track {
                 private _enabled: boolean,) {
     };
 
+    private _speed: number;
+    private  _brightness: number;
+
     get name(): string {
         return this._name;
     }
@@ -27,6 +30,14 @@ export class Track {
 
     get enabled(): boolean {
         return this._enabled;
+    }
+
+    get speed(): number {
+        return this._speed;
+    }
+
+    get brightness(): number {
+        return this._brightness;
     }
 
     set repeat(value: boolean) {
@@ -58,5 +69,13 @@ export class Track {
 
     markDirty() {
         this.playlist.markDirty();
+    }
+
+    showThisTrackOnly() {
+        this.playlist.setShowTrack(this);
+    }
+
+    isAdvancedMode() {
+        return !this.playlist.isShowingAllTracks() && this.playlist.showTrack(this);
     }
 }

@@ -1,5 +1,6 @@
 import {PlaylistRepositoryService} from "../repository/PlaylistRepositoryService";
 import {Track} from './track.model';
+import {trackToTrackDTO} from "../mappers/trackToTrackDTO.mapper";
 
 const debug = require('debug')('piWriter/playlist.model.ts');
 
@@ -11,7 +12,8 @@ export class Playlist {
         this.markDirty();
     };
 
-    public _isClean = true;
+    private _isClean = true;
+    private _showTrack: Track = null;
 
     get name() {
         return this._name;
@@ -89,5 +91,24 @@ export class Playlist {
             this.tracks.splice(crntPos, 1);
         }
     };
+
+    setShowTrack = function (track: Track) {
+        this._showTrack = track;
+    };
+
+    showAllTracks() {
+        this._showTrack = null;
+    };
+
+    showTrack(track: Track) {
+        if (debug.enabled) {
+            debug('Playlist:showTrack %o', trackToTrackDTO(track));
+        }
+        return this._showTrack == null || this._showTrack == track;
+    }
+
+    isShowingAllTracks() {
+        return this._showTrack == null;
+    }
 
 }

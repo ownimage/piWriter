@@ -54,4 +54,12 @@ export class TrackComponent implements OnInit {
     isEditMode() {
         return !this.isPlayMode();
     }
+
+    setAdvancedMode() {
+        this.track.showThisTrackOnly();
+    }
+
+    showAdvanced() {
+        return this.track.isAdvancedMode()
+    }
 }

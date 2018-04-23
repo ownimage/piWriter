@@ -16,6 +16,7 @@ const config = {
         plus: 'fa fa-plus',
         enabled: 'fa fa-check-square',
         disabled: 'fa fa-square',
+        dots: 'fas fa-ellipsis-h',
     }
 };
 

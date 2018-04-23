@@ -55,8 +55,13 @@ export class PlaylistComponent implements OnInit {
                 });
     }
 
-    getTracks() {
-        return this.playlist.tracks.filter(t => this.isEditMode() || t.enabled);
+    getTracks(track) {
+        if (this.isPlayMode()) {
+            return this.playlist.tracks.filter(t => t.enabled);
+        } // else isEditMode
+        return this.playlist.tracks.filter(t => {
+            return this.playlist.showTrack(t);
+        });
     }
 
     navigateAddTrack() {
@@ -64,8 +69,11 @@ export class PlaylistComponent implements OnInit {
         this.router.navigate(['/playlists', this.playlist.name, 'addImages'], {queryParams: {mode: 'edit'}})
     }
 
-    navigateToPlaylists() {
-        this.router.navigate(['/playlists'], {queryParams: {mode: this.mode}})
+    navigateBack() {
+        if (this.isPlayMode() || this.playlist.isShowingAllTracks()) {
+            this.router.navigate(['/playlists'], {queryParams: {mode: this.mode}})
+        }
+        this.playlist.showAllTracks();
     }
 
     play() {
@@ -101,7 +109,8 @@ export class PlaylistComponent implements OnInit {
                     this.infoMessage.setMessage('');
                     this.infoMessage.setErrorTimeout('Send Playlist Failed :(');
                 });
-    };
+    }
+    ;
 
     isPlayMode() {
         return this.mode == 'play';

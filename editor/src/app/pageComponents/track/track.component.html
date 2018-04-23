@@ -2,11 +2,13 @@
     <li class='list-group-item container-fluid'>
 
         <div class='row offset-1'>
-            <img
-                    src='{{ restURL }}/images/{{ track.path }}'
-                    style='max-height: 50px;'
-            />
-            <p class='ml-1'>{{ track.name }}</p>
+            <span>
+                <img
+                        src='{{ restURL }}/images/{{ track.path }}'
+                        style='max-height: 50px;'
+                />
+                </span>
+            <span class='ml-1'>{{ track.name }}</span>
         </div>
 
         <div class='row mt-1'>
@@ -67,6 +69,46 @@
                 ></app-checkbox>
             </div>
 
+            <div class="co-2">
+                <app-checkbox
+                        *ngIf='isEditMode()'
+                        [styles]='[icons.dots]'
+                        [colors]='["grey", "green"]'
+                        (toggleEvent)='setAdvancedMode()'
+                ></app-checkbox>
+            </div>
         </div>
+
     </li>
+
 </ul>
+<div class='row mt-1'
+     *ngIf='isEditMode()  && showAdvanced()'
+>
+
+    <hr/>
+    <div class='row mt-2 ml-3 mr-3'>
+        <div class='col-12 col-sm-4'>
+            Speed
+        </div>
+        <div class='col-5 col-sm-4'>
+            <input class='form-control' type='number' [(ngModel)]='playlist.getShowTrack().speed'>
+        </div>
+        <div class='col-7 col-sm-4'>
+            <app-slider min='.2' max='5' [(ngModel)]='playlist.getShowTrack().speed'></app-slider>
+        </div>
+    </div>
+
+    <hr/>
+    <div class='row mt-2 ml-3 mr-3'>
+        <div class='col-12 col-sm-4'>
+            Brightness
+        </div>
+        <div class='col-5 col-sm-4'>
+            <input class='form-control' type='number' [(ngModel)]='playlist.getShowTrack().brightness'>
+        </div>
+        <div class='col-7 col-sm-4'>
+            <app-slider min='16' max='255' [round]='true' [(ngModel)]='playlist.getShowTrack().brightness'></app-slider>
+        </div>
+    </div>
+</div>
