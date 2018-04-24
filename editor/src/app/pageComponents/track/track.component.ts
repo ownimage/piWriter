@@ -26,27 +26,6 @@ export class TrackComponent implements OnInit {
     ngOnInit() {
     }
 
-    toggleRepeat() {
-        debug('toggleRepeat %s', this.isPlayMode());
-        if (this.isPlayMode()) return;
-        this.track.toggleRepeat();
-        debug('this.track.repeat %s', this.track.repeat);
-    }
-
-    toggleAutostartNext() {
-        debug('toggleAutostartNext');
-        if (this.isPlayMode()) return;
-        this.track.toggleAutostartNext();
-        debug('this.track.autostartNext %s', this.track.autostartNext);
-    }
-
-    toggleEnabled() {
-        debug('toggleEnabled');
-        if (this.isPlayMode()) return;
-        this.track.toggleEnabled();
-        debug('this.track.enabled %s', this.track.enabled);
-    }
-
     isPlayMode() {
         return this.mode == 'play';
     }
