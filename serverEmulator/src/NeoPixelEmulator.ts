@@ -1,3 +1,5 @@
+export {};
+
 const debug = require('debug')('serverEmulator/NeoPixelEmulator');
 debug('### serverEmulator/server');
 
@@ -5,8 +7,8 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 
-const { config } = require('../serverCommon/config');
-const NeoPixelDriver = require('../serverCommon/NeoPixelDriver');
+const { config } = require('../../serverCommon/config');
+const NeoPixelDriver = require('../../serverCommon/NeoPixelDriver');
 
 let NUM_LEDS = 10;
 let NeoPixelArray = new Uint32Array(NUM_LEDS);
@@ -34,8 +36,8 @@ const render = (array) => {
 
 const functionHooks = {
     app: app => {
-        app.use('/demo', express.static(__dirname + '/index.html'));
-        app.use('/demo/node_modules', express.static(__dirname + '/node_modules'));
+        app.use('/demo', express.static(__dirname + '/../index.html'));
+        app.use('/demo/node_modules', express.static(__dirname + '/../node_modules'));
     },
     server: server => {
         webSocketServer = new WebSocket.Server({server});

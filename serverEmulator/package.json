@@ -4,7 +4,8 @@
   "description": "This is the server component for piWriter",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "author": "ownimage",
   "license": "MIT",
@@ -15,5 +16,8 @@
     "http": "0.0.0",
     "supports-color": "^5.4.0",
     "ws": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.6"
   }
 }
