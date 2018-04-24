@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "name": "Group-01.jpg",
+      "path": "/Angry Birds/Group-01.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false
+    },
+    {
+      "name": "Blue-01.jpg",
+      "path": "/Angry Birds/Blue-01.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false
+    },
+    {
+      "name": "Bomb-01.jpg",
+      "path": "/Angry Birds/Bomb-01.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false
+    },
+    {
+      "name": "Chuck-01.jpg",
+      "path": "/Angry Birds/Chuck-01.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false
+    },
+    {
+      "name": "Matilda-01.jpg",
+      "path": "/Angry Birds/Matilda-01.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false
+    },
+    {
+      "name": "Red-01.jpg",
+      "path": "/Angry Birds/Red-01.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false
+    },
+    {
+      "name": "Terrance-01.jpg",
+      "path": "/Angry Birds/Terrance-01.jpg",
+      "repeat": true,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false
+    }
+  ]
+}
