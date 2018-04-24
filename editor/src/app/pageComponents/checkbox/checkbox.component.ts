@@ -35,7 +35,9 @@ export class CheckboxComponent implements OnInit {
 
     toggle() {
         debug('toggle ');
-        this.toggleEvent.emit();
+        if (this.enabled) {
+            this.toggleEvent.emit();
+        }
     }
 
 }

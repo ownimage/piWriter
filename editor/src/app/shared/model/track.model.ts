@@ -98,6 +98,25 @@ export class Track {
         this._flipY = value;
     }
 
+    toggleFlipX() {
+        this.flipX = !this.flipX;
+    }
+
+    toggleFlipY() {
+        this.flipY = !this.flipY;
+    }
+
+    toggleRepeat() {
+        this.repeat = !this.repeat;
+    }
+
+    toggleAutostartNext() {
+        this.autostartNext = !this.autostartNext;
+    }
+
+    toggleEnabled() {
+        this.enabled = !this.enabled;
+    }
 
     moveUp() {
         this.playlist.moveUp(this);
@@ -115,12 +134,12 @@ export class Track {
         this.playlist.markDirty();
     }
 
-    showThisTrackOnly() {
+    setAdvancedMode() {
         this.playlist.setShowTrack(this);
     }
 
     isAdvancedMode() {
-        return !this.playlist.isShowingAllTracks() && this.playlist.showTrack(this);
+        return !this.playlist.isShowingAllTracks() && this.playlist.isTrackShowing(this);
     }
 
     duplicate() {

@@ -59,7 +59,7 @@
 
             <div class='col-2'>
                 <app-checkbox
-                        *ngIf='isEditMode() && !showAdvanced()'
+                        *ngIf='isEditMode() && !track.isAdvancedMode()'
                         [value]='true'
                         [styles]='[icons.cross]'
                         [colors]='["red"]'
@@ -69,10 +69,10 @@
 
             <div class="col-2">
                 <app-checkbox
-                        *ngIf='isEditMode() && !showAdvanced()'
+                        *ngIf='isEditMode() && !track.isAdvancedMode()'
                         [styles]='[icons.plus]'
                         [colors]='["blue"]'
-                        (toggleEvent)='duplicate(track)'
+                        (toggleEvent)='track.duplicate()'
                 ></app-checkbox>
             </div>
 
@@ -81,7 +81,7 @@
                         *ngIf='isEditMode()'
                         [styles]='[icons.dots]'
                         [colors]='["grey", "green"]'
-                        (toggleEvent)='setAdvancedMode()'
+                        (toggleEvent)='track.setAdvancedMode()'
                 ></app-checkbox>
             </div>
         </div>
@@ -90,7 +90,7 @@
 
 </ul>
 <div class='container-fluid'
-     *ngIf='isEditMode()  && showAdvanced()'
+     *ngIf='isEditMode()  && track.isAdvancedMode()'
 >
     <div class='row mt-2'>
 
@@ -99,7 +99,7 @@
                     [value]='track.flipX'
                     [styles]='[icons.leftRightArrow]'
                     [colors]='["green", "grey"]'
-                    (toggleEvent)='flipX()'
+                    (toggleEvent)='track.toggleFlipX()()'
             ></app-checkbox>
         </div>
 
@@ -108,7 +108,7 @@
                     [value]='track.flipY'
                     [styles]='[icons.upDownArrow]'
                     [colors]='["green", "grey"]'
-                    (toggleEvent)='flipY()'
+                    (toggleEvent)='track.toggleFlipY()'
             ></app-checkbox>
         </div>
 
@@ -116,7 +116,7 @@
 </div>
 
 <div class='container mt-1'
-     *ngIf='isEditMode()  && showAdvanced()'
+     *ngIf='isEditMode()  && track.isAdvancedMode()'
 >
 
     <div class='row mt-2 border-top'>

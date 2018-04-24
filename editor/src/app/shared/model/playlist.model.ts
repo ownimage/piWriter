@@ -110,9 +110,9 @@ export class Playlist {
         this._showTrack = null;
     };
 
-    showTrack(track: Track) {
+    isTrackShowing(track: Track) {
         if (debug.enabled) {
-            debug('Playlist:showTrack %o', trackToTrackDTO(track));
+            debug('Playlist:isTrackShowing %o', trackToTrackDTO(track));
         }
         return this._showTrack == null || this._showTrack == track;
     }

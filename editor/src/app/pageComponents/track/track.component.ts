@@ -29,21 +29,21 @@ export class TrackComponent implements OnInit {
     toggleRepeat() {
         debug('toggleRepeat %s', this.isPlayMode());
         if (this.isPlayMode()) return;
-        this.track.repeat = !this.track.repeat;
+        this.track.toggleRepeat();
         debug('this.track.repeat %s', this.track.repeat);
     }
 
     toggleAutostartNext() {
         debug('toggleAutostartNext');
         if (this.isPlayMode()) return;
-        this.track.autostartNext = !this.track.autostartNext;
+        this.track.toggleAutostartNext();
         debug('this.track.autostartNext %s', this.track.autostartNext);
     }
 
     toggleEnabled() {
         debug('toggleEnabled');
         if (this.isPlayMode()) return;
-        this.track.enabled = !this.track.enabled;
+        this.track.toggleEnabled();
         debug('this.track.enabled %s', this.track.enabled);
     }
 
@@ -55,23 +55,4 @@ export class TrackComponent implements OnInit {
         return !this.isPlayMode();
     }
 
-    setAdvancedMode() {
-        this.track.showThisTrackOnly();
-    }
-
-    showAdvanced() {
-        return this.track.isAdvancedMode()
-    }
-
-    duplicate(track: Track) {
-        this.track.duplicate()
-    }
-
-    flipX() {
-        this.track.flipX = !this.track.flipX;
-    }
-
-    flipY() {
-        this.track.flipY = !this.track.flipY;
-    }
 }
