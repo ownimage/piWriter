@@ -314,12 +314,12 @@ const setPlaylist = (newPlaylist) => {
                     debug('Jimp Error: %o', err);
                 }
                 else {
-                    image.getPixelColor(10, 10);
-                    gallery.put(track, {timedArrays: []});
+                    let timedArrays = [];
 
                     let height = Math.min(image.bitmap.height, config.NUM_LEDS);
                     // dont resize width as this affects timing
-                    image = image.resize(image.bitmap.width, height);
+                    image.resize(image.bitmap.width, height);
+                    image.flip(track.flipX, track.flipY);
                     for (let i = 0; i < image.bitmap.width; i++) {
                         let colorArray = new Uint32Array(config.NUM_LEDS);
                         for (let j = 0; j < height; j++) {
@@ -329,8 +329,9 @@ const setPlaylist = (newPlaylist) => {
                             colorArray[height - 1 - j] = rgbObject2Int(color2);
                         }
                         let a = {t: 1, ca: colorArray};
-                        gallery.get(track).timedArrays.push(a);
+                        timedArrays.push(a);
                     }
+                    gallery.put(track, {timedArrays});
                 }
             });
         }
