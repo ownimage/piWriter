@@ -66,4 +66,12 @@ export class TrackComponent implements OnInit {
     duplicate(track: Track) {
         this.track.duplicate()
     }
+
+    flipX() {
+        this.track.flipX = !this.track.flipX;
+    }
+
+    flipY() {
+        this.track.flipY = !this.track.flipY;
+    }
 }

@@ -8,7 +8,9 @@ export class Track {
                 private _autostartNext: boolean = false,
                 private _enabled: boolean = true,
                 private _speed: number = 1,
-                private _brightness: number = 255,) {
+                private _brightness: number = 255,
+                private _flipX: boolean = false,
+                private _flipY: boolean = false) {
     };
 
     clone(): Track {
@@ -53,6 +55,14 @@ export class Track {
         return this._brightness;
     }
 
+    get flipX(): boolean {
+        return this._flipX;
+    }
+
+    get flipY(): boolean {
+        return this._flipY;
+    }
+
     set repeat(value: boolean) {
         this.markDirty();
         this._repeat = value;
@@ -77,6 +87,17 @@ export class Track {
         this.markDirty();
         this._speed = value;
     }
+
+    set flipX(value: boolean) {
+        this.markDirty();
+        this._flipX = value;
+    }
+
+    set flipY(value: boolean) {
+        this.markDirty();
+        this._flipY = value;
+    }
+
 
     moveUp() {
         this.playlist.moveUp(this);

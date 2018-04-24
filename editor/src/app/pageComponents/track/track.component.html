@@ -20,6 +20,7 @@
             <span>
                 <img
                         src='{{ restURL }}/images/{{ track.path }}'
+                        [ngStyle]="{'transform': track.flipX && track.flipY ? 'rotate(180deg)' : track.flipX ? 'scaleX(-1)' : track.flipY ? 'scaleY(-1)' : 'rotate(0deg)'}"
                         style='max-height: 50px;'
                 />
                 </span>
@@ -88,11 +89,37 @@
     </li>
 
 </ul>
-<div class='row mt-1'
+<div class='container-fluid'
+     *ngIf='isEditMode()  && showAdvanced()'
+>
+    <div class='row mt-2'>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='track.flipX'
+                    [styles]='[icons.leftRightArrow]'
+                    [colors]='["green", "grey"]'
+                    (toggleEvent)='flipX()'
+            ></app-checkbox>
+        </div>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='track.flipY'
+                    [styles]='[icons.upDownArrow]'
+                    [colors]='["green", "grey"]'
+                    (toggleEvent)='flipY()'
+            ></app-checkbox>
+        </div>
+
+    </div>
+</div>
+
+<div class='container mt-1'
      *ngIf='isEditMode()  && showAdvanced()'
 >
 
-    <div class='row mt-2 ml-3 mr-3'>
+    <div class='row mt-2 border-top'>
         <div class='col-12 col-sm-4'>
             Speed
         </div>
@@ -104,7 +131,7 @@
         </div>
     </div>
 
-    <div class='row mt-2 ml-3 mr-3 border-top'>
+    <div class='row mt-2 border-top'>
         <div class='col-12 col-sm-4'>
             Brightness
         </div>

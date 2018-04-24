@@ -7,16 +7,18 @@ const config = {
         navigateForward: 'fas fa-angle-double-right', // from tile
         moveUp: 'fas fa-angle-double-up',
         moveDown: 'fas fa-angle-double-down',
-        repeat: 'fas fa-sync-alt',
-        autoStartNext: 'fa fa-fast-forward',
-        stop: 'fa fa-stop',
-        tick: 'fa fa-check',
-        cross: 'fa fa-times',
+        repeat: 'fas fa-sync-alt fa-fw',
+        autoStartNext: 'fa fa-fast-forward fa-fw',
+        stop: 'fa fa-stop fa-fw',
+        tick: 'fa fa-check fa-fw',
+        cross: 'fa fa-times fa-fw',
         folder: 'fa fa-folder',
-        plus: 'fa fa-plus',
-        enabled: 'fa fa-check-square',
-        disabled: 'fa fa-square',
-        dots: 'fas fa-ellipsis-h',
+        plus: 'fa fa-plus fa-fw',
+        enabled: 'fa fa-check-square fa-fw',
+        disabled: 'fa fa-square fa-fw',
+        dots: 'fas fa-ellipsis-h fa-fw',
+        leftRightArrow: 'fas fa-arrows-alt-h fa-fw',
+        upDownArrow: 'fas fa-arrows-alt-v fa-fw',
     }
 };
 

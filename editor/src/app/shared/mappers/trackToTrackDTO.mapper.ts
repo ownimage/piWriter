@@ -9,8 +9,9 @@ const trackToTrackDTO = (track: Track) => {
         track.autostartNext,
         track.enabled,
         track.speed,
-        track.brightness
-    );
+        track.brightness,
+        track.flipX,
+        track.flipY);
 };
 
 export {trackToTrackDTO};

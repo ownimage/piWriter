@@ -5,6 +5,8 @@ export class TrackDTO {
                 public autostartNext: boolean,
                 public enabled: boolean,
                 public speed: number,
-                public brightness: number) {
+                public brightness: number,
+                public flipX: boolean,
+                public flipY: boolean) {
     };
 }

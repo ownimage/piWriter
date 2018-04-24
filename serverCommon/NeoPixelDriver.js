@@ -5,6 +5,7 @@ const http = require('http');
 const url = require('url');
 const Jimp = require('jimp');
 
+const Gallery = require('./Gallery');
 const {logError} = require('./common');
 
 let config;
@@ -12,7 +13,7 @@ let config;
 let blankArray = [];
 let flashArray = null;
 
-let gallery;
+let gallery = new Gallery();
 let playlist;
 let playlistState;
 let halt;
@@ -263,7 +264,7 @@ const next = () => {
                 debug('currentPicture wrap round');
                 playlistState.currentPicture = 0;
             }
-            let picture = gallery.pictures[playlist[playlistState.currentPicture].path];
+            let picture = gallery.get(playlist[playlistState.currentPicture]);
             let speed = playlist[playlistState.currentPicture].speed;
             let repeat = playlist[playlistState.currentPicture].repeat;
             playlistState.autostartNext = playlist[playlistState.currentPicture].autostartNext;
@@ -298,15 +299,15 @@ const setPlaylist = (newPlaylist) => {
     debug('serverCommon/NeoPixelDriver:setPlaylist');
     if (!newPlaylist) return;
 
-    gallery = {pictures: {}};
+    gallery = new Gallery();
     playlist = newPlaylist.filter(p => p.enabled);
     playlistState = null;
     halt = true;
 
     debug('playlist = %O', playlist);
-    playlist.map(p => {
-        if (!gallery.pictures[p.path]) { // dont process duplicates
-            let fullPicturePath = config.imagesFolder + p.path;
+    playlist.map(track => {
+        if (!gallery.get(track)) { // dont process duplicates
+            let fullPicturePath = config.imagesFolder + track.path;
             debug('fullPicturePath = %s', fullPicturePath);
             Jimp.read(fullPicturePath, function (err, image) {
                 if (err) {
@@ -314,7 +315,7 @@ const setPlaylist = (newPlaylist) => {
                 }
                 else {
                     image.getPixelColor(10, 10);
-                    gallery.pictures[p.path] = {timedArrays: []};
+                    gallery.put(track, {timedArrays: []});
 
                     let height = Math.min(image.bitmap.height, config.NUM_LEDS);
                     // dont resize width as this affects timing
@@ -323,12 +324,12 @@ const setPlaylist = (newPlaylist) => {
                         let colorArray = new Uint32Array(config.NUM_LEDS);
                         for (let j = 0; j < height; j++) {
                             let color = Jimp.intToRGBA(image.getPixelColor(i, j));
-                            let brightness = (p.brightness / 255.0) * (config.brightness / 255.0);
+                            let brightness = (track.brightness / 255.0) * (config.brightness / 255.0);
                             let color2 = {r: color.r * brightness, g: color.g * brightness, b: color.b * brightness,};
                             colorArray[height - 1 - j] = rgbObject2Int(color2);
                         }
                         let a = {t: 1, ca: colorArray};
-                        gallery.pictures[p.path].timedArrays.push(a);
+                        gallery.get(track).timedArrays.push(a);
                     }
                 }
             });
