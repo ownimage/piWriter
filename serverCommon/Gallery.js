@@ -1,7 +1,8 @@
 module.exports = class Gallery {
 
     constructor() {
-        this.storage = [];    }
+        this.storage = [];
+    }
 
     get(track) {
         let key = this.trackToKeyMapper(track);
@@ -16,8 +17,8 @@ module.exports = class Gallery {
     }
 
     trackToKeyMapper(track) {
-        let { path, flipX, flipY } = track;
-        return { path, flipX, flipY };
+        let {path, flipX, flipY} = track;
+        return {path, flipX, flipY};
     }
 
     keysEqual(key1, key2) {
