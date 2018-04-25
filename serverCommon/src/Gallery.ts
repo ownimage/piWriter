@@ -1,7 +1,6 @@
 module.exports = class Gallery {
 
-    constructor() {
-        this.storage = [];
+    constructor(private storage:any[] = []) {
     }
 
     get(track) {

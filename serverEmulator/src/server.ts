@@ -5,9 +5,9 @@ debug('### serverEmulator/server');
 
 //const {functionHooks} = require('./NeoPixelEmulator');
 
-const commonConfig = require('../../serverCommon/config');
+const commonConfig = require('../../serverCommon/dist/config');
 const neopixelLib = require('./NeoPixelEmulator');
-const server = require('../../serverCommon/server');
+const server = require('../../serverCommon/dist/server');
 
 let config = {
     ...commonConfig.config,

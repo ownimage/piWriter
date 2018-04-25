@@ -4,5 +4,8 @@
     "rootDir": "src",
     "target": "es6"
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

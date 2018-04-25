@@ -1,3 +1,5 @@
+export {};
+
 
 const debug = require('debug')('serverCommon/NeoPixelDriver');
 debug('### serverCommon/Playlist');
@@ -17,17 +19,18 @@ module.exports = class Playlist {
     //    timedArray which has been derrived from the image given in the playlists path element
     // 2) it will set the global playlist to the newPlaylist variable.
     // 3) it will null out the global playlistState so that next will start from the beginning
-    constructor(newPlaylist, config, render, renderBlank) {
-        debug('serverCommon/Playlist:constructor');
+    constructor(private newPlaylist,
+                private config,
+                private gallery = null,
+                private playlist = null,
+                private playlistState = null,
+                private halt = true
 
-        this.render = render;
-        this.renderBlank =  renderBlank;
+    ) {
+        debug('serverCommon/Playlist:constructor');
 
         this.gallery = new Gallery();
         this.playlist = newPlaylist.filter(p => p.enabled);
-        this.playlistState = null;
-        this.halt = true;
-        this.config = config;
 
         debug('playlist = %O', this.playlist);
         this.playlist.map(track => {

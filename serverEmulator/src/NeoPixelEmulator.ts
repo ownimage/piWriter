@@ -7,8 +7,8 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 
-const { config } = require('../../serverCommon/config');
-const NeoPixelDriver = require('../../serverCommon/NeoPixelDriver');
+const { config } = require('../../serverCommon/dist/config');
+const NeoPixelDriver = require('../../serverCommon/dist/NeoPixelDriver');
 
 let NUM_LEDS = 10;
 let NeoPixelArray = new Uint32Array(NUM_LEDS);

@@ -1,3 +1,5 @@
+export {};
+
 const debug = require('debug')('serverCommon/NeoPixelDriver');
 debug('### serverCommon/NeoPixelDriver');
 
@@ -6,7 +8,7 @@ const {rgbValues2Int} = require('./ColorUtils');
 const {logError} = require('./common');
 
 let config;
-let blankArray = [];
+let blankArray: Uint32Array;
 let flashArray = null;
 let playlistDTO = null;
 let playlist = null;
@@ -32,7 +34,7 @@ function setupFlashArray() {
         rgbValues2Int(0, 0, 64)
     ];
     flashArray = new Uint32Array(config.NUM_LEDS);
-    for (i = 0; i < config.NUM_LEDS; i++) {
+    for (let i = 0; i < config.NUM_LEDS; i++) {
         flashArray[i] = colors[i % 3];
     }
 }
@@ -62,18 +64,18 @@ process.on('SIGINT', function () {
 
 const setPlaylist = (playlistDTO) => {
     if (playlistDTO) {
-        this.playlist = new Playlist(playlistDTO, config, render, renderBlank);
+        this.playlist = new Playlist(playlistDTO, config);
     }
     else {
         this.playlist = null;
     }
 };
 
-render = (colorArray) => {
+const render = (colorArray) => {
     config.neopixelLib.render(colorArray);
 };
 
-renderBlank = () => {
+const renderBlank = () => {
     config.neopixelLib.render(blankArray);
 };
 

@@ -1,3 +1,5 @@
+export {};
+
 const debug = require('debug')('serverCommon/server');
 debug('### serverCommon/server');
 

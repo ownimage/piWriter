@@ -1,3 +1,5 @@
+export {};
+
 const debug = require('debug')('serverCommon/ColorUtils');
 debug('### serverCommon/ColorUtils');
 
