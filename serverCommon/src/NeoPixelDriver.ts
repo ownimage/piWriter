@@ -3,15 +3,16 @@ export {};
 const debug = require('debug')('serverCommon/NeoPixelDriver');
 debug('### serverCommon/NeoPixelDriver');
 
-const Playlist = require('./Playlist');
+import { Playlist} from './Playlist';
 const {rgbValues2Int} = require('./ColorUtils');
 const {logError} = require('./common');
 
 let config;
 let blankArray: Uint32Array;
-let flashArray = null;
+let flashArray: Uint32Array = null;
 let playlistDTO = null;
 let playlist = null;
+let player = require('./Player');
 
 const init = (newConfig) => {
     debug('serverCommon/NeoPixelDriver:init');
@@ -63,12 +64,8 @@ process.on('SIGINT', function () {
 
 
 const setPlaylist = (playlistDTO) => {
-    if (playlistDTO) {
-        this.playlist = new Playlist(playlistDTO, config);
-    }
-    else {
-        this.playlist = null;
-    }
+    playlist = (playlistDTO) ? new Playlist(playlistDTO, config) : null;
+    player.play(playlist);
 };
 
 const render = (colorArray) => {
@@ -80,7 +77,7 @@ const renderBlank = () => {
 };
 
 const next = () => {
-    this.playlist.next(render, renderBlank);
+    player.next(render, renderBlank);
 };
 
 module.exports = {

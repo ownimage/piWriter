@@ -1,7 +1,4 @@
-export {};
-
-
-const debug = require('debug')('serverCommon/NeoPixelDriver');
+const debug = require('debug')('serverCommon/Playlist');
 debug('### serverCommon/Playlist');
 
 const Jimp = require('jimp');
@@ -10,7 +7,7 @@ const Gallery = require('./Gallery');
 const {rgbObject2Int} = require('./ColorUtils');
 const {logError} = require('./common');
 
-module.exports = class Playlist {
+export class Playlist {
 
     // a playlist is of the format [{name: string, path: string, repeat: boolean, autostartNext: boolean }]
     // setPlaylist will take the playlist given and
@@ -22,18 +19,15 @@ module.exports = class Playlist {
     constructor(private newPlaylist,
                 private config,
                 private gallery = null,
-                private playlist = null,
-                private playlistState = null,
-                private halt = true
-
-    ) {
+                private tracks = null,
+        ) {
         debug('serverCommon/Playlist:constructor');
 
         this.gallery = new Gallery();
-        this.playlist = newPlaylist.filter(p => p.enabled);
+        this.tracks = newPlaylist.filter(p => p.enabled);
 
-        debug('playlist = %O', this.playlist);
-        this.playlist.map(track => {
+        debug('playlist = %O', this.tracks);
+        this.tracks.map(track => {
             if (!this.gallery.get(track)) { // dont process duplicates
                 let gallery = this.gallery;
                 let fullPicturePath = config.imagesFolder + track.path;
@@ -71,103 +65,19 @@ module.exports = class Playlist {
         });
     };
 
-
-
-    showPicture(picture, repeat, speed, render, renderBlank) {
-        debug('serverCommon/Playlist:showPicture');
-        debug('picture.speed %d', speed);
-        debug('this.playlist 1 %o', this.playlist);
-        debug('render %o', render);
-
-        this.playlistState.state = (repeat) ? 'Looping' : 'Single';
-        let timeout = 20 / (this.config.speed * speed);
-
-        const show = (picture, i, timeout, render, renderBlank) => {
-            debug('serverCommon/Playlist:show');
-            debug('this.playlist 2 %o', this.playlist);
-            debug('render %o', render);
-
-            if (i < picture.timedArrays.length) {
-                let timedArray = picture.timedArrays[i];
-                render(timedArray.ca);
-                setTimeout(show, timedArray.t * timeout, picture, i + 1, timeout, render, renderBlank); /// was 1000
-            } else {
-                renderBlank();
-                if (this.halt) return;
-                debug('this.playlist 3 %o', this.playlist);
-                debug('render %o', render);
-                if (this.playlistState.state == 'Looping') {
-                    show(picture, 0, timeout, render, renderBlank);
-                }
-                else {
-                    this.playlistState.state = "Idle";
-                    if (this.playlistState.autostartNext) {
-                        this.next(render, renderBlank);
-                    }
-                    else {
-                        renderBlank();
-                    }
-                }
-            }
-        };
-
-        debug('render e %o', render);
-        show(picture, 0, timeout, render, renderBlank);
-    }
-
-
-    // playlistState is defined as follows
-    //    state: string one of Idle, Single, Looping, ReqStop
-    //    currentPicture: int shows the index of the picture that is being shown
-    //    autostartNext: boolean whether the next picture is to be started automatically
-    next(render, renderBlank) {
-        try {
-            debug('serverCommon/Playlist:next');
-            debug('playlistState = %O', this.playlistState);
-
-            if (!this.playlist) return;
-            this.halt = false;
-
-            if (!this.playlistState) {
-                debug('creating playlistState');
-                this.playlistState = {state: 'Idle', currentPicture: -1, autoplay: false};
-            }
-
-            if (this.playlistState.state === 'Idle') {
-                debug('Idle');
-                this.playlistState.currentPicture++;
-                if (this.playlistState.currentPicture >= this.playlist.length) {
-                    debug('currentPicture wrap round');
-                    this.playlistState.currentPicture = 0;
-                }
-                let currentPictureNum = this.playlistState.currentPicture;
-                let currentPicture = this.playlist[currentPictureNum];
-                let picture = this.gallery.get(currentPicture);
-                let speed = currentPicture.speed;
-                let repeat = currentPicture.repeat;
-                this.playlistState.autostartNext = currentPicture.autostartNext;
-                this.showPicture(picture, repeat, speed, render, renderBlank);
-            }
-            else if (this.playlistState.state === 'Single') {
-                debug('Single');
-                this.playlistState.autostartNext = true;
-            }
-            else if (this.playlistState.state === 'Looping') {
-                debug('Looping');
-                this.playlistState.state = 'ReqStop'
-            }
-            else if (this.playlistState.state === 'ReqStop') {
-                debug('ReqStop');
-                this.playlistState.autostartNext = true;
-            }
-            debug('playlistState = %O', this.playlistState);
-        } catch (err) {
-            logError(debug, err);
-        }
+    getTrackCount(): number {
+        return this.tracks.length;
     };
 
-};
+    getTrack(i: number) {
+        return this.tracks[i];
+    };
 
+    getPicture(i: number) {
+        return this.gallery.get(this.getTrack(i));
+    };
+
+ };
 
 
 
