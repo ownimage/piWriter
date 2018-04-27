@@ -17,7 +17,7 @@ export class ImageComponent implements OnInit {
 
     @ViewChild('img') image: ElementRef;
 
-    private naturalWidth = 0;
+    private naturalWidth = 0; // this is the size of the image
     private naturalHeight = 0;
     private ready: boolean = false;
 
@@ -31,26 +31,54 @@ export class ImageComponent implements OnInit {
         debug('imageLoad w x h = %d x %d', this.image.nativeElement.naturalWidth, this.image.nativeElement.naturalHeight);
         this.naturalWidth = this.image.nativeElement.naturalWidth;
         this.naturalHeight = this.image.nativeElement.naturalHeight;
+
         this.ready = true;
     }
 
     getDivStyle() {
-        return {
+        let width = (this.rotate == 0 || this.rotate == 180) ? this.scale * this.naturalWidth * 50 / this.naturalHeight :
+            this.scale * this.naturalHeight * 50 / this.naturalWidth;
+        let style = {
             'float': 'left',
-            'background-color': 'black',
+            'background-color': 'pink',
             'height': '50px',
+            'width': `${width}px`
         };
+        debug('getDivStyle return %o', style);
+        return style;
     }
 
     getImgStyle() {
-        let transform = `scale(${this.scale})`;
-        if (this.flipX) transform += ' scaleX(-1)';
-        if (this.flipY) transform += ' scaleY(-1)';
-        if (this.rotate == 90) transform += ' rotate(90deg)'
-        if (this.rotate == 180) transform += ' rotate(180deg)'
-        if (this.rotate == 270) transform += ' rotate(270deg)'
+        let scale = (this.rotate == 0 || this.rotate == 180) ? this.scale * 50 / this.naturalHeight :
+            this.scale * 50 / this.naturalWidth;
+        let scaledHeight = scale * this.naturalHeight;
+        let scaledWidth = scale * this.naturalWidth;
+
+        let transform = `scale(${scale}) `;
+        if (this.flipX) transform = ` translate(${scaledWidth}px, 0px) scaleX(-1) ` + transform;
+        if (this.flipY) transform = ` translate(0px, ${scaledHeight}px) scaleY(-1) ` + transform;
+
+        //if (this.rotate == 0) transform = ` scale(${scale}) ` + transform;
+        if (this.rotate == 90) transform = ` translate(${scaledHeight}px, 0px) rotate(90deg)` + transform;
+        if (this.rotate == 180) transform = ` translate(${scaledWidth}px, ${scaledHeight}px) rotate(180deg) ` + transform;
+        if (this.rotate == 270) transform = ` translate(0px, ${scaledWidth}px) rotate(270deg) ` + transform;
+
+        // if (this.rotate == 0) {
+        //    let dx = this.naturalWidth / 2;
+        //    let dy = this.naturalHeight / 2;
+        //   transform += ` translate(${dx}px, ${dy}px)`;
+        // }
+        //
+        // if (this.rotate == 180) {
+        //     let dx = -this.naturalWidth / 2;
+        //     let dy = -this.naturalHeight / 2;
+        //     transform += ` translate(${dx}px, ${dy}px)`;
+        // }
+
+        debug('getImgStyle return %o', transform);
         return {
-            'height': '50px',
+            'transform-origin': '0px 0px',
+            //'height': '50px',
             //'transform': `matrix(${transform.m11}, ${transform.m12}, ${transform.m21}, ${transform.m22}, ${tx}, ${ty})`,
             transform
         }
