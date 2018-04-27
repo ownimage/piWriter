@@ -34,4 +34,17 @@ export class TrackComponent implements OnInit {
         return !this.isPlayMode();
     }
 
+    getRotateStyle() {
+        if (this.track.rotate == 90) return [config.icons.rotate90];
+        if (this.track.rotate == 180) return [config.icons.rotate180];
+        if (this.track.rotate == 270) return [config.icons.rotate270];
+        return [config.icons.rotate0];
+    }
+
+    getAlignmentStyle() {
+        if (this.track.alignment == "middle") return [config.icons.alignMiddle];
+        if (this.track.alignment == "bottom") return [config.icons.alignBottom];
+        return [config.icons.alignTop];
+    }
+
 }

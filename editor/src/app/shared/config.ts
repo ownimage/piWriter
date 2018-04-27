@@ -19,6 +19,13 @@ const config = {
         dots: 'fas fa-ellipsis-h fa-fw',
         leftRightArrow: 'fas fa-arrows-alt-h fa-fw',
         upDownArrow: 'fas fa-arrows-alt-v fa-fw',
+        rotate0: 'fas fa-undo-alt fa-fw flip',
+        rotate90: 'fas fa-undo-alt fa-fw flipRotate90',
+        rotate180: 'fas fa-undo-alt fa-fw flipRotate180',
+        rotate270: 'fas fa-undo-alt fa-fw flipRotate270',
+        alignTop: 'piW-align-top fa-fw',
+        alignMiddle: 'piW-align-middle fa-fw',
+        alignBottom: 'piW-align-bottom fa-fw',
     }
 };
 

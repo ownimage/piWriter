@@ -1,6 +1,7 @@
 import {Playlist} from './playlist.model';
 
 export class Track {
+
     constructor(private playlist: Playlist,
                 private _name: string,
                 private _path: string,
@@ -10,7 +11,10 @@ export class Track {
                 private _speed: number = 1,
                 private _brightness: number = 255,
                 private _flipX: boolean = false,
-                private _flipY: boolean = false) {
+                private _flipY: boolean = false,
+                private _scale: number = 1,
+                private _alignment: string = "top",
+                private _rotate: number = 0,) {
     };
 
     clone(): Track {
@@ -22,11 +26,16 @@ export class Track {
             this._autostartNext,
             this._enabled,
             this._speed,
-            this._brightness
+            this._brightness,
+            this._flipX,
+            this._flipY,
+            this._scale,
+            this._alignment,
+            this._rotate
         );
     }
 
-    //private _speed: number = 1;
+
     get name(): string {
         return this._name;
     }
@@ -61,6 +70,18 @@ export class Track {
 
     get flipY(): boolean {
         return this._flipY;
+    }
+
+    get scale(): number {
+        return this._scale;
+    }
+
+    get alignment(): string {
+        return this._alignment;
+    }
+
+    get rotate(): number {
+        return this._rotate;
     }
 
     set repeat(value: boolean) {
@@ -98,6 +119,21 @@ export class Track {
         this._flipY = value;
     }
 
+    set scale(value: number) {
+        this.markDirty();
+        this._scale = value;
+    }
+
+    set alignment(value: string) {
+        this.markDirty();
+        this._alignment = value;
+    }
+
+    set rotate(value: number) {
+        this.markDirty();
+        this._rotate = value;
+    }
+
     toggleFlipX() {
         this.flipX = !this.flipX;
     }
@@ -116,6 +152,19 @@ export class Track {
 
     toggleEnabled() {
         this.enabled = !this.enabled;
+    }
+
+    toggleAlignment() {
+        if (this.alignment == "top") this.alignment = "middle";
+        else if (this.alignment == "middle") this.alignment = "bottom";
+        else this.alignment = "top";
+    }
+
+    toggleRotate() {
+        if (this.rotate == 0) this.rotate = 90;
+        else if (this.rotate == 90) this.rotate = 180;
+        else if (this.rotate == 180) this.rotate = 270;
+        else this.rotate = 0;
     }
 
     moveUp() {
@@ -146,3 +195,4 @@ export class Track {
         this.playlist.duplicate(this);
     }
 }
+

@@ -17,6 +17,7 @@ import { HeaderComponent } from './pageComponents/header/header.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { MessageComponent } from './pageComponents/message/message.component';
 import { SliderComponent } from './pageComponents/slider/slider.component';
+import { ImageComponent } from './pageComponents/image/image.component';
 
 
 const appRoutes: Routes = [
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
         SettingsComponent,
         MessageComponent,
         SliderComponent,
+        ImageComponent,
     ],
     imports: [
         HttpClientModule,

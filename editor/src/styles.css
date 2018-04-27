@@ -43,3 +43,70 @@ body > .container {
 code {
     font-size: 80%;
 }
+
+.flip {
+    transform: scaleX(-1);
+}
+
+.flipRotate90 {
+    transform: scaleX(-1) rotate(270deg);
+}
+
+.flipRotate180 {
+    transform: scaleX(-1) rotate(180deg);
+}
+
+.flipRotate270 {
+    transform: scaleX(-1) rotate(90deg);
+}
+
+.piW-align-top {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml;utf-8,\
+    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
+    <g stroke-width='2' > \
+        <path id='main' d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10'  /> \
+        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
+        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
+    </g> \
+    </svg> \
+    ");
+    background-size: 35px;
+}
+
+.piW-align-middle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml;utf-8,\
+    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
+    <g stroke-width='2' > \
+        <path d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10'  fill='lightgrey' /> \
+        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' /> \
+        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
+    </g> \
+    </svg> \
+    ");
+    background-size: 35px;
+}
+
+.piW-align-bottom {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml;utf-8,\
+    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
+    <g stroke-width='2' > \
+        <path d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey'  /> \
+        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
+        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' /> \
+    </g> \
+    </svg> \
+    ");
+    background-size: 35px;
+}

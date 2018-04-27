@@ -1,0 +1,10 @@
+<div
+        [ngStyle]='getDivStyle()'
+>
+    <img
+            #img
+            (load)='imageLoad()'
+            [src]='src'
+            [ngStyle]='getImgStyle()'
+    />
+</div>

@@ -13,7 +13,10 @@ const trackDTOToTrack = (track: TrackDTO, playlist: Playlist) => {
         track.speed,
         track.brightness,
         track.flipX,
-        track.flipY
+        track.flipY,
+        track.scale,
+        track.alignment,
+        track.rotate
     );
 };
 
