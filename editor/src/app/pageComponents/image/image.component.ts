@@ -53,6 +53,7 @@ export class ImageComponent implements OnInit {
             this.scale * 50 / this.naturalWidth;
         let scaledHeight = scale * this.naturalHeight;
         let scaledWidth = scale * this.naturalWidth;
+        let scaledVertical = (this.rotate == 90 || this.rotate == 270) ? scaledWidth : scaledHeight;
 
         let transform = `scale(${scale}) `;
         if (this.flipX) transform = ` translate(${scaledWidth}px, 0px) scaleX(-1) ` + transform;
@@ -63,17 +64,8 @@ export class ImageComponent implements OnInit {
         if (this.rotate == 180) transform = ` translate(${scaledWidth}px, ${scaledHeight}px) rotate(180deg) ` + transform;
         if (this.rotate == 270) transform = ` translate(0px, ${scaledWidth}px) rotate(270deg) ` + transform;
 
-        // if (this.rotate == 0) {
-        //    let dx = this.naturalWidth / 2;
-        //    let dy = this.naturalHeight / 2;
-        //   transform += ` translate(${dx}px, ${dy}px)`;
-        // }
-        //
-        // if (this.rotate == 180) {
-        //     let dx = -this.naturalWidth / 2;
-        //     let dy = -this.naturalHeight / 2;
-        //     transform += ` translate(${dx}px, ${dy}px)`;
-        // }
+        if (this.alignment == 'middle') transform = ` translate(0px, ${(50 - scaledVertical)/2}px) ` + transform;
+        if (this.alignment == 'bottom') transform = ` translate(0px, ${50 - scaledVertical}px) ` + transform;
 
         debug('getImgStyle return %o', transform);
         return {
