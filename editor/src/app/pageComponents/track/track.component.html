@@ -18,11 +18,14 @@
                 ></app-checkbox>
             </span>
             <span>
-                <img
-                        src='{{ restURL }}/images/{{ track.path }}'
-                        [ngStyle]="{'transform': track.flipX && track.flipY ? 'rotate(180deg)' : track.flipX ? 'scaleX(-1)' : track.flipY ? 'scaleY(-1)' : 'rotate(0deg)'}"
-                        style='max-height: 50px;'
-                />
+                <app-image
+                        [src]='restURL +"/images/" + track.path'
+                        [flipX]='track.flipX'
+                        [flipY]='track.flipY'
+                        [scale]='track.scale'
+                        [alignment]='track.alignment'
+                        [rotate]='track.rotate'
+                ></app-image>
                 </span>
             <span class='ml-1'>{{ track.name }}</span>
         </div>
@@ -115,6 +118,24 @@
             ></app-checkbox>
         </div>
 
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='true'
+                    [styles]='getRotateStyle()'
+                    [colors]='["green"]'
+                    (toggleEvent)='track.toggleRotate()'
+            ></app-checkbox>
+        </div>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='true'
+                    [styles]='getAlignmentStyle()'
+                    [colors]='["green"]'
+                    (toggleEvent)='track.toggleAlignment()'
+            ></app-checkbox>
+        </div>
+
     </div>
 </div>
 
@@ -143,6 +164,18 @@
         </div>
         <div class='col-7 col-sm-4'>
             <app-slider min='16' max='255' [round]='true' [(ngModel)]='track.brightness'></app-slider>
+        </div>
+    </div>
+
+    <div class='row mt-2 border-top'>
+        <div class='col-12 col-sm-4'>
+            Scale
+        </div>
+        <div class='col-5 col-sm-4'>
+            <input class='form-control' type='number' [(ngModel)]='track.scale'>
+        </div>
+        <div class='col-7 col-sm-4'>
+            <app-slider min='.1' max='1' [(ngModel)]='track.scale'></app-slider>
         </div>
     </div>
 

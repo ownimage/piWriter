@@ -1,3 +1,5 @@
+export {};
+
 const debug = require('debug')('serverCommon/RESTv1');
 debug('### serverCommon/RESTv1');
 

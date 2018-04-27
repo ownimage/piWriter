@@ -4,11 +4,9 @@ const debug = require('debug')('serverEmulator/NeoPixelEmulator');
 debug('### serverEmulator/server');
 
 const express = require('express');
-const http = require('http');
 const WebSocket = require('ws');
 
-const { config } = require('../../serverCommon/config');
-const NeoPixelDriver = require('../../serverCommon/NeoPixelDriver');
+const NeoPixelDriver = require('../../serverCommon/src/NeoPixelDriver');
 
 let NUM_LEDS = 10;
 let NeoPixelArray = new Uint32Array(NUM_LEDS);

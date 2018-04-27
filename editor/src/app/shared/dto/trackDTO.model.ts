@@ -7,6 +7,9 @@ export class TrackDTO {
                 public speed: number,
                 public brightness: number,
                 public flipX: boolean,
-                public flipY: boolean) {
+                public flipY: boolean,
+                public scale: number,
+                public alignment: string,
+                public rotate: number) {
     };
 }

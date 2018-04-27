@@ -10,40 +10,10 @@
       "speed": 1,
       "brightness": 255,
       "flipX": false,
-      "flipY": false
-    },
-    {
-      "name": "fire-02.jpg",
-      "path": "/Fire/fire-02.jpg",
-      "repeat": false,
-      "autostartNext": false,
-      "enabled": true,
-      "speed": 1,
-      "brightness": 255,
-      "flipX": false,
-      "flipY": false
-    },
-    {
-      "name": "fire-03.jpg",
-      "path": "/Fire/fire-03.jpg",
-      "repeat": false,
-      "autostartNext": false,
-      "enabled": true,
-      "speed": 1,
-      "brightness": 255,
-      "flipX": false,
-      "flipY": false
-    },
-    {
-      "name": "fire-04.jpg",
-      "path": "/Fire/fire-04.jpg",
-      "repeat": false,
-      "autostartNext": false,
-      "enabled": true,
-      "speed": 1,
-      "brightness": 255,
-      "flipX": false,
-      "flipY": false
+      "flipY": false,
+      "scale": 1,
+      "alignment": "top",
+      "rotate": 90
     }
   ]
 }

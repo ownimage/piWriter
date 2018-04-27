@@ -1,3 +1,5 @@
+export {};
+
 const debug = require('debug')('serverCommon/server');
 debug('### serverCommon/server');
 
@@ -15,10 +17,10 @@ const NeoPixelDriver = require('./NeoPixelDriver');
 
 let config;
 
-const startServer = (config, functionHooks) => {
+const startServer = (newConfig, functionHooks) => {
     debug('serverCommon/server:serverStart');
     debug(`config = ${JSON.stringify(config)}`);
-    this.config = config;
+    config = newConfig;
 
     NeoPixelDriver.init(config);
 
@@ -64,7 +66,7 @@ const ping = (req, res) => {
 const getConfig = (req, res) => {
     debug('serverCommon/server:getConfig');
     res.header('Access-Control-Allow-Origin', '*');
-    res.send(this.config);
+    res.send(config);
 };
 
 const postConfig = (req, res) => {
@@ -74,35 +76,35 @@ const postConfig = (req, res) => {
 
         let NUM_LEDS = req.body.NUM_LEDS;
         if (12 > NUM_LEDS || NUM_LEDS > 144) {
-            NUM_LEDS = this.config.NUM_LEDS;
+            NUM_LEDS = config.NUM_LEDS;
         }
 
         let brightness = req.body.brightness;
         if (16 > brightness || brightness > 255) {
-            brightness = this.config.brightness;
+            brightness = config.brightness;
         }
 
         let speed = req.body.speed;
         if (0.2 > speed || speed > 5) {
-            speed = this.config.speed;
+            speed = config.speed;
         }
 
         let debounceTimeout = req.body.debounceTimeout;
         if (10 > debounceTimeout || debounceTimeout > 1000) {
-            debounceTimeout = this.config.debounceTimeout;
+            debounceTimeout = config.debounceTimeout;
         }
 
-        this.config.brightness = brightness;
-        this.config.speed = speed;
-        this.config.debounceTimeout = debounceTimeout;
-        this.config.NUM_LEDS = NUM_LEDS;
+        config.brightness = brightness;
+        config.speed = speed;
+        config.debounceTimeout = debounceTimeout;
+        config.NUM_LEDS = NUM_LEDS;
 
-        debug(`config = ${JSON.stringify(this.config)}`);
+        debug(`config = ${JSON.stringify(config)}`);
 
-        NeoPixelDriver.init(this.config);
+        NeoPixelDriver.init(config);
 
         res.header('Access-Control-Allow-Origin', '*');
-        res.send(this.config);
+        res.send(config);
     } catch (e) {
         res.header('Access-Control-Allow-Origin', '*');
         res.sendStatus(500);
