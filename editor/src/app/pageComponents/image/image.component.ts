@@ -40,7 +40,7 @@ export class ImageComponent implements OnInit {
             this.scale * this.naturalHeight * 50 / this.naturalWidth;
         let style = {
             'float': 'left',
-            'background-color': 'pink',
+            'background-color': 'black',
             'height': '50px',
             'width': `${width}px`
         };
