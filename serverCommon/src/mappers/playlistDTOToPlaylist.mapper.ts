@@ -13,14 +13,15 @@ const {Gallery} = require('../model/Gallery');
 
 
 const playlistDTOToPlaylist = (playlistDTO: PlaylistDTO,
-                               config,) => {
+                               config,
+                               completeFn) => {
     debug('serverCommon/Playlist:constructor');
 
     let gallery = new Gallery();
     let tracks = playlistDTO.tracks.filter(p => p.enabled);
 
     debug('tracks = %O', tracks);
-    tracks.map(track => {
+    let promises = tracks.map(track => {
         if (!gallery.get(track)) { // dont process duplicates
             let fullPicturePath = config.imagesFolder + track.path;
             debug('fullPicturePath = %s', fullPicturePath);
@@ -54,6 +55,10 @@ const playlistDTOToPlaylist = (playlistDTO: PlaylistDTO,
                 }
             });
         }
+    });
+
+    Promise.all(promises).then(() => {
+        if (completeFn) completeFn();
     });
     return new Playlist(tracks, gallery);
 };

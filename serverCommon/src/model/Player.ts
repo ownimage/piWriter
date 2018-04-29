@@ -66,7 +66,7 @@ class Player {
 
     next(render, renderBlank) {
         try {
-            debug('next Playlist %O', this.playlist);
+            debug('next');
 
             if (!this.playlist) return;
             this.halt = false;
@@ -109,6 +109,8 @@ class Player {
     play(playlist: Playlist) {
         this.halt = true;
         this.autostartNext = false;
+        this.currentTrack = -1;
+        this.state = 'Idle'
         this.playlist = playlist;
     }
 

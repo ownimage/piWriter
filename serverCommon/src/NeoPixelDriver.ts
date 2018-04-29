@@ -65,7 +65,7 @@ process.on('SIGINT', function () {
 
 
 const setPlaylist = (playlistDTO: PlaylistDTO) => {
-    let playlist = (playlistDTO) ? playlistDTOToPlaylist(playlistDTO, config) : null;
+    let playlist = (playlistDTO) ? playlistDTOToPlaylist(playlistDTO, config, () => flash(2)) : null;
     player.play(playlist);
 };
 
