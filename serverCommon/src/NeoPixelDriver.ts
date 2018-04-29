@@ -3,16 +3,17 @@ export {};
 const debug = require('debug')('serverCommon/NeoPixelDriver');
 debug('### serverCommon/NeoPixelDriver');
 
-import { Playlist} from './Playlist';
-const {rgbValues2Int} = require('./ColorUtils');
-const {logError} = require('./common');
+import { PlaylistDTO } from './dto/PlaylistDTO';
+const {rgbValues2Int} = require('./utils/ColorUtils');
+const {logError} = require('./utils/common');
+import { playlistDTOToPlaylist } from './mappers/playlistDTOToPlaylist.mapper';
 
 let config;
 let blankArray: Uint32Array;
 let flashArray: Uint32Array = null;
 let playlistDTO = null;
 let playlist = null;
-let player = require('./Player');
+let player = require('./model/Player');
 
 const init = (newConfig) => {
     debug('serverCommon/NeoPixelDriver:init');
@@ -63,8 +64,8 @@ process.on('SIGINT', function () {
 });
 
 
-const setPlaylist = (playlistDTO) => {
-    playlist = (playlistDTO) ? new Playlist(playlistDTO, config) : null;
+const setPlaylist = (playlistDTO: PlaylistDTO) => {
+    let playlist = (playlistDTO) ? playlistDTOToPlaylist(playlistDTO, config, () => flash(2)) : null;
     player.play(playlist);
 };
 
