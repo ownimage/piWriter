@@ -5,7 +5,7 @@ debug('### serverCommon/Player');
 
 import {Playlist} from './Playlist';
 
-const {logError} = require('./common');
+const {logError} = require('../utils/common');
 
 class Player {
 
