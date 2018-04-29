@@ -1,4 +1,4 @@
-module.exports = class Gallery {
+export class Gallery {
 
     constructor(private storage: { key: any, value: any }[] = []) {
     }
@@ -26,4 +26,5 @@ module.exports = class Gallery {
             && key1.flipY == key2.flipY;
     }
 };
+
 

@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const {config} = require('./config');
-const {logError} = require('./common');
+const {logError} = require('./utils/common');
 
 const getFiles = (dirs, result, res) => {
     let dir = dirs.pop();

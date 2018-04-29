@@ -11,7 +11,7 @@ const path = require('path');
 const RESTv1 = require('./RESTv1');
 const RESTv2 = require('./RESTv2');
 
-const {logError} = require('./common');
+const {logError} = require('./utils/common');
 
 const NeoPixelDriver = require('./NeoPixelDriver');
 
