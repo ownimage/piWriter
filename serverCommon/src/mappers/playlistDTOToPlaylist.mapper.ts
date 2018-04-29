@@ -32,21 +32,24 @@ const playlistDTOToPlaylist = (playlistDTO: PlaylistDTO,
                 else {
                     let timedArrays = [];
 
-                    let height = Math.min(image.bitmap.height, config.NUM_LEDS);
                     // dont resize width as this affects timing
-                    image.resize(image.bitmap.width, height);
                     image.flip(track.flipX, track.flipY);
-                    for (let i = 0; i < image.bitmap.width; i++) {
+                    image.rotate(track.rotate);
+                    image.scale(track.scale * config.NUM_LEDS /image.bitmap.height);
+                    let verticalOffset = track.alignment == "top" ? 0
+                        : track.alignment == "middle" ? Math.floor((config.NUM_LEDS - image.bitmap.height) / 2)
+                            : config.NUM_LEDS - image.bitmap.height;
+                    for (let x = 0; x < image.bitmap.width; x++) {
                         let colorArray = new Uint32Array(config.NUM_LEDS);
-                        for (let j = 0; j < height; j++) {
-                            let color = Jimp.intToRGBA(image.getPixelColor(i, j));
+                        for (let y = 0; y < image.bitmap.height; y++) {
+                            let color = Jimp.intToRGBA(image.getPixelColor(x, y));
                             let brightness = (track.brightness / 255.0) * (config.brightness / 255.0);
                             let color2 = {
                                 r: color.r * brightness,
                                 g: color.g * brightness,
                                 b: color.b * brightness,
                             };
-                            colorArray[height - 1 - j] = rgbObject2Int(color2);
+                            colorArray[config.NUM_LEDS - 1 - y - verticalOffset] = rgbObject2Int(color2);
                         }
                         let a = {t: 1, ca: colorArray};
                         timedArrays.push(a);
