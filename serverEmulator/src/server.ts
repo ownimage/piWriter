@@ -3,9 +3,9 @@ export {};
 const debug = require('debug')('serverEmulator/server');
 debug('### serverEmulator/server');
 
-const commonConfig = require('../../serverCommon/src/config');
-const neopixelLib = require('./NeoPixelEmulator');
-const server = require('../../serverCommon/src/server');
+const commonConfig = require('../../serverCommon/dist/config');
+const neopixelLib = require('../../serverCommon/src/utils/NeoPixelEmulator');
+const server = require('../../serverCommon/dist/server');
 
 let config = {
     ...commonConfig.config,
