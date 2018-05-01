@@ -1,74 +1,183 @@
-<ul class="list-group">
-    <li class="list-group-item container-fluid">
-        <!--<div class="row">
-            <p class="ml-5">{{ track.name }}</p>
+<ul class='list-group'>
+    <li class='list-group-item container-fluid'>
+
+        <div class='row'>
+            <span class='ml-3'>
+                <app-checkbox
+                        *ngIf='isEditMode() && !isFirst'
+                        [styles]='[icons.moveUp]'
+                        [colors]='["black"]'
+                        (toggleEvent)='track.moveUp()'
+                ></app-checkbox>
+                <br>
+                <app-checkbox
+                        *ngIf='isEditMode() && !isLast'
+                        [styles]='[icons.moveDown]'
+                        [colors]='["black"]'
+                        (toggleEvent)='track.moveDown()'
+                ></app-checkbox>
+            </span>
+            <span>
+                <app-image
+                        [src]='restURL +"/images/" + track.path'
+                        [flipX]='track.flipX'
+                        [flipY]='track.flipY'
+                        [scale]='track.scale'
+                        [alignment]='track.alignment'
+                        [rotate]='track.rotate'
+                ></app-image>
+                </span>
+            <span class='ml-1'>{{ track.name }}</span>
         </div>
-        -->
-        <div class="row offset-1">
-            <img
-                    src="{{ restURL }}/images/{{ track.path }}"
-                    style="max-height: 50px;"
-            />
-            <p class="ml-1">{{ track.name }}</p>
+
+        <div class='row mt-1'>
+
+            <div class='col-2'>
+                <app-checkbox
+                        [value]='track.repeat'
+                        [enabled]='isEditMode()'
+                        [styles]='[icons.repeat]'
+                        [colors]='["green", "grey"]'
+                        (toggleEvent)='track.toggleRepeat()'
+                ></app-checkbox>
+            </div>
+
+            <div class='col-2'>
+                <app-checkbox
+                        [value]='track.autostartNext'
+                        [enabled]='isEditMode()'
+                        [styles]='[icons.autoStartNext, icons.stop]'
+                        [colors]='["green", "red"]'
+                        (toggleEvent)='track.toggleAutostartNext()'
+                ></app-checkbox>
+            </div>
+
+            <div class='col-2'>
+                <app-checkbox
+                        *ngIf='isEditMode()'
+                        [value]='track.enabled'
+                        [enabled]='isEditMode()'
+                        [styles]='[icons.enabled, icons.disabled]'
+                        [colors]='["green", "grey"]'
+                        (toggleEvent)='track.toggleEnabled()'
+                ></app-checkbox>
+            </div>
+
+            <div class='col-2'>
+                <app-checkbox
+                        *ngIf='isEditMode() && !track.isAdvancedMode()'
+                        [value]='true'
+                        [styles]='[icons.cross]'
+                        [colors]='["red"]'
+                        (toggleEvent)='track.cut()'
+                ></app-checkbox>
+            </div>
+
+            <div class='col-2'>
+                <app-checkbox
+                        *ngIf='isEditMode() && !track.isAdvancedMode()'
+                        [styles]='[icons.plus]'
+                        [colors]='["blue"]'
+                        (toggleEvent)='track.duplicate()'
+                ></app-checkbox>
+            </div>
+
+            <div class='col-2'>
+                <app-checkbox
+                        *ngIf='isEditMode()'
+                        [styles]='[icons.dots]'
+                        [colors]='["grey", "green"]'
+                        (toggleEvent)='track.setAdvancedMode()'
+                ></app-checkbox>
+            </div>
         </div>
 
-        <div class="row mt-1">
-
-            <div class="col-1">
-                <app-checkbox
-                        *ngIf="isEditMode() && !isFirst"
-                        [styles]="[icons.moveUp]"
-                        [colors]="['black']"
-                        (toggleEvent)="track.moveUp()"
-                ></app-checkbox>
-            </div>
-
-            <div class="col-1">
-                <app-checkbox
-                        *ngIf="isEditMode() && !isLast"
-                        [styles]="[icons.moveDown]"
-                        [colors]="['black']"
-                        (toggleEvent)="track.moveDown()"
-                ></app-checkbox>
-            </div>
-
-            <div class="col-2">
-                <app-checkbox
-                        [value]="track.repeat"
-                        [styles]="[icons.repeat]"
-                        [colors]="['green', 'grey', 'grey']"
-                        (toggleEvent)="toggleRepeat()"
-                ></app-checkbox>
-            </div>
-
-            <div class="col-2">
-                <app-checkbox
-                        [value]="track.autostartNext"
-                        [styles]="[icons.autoStartNext, icons.stop]"
-                        [colors]="['green', 'red', 'grey']"
-                        (toggleEvent)="toggleAutostartNext()"
-                ></app-checkbox>
-            </div>
-
-            <div class="col-2">
-                <app-checkbox
-                        *ngIf="isEditMode()"
-                        [value]="true"
-                        [styles]="[icons.cross]"
-                        [colors]="['red']"
-                        (toggleEvent)="track.cut()"
-                ></app-checkbox>
-            </div>
-
-            <div class="col-2">
-                <app-checkbox
-                        [value]="track.enabled"
-                        [styles]="[icons.enabled, icons.disabled]"
-                        [colors]="['green', 'grey']"
-                        (toggleEvent)="toggleEnabled()"
-                ></app-checkbox>
-            </div>
-
-        </div>
     </li>
+
 </ul>
+<div class='container-fluid'
+     *ngIf='isEditMode()  && track.isAdvancedMode()'
+>
+    <div class='row mt-2'>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='track.flipX'
+                    [styles]='[icons.leftRightArrow]'
+                    [colors]='["green", "grey"]'
+                    (toggleEvent)='track.toggleFlipX()()'
+            ></app-checkbox>
+        </div>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='track.flipY'
+                    [styles]='[icons.upDownArrow]'
+                    [colors]='["green", "grey"]'
+                    (toggleEvent)='track.toggleFlipY()'
+            ></app-checkbox>
+        </div>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='true'
+                    [styles]='getRotateStyle()'
+                    [colors]='["green"]'
+                    (toggleEvent)='track.toggleRotate()'
+            ></app-checkbox>
+        </div>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='true'
+                    [styles]='getAlignmentStyle()'
+                    [colors]='["green"]'
+                    (toggleEvent)='track.toggleAlignment()'
+            ></app-checkbox>
+        </div>
+
+    </div>
+</div>
+
+<div class='container mt-1'
+     *ngIf='isEditMode()  && track.isAdvancedMode()'
+>
+
+    <div class='row mt-2 border-top'>
+        <div class='col-12 col-sm-4'>
+            Speed
+        </div>
+        <div class='col-5 col-sm-4'>
+            <input class='form-control' type='number' [(ngModel)]='track.speed'>
+        </div>
+        <div class='col-7 col-sm-4'>
+            <app-slider min='.2' max='5' [(ngModel)]='track.speed'></app-slider>
+        </div>
+    </div>
+
+    <div class='row mt-2 border-top'>
+        <div class='col-12 col-sm-4'>
+            Brightness
+        </div>
+        <div class='col-5 col-sm-4'>
+            <input class='form-control' type='number' [(ngModel)]='track.brightness'>
+        </div>
+        <div class='col-7 col-sm-4'>
+            <app-slider min='16' max='255' [round]='true' [(ngModel)]='track.brightness'></app-slider>
+        </div>
+    </div>
+
+    <div class='row mt-2 border-top'>
+        <div class='col-12 col-sm-4'>
+            Scale
+        </div>
+        <div class='col-5 col-sm-4'>
+            <input class='form-control' type='number' [(ngModel)]='track.scale'>
+        </div>
+        <div class='col-7 col-sm-4'>
+            <app-slider min='.1' max='1' [(ngModel)]='track.scale'></app-slider>
+        </div>
+    </div>
+
+    <div class='row mt-2 border-top'></div>
+</div>

@@ -10,8 +10,13 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "debug": "^3.1.0",
     "express": "^4.16.3",
     "jimp": "^0.2.28",
+    "supports-color": "^5.4.0",
     "ws": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.6"
   }
 }

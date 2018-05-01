@@ -7,8 +7,14 @@ const trackToTrackDTO = (track: Track) => {
         track.path,
         track.repeat,
         track.autostartNext,
-        track.enabled
-    );
+        track.enabled,
+        track.speed,
+        track.brightness,
+        track.flipX,
+        track.flipY,
+        track.scale,
+        track.alignment,
+        track.rotate);
 };
 
 export {trackToTrackDTO};

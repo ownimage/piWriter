@@ -1,5 +1,8 @@
 import {PlaylistRepositoryService} from "../repository/PlaylistRepositoryService";
 import {Track} from './track.model';
+import {trackToTrackDTO} from "../mappers/trackToTrackDTO.mapper";
+
+const debug = require('debug')('piWriter/playlist.model.ts');
 
 export class Playlist {
 
@@ -9,7 +12,8 @@ export class Playlist {
         this.markDirty();
     };
 
-    public _isClean = true;
+    private _isClean = true;
+    private _showTrack: Track = null;
 
     get name() {
         return this._name;
@@ -41,24 +45,24 @@ export class Playlist {
     }
 
     addTrack(track) {
-        console.log('Playlist:addTrack');
+        debug('Playlist:addTrack');
         this.markDirty();
         this._tracks.push(track);
         return true;
     };
 
     post() {
-        console.log('Playlist:post');
+        debug('Playlist:post');
         return this.playlistRepository.postPlaylistV1(this);
     };
 
     save() {
-        console.log('Playlist:post');
+        debug('Playlist:post');
         return this.playlistRepository.savePlaylistV1Sync(this);
     };
 
     play() {
-        console.log('Playlist:play');
+        debug('Playlist:play');
         return this.playlistRepository.postPlaylistsPlayV1(this.name);
     }
 
@@ -80,6 +84,12 @@ export class Playlist {
         }
     };
 
+    duplicate(track: Track) {
+        let crntPos = this.tracks.indexOf(track);
+        let duplicate = track.clone()
+        this.tracks.splice(crntPos, 0, duplicate);
+    }
+
     cut = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos < this.tracks.length) {
@@ -87,5 +97,28 @@ export class Playlist {
             this.tracks.splice(crntPos, 1);
         }
     };
+
+    setShowTrack = function (track: Track) {
+        this._showTrack = track;
+    };
+
+    getShowTrack = function () {
+        return this._showTrack;
+    };
+
+    showAllTracks() {
+        this._showTrack = null;
+    };
+
+    isTrackShowing(track: Track) {
+        if (debug.enabled) {
+            debug('Playlist:isTrackShowing %o', trackToTrackDTO(track));
+        }
+        return this._showTrack == null || this._showTrack == track;
+    }
+
+    isShowingAllTracks() {
+        return this._showTrack == null;
+    }
 
 }

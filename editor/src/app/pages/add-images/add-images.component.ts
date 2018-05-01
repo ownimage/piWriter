@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {Track} from '../../shared/model/track.model';;
+import {Track} from '../../shared/model/track.model';
 import {TimedMessage} from '../../shared/timedMessage';
 import {config} from '../../shared/config';
-import {Playlist} from "../../shared/model/playlist.model";
-import {RepositoryService} from "../../shared/repository.service";
-import {PlaylistRepositoryService} from "../../shared/repository/PlaylistRepositoryService";
+import {Playlist} from '../../shared/model/playlist.model';
+import {RepositoryService} from '../../shared/repository.service';
+import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
+
+const debug = require('debug')('piWriter/add-images.component.ts');
 
 @Component({
     selector: 'app-browse-images',
@@ -30,14 +32,14 @@ export class AddImagesComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('BrowseImages component start');
+        debug('BrowseImages component start');
         this.playlistName = this.route.snapshot.params.playlistName;
         this.playlistRepositoryService.getPlaylistV1(this.playlistName).subscribe(data => this.playlist = data);
         this.changeDirectory(null);
     }
 
     changeDirectory(dir) {
-        console.log(`changeDirectory dir = ${JSON.stringify(dir)}`);
+        debug('changeDirectory dir = %o', dir);
         this.dirName = '';
         this.imagesV2 = [];
         if (dir) {
@@ -60,7 +62,7 @@ export class AddImagesComponent implements OnInit {
 
         this.repositoryService.getImagesV2(this.dirName).subscribe(data => {
             for (let image of data) {
-                console.log(`image = ${JSON.stringify(image)}`);
+                debug('image = %o', image);
                 this.imagesV2.push({
                     parentDirName: image.parentDirName,
                     dirName: image.dirName,
@@ -70,27 +72,25 @@ export class AddImagesComponent implements OnInit {
                     added: new TimedMessage()
                 });
             }
-            console.log(`this.imagesV2 = ${JSON.stringify(this.imagesV2)}`);
+            debug('this.imagesV2 = %o', this.imagesV2);
         });
     }
 
     toggleImage(image) {
-        console.log('toggleImage(' + JSON.stringify(image) + ')');
-        console.log('icons(' + JSON.stringify(this.icons) + ')');
-        // console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
+        debug('toggleImage(%o)', image);
+        debug('icons(%o)', this.icons);
         image.selected = !image.selected;
     }
 
     addImage(image) {
-        console.log('addImage(' + JSON.stringify(image) + ')');
-        //console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
+        debug('addImage(%o)', image);
         let track = new Track(this.playlist, image.name, image.dirName + '/' + image.name, false, false, true);
         this.playlist.addTrack(track);
         image.added.setMessage('green', 1000);
     }
 
     addSelected() {
-        console.log('imagesV2 = ' + JSON.stringify(this.imagesV2));
+        debug('imagesV2 = %o', this.imagesV2);
         this.imagesV2
             .filter(i => i.selected && i.isFile)
             .map(i => new Track(this.playlist, i.name, i.dirName + '/' + i.name, false, false, true))

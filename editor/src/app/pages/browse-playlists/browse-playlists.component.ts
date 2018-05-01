@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {config} from '../../shared/config';
-import {PlaylistRepositoryService} from "../../shared/repository/PlaylistRepositoryService";
-import {PlaylistItem} from "../../shared/model/playlistItem.model";
+import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
+import {PlaylistItem} from '../../shared/model/playlistItem.model';
+
+const debug = require('debug')('piWriter/browse-playlists.component.ts');
 
 @Component({
   selector: 'app-browse-playlists',
@@ -20,21 +22,20 @@ export class BrowsePlaylistsComponent implements OnInit {
     ) {}
 
     playlists:PlaylistItem[] = [];
-    mode: string = "";
+    mode: string = '';
     icons = config.icons;
 
     ngOnInit() {
-        console.log('Playlist component start');
+        debug('Playlist component start');
         this.mode = this.route.snapshot.queryParams.mode;
-        console.log('this.mode = ' + this.mode);
-        //this.setPlaylists('Hello world');
+        debug('this.mode = %s', this.mode);
         this.repositoryService.getPlaylistsV1().subscribe( data => {
             this.playlists = data;
         });
     }
 
     showPlaylist(playlist) {
-        console.log('showPlaylist(' +  playlist + ')');
+        debug('showPlaylist(%s)', playlist);
     }
 
     getModeDisplayText() {

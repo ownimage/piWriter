@@ -26,11 +26,13 @@
     "bootstrap": "^4.0.0",
     "compressible": "^2.0.13",
     "core-js": "^2.4.1",
+    "debug": "^3.1.0",
     "ejs": "^2.5.8",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.3",
     "rxjs": "^5.5.6",
+    "supports-color": "^5.4.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

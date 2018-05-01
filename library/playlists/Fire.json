@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "name": "fire-01.jpg",
+      "path": "/Fire/fire-01.jpg",
+      "repeat": false,
+      "autostartNext": false,
+      "enabled": true,
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false,
+      "scale": 1,
+      "alignment": "top",
+      "rotate": 90
+    }
+  ]
+}

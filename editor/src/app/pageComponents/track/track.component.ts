@@ -4,6 +4,8 @@ import {config} from '../../shared/config'
 import {environment} from '../../../environments/environment';
 import {Track} from '../../shared/model/track.model';
 
+const debug = require('debug')('piWriter/track.component.ts');
+
 @Component({
     selector: 'app-track',
     templateUrl: './track.component.html',
@@ -24,27 +26,6 @@ export class TrackComponent implements OnInit {
     ngOnInit() {
     }
 
-    toggleRepeat() {
-        console.log('toggleRepeat ' + this.isPlayMode());
-        if (this.isPlayMode()) return;
-        this.track.repeat = !this.track.repeat;
-        console.log('this.track.repeat ' + this.track.repeat);
-    }
-
-    toggleAutostartNext() {
-        console.log('toggleAutostartNext');
-        if (this.isPlayMode()) return;
-        this.track.autostartNext = !this.track.autostartNext;
-        console.log('this.track.autostartNext ' + this.track.autostartNext);
-    }
-
-    toggleEnabled() {
-        console.log('toggleEnabled');
-        if (this.isPlayMode()) return;
-        this.track.enabled = !this.track.enabled;
-        console.log('this.track.enabled ' + this.track.enabled);
-    }
-
     isPlayMode() {
         return this.mode == 'play';
     }
@@ -52,4 +33,18 @@ export class TrackComponent implements OnInit {
     isEditMode() {
         return !this.isPlayMode();
     }
+
+    getRotateStyle() {
+        if (this.track.rotate == 90) return [config.icons.rotate90];
+        if (this.track.rotate == 180) return [config.icons.rotate180];
+        if (this.track.rotate == 270) return [config.icons.rotate270];
+        return [config.icons.rotate0];
+    }
+
+    getAlignmentStyle() {
+        if (this.track.alignment == "middle") return [config.icons.alignMiddle];
+        if (this.track.alignment == "bottom") return [config.icons.alignBottom];
+        return [config.icons.alignTop];
+    }
+
 }

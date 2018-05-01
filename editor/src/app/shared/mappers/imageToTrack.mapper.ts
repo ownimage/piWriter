@@ -7,9 +7,6 @@ const imageToTrack = (image: Image, playlist: Playlist) => {
         playlist,
         image.name,
         image.dirName + '/' + image.name,
-        false,
-        false,
-        true
     );
 };
 

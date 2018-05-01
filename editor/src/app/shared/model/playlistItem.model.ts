@@ -1,5 +1,4 @@
 import {PlaylistRepositoryService} from '../repository/PlaylistRepositoryService';
-import {Playlist} from "./playlist.model";
 
 export class PlaylistItem {
 

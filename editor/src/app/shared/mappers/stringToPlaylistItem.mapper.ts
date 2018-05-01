@@ -1,8 +1,9 @@
 import { PlaylistRepositoryService } from '../repository/PlaylistRepositoryService';
-import { PlaylistItem } from '../model/playlistItem.model';
+
+const debug = require('debug')('piWriter/stringToPlaylistItem.mapper.ts');
 
 const stringToPlaylistItem = (playlistRepositoryService: PlaylistRepositoryService, name: string) => {
-    console.log(`stringToPlaylistItem ${JSON.stringify(name)}`);
+    debug('stringToPlaylistItem %o', name);
     return playlistRepositoryService.createPlaylistItem(name);
 };
 

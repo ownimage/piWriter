@@ -1,69 +1,86 @@
 <app-header
-        [leftIcon]="icons.navigateBack"
-        (click)="navigateToHome()"
+        [leftIcon]='icons.navigateBack'
+        (click)='navigateToHome()'
 ></app-header>
 
-<h4 class="ml-3">Settings</h4>
+<h4 class='ml-3'>Settings</h4>
 
-<div class="row ml-3 mr-3">
-    <div class="col-5 mt-1 mb-4"> <!--the error and message boxes have an mt-1 this is to match-->
-        <span class="btn btn-primary btn-lg btn-block ml-3"
-              (click)="testREST()"
+<div class='row ml-3 mr-3'>
+    <div class='col-5 mt-1'> <!--the error and message boxes have an mt-1 this is to match-->
+        <span class='btn btn-primary btn-lg btn-block ml-3'
+              (click)='testREST()'
         >Test</span>
     </div>
 
-    <div class="col-7">
-        <app-message [model]="testRestMessage"></app-message>
+    <div class='col-7'>
+        <app-message [model]='testRestMessage'></app-message>
     </div>
 </div>
 
-<div class="row mt-2 ml-3 mr-3">
-    <div class="col-4 float-right">
+<hr/>
+<div class='row ml-3 mr-3'>
+    <div class='col-12 col-sm-4'>
         Number of LEDs
     </div>
-    <div class="col-8">
-        <input class="form-control" type="number" [(ngModel)]="serverConfig.NUM_LEDS">
+    <div class='col-5 col-sm-4'>
+        <input class='form-control' type='number' [(ngModel)]='serverConfig.NUM_LEDS'>
+    </div>
+    <div class='col-7 col-sm-4'>
+        <app-slider min='1' max='144' [round]='true' [(ngModel)]='serverConfig.NUM_LEDS'></app-slider>
     </div>
 </div>
 
-<div class="row mt-2 ml-3 mr-3">
-    <div class="col-4 float-right">
+<hr/>
+<div class='row mt-2 ml-3 mr-3'>
+    <div class='col-12 col-sm-4'>
         Speed
     </div>
-    <div class="col-8">
-        <input class="form-control" type="number" [(ngModel)]="serverConfig.speed">
+    <div class='col-5 col-sm-4'>
+        <input class='form-control' type='number' [(ngModel)]='serverConfig.speed'>
+    </div>
+    <div class='col-7 col-sm-4'>
+        <app-slider min='.2' max='5' [(ngModel)]='serverConfig.speed'></app-slider>
     </div>
 </div>
 
-<div class="row mt-2 ml-3 mr-3">
-    <div class="col-4 float-right">
+<hr/>
+<div class='row mt-2 ml-3 mr-3'>
+    <div class='col-12 col-sm-4'>
         Brightness
     </div>
-    <div class="col-8">
-        <input class="form-control" type="number" [(ngModel)]="serverConfig.brightness">
+    <div class='col-5 col-sm-4'>
+        <input class='form-control' type='number' [(ngModel)]='serverConfig.brightness'>
+    </div>
+    <div class='col-7 col-sm-4'>
+        <app-slider min='16' max='255' [round]='true' [(ngModel)]='serverConfig.brightness'></app-slider>
     </div>
 </div>
 
-<div class="row mt-2 ml-3 mr-3">
-    <div class="col-4 float-right">
+<hr/>
+<div class='row mt-2 ml-3 mr-3'>
+    <div class='col-12 col-sm-4'>
         Debounce Timeout
     </div>
-    <div class="col-8">
-        <input class="form-control" type="number" [(ngModel)]="serverConfig.debounceTimeout">
+    <div class='col-5 col-sm-4'>
+        <input class='form-control' type='number' [(ngModel)]='serverConfig.debounceTimeout'>
+    </div>
+    <div class='col-7 col-sm-4'>
+        <app-slider min='0' max='500' [round]='true' [(ngModel)]='serverConfig.debounceTimeout'></app-slider>
     </div>
 </div>
+<hr/>
 
-<div class="container">
-    <div class="row mt-2">
+<div class='container'>
+    <div class='row mt-2'>
 
         <button
-                (click)="saveConfig()"
-                class="btn btn-danger btn-lg btn-block mt-1"
+                (click)='saveConfig()'
+                class='btn btn-danger btn-lg btn-block mt-1'
         >Save
         </button>
 
-        <div class="mt-1" style="width: 100%">
-            <app-message [model]="infoMessage"></app-message>
+        <div class='mt-1' style='width: 100%'>
+            <app-message [model]='infoMessage'></app-message>
         </div>
 
     </div>

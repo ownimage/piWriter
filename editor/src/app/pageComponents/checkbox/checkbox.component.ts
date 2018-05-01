@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {config} from '../../shared/config';
 
+const debug = require('debug')('piWriter/checkbox.component.ts');
+
 @Component({
     selector: 'app-checkbox',
     templateUrl: './checkbox.component.html',
@@ -11,7 +13,7 @@ export class CheckboxComponent implements OnInit {
     @Input() value: boolean;
     @Input() enabled: boolean = true;
     @Input() styles: string[] = [config.icons.tick, config.icons.cross];
-    @Input() colors: string[] = ["green", "red", "grey"];
+    @Input() colors: string[] = ['green', 'red', 'grey'];
     @Output() toggleEvent = new EventEmitter();
 
     constructor() {
@@ -32,8 +34,10 @@ export class CheckboxComponent implements OnInit {
     }
 
     toggle() {
-        console.log("toggle ");
-        this.toggleEvent.emit();
+        debug('toggle ');
+        if (this.enabled) {
+            this.toggleEvent.emit();
+        }
     }
 
 }

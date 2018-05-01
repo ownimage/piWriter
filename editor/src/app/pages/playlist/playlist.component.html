@@ -1,12 +1,12 @@
 <app-header
         [leftIcon]="icons.navigateBack"
-        (leftIconClick)="navigateToPlaylists()"
+        (leftIconClick)="navigateBack()"
 ></app-header>
 
 <h4 class="ml-3">{{ getDisplayName() }}</h4>
 
 <app-track
-        *ngFor="let track of playlist.tracks; first as isFirst; last as isLast"
+        *ngFor="let track of getTracks() first as isFirst; last as isLast"
         [track]="track"
         [isFirst]="isFirst"
         [isLast]="isLast"
@@ -18,21 +18,21 @@
     <div class="row mt-2">
 
         <button
-                *ngIf="mode == 'edit'"
+                *ngIf="isEditMode() && playlist.isShowingAllTracks()"
                 (click)="navigateAddTrack()"
                 class="btn btn-primary btn-lg btn-block mt-1"
         >Add Track
         </button>
 
         <button
-                *ngIf="mode == 'edit' && playlist.isDirty"
+                *ngIf="isEditMode() && playlist.isDirty && playlist.isShowingAllTracks()"
                 (click)="post()"
                 class="btn btn-danger btn-lg btn-block mt-1"
         >Save
         </button>
 
         <button
-                *ngIf="playlist.isClean"
+                *ngIf="playlist.isClean && playlist.isShowingAllTracks()"
                 (click)="play()"
                 class="btn btn-success btn-lg btn-block mt-1"
         >{{getPlayLabel()}}

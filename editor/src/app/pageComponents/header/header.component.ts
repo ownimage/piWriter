@@ -1,7 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {config} from "../../shared/config";
-import {Router} from "@angular/router";
+import {config} from '../../shared/config';
+import {Router} from '@angular/router';
+
+const debug = require('debug')('piWriter/header.component.ts');
 
 @Component({
     selector: 'app-header',
@@ -19,11 +21,11 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(`leftIcon =${this.leftIcon}`);
+        debug('leftIcon = %s', this.leftIcon);
     }
 
     doLeftIconClick(x) {
-        console.log('onClick()');
+        debug('onClick()');
         this.leftIconClick.emit(x);
     }
 

@@ -6,6 +6,8 @@ import {PlaylistRepositoryService} from '../../shared/repository/PlaylistReposit
 import {MessageModel} from '../../pageComponents/message/message.component.model';
 import {Playlist} from "../../shared/model/playlist.model";
 
+const debug = require('debug')('piWriter/playlist.component.ts');
+
 @Component({
     selector: 'app-playlist',
     templateUrl: './playlist.component.html',
@@ -31,28 +33,35 @@ export class PlaylistComponent implements OnInit {
         let playlistName = this.route.snapshot.params.playlistName;
         this.playlist = this.playlistRepositoryService.createPlaylist(playlistName);
         this.mode = this.route.snapshot.queryParams.mode;
-        console.log('Playlist component start ' + playlistName);
-        //console.log('this.playlist = ' + JSON.stringify(this.playlist));
-        console.log('mode ' + this.mode);
+        debug('Playlist component start %s', playlistName);
+        debug('mode %s', this.mode);
         this.playlistRepositoryService.getPlaylistV1(playlistName)
             .subscribe(
                 data => {
-                    console.log('data recieved ');
-                    console.log('this.playlists ? = ' + JSON.stringify(this.playlist.getDisplayName()));
-                    console.log('size ? = ' + JSON.stringify(this.playlist.tracks.length));
+                    debug('data recieved ');
+                    debug('this.playlists ? = %s', this.playlist.getDisplayName());
+                    debug('size ? = %d', this.playlist.tracks.length);
                     if (data) this.playlist = data;
                     else this.playlist = this.playlistRepositoryService.createPlaylist(playlistName);
                     if (this.playlist.isDirty && this.isPlayMode()) this.infoMessage.setMessage("Can't play an unsaved Playlsit");
                 },
                 error => {
-                    console.log('data error ');
+                    debug('data error ');
                     this.playlist = this.playlistRepositoryService.createPlaylist(playlistName);
                     this.infoMessage.setErrorTimeout('Could not load data', null);
                 },
                 () => {
-                    console.log('something else ');
+                    debug('something else ');
                 });
-        //console.log('this.playlists end = ' + JSON.stringify(this.playlist));
+    }
+
+    getTracks(track) {
+        if (this.isPlayMode()) {
+            return this.playlist.tracks.filter(t => t.enabled);
+        } // else isEditMode
+        return this.playlist.tracks.filter(t => {
+            return this.playlist.isTrackShowing(t);
+        });
     }
 
     navigateAddTrack() {
@@ -60,20 +69,23 @@ export class PlaylistComponent implements OnInit {
         this.router.navigate(['/playlists', this.playlist.name, 'addImages'], {queryParams: {mode: 'edit'}})
     }
 
-    navigateToPlaylists() {
-        this.router.navigate(['/playlists'], {queryParams: {mode: this.mode}})
+    navigateBack() {
+        if (this.isPlayMode() || this.playlist.isShowingAllTracks()) {
+            this.router.navigate(['/playlists'], {queryParams: {mode: this.mode}})
+        }
+        this.playlist.showAllTracks();
     }
 
     play() {
-        console.log('play');
+        debug('play');
         if (this.isPlayMode()) {
             this.playlist.play().subscribe(
                 res => {
-                    console.log(`playlist/playlist.component:play repository returns ${JSON.stringify(res)}`);
+                    debug('playlist/playlist.component:play repository returns %O', res);
                     this.infoMessage.setMessageTimeout('Play Playlist Success !!');
                 },
                 err => {
-                    console.log(`playlist/playlist.component:play repository returns Error ${JSON.stringify(err)}`);
+                    debug('playlist/playlist.component:play repository returns Error %o', err);
                     this.infoMessage.setMessage('');
                     this.infoMessage.setErrorTimeout('Play Playlist Failed :(');
                 });
@@ -84,20 +96,21 @@ export class PlaylistComponent implements OnInit {
     }
 
     post() {
-        console.log('sendPlaylist');
+        debug('sendPlaylist');
         this.infoMessage.setMessage('Sending Playlist ...');
         this.playlist.post()
             .subscribe(
                 res => {
-                    console.log(`playlist/playlist.component:save repository returns ${JSON.stringify(res)}`);
+                    debug('playlist/playlist.component:save repository returns %O', res);
                     this.infoMessage.setMessageTimeout('Send Playlist Success !!');
                 },
                 err => {
-                    console.log(`playlist/playlist.component:save repository returns Error ${JSON.stringify(err)}`);
+                    debug('playlist/playlist.component:save repository returns Error %o', err);
                     this.infoMessage.setMessage('');
                     this.infoMessage.setErrorTimeout('Send Playlist Failed :(');
                 });
-    };
+    }
+    ;
 
     isPlayMode() {
         return this.mode == 'play';

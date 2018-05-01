@@ -1,0 +1,10 @@
+<div class='slidecontainer' style='vertical-align: center'>
+    <input
+            class='slider'
+            type='range'
+            [min]='0'
+            [max]='sliderMax'
+            [(ngModel)]='sliderValue'
+            (input)='onBlur()'
+    >
+</div>

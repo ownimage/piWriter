@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
-import {config} from "../../shared/config";
+import {config} from '../../shared/config';
 import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
-import {Playlist} from "../../shared/model/playlist.model";
-import {MessageModel} from "../../pageComponents/message/message.component.model";
+import {Playlist} from '../../shared/model/playlist.model';
+import {MessageModel} from '../../pageComponents/message/message.component.model';
+
+const debug = require('debug')('piWriter/add-playlist.component.ts');
 
 @Component({
     selector: 'app-add-playlist',
@@ -26,14 +28,14 @@ export class AddPlaylistComponent implements OnInit {
     }
 
     addPlaylist() {
-        console.log("addPlaylist " + JSON.stringify(this.name));
+        debug('addPlaylist %o', this.name);
         this.infoMessage.clearAll();
         if (!this.name) {
             this.infoMessage.setErrorTimeout('Cannot post empty name.');
             return;
         }
-        if (!this.name.endsWith(".json")) {
-            this.name = this.name + ".json";
+        if (!this.name.endsWith('.json')) {
+            this.name = this.name + '.json';
             this.infoMessage.setErrorTimeout('Name changed, please check and press "Add".');
             return;
         }
@@ -47,7 +49,7 @@ export class AddPlaylistComponent implements OnInit {
                     let playlist = this.playlistRepositoryService.createPlaylist(this.name);
                     playlist.save();
                     this.infoMessage.clearMessage();
-                    this.router.navigate(["/playlists", this.name], {queryParams: {mode: "edit"}});
+                    this.router.navigate(['/playlists', this.name], {queryParams: {mode: 'edit'}});
                 }
             }
         );
