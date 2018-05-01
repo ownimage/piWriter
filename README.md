@@ -7,6 +7,35 @@ At the moment the project is structured into 3 directories
 2) server - this is the component that serves and recieves playlists and also drives the NeoPixelArray
 3) library - this is the home for the images (.jpg or .json) an the playlists
 
+##Setting up the build environment or Raspberry Pi
+#Download the tools (GIT and node, ts-node)
+Note that you will need to install `curl` too in order to get `nvm` 
+(node version manager, which is an easier way to manage node.
+```
+apt-get update
+apt install git
+apt install curl
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+source ~/.bashrc
+nvm install 10.0.0
+npm install -g ts-node
+npm install -g typescript
+```
+
+#Download the project
+``` 
+git clone https://github.com/ownimage/piWriter.git
+```
+
+#Post install steps 
+```
+cd piWriter/serverCommon
+npm i
+cd ../serverEmulator
+npm i
+
+## THIS IS FAILING AS I DONT HAVE THE LATEST RELEASE
+```
 #Build a release
 This assumes that you are building a release on a PC/other machine for use on the Raspberry Pi.
 
@@ -22,6 +51,7 @@ cd editor
 ```
 If building for the PC and serverEmulator ...
 ```
+rm -r dist
 ng build
 ```
 If building for the RaspberryPi
@@ -32,13 +62,15 @@ ng build --prod
 From the project root directory ...
 ```
 cd serverCommon
-tsc src/*.ts
+rm -r dist
+tsc ---outDir dist src/*.ts
 ```
 ##build serverEmulator
 From the project root directory ...
 ```
 cd serverCommon
-tsc src/*.ts
+rm -r dist
+tsc ---outDir dist src/*.ts
 ```
 ##build serverRPi
 As there isn't any real code here (only the insertion of the native library), 
