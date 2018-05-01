@@ -6,7 +6,7 @@ debug('### serverCommon/RESTv2');
 const fs = require('fs');
 const path = require('path');
 
-const {config} = require('./config');
+import {config} from './config';
 import {logError}from './utils/common';
 
 const getFiles = (dirs, result, res) => {

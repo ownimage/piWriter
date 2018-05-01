@@ -9,7 +9,7 @@ const path = require('path');
 import { NeoPixelDriver } from './NeoPixelDriver';
 import { PlaylistDTO } from './dto/PlaylistDTO';
 
-const {config} = require('./config');
+import {config} from './config';
 import {logError} from './utils/common';
 
 const getPlaylistsV1 = (req, res) => {
