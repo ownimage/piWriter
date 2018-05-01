@@ -4,8 +4,7 @@ const debug = require('debug')('serverCommon/Player');
 debug('### serverCommon/Player');
 
 import {Playlist} from './Playlist';
-
-const {logError} = require('../utils/common');
+import {logError} from '../utils/common';
 
 class Player {
 
@@ -121,6 +120,6 @@ class Player {
 
 };
 
-module.exports = new Player();
+export const player = new Player();
 
 

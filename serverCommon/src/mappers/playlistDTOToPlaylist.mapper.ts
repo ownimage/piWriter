@@ -3,18 +3,14 @@ debug('### serverCommon/mapper/playlistDTOToPlaylist');
 
 const Jimp = require('jimp');
 
-
-const {rgbObject2Int} = require('../utils/ColorUtils');
+import  {rgbObject2Int} from '../utils/ColorUtils';
 import {PlaylistDTO} from '../dto/PlaylistDTO';
+import {Playlist} from '../model/Playlist';
+import {Gallery} from '../model/Gallery';
 
-const {Playlist} = require('../model/Playlist');
-
-const {Gallery} = require('../model/Gallery');
-
-
-const playlistDTOToPlaylist = (playlistDTO: PlaylistDTO,
+export function playlistDTOToPlaylist(playlistDTO: PlaylistDTO,
                                config,
-                               completeFn) => {
+                               completeFn) {
     debug('serverCommon/Playlist:constructor');
 
     let gallery = new Gallery();
@@ -66,5 +62,4 @@ const playlistDTOToPlaylist = (playlistDTO: PlaylistDTO,
     return new Playlist(tracks, gallery);
 };
 
-export {playlistDTOToPlaylist};
 
