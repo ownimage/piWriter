@@ -8,12 +8,10 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const path = require('path');
 
-const RESTv1 = require('./RESTv1');
-const RESTv2 = require('./RESTv2');
-
-const {logError} = require('./utils/common');
-
-const NeoPixelDriver = require('./NeoPixelDriver');
+import {RESTv1} from './RESTv1';
+import {RESTv2} from './RESTv2';
+import  {logError} from './utils/common';
+import  {NeoPixelDriver} from './NeoPixelDriver';
 
 let config;
 
@@ -108,7 +106,7 @@ const postConfig = (req, res) => {
     } catch (e) {
         res.header('Access-Control-Allow-Origin', '*');
         res.sendStatus(500);
-        logError(e);
+        logError(debug, e);
     }
 };
 

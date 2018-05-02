@@ -3,7 +3,7 @@ export {};
 const debug = require('debug')('serverCommon/config');
 debug('### serverCommon/config');
 
-const config = {
+export const config = {
     serverPort: 80,
     appFolder: '../editor/dist/',
     imagesFolder: '../library/images/',
@@ -14,6 +14,3 @@ const config = {
     debounceTimeout: 301
 };
 
-module.exports = {
-    config
-};

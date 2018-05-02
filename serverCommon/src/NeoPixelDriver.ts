@@ -3,19 +3,20 @@ export {};
 const debug = require('debug')('serverCommon/NeoPixelDriver');
 debug('### serverCommon/NeoPixelDriver');
 
-import { PlaylistDTO } from './dto/PlaylistDTO';
-const {rgbValues2Int} = require('./utils/ColorUtils');
-const {logError} = require('./utils/common');
-import { playlistDTOToPlaylist } from './mappers/playlistDTOToPlaylist.mapper';
+import {PlaylistDTO} from './dto/PlaylistDTO';
+import {playlistDTOToPlaylist} from './mappers/playlistDTOToPlaylist.mapper';
+
+import {rgbValues2Int} from './utils/ColorUtils';
+import { player } from './model/Player';
 
 let config;
 let blankArray: Uint32Array;
 let flashArray: Uint32Array = null;
 let playlistDTO = null;
 let playlist = null;
-let player = require('./model/Player');
 
-const init = (newConfig) => {
+
+function init(newConfig) {
     debug('serverCommon/NeoPixelDriver:init');
     config = newConfig;
 
@@ -25,7 +26,7 @@ const init = (newConfig) => {
 
     setPlaylist(playlistDTO);
     flash(2);
-};
+}
 
 
 function setupFlashArray() {
@@ -64,11 +65,11 @@ process.on('SIGINT', function () {
 });
 
 
-const setPlaylist = (newPlaylistDTO: PlaylistDTO) => {
+function setPlaylist(newPlaylistDTO: PlaylistDTO) {
     playlistDTO = newPlaylistDTO;
     let playlist = (newPlaylistDTO) ? playlistDTOToPlaylist(newPlaylistDTO, config, () => flash(2)) : null;
     player.play(playlist);
-};
+}
 
 const render = (colorArray) => {
     config.neopixelLib.render(colorArray);
@@ -78,14 +79,16 @@ const renderBlank = () => {
     config.neopixelLib.render(blankArray);
 };
 
-const next = () => {
+function next() {
     player.next(render, renderBlank);
-};
+}
 
-module.exports = {
+export const NeoPixelDriver = {
     init,
     setPlaylist,
-    next,
+    next
 };
+
+
 
 

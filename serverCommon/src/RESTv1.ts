@@ -5,11 +5,12 @@ debug('### serverCommon/RESTv1');
 
 const fs = require('fs');
 const path = require('path');
-const NeoPixelDriver = require('./NeoPixelDriver');
-import { Playlist } from './model/Playlist'
 
-const {config} = require('./config');
-const {logError} = require('./utils/common');
+import { NeoPixelDriver } from './NeoPixelDriver';
+import { PlaylistDTO } from './dto/PlaylistDTO';
+
+import {config} from './config';
+import {logError} from './utils/common';
 
 const getPlaylistsV1 = (req, res) => {
     try {
@@ -64,7 +65,7 @@ const postPlaylistV1 = (req, res) => {
                 res.header('Content-Type', 'text/plain');
                 res.end();
             } else {
-                logError(err);
+                logError(debug, err);
                 res.sendStatus(500);
             }
         });
@@ -82,7 +83,7 @@ const postPlaylistsPlayV1 = (req, res) => {
         fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
             if (!err) {
                 debug('received data = %s', data);
-                NeoPixelDriver.setPlaylist(<Playlist>JSON.parse(data));
+                NeoPixelDriver.setPlaylist(<PlaylistDTO>JSON.parse(data));
                 res.header('Access-Control-Allow-Origin', '*');
                 res.send({result: 'OK'});
             } else {
@@ -94,7 +95,7 @@ const postPlaylistsPlayV1 = (req, res) => {
     }
 };
 
-module.exports = {
+export const RESTv1 =  {
     getPlaylistsV1,
     getPlaylistV1,
     postPlaylistV1,

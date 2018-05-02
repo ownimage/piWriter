@@ -4,8 +4,9 @@ const debug = require('debug')('serverEmulator/server');
 debug('### serverEmulator/server');
 
 const commonConfig = require('../../serverCommon/src/config');
-const neopixelLib = require('./NeoPixelEmulator');
 const server = require('../../serverCommon/src/server');
+
+const neopixelLib = require('./NeoPixelEmulator');
 
 let config = {
     ...commonConfig.config,

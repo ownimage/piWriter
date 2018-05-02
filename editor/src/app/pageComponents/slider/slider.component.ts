@@ -27,7 +27,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
     @Input() round: boolean;
 
     private _value: number;
-    private sliderMax: number = 1000;
+    private _sliderMax: number = 1000;
 
     constructor() {
     }
@@ -51,9 +51,13 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
         }
     }
 
+    get sliderMax(): number {
+        return this._sliderMax;
+    };
+
     //get accessor
     get sliderValue(): number {
-        let x = this.sliderMax * (this._value - this.min) / (this.max - this.min);
+        let x = this._sliderMax * (this._value - this.min) / (this.max - this.min);
         return x;
     };
 

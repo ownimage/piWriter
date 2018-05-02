@@ -1,14 +1,10 @@
-
-
 const debug = require('debug')('serverCommon/Playlist');
 debug('### serverCommon/Playlist');
 
 const Jimp = require('jimp');
 
-const { Gallery } = require('./Gallery');
+import {Gallery} from './Gallery';
 import {TrackDTO} from "../dto/TrackDTO";
-const {rgbObject2Int} = require('../utils/ColorUtils');
-const {logError} = require('../utils/common');
 
 export class Playlist {
 
@@ -20,8 +16,7 @@ export class Playlist {
     // 2) it will set the global playlist to the newPlaylist variable.
     // 3) it will null out the global playlistState so that next will start from the beginning
     constructor(private tracks: TrackDTO[],
-                private gallery,
-        ) {
+                private gallery: Gallery,) {
         debug('serverCommon/Playlist:constructor');
         debug('tracks %o', tracks);
         debug('_tracks %o', this.tracks);
@@ -39,7 +34,7 @@ export class Playlist {
         return this.gallery.get(this.getTrack(i));
     };
 
- };
+}
 
 
 

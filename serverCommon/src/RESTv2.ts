@@ -6,8 +6,8 @@ debug('### serverCommon/RESTv2');
 const fs = require('fs');
 const path = require('path');
 
-const {config} = require('./config');
-const {logError} = require('./utils/common');
+import {config} from './config';
+import {logError}from './utils/common';
 
 const getFiles = (dirs, result, res) => {
     let dir = dirs.pop();
@@ -36,10 +36,10 @@ const getImagesV2 = (req, res) => {
         debug('serverCommon/RESTv2:getImagesV1');
         getFiles([{parentDirName: '', dirName: ''}], [], res);
     } catch (e) {
-        logError(e);
+        logError(debug, e);
     }
 };
 
-module.exports = {
+export const RESTv2 = {
     getImagesV2
 };

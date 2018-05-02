@@ -1,7 +1,5 @@
-export {};
-
 // utility to print out diagnostics
-const logError = (debug, e) => {
+export function logError(debug, e) {
     debug('error object:');
     debug(e);
     debug();
@@ -18,6 +16,3 @@ const logError = (debug, e) => {
     debug(e.stack);
 };
 
-module.exports = {
-    logError
-}

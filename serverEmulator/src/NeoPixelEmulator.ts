@@ -6,7 +6,7 @@ debug('### serverEmulator/server');
 const express = require('express');
 const WebSocket = require('ws');
 
-const NeoPixelDriver = require('../../serverCommon/src/NeoPixelDriver');
+import {NeoPixelDriver} from '../../serverCommon/src/NeoPixelDriver';
 
 let NUM_LEDS = 10;
 let NeoPixelArray = new Uint32Array(NUM_LEDS);
