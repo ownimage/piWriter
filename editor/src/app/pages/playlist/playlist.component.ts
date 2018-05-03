@@ -55,7 +55,7 @@ export class PlaylistComponent implements OnInit {
                 });
     }
 
-    getTracks(track) {
+    getTracks() {
         if (this.isPlayMode()) {
             return this.playlist.tracks.filter(t => t.enabled);
         } // else isEditMode

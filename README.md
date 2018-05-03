@@ -11,19 +11,23 @@ At the moment the project is structured into 3 directories
 #Download the tools (GIT and node, ts-node)
 Note that you will need to install `curl` too in order to get `nvm` 
 (node version manager, which is an easier way to manage node.
+Login as pi
 ```
-apt-get update
-apt install git
-apt install curl
+sudo apt-get update
+sudo apt install -y git
+sudo apt install -y curl
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source ~/.bashrc
-nvm install 10.0.0
-npm install -g ts-node
-npm install -g typescript
+nvm i 10.0.0
+nvm use 10.0.0
+npm i -g ts-node@v6.0.1
+npm i -g typescript@v2.8.3
+npm i -g @types/node@10.0.2
 ```
 
 #Download the project
 ``` 
+rm -rf piWriter
 git clone https://github.com/ownimage/piWriter.git
 ```
 
@@ -33,8 +37,15 @@ cd piWriter/serverCommon
 npm i
 cd ../serverEmulator
 npm i
-
-## THIS IS FAILING AS I DONT HAVE THE LATEST RELEASE
+```
+If you want to see the output of the server
+``` 
+DEBUG=server*
+export DEBUG
+```
+Run the Emulator
+```
+ts-node src/server
 ```
 #Build a release
 This assumes that you are building a release on a PC/other machine for use on the Raspberry Pi.
