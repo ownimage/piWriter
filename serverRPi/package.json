@@ -10,6 +10,12 @@
   "license": "MIT",
   "dependencies": {
     "rpi-ws281x-native": "^0.8.2",
-    "rpi-gpio": "^0.9.1"
+    "rpi-gpio": "^0.9.1",
+    "supports-color": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.8",
+    "ts-node": "^6.0.1",
+    "typescript": "^2.8.3"
   }
 }

@@ -1,12 +1,13 @@
+
 console.log("### serverRPi/server");
 
 const neopixelLib = require('rpi-ws281x-native');
 const gpio = require('rpi-gpio');
 
-const commonConfig = require('../serverCommon/config');
-const NeoPixelDriver = require('../serverCommon/NeoPixelDriver');
+const commonConfig = require('../../serverCommon/src/config');
+const { NeoPixelDriver} = require('../../serverCommon/src/NeoPixelDriver');
 
-const server = require('../serverCommon/server');
+const server = require('../../serverCommon/src/server');
 let config = {
     ...commonConfig.config,
     neopixelLib,
@@ -42,4 +43,3 @@ const functionHooks = {
 };
 
 server.startServer(config, functionHooks);
-
