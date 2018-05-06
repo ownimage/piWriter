@@ -4,5 +4,5 @@ if [ 0$pid -eq 0 ]
 then 
     echo server starting > /home/pi/crontab.log
     cd /home/pi/piWriter/serverRPi
-    sudo sh -c 'PATH=$PATH:/home/pi/.nvm/versions/node/v9.9.0/bin/; ts-node server'
+    sudo sh -c 'PATH=$PATH:/home/pi/.nvm/versions/node/v9.9.0/bin/; ts-node src/server'
 fi

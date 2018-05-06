@@ -18,12 +18,13 @@ sudo apt install -y git
 sudo apt install -y curl
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source ~/.bashrc
-nvm i 10.0.0
-nvm use 10.0.0
+nvm i 9.9.0
+nvm use 9.9.0
 npm i -g ts-node@v6.0.1
 npm i -g typescript@v2.8.3
 npm i -g @types/node@10.0.2
 ```
+Note that I am using node 9.9.0 atm as node 10 does not seem to allow the serverRPi to compile.
 
 #Download the project
 ``` 
@@ -45,7 +46,12 @@ export DEBUG
 ```
 Run the Emulator
 ```
-ts-node src/server
+sudo sh -c 'PATH=$PATH:/home/pi/.nvm/versions/node/v9.9.0/bin/; ts-node src/server'
+```
+For the RaspberryPi do the following in addition
+``` 
+cd ../serverRPi
+npm i
 ```
 #Build a release
 This assumes that you are building a release on a PC/other machine for use on the Raspberry Pi.
