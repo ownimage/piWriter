@@ -10,14 +10,14 @@ const path = require('path');
 
 import {RESTv1} from './RESTv1';
 import {RESTv2} from './RESTv2';
-import  {logError} from './utils/common';
-import  {NeoPixelDriver} from './NeoPixelDriver';
+import {logError} from './utils/common';
+import {NeoPixelDriver} from './NeoPixelDriver';
 
 let config;
 
 const startServer = (newConfig, functionHooks) => {
     debug('serverCommon/server:serverStart');
-    debug(`config = ${JSON.stringify(config)}`);
+    debug('config = %o', newConfig);
     config = newConfig;
 
     NeoPixelDriver.init(config);

@@ -5,8 +5,9 @@ debug('### serverEmulator/server');
 
 const express = require('express');
 const WebSocket = require('ws');
+var path = require('path');
 
-import {NeoPixelDriver} from '../../serverCommon/src/NeoPixelDriver';
+import {NeoPixelDriver} from '../NeoPixelDriver';
 
 let NUM_LEDS = 10;
 let NeoPixelArray = new Uint32Array(NUM_LEDS);
@@ -34,8 +35,8 @@ const render = (array) => {
 
 const functionHooks = {
     app: app => {
-        app.use('/demo', express.static(__dirname + '/../index.html'));
-        app.use('/demo/node_modules', express.static(__dirname + '/../node_modules'));
+        app.use('/demo', express.static(path.resolve(__dirname + '/index.html')));
+        app.use('/demo/node_modules', express.static(path.resolve(__dirname + '/../../node_modules')));
     },
     server: server => {
         webSocketServer = new WebSocket.Server({server});
