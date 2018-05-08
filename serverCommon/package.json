@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "debug": "node -r ts-node/register --inspect src/emulator/server"
+    "debug": "node -r ts-node/register --inspect src/emulator/server",
+    "build": "npx babel dist --out-dist lib"
   },
   "author": "ownimage",
   "license": "MIT",
@@ -21,6 +22,7 @@
     "ws": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^10.0.2"
+    "@types/node": "^10.0.2",
+    "babel-preset-env": "^1.6.1"
   }
 }
