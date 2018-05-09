@@ -11,5 +11,5 @@ export class TrackDTO {
                 public scale: number,
                 public alignment: string,
                 public rotate: number) {
-    };
+    }
 }

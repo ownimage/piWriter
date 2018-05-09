@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx tslint -c tslint.json --fix 'src/**/*.ts'",
     "debug": "node -r ts-node/register --inspect src/emulator/server",
     "build": "rm -rf distES6 && rm -rf dist && npx tsc && npx babel distES6 --out-dir dist && rm -rf distES6"
   },
@@ -25,6 +26,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "ts-node": "^6.0.1",
+    "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   }
 }

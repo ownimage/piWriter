@@ -1,24 +1,18 @@
 export {};
 
-const debug = require('debug')('serverEmulator/server');
-debug('### serverEmulator/server');
+const debug = require("debug")("serverEmulator/server");
+debug("### serverEmulator/server");
 
-const commonConfig = require('../config');
-const server = require('../server');
+const commonConfig = require("../config");
+const server = require("../server");
 
-const neopixelLib = require('./NeoPixelEmulator');
+const neopixelLib = require("./NeoPixelEmulator");
 
-let config = {
+const config = {
     ...commonConfig.config,
+    environment: "Emulator",
     neopixelLib,
-    environment: 'Emulator'
 };
 
 debug(config);
 server.startServer(config, neopixelLib.functionHooks);
-
-
-
-
-
-
