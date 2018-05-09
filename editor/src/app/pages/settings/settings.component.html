@@ -26,7 +26,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.NUM_LEDS'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='1' max='144' [round]='true' [(ngModel)]='serverConfig.NUM_LEDS'></app-slider>
+        <app-slider min='1' max='144' [round]=0 [(ngModel)]='serverConfig.NUM_LEDS'></app-slider>
     </div>
 </div>
 
@@ -39,7 +39,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.speed'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='.2' max='5' [(ngModel)]='serverConfig.speed'></app-slider>
+        <app-slider min='.2' max='5' [round]=2 [(ngModel)]='serverConfig.speed'></app-slider>
     </div>
 </div>
 
@@ -52,7 +52,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.brightness'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='16' max='255' [round]='true' [(ngModel)]='serverConfig.brightness'></app-slider>
+        <app-slider min='16' max='255' [round]=0 [(ngModel)]='serverConfig.brightness'></app-slider>
     </div>
 </div>
 
@@ -65,7 +65,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.debounceTimeout'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='0' max='500' [round]='true' [(ngModel)]='serverConfig.debounceTimeout'></app-slider>
+        <app-slider min='0' max='500' [round]=0 [(ngModel)]='serverConfig.debounceTimeout'></app-slider>
     </div>
 </div>
 <hr/>
