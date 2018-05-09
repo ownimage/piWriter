@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "node -r ts-node/register --inspect src/emulator/server",
-    "build": "npx babel dist --out-dist lib"
+    "build": "rm -rf distES6 && rm -rf dist && npx tsc && npx babel distES6 --out-dir dist && rm -rf distES6"
   },
   "author": "ownimage",
   "license": "MIT",
@@ -16,13 +16,15 @@
     "debug": "^3.1.0",
     "express": "^4.16.3",
     "jimp": "^0.2.28",
+    "npx": "^10.2.0",
     "supports-color": "^5.4.0",
-    "ts-node": "^6.0.1",
-    "typescript": "^2.8.3",
     "ws": "^5.1.0"
   },
   "devDependencies": {
     "@types/node": "^10.0.2",
-    "babel-preset-env": "^1.6.1"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "ts-node": "^6.0.1",
+    "typescript": "^2.8.3"
   }
 }
