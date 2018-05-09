@@ -67,7 +67,7 @@ process.on('SIGINT', function () {
 
 function setPlaylist(newPlaylistDTO: PlaylistDTO) {
     playlistDTO = newPlaylistDTO;
-    let playlist = (newPlaylistDTO) ? playlistDTOToPlaylist(newPlaylistDTO, config, () => flash(2)) : null;
+    let playlist = (newPlaylistDTO) ? playlistDTOToPlaylist(newPlaylistDTO, config.NUM_LEDS, config.brightness, config.imagesFolder, () => flash(2)) : null;
     player.play(playlist);
 }
 

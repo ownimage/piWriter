@@ -9,7 +9,9 @@ import {Playlist} from '../model/Playlist';
 import {Gallery} from '../model/Gallery';
 
 export function playlistDTOToPlaylist(playlistDTO: PlaylistDTO,
-                               config,
+                               NUM_LEDS,
+                               brightness,
+                               imagesFolder,
                                completeFn) {
     debug('serverCommon/Playlist:constructor');
 
@@ -19,7 +21,7 @@ export function playlistDTOToPlaylist(playlistDTO: PlaylistDTO,
     debug('tracks = %O', tracks);
     let promises = tracks.map(track => {
         if (!gallery.get(track)) { // dont process duplicates
-            let fullPicturePath = config.imagesFolder + track.path;
+            let fullPicturePath = imagesFolder + track.path;
             debug('fullPicturePath = %s', fullPicturePath);
             Jimp.read(fullPicturePath, function (err, image) {
                 if (err) {
@@ -31,21 +33,21 @@ export function playlistDTOToPlaylist(playlistDTO: PlaylistDTO,
                     // dont resize width as this affects timing
                     image.flip(track.flipX, track.flipY);
                     image.rotate(track.rotate);
-                    image.scale(track.scale * config.NUM_LEDS /image.bitmap.height);
+                    image.scale(track.scale * NUM_LEDS /image.bitmap.height);
                     let verticalOffset = track.alignment == "top" ? 0
-                        : track.alignment == "middle" ? Math.floor((config.NUM_LEDS - image.bitmap.height) / 2)
-                            : config.NUM_LEDS - image.bitmap.height;
+                        : track.alignment == "middle" ? Math.floor((NUM_LEDS - image.bitmap.height) / 2)
+                            : NUM_LEDS - image.bitmap.height;
                     for (let x = 0; x < image.bitmap.width; x++) {
-                        let colorArray = new Uint32Array(config.NUM_LEDS);
+                        let colorArray = new Uint32Array(NUM_LEDS);
                         for (let y = 0; y < image.bitmap.height; y++) {
                             let color = Jimp.intToRGBA(image.getPixelColor(x, y));
-                            let brightness = (track.brightness / 255.0) * (config.brightness / 255.0);
+                            let b = (track.brightness / 255.0) * (brightness / 255.0);
                             let color2 = {
-                                r: color.r * brightness,
-                                g: color.g * brightness,
-                                b: color.b * brightness,
+                                r: color.r * b,
+                                g: color.g * b,
+                                b: color.b * b,
                             };
-                            colorArray[config.NUM_LEDS - 1 - y - verticalOffset] = rgbObject2Int(color2);
+                            colorArray[NUM_LEDS - 1 - y - verticalOffset] = rgbObject2Int(color2);
                         }
                         let a = {t: 1, ca: colorArray};
                         timedArrays.push(a);
