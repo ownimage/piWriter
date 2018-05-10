@@ -3,8 +3,8 @@ debug("### serverCommon/Playlist");
 
 const Jimp = require("jimp");
 
-import {TrackDTO} from "../dto/TrackDTO";
-import {Gallery} from "./Gallery";
+import { TrackDTO } from "../dto/TrackDTO";
+import { Gallery } from "./Gallery";
 
 export class Playlist {
 

@@ -3,8 +3,8 @@ export {};
 const debug = require("debug")("serverCommon/Player");
 debug("### serverCommon/Player");
 
-import {logError} from "../utils/common";
-import {Playlist} from "./Playlist";
+import { logError } from "../utils/common";
+import { Playlist } from "./Playlist";
 
 class Player {
 

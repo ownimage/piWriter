@@ -1,13 +1,14 @@
 export {};
 
-const debug = require("debug")("serverCommon/RESTv2");
+import * as  fs from "fs";
+import * as  path from "path";
+
+import { config } from "./config";
+import { logError } from "./utils/common";
+
+const DEBUG = require("debug");
+const debug = DEBUG("serverCommon/RESTv2");
 debug("### serverCommon/RESTv2");
-
-const fs = require("fs");
-const path = require("path");
-
-import {config} from "./config";
-import {logError} from "./utils/common";
 
 const getFiles = (dirs, result, res) => {
     const dir = dirs.pop();

@@ -1,16 +1,16 @@
 export {};
 
-const debug = require("debug")("serverCommon/RESTv1");
-debug("### serverCommon/RESTv1");
+import * as fs from "fs";
+import * as path from "path";
 
-const fs = require("fs");
-const path = require("path");
-
+import { config } from "./config";
 import { PlaylistDTO } from "./dto/PlaylistDTO";
 import { NeoPixelDriver } from "./NeoPixelDriver";
+import { logError } from "./utils/common";
 
-import {config} from "./config";
-import {logError} from "./utils/common";
+const DEBUG = require("debug");
+const debug = DEBUG("serverCommon/RESTv1");
+debug("### serverCommon/RESTv1");
 
 const getPlaylistsV1 = (req, res) => {
     try {

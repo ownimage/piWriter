@@ -1,13 +1,13 @@
 export {};
 
+import * as express from "express";
+import * as WebSocket from "ws";
+import * as path from "path";
+
+import { NeoPixelDriver } from "../NeoPixelDriver";
+
 const debug = require("debug")("serverEmulator/NeoPixelEmulator");
 debug("### serverEmulator/server");
-
-const express = require("express");
-const WebSocket = require("ws");
-const path = require("path");
-
-import {NeoPixelDriver} from "../NeoPixelDriver";
 
 let NUM_LEDS = 10;
 let NeoPixelArray = new Uint32Array(NUM_LEDS);

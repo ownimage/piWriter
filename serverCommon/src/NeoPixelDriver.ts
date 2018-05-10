@@ -1,13 +1,13 @@
 export {};
 
-const debug = require("debug")("serverCommon/NeoPixelDriver");
-debug("### serverCommon/NeoPixelDriver");
-
-import {PlaylistDTO} from "./dto/PlaylistDTO";
-import {playlistDTOToPlaylist} from "./mappers/playlistDTOToPlaylist.mapper";
-
+import { PlaylistDTO } from "./dto/PlaylistDTO";
+import { playlistDTOToPlaylist } from "./mappers/playlistDTOToPlaylist.mapper";
 import { player } from "./model/Player";
-import {rgbValues2Int} from "./utils/ColorUtils";
+import { rgbValues2Int } from "./utils/ColorUtils";
+
+const DEBUG = require("debug");
+const debug = DEBUG("serverCommon/NeoPixelDriver");
+debug("### serverCommon/NeoPixelDriver");
 
 let config;
 let blankArray: Uint32Array;

@@ -1,9 +1,9 @@
 export {};
 
+import * as  path from "path";
+
 const debug = require("debug")("serverCommon/config");
 debug("### serverCommon/config");
-
-const path = require("path");
 
 export const config = {
     NUM_LEDS: 60,
