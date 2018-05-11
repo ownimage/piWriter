@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx tslint -c tslint.json --fix 'src/**/*.ts'",
     "debug": "node -r ts-node/register --inspect src/emulator/server",
-    "build": "rm -rf distES6 && rm -rf dist && npx tsc && npx babel distES6 --out-dir dist && rm -rf distES6"
+    "build": "rm -rf distES6 && rm -rf dist && npx tsc && npx babel distES6 --out-dir dist && rm -rf distES6 && cp src/emulator/index.html dist/emulator/index.html"
   },
   "author": "ownimage",
   "license": "MIT",
