@@ -23,6 +23,7 @@ nvm use 9.9.0
 npm i -g ts-node@v6.0.1
 npm i -g typescript@v2.8.3
 npm i -g @types/node@10.0.2
+npm i -g @angular/cli@1.7.4
 ```
 Note that I am using node 9.9.0 atm as node 10 does not seem to allow the serverRPi to compile.
 
@@ -36,6 +37,7 @@ git clone https://github.com/ownimage/piWriter.git
 ```
 cd piWriter/serverCommon
 npm i
+npm run bulid
 cd ../serverEmulator
 npm i
 ```
@@ -52,6 +54,7 @@ For the RaspberryPi do the following in addition
 ``` 
 cd ../serverRPi
 npm i
+npm run build
 ```
 #Build a release
 This assumes that you are building a release on a PC/other machine for use on the Raspberry Pi.
@@ -65,6 +68,7 @@ It also assumes that you have `ts-node` and `typescript` installed.
 From the project root direcory ...
 ```
 cd editor 
+npm i
 ```
 If building for the PC and serverEmulator ...
 ```
