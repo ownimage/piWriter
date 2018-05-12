@@ -23,9 +23,12 @@ const config = {
         rotate90: 'fas fa-undo-alt fa-fw flipRotate90',
         rotate180: 'fas fa-undo-alt fa-fw flipRotate180',
         rotate270: 'fas fa-undo-alt fa-fw flipRotate270',
-        alignTop: 'piW-align-top fa-fw',
-        alignMiddle: 'piW-align-middle fa-fw',
-        alignBottom: 'piW-align-bottom fa-fw',
+//        alignTop: 'piW-align-top fa-fw',
+//        alignMiddle: 'piW-align-middle fa-fw',
+//        alignBottom: 'piW-align-bottom fa-fw',
+        alignTop: 'icon-vertical_align_top fa-fw',
+        alignMiddle: 'icon-vertical_align_center fa-fw',
+        alignBottom: 'icon-vertical_align_bottom fa-fw',
     }
 };
 
