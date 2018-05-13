@@ -26,9 +26,9 @@ const config = {
 //        alignTop: 'piW-align-top fa-fw',
 //        alignMiddle: 'piW-align-middle fa-fw',
 //        alignBottom: 'piW-align-bottom fa-fw',
-        alignTop: 'icon-vertical_align_top fa-fw',
-        alignMiddle: 'icon-vertical_align_center fa-fw',
-        alignBottom: 'icon-vertical_align_bottom fa-fw',
+        alignTop: 'icon-valign-top fa-fw',
+        alignMiddle: 'icon-valign-middle fa-fw',
+        alignBottom: 'icon-valign-bottom fa-fw',
     }
 };
 

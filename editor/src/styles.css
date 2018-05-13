@@ -60,64 +60,13 @@ code {
     transform: scaleX(-1) rotate(90deg);
 }
 
-.piW-align-top {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;utf-8,\
-    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
-    <g stroke-width='2' > \
-        <path id='main' d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10'  /> \
-        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
-        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
-    </g> \
-    </svg> \
-    ");
-    background-size: 35px;
-}
-
-.piW-align-middle {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;utf-8,\
-    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
-    <g stroke-width='2' > \
-        <path d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10'  fill='lightgrey' /> \
-        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' /> \
-        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
-    </g> \
-    </svg> \
-    ");
-    background-size: 35px;
-}
-
-.piW-align-bottom {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;utf-8,\
-    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
-    <g stroke-width='2' > \
-        <path d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey'  /> \
-        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
-        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' /> \
-    </g> \
-    </svg> \
-    ");
-    background-size: 35px;
-}
-
 @font-face {
     font-family: 'icomoon';
-    src:  url('external/align/fonts/icomoon.eot?sym0kk');
-    src:  url('external/align/fonts/icomoon.eot?sym0kk#iefix') format('embedded-opentype'),
-    url('external/align/fonts/icomoon.ttf?sym0kk') format('truetype'),
-    url('external/align/fonts/icomoon.woff?sym0kk') format('woff'),
-    url('external/align/fonts/icomoon.svg?sym0kk#icomoon') format('svg');
+    src:  url('external/align/fonts/icomoon.eot?fye9zs');
+    src:  url('external/align/fonts/icomoon.eot?fye9zs#iefix') format('embedded-opentype'),
+    url('external/align/fonts/icomoon.ttf?fye9zs') format('truetype'),
+    url('external/align/fonts/icomoon.woff?fye9zs') format('woff'),
+    url('external/align/fonts/icomoon.svg?fye9zs#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -145,4 +94,13 @@ code {
 }
 .icon-vertical_align_bottom:before {
     content: "\e902";
+}
+.icon-valign-top:before {
+    content: "\e903";
+}
+.icon-valign-middle:before {
+    content: "\e906";
+}
+.icon-valign-bottom:before {
+    content: "\e907";
 }
