@@ -25,6 +25,8 @@
                         [scale]='track.scale'
                         [alignment]='track.alignment'
                         [rotate]='track.rotate'
+                        [marginLeft]='track.marginLeft'
+                        [marginRight]='track.marginRight'
                 ></app-image>
                 </span>
             <span class='ml-1'>{{ track.name }}</span>
@@ -151,7 +153,7 @@
             <input class='form-control' type='number' [(ngModel)]='track.speed'>
         </div>
         <div class='col-7 col-sm-4'>
-            <app-slider min='.2' max='5' [(ngModel)]='track.speed'></app-slider>
+            <app-slider min='.2' max='5' [round]='2' [(ngModel)]='track.speed'></app-slider>
         </div>
     </div>
 
@@ -163,7 +165,7 @@
             <input class='form-control' type='number' [(ngModel)]='track.brightness'>
         </div>
         <div class='col-7 col-sm-4'>
-            <app-slider min='16' max='255' [round]='true' [(ngModel)]='track.brightness'></app-slider>
+            <app-slider min='16' max='255' [round]='0' [(ngModel)]='track.brightness'></app-slider>
         </div>
     </div>
 
@@ -176,6 +178,30 @@
         </div>
         <div class='col-7 col-sm-4'>
             <app-slider min='.1' max='1' [(ngModel)]='track.scale'></app-slider>
+        </div>
+    </div>
+
+    <div class='row mt-2 border-top'>
+        <div class='col-12 col-sm-4'>
+            Left Margin
+        </div>
+        <div class='col-5 col-sm-4'>
+            <input class='form-control' type='number' [(ngModel)]='track.marginLeft'>
+        </div>
+        <div class='col-7 col-sm-4'>
+            <app-slider min='0' max='5' [round]='2' [(ngModel)]='track.marginLeft'></app-slider>
+        </div>
+    </div>
+
+    <div class='row mt-2 border-top'>
+        <div class='col-12 col-sm-4'>
+            Right Margin
+        </div>
+        <div class='col-5 col-sm-4'>
+            <input class='form-control' type='number' [(ngModel)]='track.marginRight'>
+        </div>
+        <div class='col-7 col-sm-4'>
+            <app-slider min='0' max='5' [round]='2' [(ngModel)]='track.marginRight'></app-slider>
         </div>
     </div>
 

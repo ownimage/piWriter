@@ -10,6 +10,8 @@ export class TrackDTO {
                 public flipY: boolean,
                 public scale: number,
                 public alignment: string,
-                public rotate: number) {
+                public rotate: number,
+                public marginLeft: number,
+                public marginRight: number) {
     };
 }

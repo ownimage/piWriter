@@ -14,6 +14,8 @@ export class ImageComponent implements OnInit {
     @Input() rotate: number = 0; // must be one of 0, 90, 180, 270
     @Input() scale: number = 1; // must be 0.1 .. 1
     @Input() alignment: string = "top"; // must be one of "top", "middle", "bottom"
+    @Input() marginLeft: number = 0;
+    @Input() marginRight: number = 0;
 
     @ViewChild('img') image: ElementRef;
 
@@ -31,18 +33,21 @@ export class ImageComponent implements OnInit {
         debug('imageLoad w x h = %d x %d', this.image.nativeElement.naturalWidth, this.image.nativeElement.naturalHeight);
         this.naturalWidth = this.image.nativeElement.naturalWidth;
         this.naturalHeight = this.image.nativeElement.naturalHeight;
-
         this.ready = true;
     }
 
     getDivStyle() {
         let width = (this.rotate == 0 || this.rotate == 180) ? this.scale * this.naturalWidth * 50 / this.naturalHeight :
             this.scale * this.naturalHeight * 50 / this.naturalWidth;
+        let paddingLeft = width * this.marginLeft;
+        let paddingRight = width * this.marginRight;
         let style = {
             'float': 'left',
             'background-color': 'black',
             'height': '50px',
-            'width': `${width}px`
+            'width': `${width + paddingLeft + paddingRight}px`,
+            'padding-left': `${paddingLeft}px`,
+            'padding-right': `${paddingRight}px`
         };
         debug('getDivStyle return %o', style);
         return style;

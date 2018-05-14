@@ -36,6 +36,10 @@ export function playlistDTOToPlaylist(playlistDTO: PlaylistDTO,
                     const verticalOffset = track.alignment === "top" ? 0
                         : track.alignment === "middle" ? Math.floor((NUM_LEDS - image.bitmap.height) / 2)
                             : NUM_LEDS - image.bitmap.height;
+                    let blankArray = {t: 1, ca: new Uint32Array(NUM_LEDS)};
+                    for (let x=0; x < image.bitmap.width * track.marginLeft; x++) {
+                        timedArrays.push(blankArray);
+                    }
                     for (let x = 0; x < image.bitmap.width; x++) {
                         const colorArray = new Uint32Array(NUM_LEDS);
                         for (let y = 0; y < image.bitmap.height; y++) {
@@ -50,6 +54,9 @@ export function playlistDTOToPlaylist(playlistDTO: PlaylistDTO,
                         }
                         const a = {t: 1, ca: colorArray};
                         timedArrays.push(a);
+                    }
+                    for (let x=0; x < image.bitmap.width * track.marginRight; x++) {
+                        timedArrays.push(blankArray);
                     }
                     gallery.put(track, {timedArrays});
                 }

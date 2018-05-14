@@ -14,7 +14,9 @@ export class Track {
                 private _flipY: boolean = false,
                 private _scale: number = 1,
                 private _alignment: string = "top",
-                private _rotate: number = 0,) {
+                private _rotate: number = 0,
+                private _marginLeft: number = 0,
+                private _marginRight: number = 0) {
     };
 
     clone(): Track {
@@ -31,7 +33,9 @@ export class Track {
             this._flipY,
             this._scale,
             this._alignment,
-            this._rotate
+            this._rotate,
+            this._marginLeft,
+            this._marginRight,
         );
     }
 
@@ -84,6 +88,14 @@ export class Track {
         return this._rotate;
     }
 
+    get marginLeft(): number {
+        return this._marginLeft;
+    }
+
+    get marginRight(): number {
+        return this._marginRight;
+    }
+
     set repeat(value: boolean) {
         this.markDirty();
         this._repeat = value;
@@ -132,6 +144,16 @@ export class Track {
     set rotate(value: number) {
         this.markDirty();
         this._rotate = value;
+    }
+
+    set marginLeft(value: number) {
+        this.markDirty();
+        this._marginLeft = value;
+    }
+
+    set marginRight(value: number) {
+        this.markDirty();
+        this._marginRight = value;
     }
 
     toggleFlipX() {

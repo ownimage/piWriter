@@ -60,6 +60,7 @@ code {
     transform: scaleX(-1) rotate(90deg);
 }
 
+/* SECTION for iconmoon svg icons*/
 @font-face {
     font-family: 'icomoon';
     src:  url('external/align/fonts/icomoon.eot?fye9zs');
@@ -104,3 +105,5 @@ code {
 .icon-valign-bottom:before {
     content: "\e907";
 }
+
+/* SECTION END for iconmoon svg icons*/

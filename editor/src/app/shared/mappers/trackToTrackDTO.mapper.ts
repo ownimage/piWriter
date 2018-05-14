@@ -14,7 +14,9 @@ const trackToTrackDTO = (track: Track) => {
         track.flipY,
         track.scale,
         track.alignment,
-        track.rotate);
+        track.rotate,
+        track.marginLeft,
+        track.marginRight);
 };
 
 export {trackToTrackDTO};

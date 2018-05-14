@@ -16,7 +16,9 @@ const trackDTOToTrack = (track: TrackDTO, playlist: Playlist) => {
         track.flipY,
         track.scale,
         track.alignment,
-        track.rotate
+        track.rotate,
+        track.marginLeft,
+        track.marginRight
     );
 };
 
