@@ -11,6 +11,7 @@ const path = require("path");
 import {NeoPixelDriver} from "./NeoPixelDriver";
 import {RESTv1} from "./RESTv1";
 import {RESTv2} from "./RESTv2";
+import {getServerInfo} from "./ServerInfo";
 import {logError} from "./utils/common";
 
 let config;
@@ -37,6 +38,7 @@ const startServer = (newConfig, functionHooks) => {
     app.use("/images", express.static(config.imagesFolder));
     app.get("/ping", ping);
     app.get("/config", getConfig);
+    app.get("/serverInfo", getServerInfo);
     app.post("/config", postConfig);
     app.get("/v2/images/", RESTv2.getImagesV2);
     app.get("/v1/playlists", RESTv1.getPlaylistsV1);
