@@ -1,4 +1,4 @@
-import { TrackDTO } from "./TrackDTO";
+import { TrackDTO } from "./trackDTO.model";
 
 export class PlaylistDTO {
     constructor(public version: number,

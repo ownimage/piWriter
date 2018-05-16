@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { config } from "./config";
-import { PlaylistDTO } from "./dto/PlaylistDTO";
+import { PlaylistDTO } from "./dto/playlistDTO.model";
 import { NeoPixelDriver } from "./NeoPixelDriver";
 import { logError } from "./utils/common";
 

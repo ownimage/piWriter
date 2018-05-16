@@ -1,6 +1,6 @@
 export {};
 
-import { PlaylistDTO } from "./dto/PlaylistDTO";
+import { PlaylistDTO } from "./dto/playlistDTO.model";
 import { playlistDTOToPlaylist } from "./mappers/playlistDTOToPlaylist.mapper";
 import { player } from "./model/Player";
 import { rgbValues2Int } from "./utils/ColorUtils";
