@@ -50,8 +50,9 @@ const functionHooks = {
             });
         });
     },
-    additionalServerInfo: (serverInfo) => {
-        return {...serverInfo, temp: 33};
+    additionalServerInfo: () => {
+        // currently just returns temp;
+        return  33;
     }
 };
 

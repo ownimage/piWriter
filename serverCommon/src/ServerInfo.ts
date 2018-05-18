@@ -2,32 +2,35 @@ export {};
 
 const os = require('os');
 
+import {ServerInfoDTO} from "./dto/serverInfoDTO.model";
+
 const DEBUG = require("debug");
 const debug = DEBUG("serverCommon/serverInfo");
 debug("### serverCommon/serverInfo");
 
 
 export const getServerInfo = (additionalServerInfo) => {
-   return (req, res) => {
+    return (req, res) => {
         try {
-            let info = {
-                uptime: convertS(os.uptime()),
-                totalmem: os.totalmem(),
-                freemem: os.freemem(),
-                loadavg: os.loadavg()
-            };
-            if (additionalServerInfo) {
-               info = additionalServerInfo(info);
-            };
-            debug("info = %o", info);
-            res.header("Access-Control-Allow-Origin", "*");
-            res.send(info);
-        } catch (err) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.sendStatus(500);
-            res.send(err);
-        }
-    };
+            let info: ServerInfoDTO = new ServerInfoDTO(
+                convertS(os.uptime()),
+                os.totalmem(),
+                os.freemem(),
+                os.loadavg(),
+                additionalServerInfo()
+            );
+        debug("info = %o", info);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(info);
+    }
+catch
+    (err)
+    {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.sendStatus(500);
+        res.send(err);
+    }
+};
 }
 
 // from https://gist.github.com/remino/1563878
