@@ -1,0 +1,76 @@
+<app-header
+        [leftIcon]='icons.navigateBack'
+        (click)='navigateToHome()'
+></app-header>
+
+<h4 class='ml-3'>Server Info</h4>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">Up Time</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='string' [(ngModel)]='uptime' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">Total Memory/MB</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='number' [(ngModel)]='totalmem' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">Free Memory/MB</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='number' [(ngModel)]='freemem' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">1 min Load Average</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='number' [(ngModel)]='serverInfo.loadavg[0]' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">5 min Load Average</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='number' [(ngModel)]='serverInfo.loadavg[1]' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">15 min Load Average</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='number' [(ngModel)]='serverInfo.loadavg[2]' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">Temperature</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='number' [(ngModel)]='serverInfo.temp' readonly>
+  </div>
+</div>

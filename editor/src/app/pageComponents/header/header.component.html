@@ -19,16 +19,30 @@
                         class="navbar-brand"
                 >{{ title }}</a>
             </div>
+            <!--        </div>
+
+                    <div class="col-2">
+                        <div
+                                (click)="doMenuClick()"
+                                [ngClass]="icons.hamburger"
+                                class="float-right mr-3"
+                                style="color: white; font-size: 200%;"
+                                aria-hidden="true"
+                        ></div>
+                        -->
         </div>
 
         <div class="col-2">
-            <div
-                    (click)="doMenuClick()"
-                    [ngClass]="icons.hamburger"
-                    class="float-right mr-3"
-                    style="color: white; font-size: 200%;"
-                    aria-hidden="true"
-            ></div>
+            <div [ngClass]="icons.hamburger"
+                 class="dropdown dropdown-toggle"
+                 data-toggle="dropdown"
+                 aria-haspopup="true"
+                 aria-expanded="false"
+            > </div>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <p class="dropdown-item" (click)="settingsClick()">Settings</p>
+                <p class="dropdown-item" (click)="serverInfoClick()">Info</p>
+            </div>
         </div>
 
     </nav>

@@ -50,6 +50,9 @@ const functionHooks = {
             });
         });
     },
+    additionalServerInfo: (serverInfo) => {
+        return {...serverInfo, temp: 33};
+    }
 };
 
 module.exports = {

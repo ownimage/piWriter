@@ -29,9 +29,12 @@ export class HeaderComponent implements OnInit {
         this.leftIconClick.emit(x);
     }
 
-    doMenuClick() {
+    settingsClick() {
         this.router.navigate(['/', 'settings']);
     }
 
+    serverInfoClick() {
+        this.router.navigate(['/', 'serverInfo']);
+    }
 
 }

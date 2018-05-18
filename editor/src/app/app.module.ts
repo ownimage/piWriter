@@ -18,11 +18,13 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { MessageComponent } from './pageComponents/message/message.component';
 import { SliderComponent } from './pageComponents/slider/slider.component';
 import { ImageComponent } from './pageComponents/image/image.component';
+import { ServerInfoComponent } from './pages/server-info/server-info.component';
 
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'settings', component: SettingsComponent},
+    {path: 'serverInfo', component: ServerInfoComponent},
     {path: 'playlists', component: BrowsePlaylistsComponent},
     {path: 'playlists/create', component: AddPlaylistComponent},
     {path: 'playlists/:playlistName', component: PlaylistComponent},
@@ -44,6 +46,7 @@ const appRoutes: Routes = [
         MessageComponent,
         SliderComponent,
         ImageComponent,
+        ServerInfoComponent,
     ],
     imports: [
         HttpClientModule,

@@ -1,0 +1,29 @@
+ul {
+    list-style-type: none;
+    vertical-align: center;
+}
+
+li {
+    list-style-type: none;
+    vertical-align: center;
+}
+
+.dropdown-toggle {
+    color: white;
+    font-size: 200%;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-menu {
+    background-color: #343a40;
+}
+
+.dropdown-item {
+    font-size: 100%;
+    color: white;
+    background-color: #343a40;
+}
+
