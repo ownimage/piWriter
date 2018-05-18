@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 
 import {environment} from '../../../environments/environment';
-import {handleError} from './repositoryUtilities';
+import {wrapGet} from './repositoryUtilities';
 import {ServerInfoDTO} from "../dto/serverInfoDTO.model";
 
 const debug = require('debug')('piWriter/ServerInfoRepositoryService');
@@ -18,22 +18,7 @@ export class ServerInfoRepositoryService {
     }
 
     getServerInfo(): Observable<ServerInfoDTO> {
-        return this.wrapGet(serverInfoUrlV1, data => data.body, 'Failure :(');
-    };
-
-    wrapGet<T>(url, transformResult, failureMessage): Observable<T> {
-        return Observable.create(observer => {
-            this.http.get<T>(url, {observe: 'response'})
-                .subscribe(
-                    data => {
-                        observer.next(transformResult(data));
-                    },
-                    err => {
-                        observer.error(failureMessage);
-                        handleError(debug, err);
-                    }
-                );
-        });
+        return wrapGet(this.http, debug, serverInfoUrlV1, data => data.body, 'Failure :(');
     };
 
 }

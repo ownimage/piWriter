@@ -16,5 +16,40 @@ const handleError = (debug, error: HttpErrorResponse) => {
         'Something bad happened; please try again later.');
 };
 
-export {handleError};
+const wrapGet = <T>(http, debug, url, transformResult, failureMessage): Observable<T> => {
+    return Observable.create(observer => {
+        http.get<T>(url, {observe: 'response'})
+            .subscribe(
+                data => {
+                    observer.next(transformResult(data));
+                },
+                err => {
+                    observer.error(failureMessage);
+                    handleError(debug, err);
+                }
+            );
+    });
+};
+
+const wrapPost = <T>(http, debug, url, payload, sucessTransform, failureTransform): Observable<T> => {
+    return Observable.create(observer => {
+        http.post(url, payload)
+            .subscribe(
+                next => {
+                    observer.next(sucessTransform(next));
+                },
+                err => {
+                    observer.error(failureTransform(err));
+                    handleError(debug, err);
+                }
+            )
+        ;
+    });
+};
+
+export {
+    handleError,
+    wrapGet,
+    wrapPost
+};
 
