@@ -1,5 +1,6 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 
+const Jimp = require('jimp');
 const debug = require('debug')('piWriter/pageComponent/image.component.ts');
 
 @Component({
@@ -7,7 +8,7 @@ const debug = require('debug')('piWriter/pageComponent/image.component.ts');
     templateUrl: './image.component.html',
     styleUrls: ['./image.component.css']
 })
-export class ImageComponent implements OnInit {
+export class ImageComponent implements OnChanges {
     @Input() src: string;
     @Input() flipX: boolean = false;
     @Input() flipY: boolean = false;
@@ -17,67 +18,38 @@ export class ImageComponent implements OnInit {
     @Input() marginLeft: number = 0;
     @Input() marginRight: number = 0;
 
-    @ViewChild('img') image: ElementRef;
-
     private naturalWidth = 0; // this is the size of the image
     private naturalHeight = 0;
-    private ready: boolean = false;
+    private srcOut: string;
+    private image = null;
+
+    private actualHeight = 50; // this is the nummber of pixels heigh on the screen
 
     constructor() {
     }
 
-    ngOnInit() {
-    }
+    ngOnChanges(changes) {
+        if (changes.src && changes.src.firstChange) {
+            Jimp.read(this.src).then((image) => {
+                this.naturalWidth = image.bitmap.width;
+                this.naturalHeight = image.bitmap.height;
+                this.image = image;
+                this.ngOnChanges({});
+            });
+        } else if (this.image) {
+            let clone = this.image.clone();
+            clone.flip(this.flipX, this.flipY);
+            clone.rotate(this.rotate);
+            clone.scale(this.scale * this.actualHeight / clone.bitmap.height);
 
-    imageLoad() {
-        debug('imageLoad w x h = %d x %d', this.image.nativeElement.naturalWidth, this.image.nativeElement.naturalHeight);
-        this.naturalWidth = this.image.nativeElement.naturalWidth;
-        this.naturalHeight = this.image.nativeElement.naturalHeight;
-        this.ready = true;
-    }
-
-    getDivStyle() {
-        let width = (this.rotate == 0 || this.rotate == 180) ? this.scale * this.naturalWidth * 50 / this.naturalHeight :
-            this.scale * this.naturalHeight * 50 / this.naturalWidth;
-        let paddingLeft = width * this.marginLeft;
-        let paddingRight = width * this.marginRight;
-        let style = {
-            'float': 'left',
-            'background-color': 'black',
-            'height': '50px',
-            'width': `${width + paddingLeft + paddingRight}px`,
-            'padding-left': `${paddingLeft}px`,
-            'padding-right': `${paddingRight}px`
-        };
-        debug('getDivStyle return %o', style);
-        return style;
-    }
-
-    getImgStyle() {
-        let scale = (this.rotate == 0 || this.rotate == 180) ? this.scale * 50 / this.naturalHeight :
-            this.scale * 50 / this.naturalWidth;
-        let scaledHeight = scale * this.naturalHeight;
-        let scaledWidth = scale * this.naturalWidth;
-        let scaledVertical = (this.rotate == 90 || this.rotate == 270) ? scaledWidth : scaledHeight;
-
-        let transform = `scale(${scale}) `;
-        if (this.flipX) transform = ` translate(${scaledWidth}px, 0px) scaleX(-1) ` + transform;
-        if (this.flipY) transform = ` translate(0px, ${scaledHeight}px) scaleY(-1) ` + transform;
-
-        //if (this.rotate == 0) transform = ` scale(${scale}) ` + transform;
-        if (this.rotate == 90) transform = ` translate(${scaledHeight}px, 0px) rotate(90deg)` + transform;
-        if (this.rotate == 180) transform = ` translate(${scaledWidth}px, ${scaledHeight}px) rotate(180deg) ` + transform;
-        if (this.rotate == 270) transform = ` translate(0px, ${scaledWidth}px) rotate(270deg) ` + transform;
-
-        if (this.alignment == 'middle') transform = ` translate(0px, ${(50 - scaledVertical)/2}px) ` + transform;
-        if (this.alignment == 'bottom') transform = ` translate(0px, ${50 - scaledVertical}px) ` + transform;
-
-        debug('getImgStyle return %o', transform);
-        return {
-            'transform-origin': '0px 0px',
-            //'height': '50px',
-            //'transform': `matrix(${transform.m11}, ${transform.m12}, ${transform.m21}, ${transform.m22}, ${tx}, ${ty})`,
-            transform
+            new Jimp(Math.round((this.marginLeft + 1 + this.marginRight) * clone.bitmap.width), this.actualHeight, 0x000000, (err, out) => {
+                let h = (this.alignment == 'middle') ? (this.actualHeight - clone.bitmap.height) / 2 :
+                    (this.alignment == 'bottom') ? this.actualHeight - clone.bitmap.height : 0;
+                out.blit(clone, Math.round(this.marginLeft * clone.bitmap.width), h, 0, 0, clone.bitmap.width, clone.bitmap.height);
+                out.getBase64(Jimp.MIME_BMP, (err, data) => {
+                    this.srcOut = data;
+                })
+            });
         }
     }
 
