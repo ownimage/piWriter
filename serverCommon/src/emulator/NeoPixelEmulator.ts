@@ -1,6 +1,7 @@
 export {};
 
 import * as express from "express";
+var proxy = require('http-proxy-middleware');
 import * as WebSocket from "ws";
 import * as path from "path";
 
@@ -37,6 +38,7 @@ const functionHooks = {
     app: (app) => {
         app.use("/demo", express.static(path.resolve(__dirname + "/index.html")));
         app.use("/demo/node_modules", express.static(path.resolve(__dirname + "/../../node_modules")));
+        app.use("/", proxy({target: "http://localhost:4200"}));
     },
     server: (server) => {
         webSocketServer = new WebSocket.Server({server});

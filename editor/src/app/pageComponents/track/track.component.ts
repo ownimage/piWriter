@@ -3,13 +3,16 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {config} from '../../shared/config'
 import {environment} from '../../../environments/environment';
 import {Track} from '../../shared/model/track.model';
+import {ConfigRepositoryService} from "../../shared/repository/ConfigRepositoryService";
+import {Config} from "../../shared/model/config.model";
 
 const debug = require('debug')('piWriter/track.component.ts');
 
 @Component({
     selector: 'app-track',
     templateUrl: './track.component.html',
-    styleUrls: ['./track.component.css']
+    styleUrls: ['./track.component.css'],
+    providers: [ConfigRepositoryService]
 })
 export class TrackComponent implements OnInit {
     @Input() track: Track;
@@ -19,11 +22,28 @@ export class TrackComponent implements OnInit {
 
     icons = config.icons;
     restURL = environment.restURL;
+    serverConfig: Config;
 
-    constructor() {
+    constructor(private configRepositoryService: ConfigRepositoryService) {
     }
 
     ngOnInit() {
+        this.getConfig();
+    }
+
+    getConfig() {
+        this.configRepositoryService.getConfig().subscribe(
+            data => {
+                debug('config = %O', data);
+                this.serverConfig = data;
+            },
+            err => {
+                debug('error %o', err)
+            },
+            () => {
+                debug('closed')
+            }
+        )
     }
 
     isPlayMode() {

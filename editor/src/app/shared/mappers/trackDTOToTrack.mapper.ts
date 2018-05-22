@@ -18,7 +18,18 @@ const trackDTOToTrack = (track: TrackDTO, playlist: Playlist) => {
         track.alignment,
         track.rotate,
         track.marginLeft,
-        track.marginRight
+        track.marginRight,
+        track.useColor,
+        track.limitColor,
+        track.useColor1,
+        track.color1,
+        track.useColor2,
+        track.color2,
+        track.useColor3,
+        track.color3,
+        track.useStripes,
+        track.stripeBlackWidth,
+        track.stripeTotalWidth
     );
 };
 

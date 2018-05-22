@@ -12,6 +12,17 @@ export class TrackDTO {
                 public alignment: string,
                 public rotate: number,
                 public marginLeft: number,
-                public marginRight: number) {
+                public marginRight: number,
+                public useColor: boolean,
+                public limitColor: boolean,
+                public useColor1: boolean,
+                public color1: string,
+                public useColor2: boolean,
+                public color2: string,
+                public useColor3: boolean,
+                public color3: string,
+                public useStripes: boolean,
+                public stripeBlackWidth: number,
+                public stripeTotalWidth: number) {
     };
 }

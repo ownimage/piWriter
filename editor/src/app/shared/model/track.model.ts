@@ -16,7 +16,18 @@ export class Track {
                 private _alignment: string = "top",
                 private _rotate: number = 0,
                 private _marginLeft: number = 0,
-                private _marginRight: number = 0) {
+                private _marginRight: number = 0,
+                private _useColor: boolean = false,
+                private _useColor1: boolean = false,
+                private _limitColor: boolean = false,
+                private _color1: string = "",
+                private _useColor2: boolean = false,
+                private _color2: string = "",
+                private _useColor3: boolean = false,
+                private _color3: string = "",
+                public _useStripes: boolean = false,
+                public _stripeBlackWidth: number = 1,
+                public _stripeTotalWidth: number = 2) {
     };
 
     clone(): Track {
@@ -36,9 +47,20 @@ export class Track {
             this._rotate,
             this._marginLeft,
             this._marginRight,
-        );
+            this._useColor,
+            this._limitColor,
+            this._useColor1,
+            this._color1,
+            this._useColor2,
+            this._color2,
+            this._useColor3,
+            this._color3,
+            this._useStripes,
+            this._stripeBlackWidth,
+            this._stripeTotalWidth
+        )
+            ;
     }
-
 
     get name(): string {
         return this._name;
@@ -94,6 +116,50 @@ export class Track {
 
     get marginRight(): number {
         return this._marginRight;
+    }
+
+    get useColor(): boolean {
+        return this._useColor;
+    }
+
+    get limitColor(): boolean {
+        return this._limitColor;
+    }
+
+    get useColor1(): boolean {
+        return this._useColor1;
+    }
+
+    get color1(): string {
+        return this._color1;
+    }
+
+    get useColor2(): boolean {
+        return this._useColor2;
+    }
+
+    get color2(): string {
+        return this._color2;
+    }
+
+    get useColor3(): boolean {
+        return this._useColor3;
+    }
+
+    get color3(): string {
+        return this._color3;
+    }
+
+    get useStripes(): boolean {
+        return this._useStripes;
+    }
+
+    get stripeBlackWidth(): number {
+        return this._stripeBlackWidth;
+    }
+
+    get stripeTotalWidth(): number {
+        return this._stripeTotalWidth;
     }
 
     set repeat(value: boolean) {
@@ -156,6 +222,63 @@ export class Track {
         this._marginRight = value;
     }
 
+    set useColor(value: boolean) {
+        this.markDirty();
+        this._useColor = value;
+    }
+
+    set limitColor(value: boolean) {
+        this.markDirty();
+        this._limitColor = value;
+    }
+
+    set useColor1(value: boolean) {
+        this.markDirty();
+        this._useColor1 = value;
+    }
+
+    set color1(value: string) {
+        this.markDirty();
+        this._color1 = value;
+    }
+
+    set useColor2(value: boolean) {
+        this.markDirty();
+        this._useColor2 = value;
+    }
+
+    set color2(value: string) {
+        this.markDirty();
+        this._color2 = value;
+    }
+
+    set useColor3(value: boolean) {
+        this.markDirty();
+        this._useColor3 = value;
+    }
+
+    set color3(value: string) {
+        this.markDirty();
+        this._color3 = value;
+    }
+
+    set useStripes(value: boolean) {
+        this.markDirty();
+        this._useStripes = value;
+    }
+
+    set stripeBlackWidth(value: number) {
+        this.markDirty();
+        this._stripeBlackWidth = value;
+    }
+
+    set stripeTotalWidth(value: number) {
+        this.markDirty();
+        this._stripeTotalWidth = value;
+        if (this._stripeBlackWidth >= this._stripeTotalWidth) {
+            this._stripeBlackWidth = this._stripeTotalWidth -1;
+        }
+    }
     toggleFlipX() {
         this.flipX = !this.flipX;
     }
@@ -187,6 +310,30 @@ export class Track {
         else if (this.rotate == 90) this.rotate = 180;
         else if (this.rotate == 180) this.rotate = 270;
         else this.rotate = 0;
+    }
+
+    toggleUseColor() {
+        this.useColor = !this.useColor;
+    }
+
+    toggleUseStripes() {
+        this.useStripes = !this.useStripes;
+    }
+
+    toggleLimitColor() {
+        this.limitColor = !this.limitColor;
+    }
+
+    toggleUseColor1() {
+        this.useColor1 = !this.useColor1;
+    }
+
+    toggleUseColor2() {
+        this.useColor2 = !this.useColor2;
+    }
+
+    toggleUseColor3() {
+        this.useColor3 = !this.useColor3;
     }
 
     moveUp() {
