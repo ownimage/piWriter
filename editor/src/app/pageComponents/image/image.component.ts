@@ -33,7 +33,7 @@ export class ImageComponent implements OnChanges {
 
     private naturalWidth = 0; // this is the size of the image
     private naturalHeight = 0;
-    private srcOut: string;
+    public srcOut: string;
     private image = null;
 
     private actualHeight = 144; // this is the nummber of pixels heigh on the screen
