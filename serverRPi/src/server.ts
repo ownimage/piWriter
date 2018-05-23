@@ -3,6 +3,7 @@ console.log("### serverRPi/server");
 
 const neopixelLib = require('rpi-ws281x-native');
 const gpio = require('rpi-gpio');
+const fs = require('fs');
 
 const commonConfig = require('../../serverCommon/dist/config');
 const { NeoPixelDriver} = require('../../serverCommon/dist/NeoPixelDriver');
@@ -40,6 +41,9 @@ const functionHooks = {
     },
     server: server => {
     },
+    additionalServerInfo: () => {
+        return fs.readFileSync('/sys/class/thermal/thermal_zone0/temp')/1000;
+    }
 };
 
 server.startServer(config, functionHooks);
