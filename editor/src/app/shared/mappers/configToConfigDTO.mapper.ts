@@ -6,7 +6,9 @@ const configToConfigDTO = (config: Config) => {
         config.NUM_LEDS,
         config.speed,
         config.brightness,
-        config.debounceTimeout
+        config.debounceTimeout,
+        config.smallPreviewHeight,
+        config.largePreviewHeight
     );
 };
 

@@ -98,6 +98,8 @@ const postConfig = (req, res) => {
         config.speed = speed;
         config.debounceTimeout = debounceTimeout;
         config.NUM_LEDS = NUM_LEDS;
+        config.smallPreviewHeight = req.body.smallPreviewHeight;
+        config.largePreviewHeight = req.body.largePreviewHeight;
 
         debug(`config = ${JSON.stringify(config)}`);
 

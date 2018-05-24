@@ -20,6 +20,7 @@
             <span>
                 <app-image
                         [src]='restURL +"/images/" + track.path'
+                        [height]='getHeight()'
                         [flipX]='track.flipX'
                         [flipY]='track.flipY'
                         [scale]='track.scale'

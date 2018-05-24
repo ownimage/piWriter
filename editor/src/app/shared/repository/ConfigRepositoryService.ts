@@ -25,8 +25,8 @@ export class ConfigRepositoryService {
         return wrapGet(this.http, debug, pingUrl, data => data.body.message, 'Failure :(');
     }
 
-    getConfig(): Observable<ConfigDTO> {
-        return wrapGet(this.http, debug, configUrlV1, data => data.body, 'Failure :(');
+    getConfig(): Observable<Config> {
+        return wrapGet(this.http, debug, configUrlV1, data => configDTOToConfig(data.body), 'Failure :(');
     };
 
     setConfig(config: Config) {

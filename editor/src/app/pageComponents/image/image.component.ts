@@ -10,6 +10,8 @@ const debug = require('debug')('piWriter/pageComponent/image.component.ts');
 })
 export class ImageComponent implements OnChanges {
     @Input() src: string;
+    @Input() height: number;
+
     @Input() flipX: boolean = false;
     @Input() flipY: boolean = false;
     @Input() rotate: number = 0; // must be one of 0, 90, 180, 270
@@ -122,6 +124,10 @@ export class ImageComponent implements OnChanges {
                             }
                         }
                     }
+                }
+
+                if (this.height && this.height != out.bitmap.height) {
+                    out.scale(this.height / out.bitmap.height);
                 }
 
                 out.getBase64(Jimp.MIME_BMP, (err, data) => {

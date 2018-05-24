@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {config} from '../../shared/config'
 import {environment} from '../../../environments/environment';
@@ -44,6 +44,13 @@ export class TrackComponent implements OnInit {
                 debug('closed')
             }
         )
+    }
+
+    getHeight() {
+        if (!this.serverConfig) return 20;
+        if (!this.track) return this.serverConfig.smallPreviewHeight;
+        if (this.track.isAdvancedMode()) return this.serverConfig.largePreviewHeight;
+        return this.serverConfig.smallPreviewHeight;
     }
 
     isPlayMode() {
