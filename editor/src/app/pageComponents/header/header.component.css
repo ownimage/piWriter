@@ -19,6 +19,7 @@ li {
 
 .dropdown-menu {
     background-color: #343a40;
+    left: -20px;
 }
 
 .dropdown-item {
