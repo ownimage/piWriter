@@ -54,7 +54,7 @@ const functionHooks = {
     },
     additionalServerInfo: () => {
         // currently just returns temp;
-        return  33;
+        return  0;
     }
 };
 
