@@ -2,3 +2,8 @@ input.color {
     height: 30px;
     padding: 0px;
 }
+
+hr {
+    margin-top: 4px;
+    margin-bottom: 0px;
+}
