@@ -1,5 +1,8 @@
 export {};
 
+require("babel-core/register");
+require("babel-polyfill");
+
 const debug = require("debug")("serverEmulator/server");
 debug("### serverEmulator/server");
 

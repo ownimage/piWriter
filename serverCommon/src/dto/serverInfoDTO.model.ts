@@ -3,7 +3,10 @@ export class ServerInfoDTO {
                 public totalmem: number,
                 public freemem: number,
                 public loadavg: [number, number, number],
-                public temp: number
+                public temp: number,
+                public diskSize: number,
+                public diskUsedPercent: number,
+                public diskFree: number
     ) {
     };
 }

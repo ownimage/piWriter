@@ -1,12 +1,16 @@
-
 console.log("### serverRPi/server");
+
+
+require("babel-core/register");
+require("babel-polyfill");
 
 const neopixelLib = require('rpi-ws281x-native');
 const gpio = require('rpi-gpio');
 const fs = require('fs');
+const si = require('systeminformation');
 
 const commonConfig = require('../../serverCommon/dist/config');
-const { NeoPixelDriver} = require('../../serverCommon/dist/NeoPixelDriver');
+const {NeoPixelDriver} = require('../../serverCommon/dist/NeoPixelDriver');
 
 const server = require('../../serverCommon/dist/server');
 let config = {
@@ -41,8 +45,16 @@ const functionHooks = {
     },
     server: server => {
     },
-    additionalServerInfo: () => {
-        return fs.readFileSync('/sys/class/thermal/thermal_zone0/temp')/1000;
+    additionalServerInfo: async () => {
+    	let allDisks = await si.fsSize();
+	let disk = allDisks.find(d => '/' == d.mount)
+    	console.log(`disk = ${JSON.stringify(disk)}`);
+        return {
+            temp: fs.readFileSync('/sys/class/thermal/thermal_zone0/temp') / 1000,
+            diskSize: disk.size,
+            diskUsedPercent: disk.use,
+            diskFree: disk.size - disk.used
+        };
     }
 };
 

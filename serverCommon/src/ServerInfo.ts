@@ -8,30 +8,33 @@ const DEBUG = require("debug");
 const debug = DEBUG("serverCommon/serverInfo");
 debug("### serverCommon/serverInfo");
 
-
 export const getServerInfo = (additionalServerInfo) => {
-    return (req, res) => {
+    return async (req, res, next) => {
         try {
+            const ais = await additionalServerInfo();
+            console.log(`ais = ${JSON.stringify(ais)}`);
             let info: ServerInfoDTO = new ServerInfoDTO(
                 convertS(os.uptime()),
                 os.totalmem(),
                 os.freemem(),
                 os.loadavg(),
-                additionalServerInfo()
+                ais.temp,
+                ais.diskSize,
+                ais.diskUsedPercent,
+                ais.diskFree
             );
-        debug("info = %o", info);
-        res.header("Access-Control-Allow-Origin", "*");
-        res.send(info);
-    }
-catch
-    (err)
-    {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.sendStatus(500);
-        res.send(err);
-    }
+            debug("info = %o", info);
+            res.header("Access-Control-Allow-Origin", "*");
+            res.send(info);
+        }
+        catch
+            (err) {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.sendStatus(500);
+            res.send(err);
+        }
+    };
 };
-}
 
 // from https://gist.github.com/remino/1563878
 function convertS(s) {
@@ -44,6 +47,6 @@ function convertS(s) {
     d = Math.floor(h / 24);
     h = h % 24;
     return {d, h, m, s};
-};
+}
 
 

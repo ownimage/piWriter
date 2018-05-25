@@ -52,9 +52,12 @@ const functionHooks = {
             });
         });
     },
-    additionalServerInfo: () => {
-        // currently just returns temp;
-        return  0;
+    additionalServerInfo: async () => {
+        return {
+        "temp": 199.99,
+        "diskSize": 30938734592,
+        "diskUsedPercent": 8.15,
+        "diskFree": 28418301952};
     }
 };
 

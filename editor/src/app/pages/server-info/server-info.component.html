@@ -5,13 +5,12 @@
 
 <h4 class='ml-3'>Server Info</h4>
 
-<hr/>
 <div class='row ml-3 mr-3'>
   <div class='col-6'>
     <p class="float-right">Up Time</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='string' [(ngModel)]='uptime' readonly>
+    <input class='form-control' type='string' [ngModel]='uptime' readonly>
   </div>
 </div>
 
@@ -21,7 +20,7 @@
     <p class="float-right">Total Memory/MB</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [(ngModel)]='totalmem' readonly>
+    <input class='form-control' type='string' [ngModel]='totalmem' readonly>
   </div>
 </div>
 
@@ -31,7 +30,7 @@
     <p class="float-right">Free Memory/MB</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [(ngModel)]='freemem' readonly>
+    <input class='form-control' type='string' [ngModel]='freemem' readonly>
   </div>
 </div>
 
@@ -41,7 +40,7 @@
     <p class="float-right">1 min Load Average</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [(ngModel)]='serverInfo.loadavg[0]' readonly>
+    <input class='form-control' type='number' [ngModel]='serverInfo.loadavg[0]' readonly>
   </div>
 </div>
 
@@ -51,7 +50,7 @@
     <p class="float-right">5 min Load Average</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [(ngModel)]='serverInfo.loadavg[1]' readonly>
+    <input class='form-control' type='number' [ngModel]='serverInfo.loadavg[1]' readonly>
   </div>
 </div>
 
@@ -61,7 +60,7 @@
     <p class="float-right">15 min Load Average</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [(ngModel)]='serverInfo.loadavg[2]' readonly>
+    <input class='form-control' type='number' [ngModel]='serverInfo.loadavg[2]' readonly>
   </div>
 </div>
 
@@ -71,6 +70,36 @@
     <p class="float-right">Temperature</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [(ngModel)]='serverInfo.temp' readonly>
+    <input class='form-control' type='number' [ngModel]='serverInfo.temp' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">Disk size</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='string' [ngModel]='diskSize' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">Disk used %</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='string' [ngModel]='diskPercentUsed' readonly>
+  </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+  <div class='col-6'>
+    <p class="float-right">Disk free</p>
+  </div>
+  <div class='col-6'>
+    <input class='form-control' type='string' [ngModel]='diskFree' readonly>
   </div>
 </div>
