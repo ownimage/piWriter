@@ -40,7 +40,7 @@
     <p class="float-right">1 min Load Average</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [ngModel]='serverInfo.loadavg[0]' readonly>
+    <input class='form-control' type='string' [ngModel]='serverInfo.loadavg[0] | decimalToPercentage' readonly>
   </div>
 </div>
 
@@ -50,7 +50,7 @@
     <p class="float-right">5 min Load Average</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [ngModel]='serverInfo.loadavg[1]' readonly>
+    <input class='form-control' type='string' [ngModel]='serverInfo.loadavg[1] | decimalToPercentage' readonly>
   </div>
 </div>
 
@@ -60,7 +60,7 @@
     <p class="float-right">15 min Load Average</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='number' [ngModel]='serverInfo.loadavg[2]' readonly>
+    <input class='form-control' type='string' [ngModel]='serverInfo.loadavg[2] | decimalToPercentage' readonly>
   </div>
 </div>
 

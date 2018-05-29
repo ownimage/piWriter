@@ -20,6 +20,7 @@ import { SliderComponent } from './pageComponents/slider/slider.component';
 import { ImageComponent } from './pageComponents/image/image.component';
 import { ServerInfoComponent } from './pages/server-info/server-info.component';
 import { NumberToXbPipe } from './shared/pipes/number-to-xb.pipe';
+import { DecimalToPercentagePipe } from './shared/pipes/decimal-to-percentage.pipe';
 
 
 const appRoutes: Routes = [
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
         ImageComponent,
         ServerInfoComponent,
         NumberToXbPipe,
+        DecimalToPercentagePipe,
     ],
     imports: [
         HttpClientModule,
