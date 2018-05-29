@@ -19,6 +19,7 @@ import { MessageComponent } from './pageComponents/message/message.component';
 import { SliderComponent } from './pageComponents/slider/slider.component';
 import { ImageComponent } from './pageComponents/image/image.component';
 import { ServerInfoComponent } from './pages/server-info/server-info.component';
+import { NumberToXbPipe } from './shared/pipes/number-to-xb.pipe';
 
 
 const appRoutes: Routes = [
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
         SliderComponent,
         ImageComponent,
         ServerInfoComponent,
+        NumberToXbPipe,
     ],
     imports: [
         HttpClientModule,

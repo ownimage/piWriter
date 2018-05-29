@@ -21,12 +21,7 @@ export class ServerInfoComponent implements OnInit {
 
     icons = config.icons;
     serverInfo: ServerInfoDTO;
-    freemem: string;
-    totalmem: string;
     uptime: string;
-    diskSize: string;
-    diskPercentUsed: string;
-    diskFree: string;
 
     ngOnInit() {
         this.getServerInfo();
@@ -37,12 +32,7 @@ export class ServerInfoComponent implements OnInit {
             data => {
                 debug('config = %O', data);
                 this.serverInfo = data;
-                this.freemem = this.formatBytes(data.freemem);
-                this.totalmem = this.formatBytes(data.totalmem);
                 this.uptime = `${data.uptime.d} d ${data.uptime.h} hr ${data.uptime.m} mi ${data.uptime.s} s`;
-                this.diskSize = this.formatBytes(data.diskSize);
-                this.diskPercentUsed = data.diskUsedPercent + ' %';
-                this.diskFree = this.formatBytes(data.diskFree);
             },
             err => {
                 debug('error %o', err)
@@ -51,14 +41,6 @@ export class ServerInfoComponent implements OnInit {
                 debug('closed')
             }
         )
-    }
-
-    // from https://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript
-    formatBytes(a, b?) {
-        if (0 == a) return "0 Bytes";
-        var c = 1024, d = b || 2, e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
-            f = Math.floor(Math.log(a) / Math.log(c));
-        return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f]
     }
 
     navigateToHome() {

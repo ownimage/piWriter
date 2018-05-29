@@ -20,7 +20,7 @@
     <p class="float-right">Total Memory/MB</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='string' [ngModel]='totalmem' readonly>
+    <input class='form-control' type='string' [ngModel]='serverInfo.totalmem | numberToXb' readonly>
   </div>
 </div>
 
@@ -30,7 +30,7 @@
     <p class="float-right">Free Memory/MB</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='string' [ngModel]='freemem' readonly>
+    <input class='form-control' type='string' [ngModel]='serverInfo.freemem | numberToXb' readonly>
   </div>
 </div>
 
@@ -80,7 +80,7 @@
     <p class="float-right">Disk size</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='string' [ngModel]='diskSize' readonly>
+    <input class='form-control' type='string' [ngModel]='serverInfo.diskSize | numberToXb' readonly>
   </div>
 </div>
 
@@ -90,7 +90,7 @@
     <p class="float-right">Disk used %</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='string' [ngModel]='diskPercentUsed' readonly>
+    <input class='form-control' type='string' [ngModel]='serverInfo.diskUsedPercent + " %"' readonly>
   </div>
 </div>
 
@@ -100,6 +100,6 @@
     <p class="float-right">Disk free</p>
   </div>
   <div class='col-6'>
-    <input class='form-control' type='string' [ngModel]='diskFree' readonly>
+    <input class='form-control' type='string' [ngModel]='serverInfo.diskFree | numberToXb' readonly>
   </div>
 </div>
