@@ -6,7 +6,7 @@ const debug = require("debug")("serverCommon/config");
 debug("### serverCommon/config");
 
 export const config = {
-    NUM_LEDS: 60,
+    NUM_LEDS: 144,
     appFolder: path.resolve(__dirname +  "/../../editor/dist/"),
     brightness: 254,
     debounceTimeout: 301,
