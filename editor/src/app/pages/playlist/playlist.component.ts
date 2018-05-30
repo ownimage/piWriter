@@ -95,6 +95,10 @@ export class PlaylistComponent implements OnInit {
         }
     }
 
+    edit() {
+        this.router.navigate(['/playlists', this.playlist.name], {queryParams: {mode: 'edit'}});
+    }
+
     post() {
         debug('sendPlaylist');
         this.infoMessage.setMessage('Sending Playlist ...');

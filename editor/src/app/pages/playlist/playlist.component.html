@@ -42,6 +42,13 @@
             <app-message [model]="infoMessage"></app-message>
         </div>
 
+        <button
+                *ngIf="isPlayMode()"
+                (click)="edit()"
+                class="btn btn-danger btn-lg btn-block mt-1"
+        >Edit
+        </button>
+
     </div>
 </div>
 
