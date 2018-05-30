@@ -27,6 +27,8 @@ const config = {
         alignMiddle: 'icon-valign-middle fa-fw',
         alignBottom: 'icon-valign-bottom fa-fw',
         paste: 'fas fa-paste',
+        horizontal: 'icon-horizontal fa-fw',
+        vertical: 'icon-vertical fa-fw',
     }
 };
 

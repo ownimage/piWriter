@@ -13,7 +13,7 @@ export class Track {
                 private _flipX: boolean = false,
                 private _flipY: boolean = false,
                 private _scale: number = 1,
-                private _alignment: string = "top",
+                private _alignment: string = 'top',
                 private _rotate: number = 0,
                 private _marginLeft: number = 0,
                 private _marginRight: number = 0,
@@ -22,10 +22,10 @@ export class Track {
                 private _useColor1: boolean = false,
                 private _color1: string = "",
                 private _useColor2: boolean = false,
-                private _color2: string = "",
+                private _color2: string = '',
                 private _useColor3: boolean = false,
-                private _color3: string = "",
-                public _useStripes: boolean = false,
+                private _color3: string = '',
+                public _useStripes: string = 'false',
                 public _stripeBlackWidth: number = 1,
                 public _stripeTotalWidth: number = 2) {
     };
@@ -149,7 +149,7 @@ export class Track {
         return this._color3;
     }
 
-    get useStripes(): boolean {
+    get useStripes(): string {
         return this._useStripes;
     }
 
@@ -261,7 +261,7 @@ export class Track {
         this._color3 = value;
     }
 
-    set useStripes(value: boolean) {
+    set useStripes(value: string) {
         this.markDirty();
         this._useStripes = value;
     }
@@ -317,7 +317,9 @@ export class Track {
     }
 
     toggleUseStripes() {
-        this.useStripes = !this.useStripes;
+        if (this.useStripes == 'false') this.useStripes = 'horizontal';
+        else if (this.useStripes == 'horizontal') this.useStripes = 'vertical';
+        else this.useStripes = 'false';
     }
 
     toggleLimitColor() {

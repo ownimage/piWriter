@@ -63,11 +63,11 @@ code {
 /* SECTION for iconmoon svg icons*/
 @font-face {
     font-family: 'icomoon';
-    src:  url('external/align/fonts/icomoon.eot?fye9zs');
-    src:  url('external/align/fonts/icomoon.eot?fye9zs#iefix') format('embedded-opentype'),
-    url('external/align/fonts/icomoon.ttf?fye9zs') format('truetype'),
-    url('external/align/fonts/icomoon.woff?fye9zs') format('woff'),
-    url('external/align/fonts/icomoon.svg?fye9zs#icomoon') format('svg');
+    src:  url('external/icomoon/fonts/icomoon.eot?d5x3f4');
+    src:  url('external/icomoon/fonts/icomoon.eot?d5x3f4#iefix') format('embedded-opentype'),
+    url('external/icomoon/fonts/icomoon.ttf?d5x3f4') format('truetype'),
+    url('external/icomoon/fonts/icomoon.woff?d5x3f4') format('woff'),
+    url('external/icomoon/fonts/icomoon.svg?d5x3f4#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -87,6 +87,12 @@ code {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-horizontal:before {
+    content: "\e904";
+}
+.icon-vertical:before {
+    content: "\e905";
+}
 .icon-vertical_align_top:before {
     content: "\e900";
 }
@@ -105,5 +111,4 @@ code {
 .icon-valign-bottom:before {
     content: "\e907";
 }
-
 /* SECTION END for iconmoon svg icons*/

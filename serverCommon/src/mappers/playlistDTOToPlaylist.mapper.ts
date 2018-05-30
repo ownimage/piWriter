@@ -92,12 +92,21 @@ export function playlistDTOToPlaylist(playlistDTO: PlaylistDTO,
                             (track.alignment == 'bottom') ? NUM_LEDS - image.bitmap.height : 0;
                         out.blit(image, Math.round(track.marginLeft * image.bitmap.width), h, 0, 0, image.bitmap.width, image.bitmap.height);
 
-                        if (track.useStripes) {
-                            debug("striping");
+                        if (track.useStripes == 'horizontal') {
                             for (let x = 0; x < out.bitmap.width; x++) {
                                 for (let y = 0; y < out.bitmap.height; y += track.stripeTotalWidth) {
                                     for (let s = 0; s < track.stripeBlackWidth; s++) {
-                                        out.setPixelColor(0, x, y + s)
+                                        out.setPixelColor(0, x, y+s)
+                                    }
+                                }
+                            }
+                        }
+
+                        if (track.useStripes == 'vertical') {
+                            for (let y = 0; y < out.bitmap.height; y++) {
+                                for (let x = 0; x < out.bitmap.width; x += track.stripeTotalWidth) {
+                                    for (let s = 0; s < track.stripeBlackWidth; s++) {
+                                        out.setPixelColor(0, x+s, y)
                                     }
                                 }
                             }

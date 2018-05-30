@@ -21,7 +21,7 @@ export class TrackDTO {
                 public color2: string,
                 public useColor3: boolean,
                 public color3: string,
-                public useStripes: boolean,
+                public useStripes: string,
                 public stripeBlackWidth: number,
                 public stripeTotalWidth: number) {
     };

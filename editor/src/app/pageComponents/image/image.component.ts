@@ -29,7 +29,7 @@ export class ImageComponent implements OnChanges {
     @Input() useColor3: boolean;
     @Input() color3: string;
 
-    @Input() useStripes: boolean;
+    @Input() useStripes: string;
     @Input() stripeBlackWidth: number = 1;
     @Input() stripeTotalWidth: number = 2;
 
@@ -116,11 +116,21 @@ export class ImageComponent implements OnChanges {
                     (this.alignment == 'bottom') ? this.actualHeight - clone.bitmap.height : 0;
                 out.blit(clone, Math.round(this.marginLeft * clone.bitmap.width), h, 0, 0, clone.bitmap.width, clone.bitmap.height);
 
-                if (this.useStripes) {
+                if (this.useStripes == 'horizontal') {
                     for (let x = 0; x < out.bitmap.width; x++) {
                         for (let y = 0; y < out.bitmap.height; y += this.stripeTotalWidth) {
                             for (let s = 0; s < this.stripeBlackWidth; s++) {
                                 out.setPixelColor(0, x, y+s)
+                            }
+                        }
+                    }
+                }
+
+                if (this.useStripes == 'vertical') {
+                    for (let y = 0; y < out.bitmap.height; y++) {
+                        for (let x = 0; x < out.bitmap.width; x += this.stripeTotalWidth) {
+                            for (let s = 0; s < this.stripeBlackWidth; s++) {
+                                out.setPixelColor(0, x+s, y)
                             }
                         }
                     }

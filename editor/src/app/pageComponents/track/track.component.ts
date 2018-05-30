@@ -69,9 +69,20 @@ export class TrackComponent implements OnInit {
     }
 
     getAlignmentStyle() {
-        if (this.track.alignment == "middle") return [config.icons.alignMiddle];
-        if (this.track.alignment == "bottom") return [config.icons.alignBottom];
+        if (this.track.alignment == 'middle') return [config.icons.alignMiddle];
+        if (this.track.alignment == 'bottom') return [config.icons.alignBottom];
         return [config.icons.alignTop];
+    }
+
+    getStripesStyle() {
+        if (this.track.useStripes == 'horizontal') return [config.icons.horizontal];
+        if (this.track.useStripes == 'vertical') return [config.icons.vertical];
+        return [config.icons.cross];
+    }
+
+    getStripesColor() {
+        if (this.track.useStripes == 'false') return ['red'];
+        return ['black'];
     }
 
 }

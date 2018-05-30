@@ -328,6 +328,8 @@
                 <div class='col-2 col-sm-4'>
                     <app-checkbox
                             [value]='track.useStripes'
+                            [styles]='getStripesStyle()'
+                            [colors]='getStripesColor()'
                             (toggleEvent)='track.toggleUseStripes()'
                     ></app-checkbox>
                 </div>
