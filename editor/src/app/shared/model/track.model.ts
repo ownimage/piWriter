@@ -58,8 +58,7 @@ export class Track {
             this._useStripes,
             this._stripeBlackWidth,
             this._stripeTotalWidth
-        )
-            ;
+        );
     }
 
     get name(): string {
@@ -276,9 +275,10 @@ export class Track {
         this.markDirty();
         this._stripeTotalWidth = value;
         if (this._stripeBlackWidth >= this._stripeTotalWidth) {
-            this._stripeBlackWidth = this._stripeTotalWidth -1;
+            this._stripeBlackWidth = this._stripeTotalWidth - 1;
         }
     }
+
     toggleFlipX() {
         this.flipX = !this.flipX;
     }
@@ -362,6 +362,29 @@ export class Track {
 
     duplicate() {
         this.playlist.duplicate(this);
+    }
+
+    canCopySettings() {
+        return this.playlist.getPrevious(this) != null;
+    }
+
+    copySettings() {
+        let track = this.playlist.getPrevious(this);
+        this._speed = track._speed;
+        this._brightness = track._brightness;
+        this._scale = track._scale;
+        this._alignment = track._alignment;
+        this._useColor = track._useColor;
+        this._limitColor = track._limitColor;
+        this._useColor1 = track._useColor1;
+        this._color1 = track._color1;
+        this._useColor2 = track._useColor2;
+        this._color2 = track._color2;
+        this._useColor3 = track._useColor3;
+        this._color3 = track._color3;
+        this._useStripes = track._useStripes;
+        this._stripeBlackWidth = track._stripeBlackWidth;
+        this._stripeTotalWidth = track._stripeTotalWidth;
     }
 }
 

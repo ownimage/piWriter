@@ -66,6 +66,13 @@ export class Playlist {
         return this.playlistRepository.postPlaylistsPlayV1(this.name);
     }
 
+    getPrevious = function (track) {
+        let crntPos = this.tracks.indexOf(track);
+        if (crntPos > 0) {
+            return this.tracks[crntPos-1];
+        }
+    };
+
     moveUp = function (track) {
         let crntPos = this.tracks.indexOf(track);
         if (crntPos > 0) {

@@ -26,6 +26,7 @@ const config = {
         alignTop: 'icon-valign-top fa-fw',
         alignMiddle: 'icon-valign-middle fa-fw',
         alignBottom: 'icon-valign-bottom fa-fw',
+        paste: 'fas fa-paste',
     }
 };
 

@@ -150,6 +150,18 @@
             ></app-checkbox>
         </div>
 
+        <div class='col-2' style='align-content: center;'>
+        </div>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    *ngIf='track.canCopySettings()'
+                    [styles]='[icons.paste]'
+                    [colors]='["black"]'
+                    (toggleEvent)='track.copySettings()'
+            ></app-checkbox>
+        </div>
+
     </div>
 </div>
 
