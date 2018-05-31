@@ -8,7 +8,7 @@ import * as path from "path";
 import { NeoPixelDriver } from "../NeoPixelDriver";
 
 const debug = require("debug")("serverEmulator/NeoPixelEmulator");
-debug("### serverEmulator/server");
+debug("### serverEmulator/NeoPixelEmulator");
 
 let NUM_LEDS = 10;
 let NeoPixelArray = new Uint32Array(NUM_LEDS);

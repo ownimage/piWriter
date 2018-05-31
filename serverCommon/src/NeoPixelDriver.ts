@@ -4,23 +4,27 @@ import { PlaylistDTO } from "./dto/playlistDTO.model";
 import { playlistDTOToPlaylist } from "./mappers/playlistDTOToPlaylist.mapper";
 import { player } from "./model/Player";
 import { rgbValues2Int } from "./utils/ColorUtils";
+import { getConfig } from "./config";
 
 const DEBUG = require("debug");
 const debug = DEBUG("serverCommon/NeoPixelDriver");
 debug("### serverCommon/NeoPixelDriver");
 
-let config;
+let neoPixelLib;
 let blankArray: Uint32Array;
 let flashArray: Uint32Array = null;
 let playlistDTO = null;
 
-function init(newConfig) {
-    debug("serverCommon/NeoPixelDriver:init");
-    config = newConfig;
+function setNeoPixelLib(newNeoPixelLib) {
+    neoPixelLib = newNeoPixelLib;
+}
 
-    debug("NUM_LEDS = %d", config.NUM_LEDS);
-    blankArray = new Uint32Array(config.NUM_LEDS);
-    config.neopixelLib.init(config.NUM_LEDS);
+function init() {
+    debug("serverCommon/NeoPixelDriver:init");
+    debug("NUM_LEDS = %d", getConfig().NUM_LEDS);
+
+    blankArray = new Uint32Array(getConfig().NUM_LEDS);
+    neoPixelLib.init(getConfig().NUM_LEDS);
 
     setPlaylist(playlistDTO);
     flash(2);
@@ -33,8 +37,8 @@ function setupFlashArray() {
         rgbValues2Int(0, 64, 0),
         rgbValues2Int(0, 0, 64),
     ];
-    flashArray = new Uint32Array(config.NUM_LEDS);
-    for (let i = 0; i < config.NUM_LEDS; i++) {
+    flashArray = new Uint32Array(getConfig().NUM_LEDS);
+    for (let i = 0; i < getConfig().NUM_LEDS; i++) {
         flashArray[i] = colors[i % 3];
     }
 }
@@ -47,14 +51,14 @@ function flash(n) {
         setupFlashArray();
     }
 
-    config.neopixelLib.render(flashArray);
-    setTimeout(() => config.neopixelLib.render(blankArray), 500);
+    neoPixelLib.render(flashArray);
+    setTimeout(() => neoPixelLib.render(blankArray), 500);
     setTimeout(() => flash(n - 1), 1000);
 }
 
 // ---- trap the SIGINT and reset before exit
 process.on("SIGINT", () => {
-    config.neopixelLib.reset();
+    neoPixelLib.reset();
     process.nextTick(() => {
         process.exit(0);
     });
@@ -65,20 +69,20 @@ function setPlaylist(newPlaylistDTO: PlaylistDTO) {
     const playlist = (newPlaylistDTO) ?
         playlistDTOToPlaylist(
             newPlaylistDTO,
-            config.NUM_LEDS,
-            config.brightness,
-            config.imagesFolder,
+            getConfig().NUM_LEDS,
+            getConfig().brightness,
+            getConfig().imagesFolder,
             () => flash(2),
         ) : null;
     player.play(playlist);
 }
 
 const render = (colorArray) => {
-    config.neopixelLib.render(colorArray);
+    neoPixelLib.render(colorArray);
 };
 
 const renderBlank = () => {
-    config.neopixelLib.render(blankArray);
+    neoPixelLib.render(blankArray);
 };
 
 function next() {
@@ -86,6 +90,7 @@ function next() {
 }
 
 export const NeoPixelDriver = {
+    setNeoPixelLib,
     init,
     next,
     setPlaylist,

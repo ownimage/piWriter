@@ -13,15 +13,17 @@ import {RESTv1} from "./RESTv1";
 import {RESTv2} from "./RESTv2";
 import {getServerInfo} from "./ServerInfo";
 import {logError} from "./utils/common";
+import {getConfig, RESTpostConfig, RESTgetConfig} from "./config";
 
-let config;
 
-const startServer = (newConfig, functionHooks) => {
+const startServer = ({environment, neopixelLib, functionHooks}) => {
     debug("serverCommon/server:serverStart");
-    debug("config = %o", newConfig);
-    config = newConfig;
+    debug("config = %o", getConfig());
+    debug("environment = %o", environment);
 
-    NeoPixelDriver.init(config);
+    NeoPixelDriver.setNeoPixelLib(neopixelLib);
+    NeoPixelDriver.init();
+
 
     const app = express();
     app.use(bodyParser.urlencoded({extended: false}));
@@ -35,22 +37,22 @@ const startServer = (newConfig, functionHooks) => {
         res.sendStatus(200);
     });
 
-    app.use("/images", express.static(config.imagesFolder));
+    app.use("/images", express.static(getConfig().imagesFolder));
     app.get("/ping", ping);
-    app.get("/config", getConfig);
+    app.get("/config", RESTgetConfig);
     app.get("/serverInfo", getServerInfo(functionHooks.additionalServerInfo));
-    app.post("/config", postConfig);
+    app.post("/config", RESTpostConfig);
     app.get("/v2/images/", RESTv2.getImagesV2);
     app.get("/v1/playlists", RESTv1.getPlaylistsV1);
     app.get("/v1/playlists/:playlistName", RESTv1.getPlaylistV1);
     app.post("/v1/playlists/:playlistName", RESTv1.postPlaylistV1);
     app.post("/v1/playlists/:playlistName/play", RESTv1.postPlaylistsPlayV1);
     functionHooks.app(app);
-    app.use("/", express.static(config.appFolder));
-    app.use((req, res) => res.sendFile(path.resolve(config.appFolder, "index.html")));
+    app.use("/", express.static(getConfig().appFolder));
+    app.use((req, res) => res.sendFile(path.resolve(getConfig().appFolder, "index.html")));
 
     const server = http.createServer(app);
-    server.listen(config.serverPort, () => {
+    server.listen(getConfig().serverPort, () => {
         debug(`Server started on port ${server.address().port} :)`);
     });
 
@@ -61,57 +63,6 @@ const ping = (req, res) => {
     debug("serverCommon/server:ping");
     res.header("Access-Control-Allow-Origin", "*");
     res.send({message: "is alive!"});
-};
-
-const getConfig = (req, res) => {
-    debug("serverCommon/server:getConfig");
-    res.header("Access-Control-Allow-Origin", "*");
-    res.send(config);
-};
-
-const postConfig = (req, res) => {
-    try {
-        debug("serverCommon/server:postConfig");
-        debug("req.body =" + JSON.stringify(req.body));
-
-        let NUM_LEDS = req.body.NUM_LEDS;
-        if (12 > NUM_LEDS || NUM_LEDS > 144) {
-            NUM_LEDS = config.NUM_LEDS;
-        }
-
-        let brightness = req.body.brightness;
-        if (16 > brightness || brightness > 255) {
-            brightness = config.brightness;
-        }
-
-        let speed = req.body.speed;
-        if (0.2 > speed || speed > 5) {
-            speed = config.speed;
-        }
-
-        let debounceTimeout = req.body.debounceTimeout;
-        if (10 > debounceTimeout || debounceTimeout > 1000) {
-            debounceTimeout = config.debounceTimeout;
-        }
-
-        config.brightness = brightness;
-        config.speed = speed;
-        config.debounceTimeout = debounceTimeout;
-        config.NUM_LEDS = NUM_LEDS;
-        config.smallPreviewHeight = req.body.smallPreviewHeight;
-        config.largePreviewHeight = req.body.largePreviewHeight;
-
-        debug(`config = ${JSON.stringify(config)}`);
-
-        NeoPixelDriver.init(config);
-
-        res.header("Access-Control-Allow-Origin", "*");
-        res.send(config);
-    } catch (e) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.sendStatus(500);
-        logError(debug, e);
-    }
 };
 
 module.exports = {
