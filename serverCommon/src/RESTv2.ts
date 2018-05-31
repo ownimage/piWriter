@@ -4,6 +4,7 @@ import * as  fs from "fs";
 import * as  path from "path";
 
 import { getConfig } from "./config";
+import { serverConfig} from "./serverConfig";
 import { logError } from "./utils/common";
 
 const DEBUG = require("debug");
@@ -13,7 +14,7 @@ debug("### serverCommon/RESTv2");
 const getFiles = (dirs, result, res) => {
     const dir = dirs.pop();
     debug("dir = %o", dir);
-    const fullPath = path.join(getConfig().imagesFolder, dir.dirName);
+    const fullPath = path.join(serverConfig.imagesFolder, dir.dirName);
     debug("fullPath = %s", fullPath);
     fs.readdir(fullPath, (err, files) => {
         files.map((f) => {

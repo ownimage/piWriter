@@ -7,6 +7,7 @@ import { getConfig } from "./config";
 import { PlaylistDTO } from "./dto/playlistDTO.model";
 import { NeoPixelDriver } from "./NeoPixelDriver";
 import { logError } from "./utils/common";
+import { serverConfig} from "./serverConfig";
 
 const DEBUG = require("debug");
 const debug = DEBUG("serverCommon/RESTv1");
@@ -15,7 +16,7 @@ debug("### serverCommon/RESTv1");
 const getPlaylistsV1 = (req, res) => {
     try {
         debug("serverCommon/RESTv1:getPlaylistsV1");
-        fs.readdir(getConfig().playlistFolder, (err, files) => {
+        fs.readdir(serverConfig.playlistFolder, (err, files) => {
             debug("getPlaylistsV1 %O", files);
             res.header("Access-Control-Allow-Origin", "*");
             res.send(files);
@@ -30,7 +31,7 @@ const getPlaylistV1 = (req, res) => {
         debug("serverCommon/RESTv1:getPlaylistV1");
         debug("req.params.playlistName = %s", req.params.playlistName);
         const playlistName = req.params.playlistName;
-        const filePath = path.join(getConfig().playlistFolder, playlistName);
+        const filePath = path.join(serverConfig.playlistFolder, playlistName);
         fs.readFile(filePath, {encoding: "utf-8"}, (err, data) => {
             res.header("Access-Control-Allow-Origin", "*");
             if (!err) {
@@ -57,7 +58,7 @@ const postPlaylistV1 = (req, res) => {
         debug("req.params.playlistName = %s", req.params.playlistName);
         debug("req.body = %O", req.body);
         const playlistName = req.params.playlistName;
-        const filePath = path.join(getConfig().playlistFolder, playlistName);
+        const filePath = path.join(serverConfig.playlistFolder, playlistName);
         fs.writeFile(filePath, JSON.stringify(req.body, null, 2), (err) =>  {
             if (!err) {
                 res.header("Access-Control-Allow-Origin", "*");
@@ -78,7 +79,7 @@ const postPlaylistsPlayV1 = (req, res) => {
         debug("serverCommon/RESTv1:postPlaylistsPlayV1");
         const playlistName = req.params.playlistName;
 
-        const filePath = path.join(getConfig().playlistFolder, playlistName);
+        const filePath = path.join(serverConfig.playlistFolder, playlistName);
         fs.readFile(filePath, {encoding: "utf-8"}, (err, data) => {
             if (!err) {
                 debug("received data = %s", data);

@@ -12,8 +12,8 @@ import {NeoPixelDriver} from "./NeoPixelDriver";
 import {RESTv1} from "./RESTv1";
 import {RESTv2} from "./RESTv2";
 import {getServerInfo} from "./ServerInfo";
-import {logError} from "./utils/common";
 import {getConfig, RESTpostConfig, RESTgetConfig} from "./config";
+import {serverConfig} from "./serverConfig";
 
 
 const startServer = ({environment, neopixelLib, functionHooks}) => {
@@ -37,7 +37,7 @@ const startServer = ({environment, neopixelLib, functionHooks}) => {
         res.sendStatus(200);
     });
 
-    app.use("/images", express.static(getConfig().imagesFolder));
+    app.use("/images", express.static(serverConfig.imagesFolder));
     app.get("/ping", ping);
     app.get("/config", RESTgetConfig);
     app.get("/serverInfo", getServerInfo(functionHooks.additionalServerInfo));
@@ -48,8 +48,8 @@ const startServer = ({environment, neopixelLib, functionHooks}) => {
     app.post("/v1/playlists/:playlistName", RESTv1.postPlaylistV1);
     app.post("/v1/playlists/:playlistName/play", RESTv1.postPlaylistsPlayV1);
     functionHooks.app(app);
-    app.use("/", express.static(getConfig().appFolder));
-    app.use((req, res) => res.sendFile(path.resolve(getConfig().appFolder, "index.html")));
+    app.use("/", express.static(serverConfig.appFolder));
+    app.use((req, res) => res.sendFile(path.resolve(serverConfig.appFolder, "index.html")));
 
     const server = http.createServer(app);
     server.listen(getConfig().serverPort, () => {

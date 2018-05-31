@@ -1,3 +1,5 @@
+import {serverConfig} from "./serverConfig";
+
 export {};
 
 import { PlaylistDTO } from "./dto/playlistDTO.model";
@@ -71,7 +73,7 @@ function setPlaylist(newPlaylistDTO: PlaylistDTO) {
             newPlaylistDTO,
             getConfig().NUM_LEDS,
             getConfig().brightness,
-            getConfig().imagesFolder,
+            serverConfig.imagesFolder,
             () => flash(2),
         ) : null;
     player.play(playlist);

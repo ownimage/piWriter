@@ -11,11 +11,8 @@ debug("### serverCommon/config");
 
 let config = new ConfigDTO(
     144,
-    path.resolve(__dirname + "/../../editor/dist/"),
     254,
     301,
-    path.resolve(__dirname + "/../../library/images/"),
-    path.resolve(__dirname + "/../../library/playlists/"),
     80,
     1.1,
     72,
