@@ -338,7 +338,7 @@
                 </div>
             </div>
 
-            <div *ngIf="track.useStripes" class='row mt-2 pt-2 border-top'>
+            <div *ngIf="track.useStripes!='false'" class='row mt-2 pt-2 border-top'>
                 <div class='col-12 col-sm-4'>
                     n back lines, n=
                 </div>
@@ -350,7 +350,7 @@
                 </div>
             </div>
 
-            <div *ngIf="track.useStripes" class='row mt-2 pt-2 border-top'>
+            <div *ngIf="track.useStripes!='false'" class='row mt-2 pt-2 border-top'>
                 <div class='col-12 col-sm-4'>
                     Every m lines, m=
                 </div>
