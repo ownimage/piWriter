@@ -52,7 +52,7 @@ const startServer = ({environment, neopixelLib, functionHooks}) => {
     app.use((req, res) => res.sendFile(path.resolve(serverConfig.appFolder, "index.html")));
 
     const server = http.createServer(app);
-    server.listen(getConfig().serverPort, () => {
+    server.listen(serverConfig.serverPort, () => {
         debug(`Server started on port ${server.address().port} :)`);
     });
 

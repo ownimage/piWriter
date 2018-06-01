@@ -9,4 +9,5 @@ export const serverConfig = {
     appFolder: path.resolve(__dirname + "/../../editor/dist/"),
     imagesFolder: path.resolve(__dirname + "/../../library/images/"),
     playlistFolder: path.resolve(__dirname + "/../../library/playlists/"),
+    serverPort: 80
 };

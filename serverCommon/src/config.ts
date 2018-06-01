@@ -13,7 +13,6 @@ let config = new ConfigDTO(
     144,
     254,
     301,
-    80,
     1.1,
     72,
     144,

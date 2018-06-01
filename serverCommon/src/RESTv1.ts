@@ -3,7 +3,6 @@ export {};
 import * as fs from "fs";
 import * as path from "path";
 
-import { getConfig } from "./config";
 import { PlaylistDTO } from "./dto/playlistDTO.model";
 import { NeoPixelDriver } from "./NeoPixelDriver";
 import { logError } from "./utils/common";
