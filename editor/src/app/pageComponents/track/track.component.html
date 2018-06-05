@@ -21,24 +21,8 @@
                 <app-image
                         [src]='restURL +"/images/" + track.path'
                         [height]='getHeight()'
-                        [flipX]='track.flipX'
-                        [flipY]='track.flipY'
-                        [scale]='track.scale'
-                        [alignment]='track.alignment'
-                        [rotate]='track.rotate'
-                        [marginLeft]='track.marginLeft'
-                        [marginRight]='track.marginRight'
-                        [useColor]="track.useColor"
-                        [limitColor]="track.limitColor"
-                        [useColor1]="track.useColor1"
-                        [color1]="track.color1"
-                        [useColor2]="track.useColor2"
-                        [color2]="track.color2"
-                        [useColor3]="track.useColor3"
-                        [color3]="track.color3"
-                        [useStripes]="track.useStripes"
-                        [stripeBlackWidth]="track.stripeBlackWidth"
-                        [stripeTotalWidth]="track.stripeTotalWidth"
+                        [track]="track"
+                        [trackVersion]="track.version"
                 ></app-image>
                 </span>
             <span class='ml-1'>{{ track.name }}</span>

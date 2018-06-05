@@ -1,6 +1,9 @@
 import {Playlist} from './playlist.model';
 
+const Jimp = require('jimp');
+
 export class Track {
+    private _version: number = 0;
 
     constructor(private playlist: Playlist,
                 private _name: string,
@@ -25,9 +28,9 @@ export class Track {
                 private _color2: string = '',
                 private _useColor3: boolean = false,
                 private _color3: string = '',
-                public _useStripes: string = 'false',
-                public _stripeBlackWidth: number = 1,
-                public _stripeTotalWidth: number = 2) {
+                private _useStripes: string = 'false',
+                private _stripeBlackWidth: number = 1,
+                private _stripeTotalWidth: number = 2) {
     };
 
     clone(): Track {
@@ -59,6 +62,10 @@ export class Track {
             this._stripeBlackWidth,
             this._stripeTotalWidth
         );
+    }
+
+    get version(): number {
+        return this._version;
     }
 
     get name(): string {
@@ -352,6 +359,7 @@ export class Track {
 
     markDirty() {
         this.playlist.markDirty();
+        this._version++;
     }
 
     setAdvancedMode() {
@@ -387,6 +395,110 @@ export class Track {
         this._useStripes = track._useStripes;
         this._stripeBlackWidth = track._stripeBlackWidth;
         this._stripeTotalWidth = track._stripeTotalWidth;
+    }
+
+    getBase64Tranform(image, NUM_LEDS, height, callback) {
+        let clone = image.clone();
+        clone.flip(this.flipX, this.flipY);
+        clone.rotate(this.rotate);
+        clone.scale(this.scale * NUM_LEDS / clone.bitmap.height);
+
+        if (this.useColor && (this.useColor1 || this.useColor2 || this.useColor3)) {
+            for (let x = 0; x < clone.bitmap.width; x++) {
+                for (let y = 0; y < clone.bitmap.height; y++) {
+                    let c = Jimp.intToRGBA(clone.getPixelColor(x, y));
+                    let r = 0;
+                    let g = 0;
+                    let b = 0;
+                    let rmax = 0;
+                    let gmax = 0;
+                    let bmax = 0;
+
+                    if (this.useColor1 && this.color1) {
+                        let color1 = this.hexToRgb(this.color1);
+                        r += c.r * color1.r;
+                        g += c.r * color1.g;
+                        b += c.r * color1.b;
+                        rmax += 255 * color1.r;
+                        gmax += 255 * color1.g;
+                        bmax += 255 * color1.b;
+                    }
+                    if (this.useColor2 && this.color2) {
+                        let color2 = this.hexToRgb(this.color2);
+                        r += c.g * color2.r;
+                        g += c.g * color2.g;
+                        b += c.g * color2.b;
+                        rmax += 255 * color2.r;
+                        gmax += 255 * color2.g;
+                        bmax += 255 * color2.b;
+                    }
+                    if (this.useColor3 && this.color3) {
+                        let color3 = this.hexToRgb(this.color3);
+                        r += c.b * color3.r;
+                        g += c.b * color3.g;
+                        b += c.b * color3.b;
+                        rmax += 255 * color3.r;
+                        gmax += 255 * color3.g;
+                        bmax += 255 * color3.b;
+                    }
+
+                    if (this.limitColor) {
+                        r = (r == 0) ? 0 : Math.round(255 * r / rmax);
+                        g = (g == 0) ? 0 : Math.round(255 * g / gmax);
+                        b = (b == 0) ? 0 : Math.round(255 * b / bmax);
+                    } else {
+                        r = Math.min(255, Math.round(r / 255));
+                        g = Math.min(255, Math.round(g / 255));
+                        b = Math.min(255, Math.round(b / 255));
+                    }
+
+                    clone.setPixelColor(Jimp.rgbaToInt(r, g, b, 255), x, y)
+                }
+            }
+        }
+
+        new Jimp(Math.round((this.marginLeft + 1 + this.marginRight) * clone.bitmap.width), NUM_LEDS, 0x000000, (err, out) => {
+            let h = (this.alignment == 'middle') ? (NUM_LEDS - clone.bitmap.height) / 2 :
+                (this.alignment == 'bottom') ? NUM_LEDS - clone.bitmap.height : 0;
+            out.blit(clone, Math.round(this.marginLeft * clone.bitmap.width), h, 0, 0, clone.bitmap.width, clone.bitmap.height);
+
+            if (this.useStripes == 'horizontal') {
+                for (let x = 0; x < out.bitmap.width; x++) {
+                    for (let y = 0; y < out.bitmap.height; y += this.stripeTotalWidth) {
+                        for (let s = 0; s < this.stripeBlackWidth; s++) {
+                            out.setPixelColor(0, x, y + s)
+                        }
+                    }
+                }
+            }
+
+            if (this.useStripes == 'vertical') {
+                for (let y = 0; y < out.bitmap.height; y++) {
+                    for (let x = 0; x < out.bitmap.width; x += this.stripeTotalWidth) {
+                        for (let s = 0; s < this.stripeBlackWidth; s++) {
+                            out.setPixelColor(0, x + s, y)
+                        }
+                    }
+                }
+            }
+
+            if (height && height != out.bitmap.height) {
+                out.scale(height / out.bitmap.height);
+            }
+
+            out.getBase64(Jimp.MIME_BMP, (err, data) => callback(err, data));
+        });
+    }
+
+
+// from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
     }
 }
 
