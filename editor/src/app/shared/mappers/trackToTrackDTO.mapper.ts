@@ -1,5 +1,5 @@
-import { Track } from '../model/track.model';
-import { TrackDTO } from '../dto/trackDTO.model';
+import {Track} from '../model/track.model';
+import {TrackDTO} from '../dto/trackDTO.model';
 
 const trackToTrackDTO = (track: Track) => {
     return new TrackDTO(
@@ -27,7 +27,9 @@ const trackToTrackDTO = (track: Track) => {
         track.color3,
         track.useStripes,
         track.stripeBlackWidth,
-        track.stripeTotalWidth);
+        track.stripeTotalWidth,
+        track.end,
+        track.endStyle);
 };
 
 export {trackToTrackDTO};

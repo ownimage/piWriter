@@ -30,7 +30,9 @@ export class Track {
                 private _color3: string = '',
                 private _useStripes: string = 'false',
                 private _stripeBlackWidth: number = 1,
-                private _stripeTotalWidth: number = 2) {
+                private _stripeTotalWidth: number = 2,
+                private _end: string = "none",
+                private _endStyle: string = "ribbon") {
     };
 
     clone(): Track {
@@ -60,7 +62,9 @@ export class Track {
             this._color3,
             this._useStripes,
             this._stripeBlackWidth,
-            this._stripeTotalWidth
+            this._stripeTotalWidth,
+            this._end,
+            this._endStyle
         );
     }
 
@@ -166,6 +170,14 @@ export class Track {
 
     get stripeTotalWidth(): number {
         return this._stripeTotalWidth;
+    }
+
+    get end(): string {
+        return this._end;
+    }
+
+    get endStyle(): string {
+        return this._endStyle;
     }
 
     set repeat(value: boolean) {
@@ -286,6 +298,16 @@ export class Track {
         }
     }
 
+    set end(value: string) {
+        this.markDirty();
+        this._end = value;
+    }
+
+    set endStyle(value: string) {
+        this.markDirty();
+        this._endStyle = value;
+    }
+
     toggleFlipX() {
         this.flipX = !this.flipX;
     }
@@ -345,6 +367,20 @@ export class Track {
         this.useColor3 = !this.useColor3;
     }
 
+    toggleEnd() {
+        if (this.end == "none") this.end = "left";
+        else if (this.end == "left") this.end = "right";
+        else this.end = "none";
+    }
+
+    toggleEndStyle() {
+        if (this.endStyle == "top-down") this.endStyle = "bottom-up";
+        else if (this.endStyle == "bottom-up") this.endStyle = "diamond";
+        else if (this.endStyle == "diamond") this.endStyle = "ribbon";
+        else if (this.endStyle == "ribbon") this.endStyle = "semicircle";
+        else this.endStyle = "top-down";
+    }
+
     moveUp() {
         this.playlist.moveUp(this);
     }
@@ -397,12 +433,63 @@ export class Track {
         this._stripeTotalWidth = track._stripeTotalWidth;
     }
 
+    endStyleIncludes(x: number, y: number) {
+        switch (this.endStyle) {
+            case "top-down":
+                return (2 * x + y) < 1;
+            case "bottom-up":
+                return (2 * x - y) < 0;
+            case "diamond":
+                return (x - y < 0) && (x + y < 1);
+            case "semicircle":
+                return (y - 0.5) * (y - 0.5) + x * x < 0.25;
+            case "ribbon":
+                return  (x + y < 0.5) ||(x - y < -0.5);
+        }
+        return true;
+    }
+
+    applyEndStyle(image, NUM_LEDS) {
+        if (this.end == "none") return;
+
+        let originalWidth = image.bitmap.width;
+
+        if (this.end == "left") {
+            image.flip(true, false);
+        }
+
+        if (originalWidth < NUM_LEDS / 2) {
+            image.resize(Math.floor(NUM_LEDS / 2), NUM_LEDS);
+        } else {
+            image.crop(0, 0, Math.floor(NUM_LEDS / 2), NUM_LEDS)
+        }
+
+        for (let x = 0; x < image.bitmap.width; x++) {
+            for (let y = 0; y < image.bitmap.height; y++) {
+                if (!this.endStyleIncludes(x / NUM_LEDS, y / NUM_LEDS)) {
+                    image.setPixelColor(0, x, y)
+                }
+            }
+        }
+
+        if (originalWidth < NUM_LEDS) {
+            image.resize(originalWidth, NUM_LEDS);
+        }
+
+        if (this.end == "left") {
+            image.flip(true, false);
+        }
+    }
+
     getBase64Tranform(image, NUM_LEDS, height, callback) {
         let clone = image.clone();
         clone.flip(this.flipX, this.flipY);
         clone.rotate(this.rotate);
-        clone.scale(this.scale * NUM_LEDS / clone.bitmap.height);
+        clone.scale(NUM_LEDS / clone.bitmap.height);
 
+        this.applyEndStyle(clone, NUM_LEDS);
+
+        clone.scale(this.scale);
         if (this.useColor && (this.useColor1 || this.useColor2 || this.useColor3)) {
             for (let x = 0; x < clone.bitmap.width; x++) {
                 for (let y = 0; y < clone.bitmap.height; y++) {
@@ -489,7 +576,6 @@ export class Track {
             out.getBase64(Jimp.MIME_BMP, (err, data) => callback(err, data));
         });
     }
-
 
 // from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
     hexToRgb(hex) {

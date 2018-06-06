@@ -163,8 +163,13 @@
                aria-selected="false">Color</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#stripes" role="tab" aria-controls="Stripes"
+            <a class="nav-link" id="stripes-tab" data-toggle="tab" href="#stripes" role="tab" aria-controls="Stripes"
                aria-selected="false">Stripes</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" id="end-tab" data-toggle="tab" href="#ends" role="tab" aria-controls="Ends"
+               aria-selected="false">Ends</a>
         </li>
     </ul>
 
@@ -330,7 +335,8 @@
                     <input class='form-control' type='number' [(ngModel)]='track.stripeBlackWidth'>
                 </div>
                 <div class='col-7 col-sm-4'>
-                    <app-slider min='1' [max]='track.stripeTotalWidth -1' [round]=0 [(ngModel)]='track.stripeBlackWidth'></app-slider>
+                    <app-slider min='1' [max]='track.stripeTotalWidth -1' [round]=0
+                                [(ngModel)]='track.stripeBlackWidth'></app-slider>
                 </div>
             </div>
 
@@ -342,8 +348,41 @@
                     <input class='form-control' type='number' [(ngModel)]='track.stripeTotalWidth'>
                 </div>
                 <div class='col-7 col-sm-4'>
-                    <app-slider min='2' [max]='this.serverConfig.NUM_LEDS / 6' [round]=0 [(ngModel)]='track.stripeTotalWidth'></app-slider>
+                    <app-slider min='2' [max]='this.serverConfig.NUM_LEDS / 6' [round]=0
+                                [(ngModel)]='track.stripeTotalWidth'></app-slider>
                 </div>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="ends" role="tabpanel" aria-labelledby="stripes-tab">
+
+            <div class='row mt-2'>
+                <div class='col-2 pt-2'
+                     (click)="track.toggleEnd()">
+                    <svg width='42' height='30' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
+                        <path [attr.d]="getSVG()"
+                              [attr.transform]="getSVGTransform()"
+                        />
+                    </svg>
+                </div>
+
+                <div class='col-5'>
+                    <button
+                            (click)='track.toggleEnd()'
+                            class='btn btn-primary btn-block mt-1'
+                    >Use End: {{track.end}}
+                    </button>
+                </div>
+
+                <div class='col-5'>
+                    <button
+                            (click)='track.toggleEndStyle()'
+                            class='btn btn-primary btn-block mt-1'
+                    >Style: {{track.endStyle}}
+                    </button>
+                </div>
+
             </div>
 
         </div>

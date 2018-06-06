@@ -29,8 +29,6 @@ export class ImageComponent implements OnChanges {
     ngOnChanges(changes) {
         if (changes.src && changes.src.firstChange) {
             Jimp.read(encodeURI(this.src)).then((image) => {
-                this.naturalWidth = image.bitmap.width;
-                this.naturalHeight = image.bitmap.height;
                 this.image = image;
                 this.ngOnChanges({});
             });

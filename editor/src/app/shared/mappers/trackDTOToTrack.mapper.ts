@@ -29,7 +29,9 @@ const trackDTOToTrack = (track: TrackDTO, playlist: Playlist) => {
         track.color3,
         track.useStripes,
         track.stripeBlackWidth,
-        track.stripeTotalWidth
+        track.stripeTotalWidth,
+        track.end,
+        track.endStyle
     );
 };
 
