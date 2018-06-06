@@ -1,4 +1,5 @@
 import {Playlist} from './playlist.model';
+import {hexToRgb} from "../utils/ColorUtils";
 
 const Jimp = require('jimp');
 
@@ -502,7 +503,7 @@ export class Track {
                     let bmax = 0;
 
                     if (this.useColor1 && this.color1) {
-                        let color1 = this.hexToRgb(this.color1);
+                        let color1 = hexToRgb(this.color1);
                         r += c.r * color1.r;
                         g += c.r * color1.g;
                         b += c.r * color1.b;
@@ -511,7 +512,7 @@ export class Track {
                         bmax += 255 * color1.b;
                     }
                     if (this.useColor2 && this.color2) {
-                        let color2 = this.hexToRgb(this.color2);
+                        let color2 = hexToRgb(this.color2);
                         r += c.g * color2.r;
                         g += c.g * color2.g;
                         b += c.g * color2.b;
@@ -520,7 +521,7 @@ export class Track {
                         bmax += 255 * color2.b;
                     }
                     if (this.useColor3 && this.color3) {
-                        let color3 = this.hexToRgb(this.color3);
+                        let color3 = hexToRgb(this.color3);
                         r += c.b * color3.r;
                         g += c.b * color3.g;
                         b += c.b * color3.b;
@@ -577,14 +578,5 @@ export class Track {
         });
     }
 
-// from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-    hexToRgb(hex) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    }
 }
 

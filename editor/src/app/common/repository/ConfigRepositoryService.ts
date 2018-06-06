@@ -5,10 +5,10 @@ import {Observable} from 'rxjs/Observable';
 
 import {environment} from '../../../environments/environment';
 import {wrapGet, wrapPost} from './repositoryUtilities';
-import {ConfigDTO} from '../dto/configDTO.model';
-import {Config} from '../model/config.model';
-import {configToConfigDTO} from '../mappers/configToConfigDTO.mapper';
-import {configDTOToConfig} from '../mappers/configDTOToConfig.mapper';
+import {ConfigDTO} from '../../shared/dto/configDTO.model';
+import {Config} from '../../shared/model/config.model';
+import {configToConfigDTO} from '../../shared/mappers/configToConfigDTO.mapper';
+import {configDTOToConfig} from '../../shared/mappers/configDTOToConfig.mapper';
 
 const debug = require('debug')('piWriter/ConfigRepositoryService.ts');
 

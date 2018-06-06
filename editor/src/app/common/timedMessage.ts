@@ -1,4 +1,4 @@
-import {config } from '../shared/config';
+import {config } from './config';
 
 export class TimedMessage {
     constructor() {

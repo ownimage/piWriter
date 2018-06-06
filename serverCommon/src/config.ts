@@ -1,7 +1,7 @@
 import {logError} from "./utils/common";
 import * as  path from "path";
 
-import {ConfigDTO} from "./dto/configDTO.model";
+import {ConfigDTO} from "./shared/dto/configDTO.model";
 import {NeoPixelDriver} from "./NeoPixelDriver";
 
 export {};

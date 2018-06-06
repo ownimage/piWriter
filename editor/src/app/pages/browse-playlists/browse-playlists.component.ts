@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {config} from '../../shared/config';
-import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
+import {config} from '../../common/config';
+import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 import {PlaylistItem} from '../../shared/model/playlistItem.model';
 
 const debug = require('debug')('piWriter/browse-playlists.component.ts');

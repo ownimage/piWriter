@@ -2,10 +2,10 @@ import {serverConfig} from "./serverConfig";
 
 export {};
 
-import { PlaylistDTO } from "./dto/playlistDTO.model";
+import { PlaylistDTO } from "./shared/dto/playlistDTO.model";
 import { playlistDTOToPlaylist } from "./mappers/playlistDTOToPlaylist.mapper";
 import { player } from "./model/Player";
-import { rgbValues2Int } from "./utils/ColorUtils";
+import { rgbValues2Int } from "./shared/utils/ColorUtils";
 import { getConfig } from "./config";
 
 const DEBUG = require("debug");

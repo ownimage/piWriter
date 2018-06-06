@@ -1,4 +1,4 @@
-import {PlaylistRepositoryService} from '../repository/PlaylistRepositoryService';
+import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 
 export class PlaylistItem {
 

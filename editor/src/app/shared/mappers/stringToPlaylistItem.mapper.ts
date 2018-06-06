@@ -1,4 +1,4 @@
-import { PlaylistRepositoryService } from '../repository/PlaylistRepositoryService';
+import {PlaylistRepositoryService} from "../../common/repository/PlaylistRepositoryService";
 
 const debug = require('debug')('piWriter/stringToPlaylistItem.mapper.ts');
 

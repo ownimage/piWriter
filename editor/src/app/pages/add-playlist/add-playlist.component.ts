@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {config} from '../../shared/config';
-import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
+import {config} from '../../common/config';
+import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 import {Playlist} from '../../shared/model/playlist.model';
 import {MessageModel} from '../../pageComponents/message/message.component.model';
 

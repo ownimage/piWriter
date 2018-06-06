@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {config} from '../../shared/config'
-import {ServerInfoRepositoryService} from '../../shared/repository/ServerInfoRepositoryService';
+import {config} from '../../common/config'
+import {ServerInfoRepositoryService} from '../../common/repository/ServerInfoRepositoryService';
 import {ServerInfoDTO} from "../../shared/dto/serverInfoDTO.model";
 
 const debug = require('debug')('piWriter/settings.component.ts');

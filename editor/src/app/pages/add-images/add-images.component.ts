@@ -3,11 +3,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
 import {Track} from '../../shared/model/track.model';
-import {TimedMessage} from '../../shared/timedMessage';
-import {config} from '../../shared/config';
+import {TimedMessage} from '../../common/timedMessage';
+import {config} from '../../common/config';
 import {Playlist} from '../../shared/model/playlist.model';
-import {RepositoryService} from '../../shared/repository.service';
-import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
+import {RepositoryService} from '../../common/repository.service';
+import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 
 const debug = require('debug')('piWriter/add-images.component.ts');
 

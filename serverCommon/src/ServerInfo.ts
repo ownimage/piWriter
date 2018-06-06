@@ -2,7 +2,7 @@ export {};
 
 const os = require('os');
 
-import {ServerInfoDTO} from "./dto/serverInfoDTO.model";
+import {ServerInfoDTO} from "./shared/dto/serverInfoDTO.model";
 
 const DEBUG = require("debug");
 const debug = DEBUG("serverCommon/serverInfo");

@@ -1,6 +1,6 @@
 import {PlaylistDTO} from '../dto/playlistDTO.model';
 
-import {trackDTOToTrack} from '../mappers/trackDTOToTrack.mapper';
+import {trackDTOToTrack} from './trackDTOToTrack.mapper';
 
 const playlistDTOToPlaylist = (playlistRepositoryService, playlistName: string, playlist: PlaylistDTO) => {
     let model = playlistRepositoryService.createPlaylist(playlistName);

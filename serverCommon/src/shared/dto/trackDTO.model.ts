@@ -23,6 +23,8 @@ export class TrackDTO {
                 public color3: string,
                 public useStripes: string,
                 public stripeBlackWidth: number,
-                public stripeTotalWidth: number) {
+                public stripeTotalWidth: number,
+                public end: string,
+                public endStyle: string) {
     };
 }

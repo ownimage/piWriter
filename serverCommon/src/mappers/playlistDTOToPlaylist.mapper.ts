@@ -3,10 +3,10 @@ debug("### serverCommon/mapper/playlistDTOToPlaylist");
 
 const Jimp = require("jimp");
 
-import { PlaylistDTO } from "../dto/playlistDTO.model";
+import { PlaylistDTO } from "../shared/dto/playlistDTO.model";
 import { Gallery } from "../model/Gallery";
 import { Playlist } from "../model/Playlist";
-import { rgbObject2Int, hexToRgb } from "../utils/ColorUtils";
+import { rgbObject2Int, hexToRgb } from "../shared/utils/ColorUtils";
 
 export function playlistDTOToPlaylist(playlistDTO: PlaylistDTO,
                                       NUM_LEDS,

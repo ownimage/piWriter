@@ -6,12 +6,12 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
 
 import {cachedGet} from '../CacheService';
-import {Playlist} from '../model/playlist.model';
-import {playlistDTOToPlaylist} from '../mappers/playlistDTOToPlaylist.mapper';
-import {playlistToPlaylistDTO} from '../mappers/playlistToPlaylistDTO.mapper';
+import {Playlist} from '../../shared/model/playlist.model';
+import {playlistDTOToPlaylist} from '../../shared/mappers/playlistDTOToPlaylist.mapper';
+import {playlistToPlaylistDTO} from '../../shared/mappers/playlistToPlaylistDTO.mapper';
 import {handleError} from './repositoryUtilities';
-import {PlaylistItem} from '../model/playlistItem.model';
-import {stringToPlaylistItem} from '../mappers/stringToPlaylistItem.mapper';
+import {PlaylistItem} from '../../shared/model/playlistItem.model';
+import {stringToPlaylistItem} from '../../shared/mappers/stringToPlaylistItem.mapper';
 
 const debug = require('debug')('piWriter/PlaylistRepositoryService.ts');
 
