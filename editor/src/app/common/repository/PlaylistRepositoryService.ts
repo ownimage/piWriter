@@ -6,12 +6,12 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
 
 import {cachedGet} from '../CacheService';
-import {Playlist} from '../../shared/model/playlist.model';
-import {playlistDTOToPlaylist} from '../../shared/mappers/playlistDTOToPlaylist.mapper';
-import {playlistToPlaylistDTO} from '../../shared/mappers/playlistToPlaylistDTO.mapper';
+import {Playlist} from '../../../../../serverCommon/src/shared/model/playlist.model';
+import {playlistDTOToPlaylist} from '../../../../../serverCommon/src/shared/mappers/playlistDTOToPlaylist.mapper';
+import {playlistToPlaylistDTO} from '../../../../../serverCommon/src/shared/mappers/playlistToPlaylistDTO.mapper';
 import {handleError} from './repositoryUtilities';
-import {PlaylistItem} from '../../shared/model/playlistItem.model';
-import {stringToPlaylistItem} from '../../shared/mappers/stringToPlaylistItem.mapper';
+import {PlaylistItem} from '../../../../../serverCommon/src/shared/model/playlistItem.model';
+import {stringToPlaylistItem} from '../../../../../serverCommon/src/shared/mappers/stringToPlaylistItem.mapper';
 
 const debug = require('debug')('piWriter/PlaylistRepositoryService.ts');
 
@@ -29,7 +29,7 @@ export class PlaylistRepositoryService {
 
     createPlaylist(playlistName) {
         debug('PlaylistRepositoryService:createPlaylist %s', playlistName);
-        return new Playlist(this, playlistName, []);
+        return new Playlist(playlistName, []);
     };
 
     createPlaylistItem(name: string) {
@@ -60,7 +60,7 @@ export class PlaylistRepositoryService {
                             p => {
                                 debug('playlistDTO = %O', p.body);
                                 let playlist = playlistDTOToPlaylist(this, playlistName, p.body);
-                                playlist.save();
+                                this.savePlaylistV1Sync(playlist);
                                 return playlist;
                             }
                         ).subscribe(data => observer.next(data), err => observer.error(err), () => observer.complete());

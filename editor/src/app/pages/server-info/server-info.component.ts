@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 
 import {config} from '../../common/config'
 import {ServerInfoRepositoryService} from '../../common/repository/ServerInfoRepositoryService';
-import {ServerInfoDTO} from "../../shared/dto/serverInfoDTO.model";
+import {ServerInfoDTO} from "../../../../../serverCommon/src/shared/dto/serverInfoDTO.model";
 
 const debug = require('debug')('piWriter/settings.component.ts');
 

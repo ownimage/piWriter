@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {environment} from '../../../environments/environment';
 import {wrapGet} from './repositoryUtilities';
-import {ServerInfoDTO} from "../../shared/dto/serverInfoDTO.model";
+import {ServerInfoDTO} from "../../../../../serverCommon/src/shared/dto/serverInfoDTO.model";
 
 const debug = require('debug')('piWriter/ServerInfoRepositoryService');
 

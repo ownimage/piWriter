@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {environment} from '../../environments/environment';
 
-import {ImageV2DTO} from '../shared/dto/imageV2DTO.model';
+import {ImageV2DTO} from '../../../../serverCommon/src/shared/dto/imageV2DTO.model';
 import {handleError} from './repository/repositoryUtilities';
 
 const debug = require('debug')('piWriter/CacheService.ts');

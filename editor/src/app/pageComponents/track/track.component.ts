@@ -2,9 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 
 import {config} from '../../common/config'
 import {environment} from '../../../environments/environment';
-import {Track} from '../../shared/model/track.model';
+import {Track} from '../../../../../serverCommon/src/shared/model/track.model';
 import {ConfigRepositoryService} from "../../common/repository/ConfigRepositoryService";
-import {Config} from "../../shared/model/config.model";
+import {Config} from "../../../../../serverCommon/src/shared/model/config.model";
 
 const debug = require('debug')('piWriter/track.component.ts');
 

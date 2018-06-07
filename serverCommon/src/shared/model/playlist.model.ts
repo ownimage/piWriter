@@ -1,4 +1,3 @@
-import {PlaylistRepositoryService} from "../../common/repository/PlaylistRepositoryService";
 import {Track} from './track.model';
 import {trackToTrackDTO} from "../mappers/trackToTrackDTO.mapper";
 
@@ -6,8 +5,7 @@ const debug = require('debug')('piWriter/playlist.model.ts');
 
 export class Playlist {
 
-    constructor(private playlistRepository: PlaylistRepositoryService,
-                private _name: string,
+    constructor(private _name: string,
                 private _tracks: Track[],) {
         this.markDirty();
     };
@@ -50,21 +48,6 @@ export class Playlist {
         this._tracks.push(track);
         return true;
     };
-
-    post() {
-        debug('Playlist:post');
-        return this.playlistRepository.postPlaylistV1(this);
-    };
-
-    save() {
-        debug('Playlist:post');
-        return this.playlistRepository.savePlaylistV1Sync(this);
-    };
-
-    play() {
-        debug('Playlist:play');
-        return this.playlistRepository.postPlaylistsPlayV1(this.name);
-    }
 
     getPrevious = function (track) {
         let crntPos = this.tracks.indexOf(track);

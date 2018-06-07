@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {Track} from "../../shared/model/track.model";
+import {Track} from "../../../../../serverCommon/src/shared/model/track.model";
 
-const Jimp = require('jimp');
+const Jimp = require('../../../../../serverCommon/node_modules/jimp');
 const debug = require('debug')('piWriter/pageComponent/image.component.ts');
 
 @Component({
@@ -27,12 +27,17 @@ export class ImageComponent implements OnChanges {
     }
 
     ngOnChanges(changes) {
+        debug("ngOnChanges");
         if (changes.src && changes.src.firstChange) {
+            debug("src.firstChange");
+            debug(`encodeURI(this.src) = ${encodeURI(this.src)}`);
             Jimp.read(encodeURI(this.src)).then((image) => {
+                debug("got image");
                 this.image = image;
                 this.ngOnChanges({});
             });
         } else if (this.image) {
+            debug("!src.firstChange");
             let clone = this.image.clone();
             this.track.getBase64Tranform(this.image, this.actualHeight, this.height, (err, data) => {this.srcOut = data;});
         }

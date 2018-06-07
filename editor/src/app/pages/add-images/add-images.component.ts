@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {Track} from '../../shared/model/track.model';
+import {Track} from '../../../../../serverCommon/src/shared/model/track.model';
 import {TimedMessage} from '../../common/timedMessage';
 import {config} from '../../common/config';
-import {Playlist} from '../../shared/model/playlist.model';
+import {Playlist} from '../../../../../serverCommon/src/shared/model/playlist.model';
 import {RepositoryService} from '../../common/repository.service';
 import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 
@@ -99,18 +99,17 @@ export class AddImagesComponent implements OnInit {
     }
 
     returnToPlaylist() {
-        this.playlist.save();
+        this.playlistRepositoryService.savePlaylistV1Sync(this.playlist);
         this.router.navigate(['/playlists', this.playlistName], {queryParams: {mode: 'edit'}});
     }
 
     selectAll() {
-        this.imagesV2.map( i => i.selected = true )
+        this.imagesV2.map(i => i.selected = true)
     }
 
     unselectAll() {
-        this.imagesV2.map( i => i.selected = false )
+        this.imagesV2.map(i => i.selected = false)
     }
-
 
 
 }

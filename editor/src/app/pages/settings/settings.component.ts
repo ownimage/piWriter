@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {config} from '../../common/config'
 import {ConfigRepositoryService} from '../../common/repository/ConfigRepositoryService';
 import {MessageModel} from '../../pageComponents/message/message.component.model';
-import {Config} from '../../shared/model/config.model';
+import {Config} from '../../../../../serverCommon/src/shared/model/config.model';
 
 const debug = require('debug')('piWriter/settings.component.ts');
 

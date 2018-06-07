@@ -1,8 +1,6 @@
-import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
-
 export class PlaylistItem {
 
-    constructor(private playlistRepositoryService: PlaylistRepositoryService,
+    constructor(private playlistRepositoryService,
                 private _name: string) {
     };
 
