@@ -4,15 +4,15 @@ const debug = require("debug")("serverCommon/Player");
 debug("### serverCommon/Player");
 
 import { logError } from "../utils/common";
-import { Playlist } from "./Playlist";
+import { ServerPlaylist } from "./ServerPlaylist";
 
-class Player {
+class ServerPlayer {
 
     // Player
     //    state: string one of Idle, Single, Looping, ReqStop
     //    currentTrack: int shows the index of the picture that is being shown
     //    autostartNext: boolean whether the next picture is to be started automatically
-    constructor(private playlist: Playlist = null,
+    constructor(private playlist: ServerPlaylist = null,
                 private state: string = "Idle",
                 private currentTrack: number = -1,
                 private autostartNext: boolean = false,
@@ -59,7 +59,7 @@ class Player {
         }
     }
 
-    public play(playlist: Playlist) {
+    public play(playlist: ServerPlaylist) {
         this.halt = true;
         this.autostartNext = false;
         this.currentTrack = -1;
@@ -115,4 +115,4 @@ class Player {
 
 }
 
-export const player = new Player();
+export const player = new ServerPlayer();

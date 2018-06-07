@@ -11,9 +11,9 @@ debug("### serverCommon/config");
 
 let config = new ConfigDTO(
     144,
-    254,
-    301,
     1.1,
+    255,
+    301,
     72,
     144,
 );

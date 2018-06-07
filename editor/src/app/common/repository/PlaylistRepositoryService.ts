@@ -59,7 +59,7 @@ export class PlaylistRepositoryService {
                             () => this.http.get<Playlist[]>(playlistsUrlV1 + playlistName, {observe: 'response'}),
                             p => {
                                 debug('playlistDTO = %O', p.body);
-                                let playlist = playlistDTOToPlaylist(this, playlistName, p.body);
+                                let playlist = playlistDTOToPlaylist(playlistName, p.body);
                                 this.savePlaylistV1Sync(playlist);
                                 return playlist;
                             }

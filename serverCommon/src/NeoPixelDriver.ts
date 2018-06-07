@@ -3,8 +3,8 @@ import {serverConfig} from "./serverConfig";
 export {};
 
 import { PlaylistDTO } from "./shared/dto/playlistDTO.model";
-import { playlistDTOToPlaylist } from "./mappers/playlistDTOToPlaylist.mapper";
-import { player } from "./model/Player";
+import { playlistDTOToServerPlaylist } from "./mappers/playlistDTOToServerPlaylist.mapper";
+import { player } from "./model/ServerPlayer";
 import { rgbValues2Int } from "./shared/utils/ColorUtils";
 import { getConfig } from "./config";
 
@@ -69,7 +69,7 @@ process.on("SIGINT", () => {
 function setPlaylist(newPlaylistDTO: PlaylistDTO) {
     playlistDTO = newPlaylistDTO;
     const playlist = (newPlaylistDTO) ?
-        playlistDTOToPlaylist(
+        playlistDTOToServerPlaylist(
             newPlaylistDTO,
             getConfig().NUM_LEDS,
             getConfig().brightness,

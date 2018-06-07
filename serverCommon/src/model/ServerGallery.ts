@@ -1,4 +1,4 @@
-export class Gallery {
+export class ServerGallery {
 
     constructor(private storage: Array<{ key: any, value: any }> = []) {
     }

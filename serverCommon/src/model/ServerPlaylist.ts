@@ -4,9 +4,9 @@ debug("### serverCommon/Playlist");
 const Jimp = require("jimp");
 
 import { TrackDTO } from "../shared/dto/trackDTO.model";
-import { Gallery } from "./Gallery";
+import { ServerGallery } from "./ServerGallery";
 
-export class Playlist {
+export class ServerPlaylist {
 
     // a playlist is of the format [{name: string, path: string, repeat: boolean, autostartNext: boolean }]
     // setPlaylist will take the playlist given and
@@ -16,7 +16,7 @@ export class Playlist {
     // 2) it will set the global playlist to the newPlaylist variable.
     // 3) it will null out the global playlistState so that next will start from the beginning
     constructor(private tracks: TrackDTO[],
-                private gallery: Gallery) {
+                private gallery: ServerGallery) {
         debug("serverCommon/Playlist:constructor");
         debug("tracks %o", tracks);
         debug("_tracks %o", this.tracks);
