@@ -32,8 +32,8 @@ export class Track {
                 private _useStripes: string = 'false',
                 private _stripeBlackWidth: number = 1,
                 private _stripeTotalWidth: number = 2,
-                private _end: string = "none",
-                private _endStyle: string = "ribbon") {
+                private _endStyleLeft: string = "none",
+                private _endStyleRight: string = "none") {
     };
 
     clone(): Track {
@@ -64,8 +64,8 @@ export class Track {
             this._useStripes,
             this._stripeBlackWidth,
             this._stripeTotalWidth,
-            this._end,
-            this._endStyle
+            this._endStyleLeft,
+            this._endStyleRight
         );
     }
 
@@ -173,12 +173,12 @@ export class Track {
         return this._stripeTotalWidth;
     }
 
-    get end(): string {
-        return this._end;
+    get endStyleLeft(): string {
+        return this._endStyleLeft;
     }
 
-    get endStyle(): string {
-        return this._endStyle;
+    get endStyleRight(): string {
+        return this._endStyleRight;
     }
 
     set repeat(value: boolean) {
@@ -299,14 +299,14 @@ export class Track {
         }
     }
 
-    set end(value: string) {
+    set endStyleLeft(value: string) {
         this.markDirty();
-        this._end = value;
+        this._endStyleLeft = value;
     }
 
-    set endStyle(value: string) {
+    set endStyleRight(value: string) {
         this.markDirty();
-        this._endStyle = value;
+        this._endStyleRight = value;
     }
 
     toggleFlipX() {
@@ -368,18 +368,22 @@ export class Track {
         this.useColor3 = !this.useColor3;
     }
 
-    toggleEnd() {
-        if (this.end == "none") this.end = "left";
-        else if (this.end == "left") this.end = "right";
-        else this.end = "none";
+
+    private nextStyle(style: string):string {
+        if (style == "none") return "top-down";
+        else if (style == "top-down") return "bottom-up";
+        else if (style == "bottom-up") return "diamond";
+        else if (style == "diamond") return "ribbon";
+        else if (style == "ribbon") return "semicircle";
+        else return "none";
     }
 
-    toggleEndStyle() {
-        if (this.endStyle == "top-down") this.endStyle = "bottom-up";
-        else if (this.endStyle == "bottom-up") this.endStyle = "diamond";
-        else if (this.endStyle == "diamond") this.endStyle = "ribbon";
-        else if (this.endStyle == "ribbon") this.endStyle = "semicircle";
-        else this.endStyle = "top-down";
+    toggleEndStyleLeft() {
+        this.endStyleLeft = this.nextStyle(this.endStyleLeft);
+    }
+
+    toggleEndStyleRight() {
+        this.endStyleRight = this.nextStyle(this.endStyleRight);
     }
 
     moveUp() {

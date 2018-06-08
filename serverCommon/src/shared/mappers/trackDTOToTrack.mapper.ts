@@ -30,8 +30,8 @@ const trackDTOToTrack = (track: TrackDTO, playlist: Playlist) => {
         track.useStripes,
         track.stripeBlackWidth,
         track.stripeTotalWidth,
-        track.end,
-        track.endStyle
+        track.endStyleLeft,
+        track.endStyleRight
     );
 };
 

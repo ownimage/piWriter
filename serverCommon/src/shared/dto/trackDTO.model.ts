@@ -24,7 +24,7 @@ export class TrackDTO {
                 public useStripes: string,
                 public stripeBlackWidth: number,
                 public stripeTotalWidth: number,
-                public end: string,
-                public endStyle: string) {
+                public endStyleLeft: string,
+                public endStyleRight: string) {
     };
 }

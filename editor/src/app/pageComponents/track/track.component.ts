@@ -86,24 +86,25 @@ export class TrackComponent implements OnInit {
     }
 
     getSVG(): string {
-        if (this.track.end == "none") return "M 0 5 L 100 5 L 100 95 L 0 95 L 0 5";
-        let left = "M 55 95 L 0 95 L 20 80 L 0 65 L 20 50 L 0 35 L 20 20 L 0 5 L 55 5 ";
-        switch (this.track.endStyle) {
-            case "top-down":
-                return left + "M 65 5 L 100 5 L 65 95 L 65 5";
-            case "bottom-up":
-                return left + "M 65 5 L 65 95 L 100 95 L 65 5";
-            case "diamond":
-                return left + "M 65 5 L 100 50 L 65 95 L 65 5";
-            case "semicircle":
-                return left + "M 65 5 Q 100 50 65 95 L 65 5";
-            case "ribbon":
-                return left + "M 65 5 L 100 5 L 65 50 L 100 95 L 65 95 L 65 5";
-        }
+        return "M 0 5 L 100 5 L 100 95 L 0 95 L 0 5";
+        // if (this.track.end == "none") return "M 0 5 L 100 5 L 100 95 L 0 95 L 0 5";
+        // let left = "M 55 95 L 0 95 L 20 80 L 0 65 L 20 50 L 0 35 L 20 20 L 0 5 L 55 5 ";
+        // switch (this.track.endStyle) {
+        //     case "top-down":
+        //         return left + "M 65 5 L 100 5 L 65 95 L 65 5";
+        //     case "bottom-up":
+        //         return left + "M 65 5 L 65 95 L 100 95 L 65 5";
+        //     case "diamond":
+        //         return left + "M 65 5 L 100 50 L 65 95 L 65 5";
+        //     case "semicircle":
+        //         return left + "M 65 5 Q 100 50 65 95 L 65 5";
+        //     case "ribbon":
+        //         return left + "M 65 5 L 100 5 L 65 50 L 100 95 L 65 95 L 65 5";
+        //}
     }
 
     getSVGTransform(): string {
-        if (this.track.end == "left") return "scale(-1, 1) translate(-100, 0)";
+        //if (this.track.end == "left") return "scale(-1, 1) translate(-100, 0)";
         return "";
     }
 

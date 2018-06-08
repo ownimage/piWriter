@@ -3,8 +3,8 @@ import {Track} from "../model/track.model";
 const Jimp = require('jimp');
 import {hexToRgb} from "./ColorUtils";
 
-function endStyleIncludes(track: Track, x: number, y: number) {
-    switch (track.endStyle) {
+function endStyleIncludes(style: string, x: number, y: number) {
+    switch (style) {
         case "top-down":
             return (2 * x + y) < 1;
         case "bottom-up":
@@ -19,35 +19,66 @@ function endStyleIncludes(track: Track, x: number, y: number) {
     return true;
 }
 
-function applyEndStyle(track: Track, image, NUM_LEDS) {
-    if (track.end == "none") return;
+function createEnd(end: string, style: string, image, NUM_LEDS) {
+    let clone = image.clone();
+    let originalWidth = clone.bitmap.width;
 
-    let originalWidth = image.bitmap.width;
-
-    if (track.end == "left") {
-        image.flip(true, false);
+    if (end == "left") {
+        clone.flip(true, false);
     }
 
     if (originalWidth < NUM_LEDS / 2) {
-        image.resize(Math.floor(NUM_LEDS / 2), NUM_LEDS);
+        clone.resize(Math.floor(NUM_LEDS / 2), NUM_LEDS);
     } else {
-        image.crop(0, 0, Math.floor(NUM_LEDS / 2), NUM_LEDS)
+        clone.crop(0, 0, Math.floor(NUM_LEDS / 2), NUM_LEDS)
     }
 
-    for (let x = 0; x < image.bitmap.width; x++) {
-        for (let y = 0; y < image.bitmap.height; y++) {
-            if (!endStyleIncludes(track, x / NUM_LEDS, y / NUM_LEDS)) {
-                image.setPixelColor(0, x, y)
+    for (let x = 0; x < clone.bitmap.width; x++) {
+        for (let y = 0; y < clone.bitmap.height; y++) {
+            if (!endStyleIncludes(style, x / NUM_LEDS, y / NUM_LEDS)) {
+                clone.setPixelColor(0, x, y)
             }
         }
     }
 
     if (originalWidth < NUM_LEDS) {
-        image.resize(originalWidth, NUM_LEDS);
+        clone.resize(originalWidth, NUM_LEDS);
     }
 
-    if (track.end == "left") {
-        image.flip(true, false);
+    if (end == "left") {
+        clone.flip(true, false);
+    }
+
+    return clone;
+}
+
+function applyEndStyle(track, image, NUM_LEDS) {
+    // expect image to be NUM_LEDS high
+    let left = track.endStyleLeft != "none" ? createEnd("left", track.endStyleLeft, image, NUM_LEDS) : null;
+    let right = track.endStyleRight != "none" ? createEnd("right", track.endStyleRight, image, NUM_LEDS) : null;
+
+    if (!left && !right) { // neither
+        return;
+    }
+    else if (left && !right) { // left
+        let clone = image.clone();
+        image.resize(image.bitmap.width + Math.floor(NUM_LEDS/2), NUM_LEDS);
+        image.blit(left, 0, 0);
+        image.blit(clone, Math.floor(NUM_LEDS/2), 0);
+
+    }
+    else if (right && !left) { // right
+        let clone = image.clone();
+        image.resize(image.bitmap.width + Math.floor(NUM_LEDS/2), NUM_LEDS);
+        image.blit(clone, 0, 0);
+        image.blit(right, image.bitmap.width-72, 0);
+    }
+    else if (left && right) { // both
+        let clone = image.clone();
+        image.resize(image.bitmap.width + NUM_LEDS, NUM_LEDS);
+        image.blit(left, 0, 0);
+        image.blit(clone, Math.floor(NUM_LEDS/2), 0);
+        image.blit(right, image.bitmap.width-72, 0);
     }
 }
 
