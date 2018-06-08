@@ -82,12 +82,22 @@ function applyEndStyle(track, image, NUM_LEDS) {
     }
 }
 
+function applyEndRepeat(track: Track, image) {
+    if (track.endStyleRepeat == 1) return;
+    let clone = image.clone();
+    image.resize(image.bitmap.width * track.endStyleRepeat, image.bitmap.height);
+    for (let i = 0; i < track.endStyleRepeat; i++) {
+        image.blit(clone, i * clone.bitmap.width, 0);
+    }
+}
+
 export function tranformImage(track: Track, image, NUM_LEDS, height, callback) {
     let clone = image.clone();
     clone.flip(track.flipX, track.flipY);
     clone.rotate(track.rotate);
     clone.scale(NUM_LEDS / clone.bitmap.height);
 
+    applyEndRepeat(track, clone);
     applyEndStyle(track, clone, NUM_LEDS);
 
     clone.scale(track.scale);

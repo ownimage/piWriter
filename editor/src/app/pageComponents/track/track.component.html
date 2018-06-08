@@ -25,6 +25,9 @@
                         [trackVersion]="track.version"
                 ></app-image>
                 </span>
+        </div>
+
+        <div class='row'>
             <span class='ml-1'>{{ track.name }}</span>
         </div>
 
@@ -357,36 +360,54 @@
 
         <div class="tab-pane fade" id="ends" role="tabpanel" aria-labelledby="stripes-tab">
 
-            <div class='row mt-2'>
-                <div class='col-2 pt-2'
-                     (click)="track.toggleEnd()">
-                    <svg width='42' height='30' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
-                        <path [attr.d]="getSVG()"
-                              [attr.transform]="getSVGTransform()"
-                        />
-                    </svg>
-                </div>
+            <!--<div class='col-2 pt-2'
+                 (click)="track.toggleEnd()">
+                <svg width='42' height='30' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
+                    <path [attr.d]="getSVG()"
+                          [attr.transform]="getSVGTransform()"
+                    />
+                </svg>
+            </div>
+            -->
 
-                <div class='col-5'>
+            <div class='row mt-2 pt-2'>
+                <div class='col-6'>
                     <button
                             (click)='track.toggleEndStyleLeft()'
                             class='btn btn-primary btn-block mt-1'
-                    >Left: {{track.endStyleLeft}}
+                    >
+                        Left: {{track.endStyleLeft}}
                     </button>
                 </div>
+            </div>
 
-                <div class='col-5'>
+            <div class='row mt-2 pt-2 border-top'>
+                <div class='row ml-3 mr-3'>
+                    <div class='col-12 col-sm-4'>
+                        Repeat middle
+                    </div>
+                    <div class='col-5 col-sm-4'>
+                        <input class='form-control' read-only type='number' [(ngModel)]='track.endStyleRepeat'>
+                    </div>
+                    <div class='col-7 col-sm-4'>
+                        <app-slider min='1' max='3' [round]=0 [(ngModel)]='track.endStyleRepeat'></app-slider>
+                    </div>
+                </div>
+            </div>
+
+            <div class='row mt-2 pt-2 border-top'>
+                <div class='col-6'>
                     <button
                             (click)='track.toggleEndStyleRight()'
                             class='btn btn-primary btn-block mt-1'
-                    >Right: {{track.endStyleRight}}
+                    >
+                        Right: {{track.endStyleRight}}
                     </button>
                 </div>
-
             </div>
 
         </div>
-    </div>
 
-    <div class='row mt-2 border-top'></div>
+    </div>
 </div>
+

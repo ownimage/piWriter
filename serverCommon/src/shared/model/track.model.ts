@@ -33,7 +33,9 @@ export class Track {
                 private _stripeBlackWidth: number = 1,
                 private _stripeTotalWidth: number = 2,
                 private _endStyleLeft: string = "none",
-                private _endStyleRight: string = "none") {
+                private _endStyleRight: string = "none",
+                private _endStyleRepeat: number = 1) {
+        if (_endStyleRepeat == 0 ) _endStyleRepeat = 1; // for legacy upgrade
     };
 
     clone(): Track {
@@ -65,7 +67,8 @@ export class Track {
             this._stripeBlackWidth,
             this._stripeTotalWidth,
             this._endStyleLeft,
-            this._endStyleRight
+            this._endStyleRight,
+            this._endStyleRepeat
         );
     }
 
@@ -179,6 +182,10 @@ export class Track {
 
     get endStyleRight(): string {
         return this._endStyleRight;
+    }
+
+    get endStyleRepeat(): number {
+        return this._endStyleRepeat;
     }
 
     set repeat(value: boolean) {
@@ -307,6 +314,11 @@ export class Track {
     set endStyleRight(value: string) {
         this.markDirty();
         this._endStyleRight = value;
+    }
+
+    set endStyleRepeat(value: number) {
+        this.markDirty();
+        this._endStyleRepeat = value;
     }
 
     toggleFlipX() {

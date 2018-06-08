@@ -29,7 +29,8 @@ const trackToTrackDTO = (track: Track) => {
         track.stripeBlackWidth,
         track.stripeTotalWidth,
         track.endStyleLeft,
-        track.endStyleRight);
+        track.endStyleRight,
+        track.endStyleRepeat);
 };
 
 export {trackToTrackDTO};
