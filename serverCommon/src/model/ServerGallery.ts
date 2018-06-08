@@ -16,13 +16,16 @@ export class ServerGallery {
     }
 
     public trackToKeyMapper(track) {
-        const {path, flipX, flipY} = track;
-        return {path, flipX, flipY};
+        // const {path, flipX, flipY, endStyleLeft, endStyleRight} = track;
+        // return {path, flipX, flipY, endStyleLeft, endStyleRight};
+        return track;
     }
 
     public keysEqual(key1, key2) {
-        return key1.path === key2.path
-            && key1.flipX === key2.flipX
-            && key1.flipY === key2.flipY;
+         return key1 == key2; // key1.path === key2.path
+        //     && key1.flipX === key2.flipX
+        //     && key1.flipY === key2.flipY
+        //     && key1.endStyleLeft === key2.endStyleLeft
+        //     && key1.endStyleRight === key2.endStyleRight;
     }
 }
