@@ -35,7 +35,7 @@ export class Track {
                 private _endStyleLeft: string = "none",
                 private _endStyleRight: string = "none",
                 private _endStyleRepeat: number = 1) {
-        if (_endStyleRepeat == 0 ) _endStyleRepeat = 1; // for legacy upgrade
+        if (_endStyleRepeat == null ) _endStyleRepeat = 1; // for legacy upgrade
     };
 
     clone(): Track {

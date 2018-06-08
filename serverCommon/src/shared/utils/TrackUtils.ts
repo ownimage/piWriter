@@ -1,7 +1,7 @@
 import {Track} from "../model/track.model";
+import {hexToRgb} from "./ColorUtils";
 
 const Jimp = require('jimp');
-import {hexToRgb} from "./ColorUtils";
 
 function endStyleIncludes(style: string, x: number, y: number) {
     switch (style) {
@@ -14,7 +14,7 @@ function endStyleIncludes(style: string, x: number, y: number) {
         case "semicircle":
             return (y - 0.5) * (y - 0.5) + x * x < 0.25;
         case "ribbon":
-            return  (x + y < 0.5) ||(x - y < -0.5);
+            return (x + y < 0.5) || (x - y < -0.5);
     }
     return true;
 }
@@ -56,34 +56,40 @@ function applyEndStyle(track, image, NUM_LEDS) {
     // expect image to be NUM_LEDS high
     let left = track.endStyleLeft != "none" ? createEnd("left", track.endStyleLeft, image, NUM_LEDS) : null;
     let right = track.endStyleRight != "none" ? createEnd("right", track.endStyleRight, image, NUM_LEDS) : null;
+    let center = track.endStyleRepeat == 0 ? 0 : image.bitmap.width;
 
     if (!left && !right) { // neither
         return;
     }
     else if (left && !right) { // left
         let clone = image.clone();
-        image.resize(image.bitmap.width + Math.floor(NUM_LEDS/2), NUM_LEDS);
+        image.resize(center + Math.floor(NUM_LEDS / 2), NUM_LEDS);
         image.blit(left, 0, 0);
-        image.blit(clone, Math.floor(NUM_LEDS/2), 0);
-
+        if (center != 0) {
+            image.blit(clone, Math.floor(NUM_LEDS / 2), 0);
+        }
     }
     else if (right && !left) { // right
         let clone = image.clone();
-        image.resize(image.bitmap.width + Math.floor(NUM_LEDS/2), NUM_LEDS);
-        image.blit(clone, 0, 0);
-        image.blit(right, image.bitmap.width-72, 0);
+        image.resize(center + Math.floor(NUM_LEDS / 2), NUM_LEDS);
+        if (center != 0) {
+            image.blit(clone, 0, 0);
+        }
+        image.blit(right, image.bitmap.width - 72, 0);
     }
     else if (left && right) { // both
         let clone = image.clone();
-        image.resize(image.bitmap.width + NUM_LEDS, NUM_LEDS);
+        image.resize(center + NUM_LEDS, NUM_LEDS);
         image.blit(left, 0, 0);
-        image.blit(clone, Math.floor(NUM_LEDS/2), 0);
-        image.blit(right, image.bitmap.width-72, 0);
+        if (center != 0) {
+            image.blit(clone, Math.floor(NUM_LEDS / 2), 0);
+        }
+        image.blit(right, image.bitmap.width - 72, 0);
     }
 }
 
 function applyEndRepeat(track: Track, image) {
-    if (track.endStyleRepeat == 1) return;
+    if (track.endStyleRepeat == 0 || track.endStyleRepeat == 1) return;
     let clone = image.clone();
     image.resize(image.bitmap.width * track.endStyleRepeat, image.bitmap.height);
     for (let i = 0; i < track.endStyleRepeat; i++) {
@@ -184,6 +190,6 @@ export function tranformImage(track: Track, image, NUM_LEDS, height, callback) {
             out.scale(height / out.bitmap.height);
         }
 
-       callback(err, out);
+        callback(err, out);
     });
 }
