@@ -24,3 +24,7 @@ a.nav-link.active {
     border-right-color: #007bff;
     border-width: 1px;
 }
+
+.scrollx {
+    overflow-x: auto;
+}
