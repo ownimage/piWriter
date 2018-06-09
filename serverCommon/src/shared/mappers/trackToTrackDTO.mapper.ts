@@ -4,6 +4,7 @@ import {TrackDTO} from '../dto/trackDTO.model';
 const trackToTrackDTO = (track: Track) => {
     return new TrackDTO(
         track.name,
+        track.type,
         track.path,
         track.repeat,
         track.autostartNext,

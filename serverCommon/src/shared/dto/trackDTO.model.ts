@@ -1,5 +1,6 @@
 export class TrackDTO {
-    constructor(public name: string,
+    constructor(public type: string,
+                public name: string,
                 public path: string,
                 public repeat: boolean,
                 public autostartNext: boolean,

@@ -5,6 +5,7 @@ import {TrackDTO} from '../dto/trackDTO.model';
 const trackDTOToTrack = (track: TrackDTO, playlist: Playlist) => {
     return new Track(
         playlist,
+        track.type,
         track.name,
         track.path,
         track.repeat,

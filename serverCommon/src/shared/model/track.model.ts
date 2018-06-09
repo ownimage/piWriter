@@ -7,6 +7,7 @@ export class Track {
     private _version: number = 0;
 
     constructor(private playlist: Playlist,
+                private _type: string,
                 private _name: string,
                 private _path: string,
                 private _repeat: boolean = false,
@@ -35,12 +36,14 @@ export class Track {
                 private _endStyleLeft: string = "none",
                 private _endStyleRight: string = "none",
                 private _endStyleRepeat: number = 1) {
-        if (_endStyleRepeat == null ) _endStyleRepeat = 1; // for legacy upgrade
+        if (_type == null) this._type = "image"; // for legacy upgrade
+        if (_endStyleRepeat == null) this._endStyleRepeat = 1; // for legacy upgrade
     };
 
     clone(): Track {
         return new Track(
             this.playlist,
+            this._type,
             this._name,
             this._path,
             this._repeat,
@@ -70,6 +73,10 @@ export class Track {
             this._endStyleRight,
             this._endStyleRepeat
         );
+    }
+
+    get type(): string {
+        return this._type;
     }
 
     get version(): number {
@@ -381,7 +388,7 @@ export class Track {
     }
 
 
-    private nextStyle(style: string):string {
+    private nextStyle(style: string): string {
         if (style == "none") return "top-down";
         else if (style == "top-down") return "bottom-up";
         else if (style == "bottom-up") return "diamond";

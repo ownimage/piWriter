@@ -84,7 +84,7 @@ export class AddImagesComponent implements OnInit {
 
     addImage(image) {
         debug('addImage(%o)', image);
-        let track = new Track(this.playlist, image.name, image.dirName + '/' + image.name, false, false, true);
+        let track = new Track(this.playlist, "image", image.name, image.dirName + '/' + image.name, false, false, true);
         this.playlist.addTrack(track);
         image.added.setMessage('green', 1000);
     }
@@ -93,7 +93,7 @@ export class AddImagesComponent implements OnInit {
         debug('imagesV2 = %o', this.imagesV2);
         this.imagesV2
             .filter(i => i.selected && i.isFile)
-            .map(i => new Track(this.playlist, i.name, i.dirName + '/' + i.name, false, false, true))
+            .map(i => new Track(this.playlist, "image", i.name, i.dirName + '/' + i.name, false, false, true))
             .map(t => this.playlist.addTrack(t));
         this.returnToPlaylist();
     }

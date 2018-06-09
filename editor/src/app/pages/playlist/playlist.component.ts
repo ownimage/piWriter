@@ -5,6 +5,7 @@ import {config} from '../../common/config';
 import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 import {MessageModel} from '../../pageComponents/message/message.component.model';
 import {Playlist} from "../../../../../serverCommon/src/shared/model/playlist.model";
+import {Track} from "../../../../../serverCommon/src/shared/model/track.model";
 
 const debug = require('debug')('piWriter/playlist.component.ts');
 
@@ -64,9 +65,16 @@ export class PlaylistComponent implements OnInit {
         });
     }
 
-    navigateAddTrack() {
+    navigateAddImageTrack() {
         this.playlistRepositoryService.savePlaylistV1Sync(this.playlist);
         this.router.navigate(['/playlists', this.playlist.name, 'addImages'], {queryParams: {mode: 'edit'}})
+    }
+
+    navigateAddTextTrack() {
+        // for demo purposes
+        let track = new Track(this.playlist, "text", "Type Text Here", "font");
+        this.playlist.addTrack(track);
+
     }
 
     navigateBack() {
