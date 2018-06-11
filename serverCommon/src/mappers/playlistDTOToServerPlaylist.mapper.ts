@@ -1,22 +1,21 @@
 import {playlistDTOToPlaylist} from "../shared/mappers/playlistDTOToPlaylist.mapper";
+import {PlaylistDTO} from "../shared/dto/playlistDTO.model";
+import {ServerGallery} from "../model/ServerGallery";
+import {ServerPlaylist} from "../model/ServerPlaylist";
+import {rgbObject2Int} from "../shared/utils/ColorUtils";
+import {tranformImage} from "../shared/utils/TrackUtils";
 
 const debug = require("debug")("serverCommon/mapper/playlistDTOToPlaylist");
 debug("### serverCommon/mapper/playlistDTOToPlaylist");
 
 const Jimp = require("jimp");
 
-import { PlaylistDTO } from "../shared/dto/playlistDTO.model";
-import { ServerGallery } from "../model/ServerGallery";
-import { ServerPlaylist } from "../model/ServerPlaylist";
-import { rgbObject2Int, hexToRgb } from "../shared/utils/ColorUtils";
-import {tranformImage} from "../shared/utils/TrackUtils";
-import {Track} from "../shared/model/track.model";
-
 export function playlistDTOToServerPlaylist(playlistDTO: PlaylistDTO,
-                                      NUM_LEDS,
-                                      brightness,
-                                      imagesFolder,
-                                      completeFn) {
+                                            NUM_LEDS,
+                                            brightness,
+                                            imagesFolder,
+                                            fontsFolder,
+                                            completeFn) {
     debug("serverCommon/Playlist:constructor");
 
     const gallery = new ServerGallery();
@@ -26,14 +25,13 @@ export function playlistDTOToServerPlaylist(playlistDTO: PlaylistDTO,
     debug("tracks = %O", tracks);
     const promises = tracks.map((track) => {
         if (!gallery.get(track)) { // dont process duplicates
-            const fullPicturePath = imagesFolder + track.path;
+            const fullPicturePath = (track.type == "image") ? imagesFolder + track.path : fontsFolder + track.path;
             debug("fullPicturePath = %s", fullPicturePath);
             Jimp.read(fullPicturePath, (err, image) => {
                 if (err) {
-                    debug("Jimp Error: %o", err);
                 } else {
                     const timedArrays = [];
-                    tranformImage(track, image, NUM_LEDS, NUM_LEDS, (err, out) =>{
+                    tranformImage(track, image, NUM_LEDS, NUM_LEDS, (err, out) => {
 
                         for (let x = 0; x < out.bitmap.width; x++) {
                             const colorArray = new Uint32Array(NUM_LEDS);
@@ -58,7 +56,9 @@ export function playlistDTOToServerPlaylist(playlistDTO: PlaylistDTO,
     });
 
     Promise.all(promises).then(() => {
-        if (completeFn) { completeFn(); }
+        if (completeFn) {
+            completeFn();
+        }
     });
     return new ServerPlaylist(tracks, gallery);
 }

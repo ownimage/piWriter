@@ -74,6 +74,7 @@ function setPlaylist(newPlaylistDTO: PlaylistDTO) {
             getConfig().NUM_LEDS,
             getConfig().brightness,
             serverConfig.imagesFolder,
+            serverConfig.fontsFolder,
             () => flash(2),
         ) : null;
     player.play(playlist);
