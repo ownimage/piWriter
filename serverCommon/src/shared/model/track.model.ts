@@ -6,7 +6,7 @@ const Jimp = require('jimp');
 export class Track {
     private _version: number = 0;
 
-    constructor(private playlist: Playlist,
+    constructor(private _playlist: Playlist,
                 private _type: string,
                 private _name: string,
                 private _path: string,
@@ -42,7 +42,7 @@ export class Track {
 
     clone(): Track {
         return new Track(
-            this.playlist,
+            this._playlist,
             this._type,
             this._name,
             this._path,
@@ -73,6 +73,10 @@ export class Track {
             this._endStyleRight,
             this._endStyleRepeat
         );
+    }
+
+    get playlist(): Playlist {
+        return this._playlist;
     }
 
     get type(): string {
@@ -233,6 +237,16 @@ export class Track {
     set scale(value: number) {
         this.markDirty();
         this._scale = value;
+    }
+
+    set path(value: string) {
+        this.markDirty();
+        this._path = value;
+    }
+
+    set name(value: string) {
+        this.markDirty();
+        this._name = value;
     }
 
     set alignment(value: string) {
@@ -406,40 +420,40 @@ export class Track {
     }
 
     moveUp() {
-        this.playlist.moveUp(this);
+        this._playlist.moveUp(this);
     }
 
     moveDown() {
-        this.playlist.moveDown(this);
+        this._playlist.moveDown(this);
     }
 
     cut() {
-        this.playlist.cut(this);
+        this._playlist.cut(this);
     }
 
     markDirty() {
-        this.playlist.markDirty();
+        this._playlist.markDirty();
         this._version++;
     }
 
     setAdvancedMode() {
-        this.playlist.setShowTrack(this);
+        this._playlist.setSelectedTrack(this);
     }
 
     isAdvancedMode() {
-        return !this.playlist.isShowingAllTracks() && this.playlist.isTrackShowing(this);
+        return !this._playlist.isShowingAllTracks() && this._playlist.isTrackSelected(this);
     }
 
     duplicate() {
-        this.playlist.duplicate(this);
+        this._playlist.duplicate(this);
     }
 
     canCopySettings() {
-        return this.playlist.getPrevious(this) != null;
+        return this._playlist.getPrevious(this) != null;
     }
 
     copySettings() {
-        let track = this.playlist.getPrevious(this);
+        let track = this._playlist.getPrevious(this);
         this._speed = track._speed;
         this._brightness = track._brightness;
         this._scale = track._scale;

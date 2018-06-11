@@ -1,5 +1,6 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Track} from "../../../../../serverCommon/src/shared/model/track.model";
+import {environment} from '../../../environments/environment';
 
 const Jimp = require('../../../../../serverCommon/node_modules/jimp');
 const debug = require('debug')('piWriter/pageComponent/image.component.ts');
@@ -9,15 +10,14 @@ const debug = require('debug')('piWriter/pageComponent/image.component.ts');
     templateUrl: './image.component.html',
     styleUrls: ['./image.component.css']
 })
-export class ImageComponent implements OnChanges {
-    @Input() src: string;
+export class ImageComponent implements OnInit, OnChanges {
     @Input() height: number;
 
     @Input() track: Track;
     @Input() trackVersion: number; // this is just to trigger change detection
 
-    private naturalWidth = 0; // this is the size of the image
-    private naturalHeight = 0;
+    private currentPath = ""; // this is used to prevent the need to reread the image if src has not changed
+    private src: string = "";
     public srcOut: string;
     private image = null;
 
@@ -26,31 +26,38 @@ export class ImageComponent implements OnChanges {
     constructor() {
     }
 
+    ngOnInit() {
+        this.ngOnChanges({});
+    }
+
     ngOnChanges(changes) {
         debug("ngOnChanges");
-        if (changes.src && changes.src.firstChange) {
-            debug("src.firstChange");
-            debug(`encodeURI(this.src) = ${encodeURI(this.src)}`);
+
+        if (this.currentPath != this.track.path) {
+            this.currentPath = this.track.path;
+
+            if (this.track.type == "image") this.src = environment.restURL + "/images" + this.track.path;
+            if (this.track.type == "text") this.src = environment.restURL + "/fonts" + this.track.path;
+
+            debug(`src = ${this.src}`);
             Jimp.read(encodeURI(this.src)).then((image) => {
                 debug("got image");
                 this.image = image;
-                this.ngOnChanges({});
+                this.updateSrcOut();
             });
-        } else if (this.image) {
-            debug("!src.firstChange");
-            let clone = this.image.clone();
-            this.track.getBase64Tranform(this.image, this.actualHeight, this.height, (err, data) => {this.srcOut = data;});
+        }
+
+        this.updateSrcOut();
+    }
+
+
+    updateSrcOut() {
+        if (this.image) {
+            this.track.getBase64Tranform(this.image, this.actualHeight, this.height, (err, data) => {
+                this.srcOut = data;
+            });
         }
     }
 
-    // from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-    hexToRgb(hex) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    }
 
 }

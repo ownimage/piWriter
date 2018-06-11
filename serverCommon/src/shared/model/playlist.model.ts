@@ -11,7 +11,7 @@ export class Playlist {
     };
 
     private _isClean = true;
-    private _showTrack: Track = null;
+    private _selectedTrack: Track = null;
 
     get name() {
         return this._name;
@@ -88,27 +88,27 @@ export class Playlist {
         }
     };
 
-    setShowTrack = function (track: Track) {
-        this._showTrack = track;
+    setSelectedTrack = function (track: Track) {
+        this._selectedTrack = track;
     };
 
-    getShowTrack = function () {
-        return this._showTrack;
+    getSelectedTrack = function () {
+        return this._selectedTrack;
     };
 
     showAllTracks() {
-        this._showTrack = null;
+        this._selectedTrack = null;
     };
 
-    isTrackShowing(track: Track) {
+    isTrackSelected(track: Track) {
         if (debug.enabled) {
-            debug('Playlist:isTrackShowing %o', trackToTrackDTO(track));
+            debug('Playlist:isTrackSelected %o', trackToTrackDTO(track));
         }
-        return this._showTrack == null || this._showTrack == track;
+        return this._selectedTrack == null || this._selectedTrack == track;
     }
 
     isShowingAllTracks() {
-        return this._showTrack == null;
+        return this._selectedTrack == null;
     }
 
 }

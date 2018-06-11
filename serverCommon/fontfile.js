@@ -1,7 +1,7 @@
 const Jimp = require('jimp');
 
 function removeUnwantedGaps(image) {
-    let y = image.bitmap.height-1;
+    let y = image.bitmap.height - 1;
     let started = false;
     let totalGapLen = 0;
     let gapCnt = 0;
@@ -34,7 +34,7 @@ function removeUnwantedGaps(image) {
             let len = x - start;
             console.log(`len=${len}`);
             if (len < halfAvgGap) {
-                for (let x2 = start; x2 < x;x2++) {
+                for (let x2 = start; x2 < x; x2++) {
                     image.setPixelColor(0xFFFFFFFF, x2, y);
                 }
             }
@@ -68,11 +68,55 @@ function identify(filename) {
     });
 }
 
+function metrics(filename) {
+    return new Promise(function (resolve, reject) {
+        Jimp.read(filename, (err, image) => {
+            if (err) {
+                console.log("Jimp Error: %o", err);
+                reject(err);
+            } else {
+                const y = image.bitmap.height -1;
+                let previous = null;
+                let start = null;
+                let metrics = [];
+                for (let x = 0; x < image.bitmap.width; x++) {
+                    let current = (image.getPixelColor(x, y) != 0x000000FF);
+                    if (previous == null) {
+                        previous = current;
+                    }
+                    else if (current && previous != current) {
+                        // start of character
+                        start = x;
+                        previous = current;
+                    }
+                    else if (!current && previous != current) {
+                        // end of character
+                        metrics.push({start, end: x});
+                        //console.log(JSON.stringify({start, end: x}));
+                        previous = current;
+                    }
+                }
+                //console.log(JSON.stringify(metrics));
+                resolve(metrics);
+            }
+        });
+    });
+}
+
+async function metricsSync(filename)  {
+    let m = await metrics(filename);
+    console.log(`length = ${m.length}`);
+    console.log(JSON.stringify(m));
+}
+
 const action = process.argv[2];
 const filename = process.argv[3];
 
 switch (action) {
     case "identify":
         identify(filename);
+        break;
+    case "metrics":
+        metricsSync(filename);
         break;
 }

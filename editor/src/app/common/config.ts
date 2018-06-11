@@ -29,6 +29,7 @@ const config = {
         paste: 'fas fa-paste',
         horizontal: 'icon-horizontal fa-fw',
         vertical: 'icon-vertical fa-fw',
+        font: 'fas fa-font fa-fw',
     }
 };
 

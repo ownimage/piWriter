@@ -1,5 +1,3 @@
-export {};
-
 const debug = require("debug")("serverCommon/server");
 debug("### serverCommon/server");
 
@@ -10,7 +8,8 @@ const path = require("path");
 
 import {NeoPixelDriver} from "./NeoPixelDriver";
 import {RESTv1} from "./RESTv1";
-import {RESTv2} from "./RESTv2";
+import {getImagesV2} from "./imageService";
+import {getFontsV2} from "./fontService";
 import {getServerInfo} from "./ServerInfo";
 import {getConfig, RESTpostConfig, RESTgetConfig} from "./config";
 import {serverConfig} from "./serverConfig";
@@ -38,11 +37,13 @@ const startServer = ({environment, neopixelLib, functionHooks}) => {
     });
 
     app.use("/images", express.static(serverConfig.imagesFolder));
+    app.use("/fonts", express.static(serverConfig.fontsFolder));
     app.get("/ping", ping);
     app.get("/config", RESTgetConfig);
     app.get("/serverInfo", getServerInfo(functionHooks.additionalServerInfo));
     app.post("/config", RESTpostConfig);
-    app.get("/v2/images/", RESTv2.getImagesV2);
+    app.get("/v2/images/", getImagesV2);
+    app.get("/v2/fonts/", getFontsV2);
     app.get("/v1/playlists", RESTv1.getPlaylistsV1);
     app.get("/v1/playlists/:playlistName", RESTv1.getPlaylistV1);
     app.post("/v1/playlists/:playlistName", RESTv1.postPlaylistV1);

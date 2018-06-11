@@ -61,7 +61,7 @@ export class PlaylistComponent implements OnInit {
             return this.playlist.tracks.filter(t => t.enabled);
         } // else isEditMode
         return this.playlist.tracks.filter(t => {
-            return this.playlist.isTrackShowing(t);
+            return this.playlist.isTrackSelected(t);
         });
     }
 

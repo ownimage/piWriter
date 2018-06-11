@@ -1,7 +1,15 @@
 import {Track} from "../model/track.model";
 import {hexToRgb} from "./ColorUtils";
 
+const debug = require('debug')('piWriter/serverCommon/shared/utils/TrackUtils.ts');
 const Jimp = require('jimp');
+const cache = {metrics: {}};
+
+// letter for photoshop
+/**
+ a b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  0  1  2  3  4  5  6  7  8  9  !  "  £  $  %  ^  &  *  (  )  _  -  +  =  {  }  [  ]  @  '  #  ;  :  <  >  ,  .  /  ?  |  \
+ */
+const textString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"£$%^&*()_-+={}[]@'#;:<>,./?|\\ ";
 
 function endStyleIncludes(style: string, x: number, y: number) {
     switch (style) {
@@ -97,8 +105,77 @@ function applyEndRepeat(track: Track, image) {
     }
 }
 
+function metrics(image, path) {
+    let cacheHit = cache.metrics[path];
+    if (cacheHit) {
+        debug('cache hit');
+        return cacheHit;
+    }
+
+    debug('cache miss');
+    const y = image.bitmap.height - 1;
+    let previous = null;
+    let start = null;
+    let metrics = [];
+    for (let x = 0; x < image.bitmap.width; x++) {
+        let current = (image.getPixelColor(x, y) != 0x000000FF);
+        if (previous == null) {
+            previous = current;
+        }
+        else if (current && previous != current) {
+            // start of character
+            start = x;
+            previous = current;
+        }
+        else if (!current && previous != current) {
+            // end of character
+            metrics.push({start, end: x, length: x - start});
+            previous = current;
+        }
+    }
+    // this is for space taken from a-b
+    start = metrics[0].end + 1;
+    let end = metrics[1].start - 1;
+    let length = end - start;
+    metrics.push({start, end, length});
+    cache.metrics[path] = metrics;
+    return metrics;
+}
+
+function applyText(track: Track, image) {
+    if (track.type != "text") return;
+    let text = track.name;
+    let clone = image.clone();
+    let m = metrics(image, track.path);
+
+    let width = 0;
+    for (let c of text) {
+        let i = textString.indexOf(c);
+        if (i != -1) {
+            debug(c + " " + i);
+            width += m[i].length;
+        }
+    }
+
+    image.resize(width, image.bitmap.height - 1);
+    let start = 0;
+    for (let c of text) {
+        let i = textString.indexOf(c);
+        if (i != -1) {
+            image.blit(clone, start, 0, m[i].start, 0, m[i].length, image.bitmap.height);
+            start += m[i].length;
+        }
+    }
+
+
+    // let start = m[2].start;
+    // let end = m[2].end - start;
+    // image.crop(start, 0, end, image.bitmap.height - 1);
+}
+
 export function tranformImage(track: Track, image, NUM_LEDS, height, callback) {
     let clone = image.clone();
+    applyText(track, clone);
     clone.flip(track.flipX, track.flipY);
     clone.rotate(track.rotate);
     clone.scale(NUM_LEDS / clone.bitmap.height);

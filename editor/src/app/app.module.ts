@@ -6,7 +6,6 @@ import {FormsModule} from "@angular/forms";
 import {RouterModule, Routes} from '@angular/router';
 
 import {AppComponent} from './app.component';
-import {ImageTrackComponent} from './pageComponents/image-track/imageTrack.component';
 import {TrackComponent} from './pageComponents/track/Track.component';
 import {BrowsePlaylistsComponent} from './pages/browse-playlists/browse-playlists.component';
 import {PlaylistComponent} from './pages/playlist/playlist.component';
@@ -22,7 +21,7 @@ import {ImageComponent} from './pageComponents/image/image.component';
 import {ServerInfoComponent} from './pages/server-info/server-info.component';
 import {NumberToXbPipe} from './common/pipes/number-to-xb.pipe';
 import {DecimalToPercentagePipe} from './common/pipes/decimal-to-percentage.pipe';
-import {TextTrackComponent} from './pageComponents/text-track/text-track.component';
+import {SelectFontComponent} from "./pages/select-font/select-font.component";
 
 
 const appRoutes: Routes = [
@@ -33,12 +32,12 @@ const appRoutes: Routes = [
     {path: 'playlists/create', component: AddPlaylistComponent},
     {path: 'playlists/:playlistName', component: PlaylistComponent},
     {path: 'playlists/:playlistName/addImages', component: AddImagesComponent},
+    {path: 'playlists/:playlistName/selectFont', component: SelectFontComponent},
 ];
 
 @NgModule({
     declarations: [
         AppComponent,
-        ImageTrackComponent,
         TrackComponent,
         BrowsePlaylistsComponent,
         PlaylistComponent,
@@ -54,7 +53,7 @@ const appRoutes: Routes = [
         ServerInfoComponent,
         NumberToXbPipe,
         DecimalToPercentagePipe,
-        TextTrackComponent,
+        SelectFontComponent
     ],
     imports: [
         HttpClientModule,

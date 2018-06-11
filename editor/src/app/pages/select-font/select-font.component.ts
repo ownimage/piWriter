@@ -2,31 +2,30 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {Track} from '../../../../../serverCommon/src/shared/model/track.model';
 import {TimedMessage} from '../../common/timedMessage';
 import {config} from '../../common/config';
-import {Playlist} from '../../../../../serverCommon/src/shared/model/playlist.model';
-import {RepositoryService} from '../../common/repository.service';
-import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
+import {FontRepositoryService} from "../../common/repository/FontRepositoryService";
+import {PlaylistRepositoryService} from "../../common/repository/PlaylistRepositoryService";
+import {Playlist} from "../../../../../serverCommon/src/shared/model/playlist.model";
 
 const debug = require('debug')('piWriter/select-font.component.ts');
 
 @Component({
-    selector: 'app-browse-images',
-    templateUrl: './add-images.component.html',
-    styleUrls: ['./add-images.component.css'],
-    providers: [RepositoryService, PlaylistRepositoryService],
+    selector: 'app-browse-fonts',
+    templateUrl: './select-font.component.html',
+    styleUrls: ['./select-font.component.css'],
+    providers: [PlaylistRepositoryService, FontRepositoryService],
 })
-export class AddImagesComponent implements OnInit {
+export class SelectFontComponent implements OnInit {
     playlistName: string;
+    playlist: Playlist;
     dirName: string;
-    playlist: Playlist = null;
     imagesV2: { parentDirName: string, dirName: string, name: string, isFile: boolean, selected: boolean, added: TimedMessage }[] = [];
     restURL = environment.restURL;
     icons = config.icons;
 
-    constructor(private repositoryService: RepositoryService,
-                private playlistRepositoryService: PlaylistRepositoryService,
+    constructor(private playlistRepositoryService: PlaylistRepositoryService,
+                private fontRepositoryService: FontRepositoryService,
                 private route: ActivatedRoute,
                 private router: Router) {
     }
@@ -60,14 +59,14 @@ export class AddImagesComponent implements OnInit {
             }
         }
 
-        this.repositoryService.getImagesV2(this.dirName).subscribe(data => {
-            for (let image of data) {
-                debug('image = %o', image);
+        this.fontRepositoryService.getFontsV2(this.dirName).subscribe(data => {
+            for (let font of data) {
+                debug('image = %o', font);
                 this.imagesV2.push({
-                    parentDirName: image.parentDirName,
-                    dirName: image.dirName,
-                    name: image.name,
-                    isFile: image.isFile,
+                    parentDirName: font.parentDirName,
+                    dirName: font.dirName,
+                    name: font.name,
+                    isFile: font.isFile,
                     selected: false,
                     added: new TimedMessage()
                 });
@@ -76,39 +75,19 @@ export class AddImagesComponent implements OnInit {
         });
     }
 
+    selectFont(image) {
+        this.playlist.getSelectedTrack().path = image.dirName + "/" + image.name;
+        this.returnToPlaylist();
+    }
+
     toggleImage(image) {
         debug('toggleImage(%o)', image);
         debug('icons(%o)', this.icons);
         image.selected = !image.selected;
     }
 
-    addImage(image) {
-        debug('addImage(%o)', image);
-        let track = new Track(this.playlist, "image", image.name, image.dirName + '/' + image.name, false, false, true);
-        this.playlist.addTrack(track);
-        image.added.setMessage('green', 1000);
-    }
-
-    addSelected() {
-        debug('imagesV2 = %o', this.imagesV2);
-        this.imagesV2
-            .filter(i => i.selected && i.isFile)
-            .map(i => new Track(this.playlist, "image", i.name, i.dirName + '/' + i.name, false, false, true))
-            .map(t => this.playlist.addTrack(t));
-        this.returnToPlaylist();
-    }
-
     returnToPlaylist() {
-        this.playlistRepositoryService.savePlaylistV1Sync(this.playlist);
         this.router.navigate(['/playlists', this.playlistName], {queryParams: {mode: 'edit'}});
-    }
-
-    selectAll() {
-        this.imagesV2.map(i => i.selected = true)
-    }
-
-    unselectAll() {
-        this.imagesV2.map(i => i.selected = false)
     }
 
 
