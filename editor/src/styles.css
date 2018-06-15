@@ -60,53 +60,55 @@ code {
     transform: scaleX(-1) rotate(90deg);
 }
 
-.piW-align-top {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;utf-8,\
-    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
-    <g stroke-width='2' > \
-        <path id='main' d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10'  /> \
-        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
-        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
-    </g> \
-    </svg> \
-    ");
-    background-size: 35px;
+/* SECTION for iconmoon svg icons*/
+@font-face {
+    font-family: 'icomoon';
+    src:  url('external/icomoon/fonts/icomoon.eot?d5x3f4');
+    src:  url('external/icomoon/fonts/icomoon.eot?d5x3f4#iefix') format('embedded-opentype'),
+    url('external/icomoon/fonts/icomoon.ttf?d5x3f4') format('truetype'),
+    url('external/icomoon/fonts/icomoon.woff?d5x3f4') format('woff'),
+    url('external/icomoon/fonts/icomoon.svg?d5x3f4#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.piW-align-middle {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;utf-8,\
-    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
-    <g stroke-width='2' > \
-        <path d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10'  fill='lightgrey' /> \
-        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' /> \
-        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
-    </g> \
-    </svg> \
-    ");
-    background-size: 35px;
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.piW-align-bottom {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;utf-8,\
-    <svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
-    <g stroke-width='2' > \
-        <path d='M 20 5  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey'  /> \
-        <path d='M 20 40  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' fill='lightgrey' /> \
-        <path d='M 20 75  l 60 0 q 10 0 10 10 q 0 10 -10 10 l -60 0 q -10 0 -10 -10 q 0 -10 10 -10' /> \
-    </g> \
-    </svg> \
-    ");
-    background-size: 35px;
+.icon-horizontal:before {
+    content: "\e904";
 }
+.icon-vertical:before {
+    content: "\e905";
+}
+.icon-vertical_align_top:before {
+    content: "\e900";
+}
+.icon-vertical_align_center:before {
+    content: "\e901";
+}
+.icon-vertical_align_bottom:before {
+    content: "\e902";
+}
+.icon-valign-top:before {
+    content: "\e903";
+}
+.icon-valign-middle:before {
+    content: "\e906";
+}
+.icon-valign-bottom:before {
+    content: "\e907";
+}
+/* SECTION END for iconmoon svg icons*/

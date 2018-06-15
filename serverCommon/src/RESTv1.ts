@@ -1,23 +1,23 @@
 export {};
 
-const debug = require('debug')('serverCommon/RESTv1');
-debug('### serverCommon/RESTv1');
+import * as fs from "fs";
+import * as path from "path";
 
-const fs = require('fs');
-const path = require('path');
+import { PlaylistDTO } from "./shared/dto/playlistDTO.model";
+import { NeoPixelDriver } from "./NeoPixelDriver";
+import { logError } from "./utils/common";
+import { serverConfig} from "./serverConfig";
 
-import { NeoPixelDriver } from './NeoPixelDriver';
-import { PlaylistDTO } from './dto/PlaylistDTO';
-
-import {config} from './config';
-import {logError} from './utils/common';
+const DEBUG = require("debug");
+const debug = DEBUG("serverCommon/RESTv1");
+debug("### serverCommon/RESTv1");
 
 const getPlaylistsV1 = (req, res) => {
     try {
-        debug('serverCommon/RESTv1:getPlaylistsV1');
-        fs.readdir(config.playlistFolder, (err, files) => {
-            debug('getPlaylistsV1 %O', files);
-            res.header('Access-Control-Allow-Origin', '*');
+        debug("serverCommon/RESTv1:getPlaylistsV1");
+        fs.readdir(serverConfig.playlistFolder, (err, files) => {
+            debug("getPlaylistsV1 %O", files);
+            res.header("Access-Control-Allow-Origin", "*");
             res.send(files);
         });
     } catch (e) {
@@ -27,22 +27,21 @@ const getPlaylistsV1 = (req, res) => {
 
 const getPlaylistV1 = (req, res) => {
     try {
-        debug('serverCommon/RESTv1:getPlaylistV1');
-        debug('req.params.playlistName = %s', req.params.playlistName);
+        debug("serverCommon/RESTv1:getPlaylistV1");
+        debug("req.params.playlistName = %s", req.params.playlistName);
         const playlistName = req.params.playlistName;
-        const filePath = path.join(config.playlistFolder, playlistName);
-        fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
-            res.header('Access-Control-Allow-Origin', '*');
+        const filePath = path.join(serverConfig.playlistFolder, playlistName);
+        fs.readFile(filePath, {encoding: "utf-8"}, (err, data) => {
+            res.header("Access-Control-Allow-Origin", "*");
             if (!err) {
-                debug('received data = %s', data);
-                res.header('Access-Control-Allow-Origin', '*');
+                debug("received data = %s", data);
+                res.header("Access-Control-Allow-Origin", "*");
                 res.send(data);
             } else {
-                debug('err = %o', err);
-                if (err.errno == -4058) { //no such file or directory
+                debug("err = %o", err);
+                if (err.errno === -4058) { // no such file or directory
                     res.sendStatus(404);
-                }
-                else {
+                } else {
                     res.sendStatus(500);
                 }
             }
@@ -54,15 +53,15 @@ const getPlaylistV1 = (req, res) => {
 
 const postPlaylistV1 = (req, res) => {
     try {
-        debug('serverCommon/RESTv1:postPlaylistV1');
-        debug('req.params.playlistName = %s', req.params.playlistName);
-        debug('req.body = %O', req.body);
+        debug("serverCommon/RESTv1:postPlaylistV1");
+        debug("req.params.playlistName = %s", req.params.playlistName);
+        debug("req.body = %O", req.body);
         const playlistName = req.params.playlistName;
-        const filePath = path.join(config.playlistFolder, playlistName);
-        fs.writeFile(filePath, JSON.stringify(req.body, null, 2), function (err) {
+        const filePath = path.join(serverConfig.playlistFolder, playlistName);
+        fs.writeFile(filePath, JSON.stringify(req.body, null, 2), (err) =>  {
             if (!err) {
-                res.header('Access-Control-Allow-Origin', '*');
-                res.header('Content-Type', 'text/plain');
+                res.header("Access-Control-Allow-Origin", "*");
+                res.header("Content-Type", "text/plain");
                 res.end();
             } else {
                 logError(debug, err);
@@ -76,18 +75,18 @@ const postPlaylistV1 = (req, res) => {
 
 const postPlaylistsPlayV1 = (req, res) => {
     try {
-        debug('serverCommon/RESTv1:postPlaylistsPlayV1');
+        debug("serverCommon/RESTv1:postPlaylistsPlayV1");
         const playlistName = req.params.playlistName;
 
-        const filePath = path.join(config.playlistFolder, playlistName);
-        fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
+        const filePath = path.join(serverConfig.playlistFolder, playlistName);
+        fs.readFile(filePath, {encoding: "utf-8"}, (err, data) => {
             if (!err) {
-                debug('received data = %s', data);
-                NeoPixelDriver.setPlaylist(<PlaylistDTO>JSON.parse(data));
-                res.header('Access-Control-Allow-Origin', '*');
-                res.send({result: 'OK'});
+                debug("received data = %s", data);
+                NeoPixelDriver.setPlaylist(JSON.parse(data) as PlaylistDTO);
+                res.header("Access-Control-Allow-Origin", "*");
+                res.send({result: "OK"});
             } else {
-                debug('received data = %s', data);
+                debug("received data = %s", data);
             }
         });
     } catch (e) {
@@ -96,8 +95,8 @@ const postPlaylistsPlayV1 = (req, res) => {
 };
 
 export const RESTv1 =  {
-    getPlaylistsV1,
     getPlaylistV1,
+    getPlaylistsV1,
     postPlaylistV1,
-    postPlaylistsPlayV1
+    postPlaylistsPlayV1,
 };

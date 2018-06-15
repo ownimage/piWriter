@@ -24,7 +24,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 export class SliderComponent implements OnInit, ControlValueAccessor {
     @Input() min: number;
     @Input() max: number;
-    @Input() round: boolean;
+    @Input() round: number;
 
     private _value: number;
     private _sliderMax: number = 1000;
@@ -66,7 +66,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
         if (v !== this.sliderValue) {
             // Note below without the Number to start it uses string addition rather than number addition
             let newValue = Number(this.min) + (v / this.sliderMax) * (this.max - this.min);
-            this._value = this.round ? Math.round(newValue) : newValue;
+            this._value = (this.round != undefined) ? Number(newValue.toFixed(this.round)) : newValue;
             this.onChangeCallback(this._value);
         }
     }

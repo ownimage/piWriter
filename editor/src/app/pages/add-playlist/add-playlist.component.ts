@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {config} from '../../shared/config';
-import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
-import {Playlist} from '../../shared/model/playlist.model';
+import {config} from '../../common/config';
+import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 import {MessageModel} from '../../pageComponents/message/message.component.model';
 
 const debug = require('debug')('piWriter/add-playlist.component.ts');
@@ -47,7 +46,7 @@ export class AddPlaylistComponent implements OnInit {
                 else {
                     this.infoMessage.setMessage('Saving ...');
                     let playlist = this.playlistRepositoryService.createPlaylist(this.name);
-                    playlist.save();
+                    this.playlistRepositoryService.savePlaylistV1Sync(playlist);
                     this.infoMessage.clearMessage();
                     this.router.navigate(['/playlists', this.name], {queryParams: {mode: 'edit'}});
                 }

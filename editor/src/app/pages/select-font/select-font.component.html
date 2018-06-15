@@ -1,0 +1,31 @@
+<app-header
+        [leftIcon]="icons.navigateBack"
+        (click)="returnToPlaylist()"
+></app-header>
+
+<ul class="list-group">
+    <li class="list-group-item" style="background-color: #f6d473">
+        <span>Current: {{ dirName ? dirName : '/'}}</span>
+    </li>
+    <li
+            class="list-group-item"
+            *ngFor="let image of imagesV2"
+    >
+        <div>{{ image.name }}</div>
+        <div>
+            <img
+                    *ngIf="image.isFile"
+                    (click)="selectFont(image)"
+                    src="{{ restURL }}/fonts/{{image.dirName}}/{{ image.name }}"
+                    style="max-height: 50px;"
+            />
+            <span
+                    *ngIf="!image.isFile"
+                    (click)="changeDirectory(image)"
+                    [ngClass]="icons.folder"
+                    style="font-size: 50px; color: #f6d473"
+            ></span>
+
+        </div>
+    </li>
+</ul>

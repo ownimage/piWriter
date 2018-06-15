@@ -1,0 +1,309 @@
+{
+  "IcoMoonType": "selection",
+  "icons": [
+    {
+      "icon": {
+        "paths": [
+          "M102.4 204.8q0-102.4 102.4-102.4h614.4q102.4 0 102.4 102.4t-102.4 102.4h-614.4q-102.4 0-102.4-102.4zM102.4 512q0-102.4 102.4-102.4h614.4q102.4 0 102.4 102.4t-102.4 102.4h-614.4q-102.4 0-102.4-102.4zM102.4 819.2q0-102.4 102.4-102.4h614.4q102.4 0 102.4 102.4t-102.4 102.4h-614.4q-102.4 0-102.4-102.4z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "horizontal"
+        ]
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 15,
+        "id": 1,
+        "name": "horizontal",
+        "prevSize": 32,
+        "code": 59652
+      },
+      "setIdx": 0,
+      "setId": 3,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
+          "M819.2 102.4q102.4 0 102.4 102.4v614.4q0 102.4-102.4 102.4t-102.4-102.4v-614.4q0-102.4 102.4-102.4zM512 102.4q102.4 0 102.4 102.4v614.4q0 102.4-102.4 102.4t-102.4-102.4v-614.4q0-102.4 102.4-102.4zM204.8 102.4q102.4 0 102.4 102.4l0 614.4q0 102.4-102.4 102.4t-102.4-102.4v-614.4q0-102.4 102.4-102.4z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "vertical"
+        ]
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 16,
+        "id": 0,
+        "name": "vertical",
+        "prevSize": 32,
+        "code": 59653
+      },
+      "setIdx": 0,
+      "setId": 3,
+      "iconIdx": 1
+    },
+    {
+      "icon": {
+        "paths": [
+          "M170 128h684v86h-684v-86zM342 470l170-172 170 172h-128v426h-84v-426h-128z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": [
+          "vertical_align_top"
+        ],
+        "grid": 24
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 1,
+        "id": 2,
+        "prevSize": 24,
+        "code": 59648,
+        "name": "vertical_align_top"
+      },
+      "setIdx": 1,
+      "setId": 2,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
+          "M170 470h684v84h-684v-84zM682 214l-170 170-170-170h128v-172h84v172h128zM342 810l170-170 170 170h-128v172h-84v-172h-128z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": [
+          "vertical_align_center"
+        ],
+        "grid": 24
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 2,
+        "id": 1,
+        "prevSize": 24,
+        "code": 59649,
+        "name": "vertical_align_center"
+      },
+      "setIdx": 1,
+      "setId": 2,
+      "iconIdx": 1
+    },
+    {
+      "icon": {
+        "paths": [
+          "M170 810h684v86h-684v-86zM682 554l-170 172-170-172h128v-426h84v426h128z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": [
+          "vertical_align_bottom"
+        ],
+        "grid": 24
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 3,
+        "id": 0,
+        "prevSize": 24,
+        "code": 59650,
+        "name": "vertical_align_bottom"
+      },
+      "setIdx": 1,
+      "setId": 2,
+      "iconIdx": 2
+    },
+    {
+      "icon": {
+        "paths": [
+          "M102.4 204.8q0-102.4 102.4-102.4h614.4q102.4 0 102.4 102.4t-102.4 102.4h-614.4q-102.4 0-102.4-102.4z",
+          "M102.4 512q0-20.48 102.4-20.48h614.4q102.4 0 102.4 20.48t-102.4 20.48h-614.4q-102.4 0-102.4-20.48z",
+          "M102.4 819.2q0-20.48 102.4-20.48h614.4q102.4 0 102.4 20.48t-102.4 20.48h-614.4q-102.4 0-102.4-20.48z"
+        ],
+        "attrs": [
+          {},
+          {},
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 16,
+        "tags": [
+          "valign-top"
+        ],
+        "colorPermutations": {
+          "12112112111": [
+            {},
+            {},
+            {}
+          ]
+        }
+      },
+      "attrs": [
+        {},
+        {},
+        {}
+      ],
+      "properties": {
+        "order": 14,
+        "id": 499,
+        "name": "valign-top",
+        "prevSize": 32,
+        "code": 59651
+      },
+      "setIdx": 2,
+      "setId": 1,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
+          "M102.4 204.8q0-20.48 102.4-20.48h614.4q102.4 0 102.4 20.48t-102.4 20.48h-614.4q-102.4 0-102.4-20.48z",
+          "M102.4 512q0-102.4 102.4-102.4h614.4q102.4 0 102.4 102.4t-102.4 102.4h-614.4q-102.4 0-102.4-102.4z",
+          "M102.4 819.2q0-20.48 102.4-20.48h614.4q102.4 0 102.4 20.48t-102.4 20.48h-614.4q-102.4 0-102.4-20.48z"
+        ],
+        "attrs": [
+          {},
+          {},
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 16,
+        "tags": [
+          "valign-middle"
+        ],
+        "colorPermutations": {
+          "12112112111": [
+            {},
+            {},
+            {}
+          ]
+        }
+      },
+      "attrs": [
+        {},
+        {},
+        {}
+      ],
+      "properties": {
+        "order": 12,
+        "id": 498,
+        "name": "valign-middle",
+        "prevSize": 32,
+        "code": 59654
+      },
+      "setIdx": 2,
+      "setId": 1,
+      "iconIdx": 1
+    },
+    {
+      "icon": {
+        "paths": [
+          "M102.4 204.8q0-20.48 102.4-20.48h614.4q102.4 0 102.4 20.48t-102.4 20.48h-614.4q-102.4 0-102.4-20.48z",
+          "M102.4 512q0-20.48 102.4-20.48h614.4q102.4 0 102.4 20.48t-102.4 20.48h-614.4q-102.4 0-102.4-20.48z",
+          "M102.4 819.2q0-102.4 102.4-102.4h614.4q102.4 0 102.4 102.4t-102.4 102.4h-614.4q-102.4 0-102.4-102.4z"
+        ],
+        "attrs": [
+          {},
+          {},
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 16,
+        "tags": [
+          "valign-bottom"
+        ],
+        "colorPermutations": {
+          "12112112111": [
+            {},
+            {},
+            {}
+          ]
+        }
+      },
+      "attrs": [
+        {},
+        {},
+        {}
+      ],
+      "properties": {
+        "order": 11,
+        "id": 497,
+        "name": "valign-bottom",
+        "prevSize": 32,
+        "code": 59655
+      },
+      "setIdx": 2,
+      "setId": 1,
+      "iconIdx": 2
+    }
+  ],
+  "height": 1024,
+  "metadata": {
+    "name": "icomoon"
+  },
+  "preferences": {
+    "showGlyphs": true,
+    "showQuickUse": true,
+    "showQuickUse2": true,
+    "showSVGs": true,
+    "fontPref": {
+      "prefix": "icon-",
+      "metadata": {
+        "fontFamily": "icomoon"
+      },
+      "metrics": {
+        "emSize": 1024,
+        "baseline": 6.25,
+        "whitespace": 50
+      },
+      "embed": false
+    },
+    "imagePref": {
+      "prefix": "icon-",
+      "png": true,
+      "useClassSelector": true,
+      "color": 0,
+      "bgColor": 16777215,
+      "classSelector": ".icon"
+    },
+    "historySize": 50,
+    "showCodes": true,
+    "gridSize": 16
+  }
+}

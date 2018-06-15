@@ -1,7 +1,7 @@
 <ul class='list-group'>
     <li class='list-group-item container-fluid'>
 
-        <div class='row'>
+        <div class='row scrollx'>
             <span class='ml-3'>
                 <app-checkbox
                         *ngIf='isEditMode() && !isFirst'
@@ -19,14 +19,14 @@
             </span>
             <span>
                 <app-image
-                        [src]='restURL +"/images/" + track.path'
-                        [flipX]='track.flipX'
-                        [flipY]='track.flipY'
-                        [scale]='track.scale'
-                        [alignment]='track.alignment'
-                        [rotate]='track.rotate'
+                        [height]='getHeight()'
+                        [track]="track"
+                        [trackVersion]="track.version"
                 ></app-image>
                 </span>
+        </div>
+
+        <div class='row'>
             <span class='ml-1'>{{ track.name }}</span>
         </div>
 
@@ -84,7 +84,7 @@
 
             <div class='col-2'>
                 <app-checkbox
-                        *ngIf='isEditMode()'
+                        *ngIf='isEditMode() && !track.isAdvancedMode()'
                         [styles]='[icons.dots]'
                         [colors]='["grey", "green"]'
                         (toggleEvent)='track.setAdvancedMode()'
@@ -105,7 +105,7 @@
                     [value]='track.flipX'
                     [styles]='[icons.leftRightArrow]'
                     [colors]='["green", "grey"]'
-                    (toggleEvent)='track.toggleFlipX()()'
+                    (toggleEvent)='track.toggleFlipX()'
             ></app-checkbox>
         </div>
 
@@ -131,8 +131,26 @@
             <app-checkbox
                     [value]='true'
                     [styles]='getAlignmentStyle()'
-                    [colors]='["green"]'
+                    [colors]='["black"]'
                     (toggleEvent)='track.toggleAlignment()'
+            ></app-checkbox>
+        </div>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    [value]='true'
+                    [styles]='[icons.font]'
+                    [colors]='["black"]'
+                    (toggleEvent)='navigateSelectFont()'
+            ></app-checkbox>
+        </div>
+
+        <div class='col-2' style='align-content: center;'>
+            <app-checkbox
+                    *ngIf='track.canCopySettings()'
+                    [styles]='[icons.paste]'
+                    [colors]='["black"]'
+                    (toggleEvent)='track.copySettings()'
             ></app-checkbox>
         </div>
 
@@ -143,41 +161,268 @@
      *ngIf='isEditMode()  && track.isAdvancedMode()'
 >
 
-    <div class='row mt-2 border-top'>
-        <div class='col-12 col-sm-4'>
-            Speed
-        </div>
-        <div class='col-5 col-sm-4'>
-            <input class='form-control' type='number' [(ngModel)]='track.speed'>
-        </div>
-        <div class='col-7 col-sm-4'>
-            <app-slider min='.2' max='5' [(ngModel)]='track.speed'></app-slider>
-        </div>
-    </div>
+    <ul id="advancedTabs" class="nav nav-tabs nav-justified" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#basic" role="tab" aria-controls="Basic"
+               aria-selected="true">Basic</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#color" role="tab" aria-controls="Color"
+               aria-selected="false">Color</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="stripes-tab" data-toggle="tab" href="#stripes" role="tab" aria-controls="Stripes"
+               aria-selected="false">Stripes</a>
+        </li>
 
-    <div class='row mt-2 border-top'>
-        <div class='col-12 col-sm-4'>
-            Brightness
-        </div>
-        <div class='col-5 col-sm-4'>
-            <input class='form-control' type='number' [(ngModel)]='track.brightness'>
-        </div>
-        <div class='col-7 col-sm-4'>
-            <app-slider min='16' max='255' [round]='true' [(ngModel)]='track.brightness'></app-slider>
-        </div>
-    </div>
+        <li class="nav-item">
+            <a class="nav-link" id="end-tab" data-toggle="tab" href="#ends" role="tab" aria-controls="Ends"
+               aria-selected="false">Ends</a>
+        </li>
+    </ul>
 
-    <div class='row mt-2 border-top'>
-        <div class='col-12 col-sm-4'>
-            Scale
-        </div>
-        <div class='col-5 col-sm-4'>
-            <input class='form-control' type='number' [(ngModel)]='track.scale'>
-        </div>
-        <div class='col-7 col-sm-4'>
-            <app-slider min='.1' max='1' [(ngModel)]='track.scale'></app-slider>
-        </div>
-    </div>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
 
-    <div class='row mt-2 border-top'></div>
+            <div class='row mt-2'>
+                <div class='col-4'>
+                    Text
+                </div>
+                <div class='col-8'>
+                    <input class='form-control' type='string' [(ngModel)]='track.name'>
+                </div>
+
+            </div>
+
+            <div class='row mt-2 border-top'>
+                <div class='col-12 col-sm-4'>
+                    Speed
+                </div>
+                <div class='col-5 col-sm-4'>
+                    <input class='form-control' type='number' [(ngModel)]='track.speed'>
+                </div>
+                <div class='col-7 col-sm-4'>
+                    <app-slider min='.2' max='5' [round]='2' [(ngModel)]='track.speed'></app-slider>
+                </div>
+            </div>
+
+            <div class='row mt-2 border-top'>
+                <div class='col-12 col-sm-4'>
+                    Brightness
+                </div>
+                <div class='col-5 col-sm-4'>
+                    <input class='form-control' type='number' [(ngModel)]='track.brightness'>
+                </div>
+                <div class='col-7 col-sm-4'>
+                    <app-slider min='16' max='255' [round]='0' [(ngModel)]='track.brightness'></app-slider>
+                </div>
+            </div>
+
+            <div class='row mt-2 border-top'>
+                <div class='col-12 col-sm-4'>
+                    Scale
+                </div>
+                <div class='col-5 col-sm-4'>
+                    <input class='form-control' type='number' [(ngModel)]='track.scale'>
+                </div>
+                <div class='col-7 col-sm-4'>
+                    <app-slider min='.1' max='1' [(ngModel)]='track.scale'></app-slider>
+                </div>
+            </div>
+
+            <div class='row mt-2 border-top'>
+                <div class='col-12 col-sm-4'>
+                    Left Margin
+                </div>
+                <div class='col-5 col-sm-4'>
+                    <input class='form-control' type='number' [(ngModel)]='track.marginLeft'>
+                </div>
+                <div class='col-7 col-sm-4'>
+                    <app-slider min='0' max='5' [round]='2' [(ngModel)]='track.marginLeft'></app-slider>
+                </div>
+            </div>
+
+            <div class='row mt-2 border-top'>
+                <div class='col-12 col-sm-4'>
+                    Right Margin
+                </div>
+                <div class='col-5 col-sm-4'>
+                    <input class='form-control' type='number' [(ngModel)]='track.marginRight'>
+                </div>
+                <div class='col-7 col-sm-4'>
+                    <app-slider min='0' max='5' [round]='2' [(ngModel)]='track.marginRight'></app-slider>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="color" role="tabpanel" aria-labelledby="color-tab">
+
+            <div class='row mt-2'>
+                <div class='col-2 col-sm-4'>
+                    <app-checkbox
+                            [value]='track.useColor'
+                            (toggleEvent)='track.toggleUseColor()'
+                    ></app-checkbox>
+                </div>
+                <div class='col-5 col-sm-4'>
+                    Use Color
+                </div>
+            </div>
+
+            <div *ngIf="track.useColor" class='row mt-2 pt-2 border-top'>
+                <div class='col-2 col-sm-4'>
+                    <app-checkbox
+                            [value]='track.limitColor'
+                            (toggleEvent)='track.toggleLimitColor()'
+                    ></app-checkbox>
+                </div>
+                <div class='col-5 col-sm-4'>
+                    Limit Color
+                </div>
+            </div>
+
+            <div *ngIf="track.useColor" class='row mt-2 pt-2 border-top'>
+                <div class='col-2 col-sm-4'>
+                    <app-checkbox
+                            [value]='track.useColor1'
+                            (toggleEvent)='track.toggleUseColor1()'
+                    ></app-checkbox>
+                </div>
+                <div class='col-5 col-sm-4'>
+                    Red channel
+                </div>
+                <div *ngIf="track.useColor1" class='col-5 col-sm-4'>
+                    <input class='form-control color' type='color' [(ngModel)]='track.color1'>
+                </div>
+            </div>
+
+            <div *ngIf="track.useColor" class='row mt-2 pt-2 border-top'>
+                <div class='col-2 col-sm-4'>
+                    <app-checkbox
+                            [value]='track.useColor2'
+                            (toggleEvent)='track.toggleUseColor2()'
+                    ></app-checkbox>
+                </div>
+                <div class='col-5 col-sm-4'>
+                    Green channel
+                </div>
+                <div *ngIf="track.useColor2" class='col-5 col-sm-4'>
+                    <input class='form-control color' type='color' [(ngModel)]='track.color2'>
+                </div>
+            </div>
+
+            <div *ngIf="track.useColor" class='row mt-2 pt-2 border-top'>
+                <div class='col-2 col-sm-4'>
+                    <app-checkbox
+                            [value]='track.useColor3'
+                            (toggleEvent)='track.toggleUseColor3()'
+                    ></app-checkbox>
+                </div>
+                <div class='col-5 col-sm-4'>
+                    Blue channel
+                </div>
+                <div *ngIf="track.useColor3" class='col-5 col-sm-4'>
+                    <input class='form-control color' type='color' [(ngModel)]='track.color3'>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="stripes" role="tabpanel" aria-labelledby="stripes-tab">
+
+            <div class='row mt-2'>
+                <div class='col-2 col-sm-4'>
+                    <app-checkbox
+                            [value]='track.useStripes'
+                            [styles]='getStripesStyle()'
+                            [colors]='getStripesColor()'
+                            (toggleEvent)='track.toggleUseStripes()'
+                    ></app-checkbox>
+                </div>
+                <div class='col-5 col-sm-4'>
+                    Use Stripes
+                </div>
+            </div>
+
+            <div *ngIf="track.useStripes!='false'" class='row mt-2 pt-2 border-top'>
+                <div class='col-12 col-sm-4'>
+                    n back lines, n=
+                </div>
+                <div class='col-5 col-sm-4'>
+                    <input class='form-control' type='number' [(ngModel)]='track.stripeBlackWidth'>
+                </div>
+                <div class='col-7 col-sm-4'>
+                    <app-slider min='1' [max]='track.stripeTotalWidth -1' [round]=0
+                                [(ngModel)]='track.stripeBlackWidth'></app-slider>
+                </div>
+            </div>
+
+            <div *ngIf="track.useStripes!='false'" class='row mt-2 pt-2 border-top'>
+                <div class='col-12 col-sm-4'>
+                    Every m lines, m=
+                </div>
+                <div class='col-5 col-sm-4'>
+                    <input class='form-control' type='number' [(ngModel)]='track.stripeTotalWidth'>
+                </div>
+                <div class='col-7 col-sm-4'>
+                    <app-slider min='2' [max]='this.serverConfig.NUM_LEDS / 6' [round]=0
+                                [(ngModel)]='track.stripeTotalWidth'></app-slider>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="ends" role="tabpanel" aria-labelledby="stripes-tab">
+
+            <!--<div class='col-2 pt-2'
+                 (click)="track.toggleEnd()">
+                <svg width='42' height='30' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'> \
+                    <path [attr.d]="getSVG()"
+                          [attr.transform]="getSVGTransform()"
+                    />
+                </svg>
+            </div>
+            -->
+
+            <div class='row mt-2 pt-2'>
+                <div class='col-6'>
+                    <button
+                            (click)='track.toggleEndStyleLeft()'
+                            class='btn btn-primary btn-block mt-1'
+                    >
+                        Left: {{track.endStyleLeft}}
+                    </button>
+                </div>
+            </div>
+
+            <div class='row mt-2 pt-2 border-top'>
+                <div class='row ml-3 mr-3'>
+                    <div class='col-12 col-sm-4'>
+                        Repeat middle
+                    </div>
+                    <div class='col-5 col-sm-4'>
+                        <input class='form-control' read-only type='number' [(ngModel)]='track.endStyleRepeat'>
+                    </div>
+                    <div class='col-7 col-sm-4'>
+                        <app-slider min='0' max='3' [round]=0 [(ngModel)]='track.endStyleRepeat'></app-slider>
+                    </div>
+                </div>
+            </div>
+
+            <div class='row mt-2 pt-2 border-top'>
+                <div class='col-6'>
+                    <button
+                            (click)='track.toggleEndStyleRight()'
+                            class='btn btn-primary btn-block mt-1'
+                    >
+                        Right: {{track.endStyleRight}}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
+

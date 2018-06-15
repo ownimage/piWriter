@@ -2,14 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {Track} from '../../shared/model/track.model';
-import {TimedMessage} from '../../shared/timedMessage';
-import {config} from '../../shared/config';
-import {Playlist} from '../../shared/model/playlist.model';
-import {RepositoryService} from '../../shared/repository.service';
-import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
+import {Track} from '../../../../../serverCommon/src/shared/model/track.model';
+import {TimedMessage} from '../../common/timedMessage';
+import {config} from '../../common/config';
+import {Playlist} from '../../../../../serverCommon/src/shared/model/playlist.model';
+import {RepositoryService} from '../../common/repository.service';
+import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 
-const debug = require('debug')('piWriter/add-images.component.ts');
+const debug = require('debug')('piWriter/select-font.component.ts');
 
 @Component({
     selector: 'app-browse-images',
@@ -84,7 +84,7 @@ export class AddImagesComponent implements OnInit {
 
     addImage(image) {
         debug('addImage(%o)', image);
-        let track = new Track(this.playlist, image.name, image.dirName + '/' + image.name, false, false, true);
+        let track = new Track(this.playlist, "image", image.name, image.dirName + '/' + image.name, false, false, true);
         this.playlist.addTrack(track);
         image.added.setMessage('green', 1000);
     }
@@ -93,24 +93,23 @@ export class AddImagesComponent implements OnInit {
         debug('imagesV2 = %o', this.imagesV2);
         this.imagesV2
             .filter(i => i.selected && i.isFile)
-            .map(i => new Track(this.playlist, i.name, i.dirName + '/' + i.name, false, false, true))
+            .map(i => new Track(this.playlist, "image", i.name, i.dirName + '/' + i.name, false, false, true))
             .map(t => this.playlist.addTrack(t));
         this.returnToPlaylist();
     }
 
     returnToPlaylist() {
-        this.playlist.save();
+        this.playlistRepositoryService.savePlaylistV1Sync(this.playlist);
         this.router.navigate(['/playlists', this.playlistName], {queryParams: {mode: 'edit'}});
     }
 
     selectAll() {
-        this.imagesV2.map( i => i.selected = true )
+        this.imagesV2.map(i => i.selected = true)
     }
 
     unselectAll() {
-        this.imagesV2.map( i => i.selected = false )
+        this.imagesV2.map(i => i.selected = false)
     }
-
 
 
 }

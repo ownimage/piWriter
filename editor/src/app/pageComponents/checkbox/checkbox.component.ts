@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {config} from '../../shared/config';
+import {config} from '../../common/config';
 
 const debug = require('debug')('piWriter/checkbox.component.ts');
 

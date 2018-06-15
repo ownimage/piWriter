@@ -5,7 +5,7 @@
 
 <h4 class='ml-3'>Settings</h4>
 
-<div class='row ml-3 mr-3'>
+<div class='row ml-3 mr-3 mb-2'>
     <div class='col-5 mt-1'> <!--the error and message boxes have an mt-1 this is to match-->
         <span class='btn btn-primary btn-lg btn-block ml-3'
               (click)='testREST()'
@@ -26,20 +26,46 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.NUM_LEDS'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='1' max='144' [round]='true' [(ngModel)]='serverConfig.NUM_LEDS'></app-slider>
+        <app-slider min='1' max='144' [round]=0 [(ngModel)]='serverConfig.NUM_LEDS'></app-slider>
+    </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+    <div class='col-12 col-sm-4'>
+        Small Preview Size
+    </div>
+    <div class='col-5 col-sm-4'>
+        <input class='form-control' type='number' [(ngModel)]='serverConfig.smallPreviewHeight'>
+    </div>
+    <div class='col-7 col-sm-4'>
+        <app-slider min='40' max='144' [round]=0 [(ngModel)]='serverConfig.smallPreviewHeight'></app-slider>
+    </div>
+</div>
+
+<hr/>
+<div class='row ml-3 mr-3'>
+    <div class='col-12 col-sm-4'>
+        Large Preview Size
+    </div>
+    <div class='col-5 col-sm-4'>
+        <input class='form-control' type='number' [(ngModel)]='serverConfig.largePreviewHeight'>
+    </div>
+    <div class='col-7 col-sm-4'>
+        <app-slider min='40' max='144' [round]=0 [(ngModel)]='serverConfig.largePreviewHeight'></app-slider>
     </div>
 </div>
 
 <hr/>
 <div class='row mt-2 ml-3 mr-3'>
     <div class='col-12 col-sm-4'>
-        Speed
-    </div>
+    Speed
+</div>
     <div class='col-5 col-sm-4'>
         <input class='form-control' type='number' [(ngModel)]='serverConfig.speed'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='.2' max='5' [(ngModel)]='serverConfig.speed'></app-slider>
+        <app-slider min='.2' max='5' [round]=2 [(ngModel)]='serverConfig.speed'></app-slider>
     </div>
 </div>
 
@@ -52,7 +78,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.brightness'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='16' max='255' [round]='true' [(ngModel)]='serverConfig.brightness'></app-slider>
+        <app-slider min='16' max='255' [round]=0 [(ngModel)]='serverConfig.brightness'></app-slider>
     </div>
 </div>
 
@@ -65,7 +91,7 @@
         <input class='form-control' type='number' [(ngModel)]='serverConfig.debounceTimeout'>
     </div>
     <div class='col-7 col-sm-4'>
-        <app-slider min='0' max='500' [round]='true' [(ngModel)]='serverConfig.debounceTimeout'></app-slider>
+        <app-slider min='0' max='500' [round]=0 [(ngModel)]='serverConfig.debounceTimeout'></app-slider>
     </div>
 </div>
 <hr/>

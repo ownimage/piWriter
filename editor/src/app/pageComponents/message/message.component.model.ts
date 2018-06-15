@@ -1,4 +1,4 @@
-import {config} from '../../shared/config';
+import {config} from '../../common/config';
 
 export class MessageModel {
 

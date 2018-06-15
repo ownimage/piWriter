@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "distES6",
     "rootDir": "src",
-    "target": "es6"
+    "target": "es6",
+    "moduleResolution": "node"
   },
   "exclude": [
     "dist",

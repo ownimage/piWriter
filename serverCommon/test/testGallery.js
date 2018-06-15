@@ -1,4 +1,4 @@
-const  Gallery  = require('../Gallery');
+const  Gallery  = require('../ServerGallery');
 
 const gallery = new Gallery();
 

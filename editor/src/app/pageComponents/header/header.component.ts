@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {config} from '../../shared/config';
+import {config} from '../../common/config';
 import {Router} from '@angular/router';
 
 const debug = require('debug')('piWriter/header.component.ts');
@@ -29,9 +29,12 @@ export class HeaderComponent implements OnInit {
         this.leftIconClick.emit(x);
     }
 
-    doMenuClick() {
+    settingsClick() {
         this.router.navigate(['/', 'settings']);
     }
 
+    serverInfoClick() {
+        this.router.navigate(['/', 'serverInfo']);
+    }
 
 }

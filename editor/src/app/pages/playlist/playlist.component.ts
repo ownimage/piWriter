@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {config} from '../../shared/config';
-import {PlaylistRepositoryService} from '../../shared/repository/PlaylistRepositoryService';
+import {config} from '../../common/config';
+import {PlaylistRepositoryService} from '../../common/repository/PlaylistRepositoryService';
 import {MessageModel} from '../../pageComponents/message/message.component.model';
-import {Playlist} from "../../shared/model/playlist.model";
+import {Playlist} from "../../../../../serverCommon/src/shared/model/playlist.model";
+import {Track} from "../../../../../serverCommon/src/shared/model/track.model";
 
 const debug = require('debug')('piWriter/playlist.component.ts');
 
@@ -60,13 +61,20 @@ export class PlaylistComponent implements OnInit {
             return this.playlist.tracks.filter(t => t.enabled);
         } // else isEditMode
         return this.playlist.tracks.filter(t => {
-            return this.playlist.isTrackShowing(t);
+            return this.playlist.isTrackSelected(t);
         });
     }
 
-    navigateAddTrack() {
-        this.playlist.save();
+    navigateAddImageTrack() {
+        this.playlistRepositoryService.savePlaylistV1Sync(this.playlist);
         this.router.navigate(['/playlists', this.playlist.name, 'addImages'], {queryParams: {mode: 'edit'}})
+    }
+
+    navigateAddTextTrack() {
+        // for demo purposes
+        let track = new Track(this.playlist, "text", "Type Text Here", "font");
+        this.playlist.addTrack(track);
+
     }
 
     navigateBack() {
@@ -79,7 +87,7 @@ export class PlaylistComponent implements OnInit {
     play() {
         debug('play');
         if (this.isPlayMode()) {
-            this.playlist.play().subscribe(
+            this.playlistRepositoryService.postPlaylistsPlayV1(this.playlist.name).subscribe(
                 res => {
                     debug('playlist/playlist.component:play repository returns %O', res);
                     this.infoMessage.setMessageTimeout('Play Playlist Success !!');
@@ -95,10 +103,14 @@ export class PlaylistComponent implements OnInit {
         }
     }
 
+    edit() {
+        this.router.navigate(['/playlists', this.playlist.name], {queryParams: {mode: 'edit'}});
+    }
+
     post() {
         debug('sendPlaylist');
         this.infoMessage.setMessage('Sending Playlist ...');
-        this.playlist.post()
+        this.playlistRepositoryService.postPlaylistV1(this.playlist)
             .subscribe(
                 res => {
                     debug('playlist/playlist.component:save repository returns %O', res);
