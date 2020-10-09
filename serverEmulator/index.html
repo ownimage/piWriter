@@ -1,0 +1,90 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="/demo/node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<script type="text/javascript">
+
+    function init() {
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext("2d");
+
+        let colorArray = [];
+        let status = "red";
+
+        let cnt = 0;
+        console.log("at start");
+        setInterval(() => {
+            console.log("colorArray.length = " + colorArray.length);
+            var fixedColorArray = colorArray;
+            for (var y = 0; y < fixedColorArray.length; y++) {
+                let color = colorArray[y];
+                let blue = color & 255;
+                let green = (color >> 8) & 255;
+                let red = (color >> 16) & 255;
+                ctx.fillStyle = "rgb(" + red + "," + green + "," + blue + ")";
+                ctx.fillRect(cnt, 10 + fixedColorArray.length - y, 1, 1);
+            }
+            cnt = ++cnt % canvas.width;
+            ctx.fillStyle = "white";
+            ctx.fillRect(cnt, 0, 1, fixedColorArray.length + 20);
+
+            ctx.fillStyle = status;
+            ctx.fillRect(cnt, fixedColorArray.length + 20, 1, 2);
+
+        }, 20);
+
+        let connection = new WebSocket("ws://" + location.host);
+
+        // When the connection is open, send some data to the server
+        connection.onopen = function () {
+            connection.send('Ping'); // Send the message 'Ping' to the server
+        };
+
+        // Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + JSON.stringify(error));
+        };
+
+        connection.onmessage = function (e) {
+            status = 'green';
+            var data = JSON.parse(e.data);
+            var newArray = [];
+            for (var i = 0; ; i++) {
+                if (data[i] === undefined) break;
+                newArray.push(data[i]);
+            }
+            colorArray = newArray;
+        };
+
+        setInterval(() => {
+            status = 'red';
+            connection.send('Heartbeat');
+        }, 1000);
+
+        buttonPress = () => {
+            connection.send('Button');
+        };
+
+        resize = () => {
+            canvas.width = document.getElementById('button').offsetWidth;
+        };
+        resize();
+
+    }
+</script>
+<body
+        onload="init()"
+        onresize="resize()"
+>
+<div class="container">
+    <div class="row mt-5">
+        <input id="button" type="button" class="btn btn-primary btn-block" value="Button" onclick="buttonPress()"/>
+    </div>
+    <div class="row mt-2">
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
+</div>
+</body>
+</html>

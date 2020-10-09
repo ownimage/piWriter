@@ -6,7 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {RouterModule, Routes} from '@angular/router';
 
 import {AppComponent} from './app.component';
-import {TrackComponent} from './pageComponents/track/Track.component';
+import {TrackComponent} from './pageComponents/track/track.component';
 import {BrowsePlaylistsComponent} from './pages/browse-playlists/browse-playlists.component';
 import {PlaylistComponent} from './pages/playlist/playlist.component';
 import {HomeComponent} from './pages/home/home.component';

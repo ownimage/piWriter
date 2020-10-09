@@ -18,12 +18,13 @@ sudo apt install -y git
 sudo apt install -y curl
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source ~/.bashrc
-nvm i 9.9.0
+nvm install 9.9.0
 nvm use 9.9.0
 npm i -g ts-node@v6.0.1
 npm i -g typescript@v2.8.3
 npm i -g @types/node@10.0.2
-npm i -g @angular/cli@1.7.4
+npm i -g @angular/core@5.2.11
+npm install -g @angular/cli@1.6.6
 ```
 Note that I am using node 9.9.0 atm as node 10 does not seem to allow the serverRPi to compile.
 
@@ -38,6 +39,7 @@ git clone https://github.com/ownimage/piWriter.git
 cd piWriter/serverCommon
 npm i
 npm run bulid
+
 cd ../serverEmulator
 npm i
 ```
@@ -48,7 +50,11 @@ export DEBUG
 ```
 Run the Emulator
 ```
-sudo sh -c 'PATH=$PATH:/home/pi/.nvm/versions/node/v9.9.0/bin/; ts-node src/server'
+//ts-node src/server
+//sudo sh -c 'PATH=$PATH:/home/pi/.nvm/versions/node/v9.9.0/bin/; ts-node src/server'
+in /editor do ng serv
+sudo DEBUG=server* /home/ownimage/.nvm/versions/node/v9.9.0/bin/node /mnt/c/git/piWriter/serverCommon/dist/emulator/server
+on browser localhost/demo and localhost
 ```
 For the RaspberryPi do the following in addition
 ``` 
@@ -84,12 +90,13 @@ From the project root directory ...
 ```
 cd serverCommon
 rm -r dist
+//npm run-script build
 tsc ---outDir dist src/*.ts
 ```
 ##build serverEmulator
 From the project root directory ...
 ```
-cd serverCommon
+cd serverEmulator
 rm -r dist
 tsc ---outDir dist src/*.ts
 ```
