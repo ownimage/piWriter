@@ -1,64 +1,39 @@
-import {playlistDTOToPlaylist} from "../shared/mappers/playlistDTOToPlaylist.mapper";
 import {PlaylistDTO} from "../shared/dto/playlistDTO.model";
-import {ServerGallery} from "../model/ServerGallery";
 import {ServerPlaylist} from "../model/ServerPlaylist";
-import {rgbObject2Int} from "../shared/utils/ColorUtils";
-import {tranformImage} from "../shared/utils/TrackUtils";
+import {tranformImage2} from "../shared/utils/TrackUtils";
+import {ServerTrack} from "../model/ServerTrack";
+import {ImageToTimedRGBArrays} from "./ImageToTimedRGBArrays.mapper";
+import {TimedRGBArraysToServerTrack} from "./TimedRGBArraysToServerTrack.mapper";
+import {ServerTrackToDeltaLMaxServerTrack} from "./ServerTrackToDeltaLMaxLimitedServerTrack.mapper";
 
-const debug = require("debug")("serverCommon/mapper/playlistDTOToPlaylist");
-debug("### serverCommon/mapper/playlistDTOToPlaylist");
+const debug = require("debug")("serverCommon/mapper/playlistDTOToServerPlaylist");
+debug("### serverCommon/mapper/playlistDTOToServerPlaylist");
 
 const Jimp = require("jimp");
 
-export function playlistDTOToServerPlaylist(playlistDTO: PlaylistDTO,
-                                            NUM_LEDS,
-                                            brightness,
-                                            imagesFolder,
-                                            fontsFolder,
-                                            completeFn) {
-    debug("serverCommon/Playlist:constructor");
+export async function playlistDTOToServerPlaylist(playlistDTO: PlaylistDTO,
+                                                  NUM_LEDS,
+                                                  brightness,
+                                                  speed,
+                                                  imagePixelTime,
+                                                  neopixelRefreshTime,
+                                                  lmax,
+                                                  dlmax,
+                                                  imagesFolder,
+                                                  fontsFolder) {
 
-    const gallery = new ServerGallery();
-    const playlist = playlistDTOToPlaylist("", playlistDTO);
-    const tracks = playlist.tracks.filter((p) => p.enabled);
+    const tracks = playlistDTO.tracks.filter((p) => p.enabled);
 
-    debug("tracks = %O", tracks);
-    const promises = tracks.map((track) => {
-        if (!gallery.get(track)) { // dont process duplicates
-            const fullPicturePath = (track.type == "image") ? imagesFolder + track.path : fontsFolder + track.path;
-            debug("fullPicturePath = %s", fullPicturePath);
-            Jimp.read(fullPicturePath, (err, image) => {
-                if (err) {
-                } else {
-                    const timedArrays = [];
-                    tranformImage(track, image, NUM_LEDS, NUM_LEDS, (err, out) => {
+    const serverPlaylist: ServerTrack[] = [];
+    for (let track of tracks) {
+        const fullPicturePath = (track.type == "image") ? imagesFolder + track.path : fontsFolder + track.path;
+        const image = await Jimp.read(fullPicturePath);
+        const transformedImage = await tranformImage2(image, track, brightness, NUM_LEDS, NUM_LEDS);
+        const rgbArrays = ImageToTimedRGBArrays(transformedImage, track, speed, imagePixelTime, neopixelRefreshTime);
+        const serverTrack = TimedRGBArraysToServerTrack(rgbArrays, track);
+        //const limitedServerTrack = ServerTrackToDeltaLMaxServerTrack(serverTrack, dlmax);
+        serverPlaylist.push(serverTrack);
+    }
 
-                        for (let x = 0; x < out.bitmap.width; x++) {
-                            const colorArray = new Uint32Array(NUM_LEDS);
-                            for (let y = 0; y < out.bitmap.height; y++) {
-                                const color = Jimp.intToRGBA(out.getPixelColor(x, y));
-                                const b = (track.brightness / 255.0) * (brightness / 255.0);
-                                const color2 = {
-                                    b: color.b * b,
-                                    g: color.g * b,
-                                    r: color.r * b,
-                                };
-                                colorArray[NUM_LEDS - 1 - y] = rgbObject2Int(color2);
-                            }
-                            const a = {t: 1, ca: colorArray};
-                            timedArrays.push(a);
-                        }
-                        gallery.put(track, {timedArrays});
-                    });
-                }
-            });
-        }
-    });
-
-    Promise.all(promises).then(() => {
-        if (completeFn) {
-            completeFn();
-        }
-    });
-    return new ServerPlaylist(tracks, gallery);
+    return serverPlaylist;
 }

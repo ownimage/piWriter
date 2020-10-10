@@ -1,10 +1,13 @@
+import {serverConfig} from "../serverConfig";
+
 export {};
 
 const debug = require("debug")("serverCommon/Player");
 debug("### serverCommon/Player");
 
-import { logError } from "../utils/common";
-import { ServerPlaylist } from "./ServerPlaylist";
+import {logError} from "../utils/common";
+import {ServerPlaylist} from "./ServerPlaylist";
+import {ServerTrack} from "./ServerTrack";
 
 class ServerPlayer {
 
@@ -24,26 +27,27 @@ class ServerPlayer {
         try {
             debug("next");
 
-            if (!this.playlist) { return; }
+            if (!this.playlist) {
+                return;
+            }
             this.halt = false;
 
             if (this.state === "Idle") {
                 debug("Idle");
                 this.currentTrack++;
-                if (this.currentTrack >= this.playlist.getTrackCount()) {
+                if (this.currentTrack >= this.playlist.length) {
                     debug("currentTrack wrap round");
                     this.currentTrack = 0;
                 }
                 const currentTrackNum = this.currentTrack;
                 debug("currentTrackNum %d", currentTrackNum);
-                const currentTrack = this.playlist.getTrack(currentTrackNum);
+                const currentTrack = this.playlist[currentTrackNum].track;
                 debug("currentTrack %o", currentTrack);
-                const picture = this.playlist.getPicture(currentTrackNum);
+                const picture = this.playlist[currentTrackNum];
                 debug("picture %o", picture);
-                const speed = currentTrack.speed;
                 const repeat = currentTrack.repeat;
                 this.autostartNext = currentTrack.autostartNext;
-                this.showPicture(picture, repeat, speed, render, renderBlank);
+                this.showPicture(picture, repeat, render, renderBlank);
             } else if (this.state === "Single") {
                 debug("Single");
                 this.autostartNext = true;
@@ -72,32 +76,29 @@ class ServerPlayer {
         this.play(this.playlist);
     }
 
-    private showPicture(picture, repeat, speed, render, renderBlank) {
+    private showPicture(serverTrack: ServerTrack, repeat, render, renderBlank) {
         debug("showPicture");
-        debug("picture.speed %d", speed);
         debug("this.playlist 1 %o", this.playlist);
-        debug("render %o", render);
 
         this.state = (repeat) ? "Looping" : "Single";
-        const timeout = 20 / (this.speed * speed);
+        const timeout = serverConfig.neopixelRefreshTime;
 
         // tslint:disable-next-line no-shadowed-variable
-        const show = (picture, i, timeout, render, renderBlank) => {
+        const show = (serverTrack, i, timeout, render, renderBlank) => {
             debug("show");
             debug("this.playlist 2 %o", this.playlist);
-            debug("render %o", render);
 
-            if (i < picture.timedArrays.length) {
-                const timedArray = picture.timedArrays[i];
-                render(timedArray.ca);
-                setTimeout(show, timedArray.t * timeout, picture, i + 1, timeout, render, renderBlank); /// was 1000
+            if (i < serverTrack.image.length) {
+                const timedArray = serverTrack.image[i].colorArray;
+                render(timedArray);
+                setTimeout(show, timeout * Math.min(1, serverTrack.image[i].count), serverTrack, i + 1, timeout, render, renderBlank); /// was 1000
             } else {
                 renderBlank();
                 if (this.halt) { return; }
                 debug("this.playlist 3 %o", this.playlist);
                 debug("render %o", render);
                 if (this.state === "Looping") {
-                    show(picture, 0, timeout, render, renderBlank);
+                    show(serverTrack, 0, timeout, render, renderBlank);
                 } else {
                     this.state = "Idle";
                     if (this.autostartNext) {
@@ -109,8 +110,7 @@ class ServerPlayer {
             }
         };
 
-        debug("render e %o", render);
-        show(picture, 0, timeout, render, renderBlank);
+        show(serverTrack, 0, timeout, render, renderBlank);
     }
 
 }

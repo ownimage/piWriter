@@ -1,12 +1,14 @@
+import {getConfig} from "./configService";
+
 export {};
 
 import * as fs from "fs";
 import * as path from "path";
 
-import { PlaylistDTO } from "./shared/dto/playlistDTO.model";
-import { NeoPixelDriver } from "./NeoPixelDriver";
-import { logError } from "./utils/common";
-import { serverConfig} from "./serverConfig";
+import {PlaylistDTO} from "./shared/dto/playlistDTO.model";
+import {NeoPixelDriver} from "./NeoPixelDriver";
+import {logError} from "./utils/common";
+import {serverConfig} from "./serverConfig";
 
 const DEBUG = require("debug");
 const debug = DEBUG("serverCommon/RESTv1");
@@ -58,7 +60,7 @@ const postPlaylistV1 = (req, res) => {
         debug("req.body = %O", req.body);
         const playlistName = req.params.playlistName;
         const filePath = path.join(serverConfig.playlistFolder, playlistName);
-        fs.writeFile(filePath, JSON.stringify(req.body, null, 2), (err) =>  {
+        fs.writeFile(filePath, JSON.stringify(req.body, null, 2), (err) => {
             if (!err) {
                 res.header("Access-Control-Allow-Origin", "*");
                 res.header("Content-Type", "text/plain");
@@ -73,30 +75,40 @@ const postPlaylistV1 = (req, res) => {
     }
 };
 
-const postPlaylistsPlayV1 = (req, res) => {
+const postPlaylistsPlayV1 = async (req, res) => {
     try {
         debug("serverCommon/RESTv1:postPlaylistsPlayV1");
         const playlistName = req.params.playlistName;
 
         const filePath = path.join(serverConfig.playlistFolder, playlistName);
-        fs.readFile(filePath, {encoding: "utf-8"}, (err, data) => {
-            if (!err) {
-                debug("received data = %s", data);
-                NeoPixelDriver.setPlaylist(JSON.parse(data) as PlaylistDTO);
-                res.header("Access-Control-Allow-Origin", "*");
-                res.send({result: "OK"});
-            } else {
-                debug("received data = %s", data);
-            }
-        });
+        let data = fs.readFileSync(filePath, {encoding: "utf-8"});
+        debug("received data = %s", data);
+        await NeoPixelDriver.setPlaylist(JSON.parse(data) as PlaylistDTO, getConfig(), serverConfig);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send({result: "OK"});
     } catch (e) {
         logError(debug, e);
     }
 };
 
-export const RESTv1 =  {
+
+const postPlayCompiled = async (req, res) => {
+    try {
+        debug("serverCommon/RESTv1:postPlayCompiled");
+        const playlistName = req.params.playlistName;
+        const data = req.body;
+        await NeoPixelDriver.setPlaylist(JSON.parse(data) as PlaylistDTO, getConfig(), serverConfig);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send({result: "OK"});
+    } catch (e) {
+        logError(debug, e);
+    }
+};
+
+export const RESTv1 = {
     getPlaylistV1,
     getPlaylistsV1,
     postPlaylistV1,
     postPlaylistsPlayV1,
+    postPlayCompiled
 };

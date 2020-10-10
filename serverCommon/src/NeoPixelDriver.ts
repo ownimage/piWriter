@@ -1,12 +1,11 @@
 import {serverConfig} from "./serverConfig";
+import {PlaylistDTO} from "./shared/dto/playlistDTO.model";
+import {playlistDTOToServerPlaylist} from "./mappers/playlistDTOToServerPlaylist.mapper";
+import {player} from "./model/ServerPlayer";
+import {rgbValues2Int} from "./shared/utils/ColorUtils";
+import {getConfig} from "./configService";
 
 export {};
-
-import { PlaylistDTO } from "./shared/dto/playlistDTO.model";
-import { playlistDTOToServerPlaylist } from "./mappers/playlistDTOToServerPlaylist.mapper";
-import { player } from "./model/ServerPlayer";
-import { rgbValues2Int } from "./shared/utils/ColorUtils";
-import { getConfig } from "./config";
 
 const DEBUG = require("debug");
 const debug = DEBUG("serverCommon/NeoPixelDriver");
@@ -28,7 +27,7 @@ function init() {
     blankArray = new Uint32Array(getConfig().NUM_LEDS);
     neoPixelLib.init(getConfig().NUM_LEDS);
 
-    setPlaylist(playlistDTO);
+    setPlaylist(playlistDTO, getConfig, serverConfig);
     flash(2);
 }
 
@@ -47,7 +46,9 @@ function setupFlashArray() {
 
 function flash(n) {
     debug("serverCommon/NeoPixelDriver:flash %d", n);
-    if (!n || n <= 0) { return; }
+    if (!n || n <= 0) {
+        return;
+    }
 
     if (!flashArray) {
         setupFlashArray();
@@ -66,18 +67,21 @@ process.on("SIGINT", () => {
     });
 });
 
-function setPlaylist(newPlaylistDTO: PlaylistDTO) {
-    playlistDTO = newPlaylistDTO;
-    const playlist = (newPlaylistDTO) ?
-        playlistDTOToServerPlaylist(
-            newPlaylistDTO,
-            getConfig().NUM_LEDS,
-            getConfig().brightness,
+async function setPlaylist(playlistDTO: PlaylistDTO, config, serverconfig) {
+    const serverPlaylist = (playlistDTO) ?
+        await playlistDTOToServerPlaylist(playlistDTO,
+            config.NUM_LEDS,
+            config.brightness,
+            config.speed,
+            serverConfig.imagePixelTime,
+            serverConfig.neopixelRefreshTime,
+            serverConfig.lmax,
+            serverConfig.dlmax,
             serverConfig.imagesFolder,
-            serverConfig.fontsFolder,
-            () => flash(2),
-        ) : null;
-    player.play(playlist);
+            serverConfig.fontsFolder)
+        : null;
+    flash(2);
+    player.play(serverPlaylist);
 }
 
 const render = (colorArray) => {

@@ -7,11 +7,11 @@ const bodyParser = require("body-parser");
 const path = require("path");
 
 import {NeoPixelDriver} from "./NeoPixelDriver";
-import {RESTv1} from "./RESTv1";
+import {RESTv1} from "./PlaylistService";
 import {getImagesV2} from "./imageService";
 import {getFontsV2} from "./fontService";
-import {getServerInfo} from "./ServerInfo";
-import {getConfig, RESTpostConfig, RESTgetConfig} from "./config";
+import {getServerInfo} from "./ServerInfoService";
+import {getConfig, RESTpostConfig, RESTgetConfig} from "./configService";
 import {serverConfig} from "./serverConfig";
 
 
@@ -48,6 +48,7 @@ const startServer = ({environment, neopixelLib, functionHooks}) => {
     app.get("/v1/playlists/:playlistName", RESTv1.getPlaylistV1);
     app.post("/v1/playlists/:playlistName", RESTv1.postPlaylistV1);
     app.post("/v1/playlists/:playlistName/play", RESTv1.postPlaylistsPlayV1);
+    app.post("/v1/playCompiled", RESTv1.postPlayCompiled);
     functionHooks.app(app);
     app.use("/", express.static(serverConfig.appFolder));
     app.use((req, res) => res.sendFile(path.resolve(serverConfig.appFolder, "index.html")));

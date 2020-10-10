@@ -1,5 +1,6 @@
 import {Track} from "../model/track.model";
 import {hexToRgb} from "./ColorUtils";
+import {TrackDTO} from "../dto/trackDTO.model";
 
 const debug = require('debug')('piWriter/serverCommon/shared/utils/TrackUtils.ts');
 const Jimp = require('jimp');
@@ -96,7 +97,7 @@ function applyEndStyle(track, image, NUM_LEDS) {
     }
 }
 
-function applyEndRepeat(track: Track, image) {
+function applyEndRepeat(track: Track | TrackDTO, image) {
     if (track.endStyleRepeat == 0 || track.endStyleRepeat == 1) return;
     let clone = image.clone();
     image.resize(image.bitmap.width * track.endStyleRepeat, image.bitmap.height);
@@ -142,7 +143,7 @@ function metrics(image, path) {
     return metrics;
 }
 
-function applyText(track: Track, image) {
+function applyText(track: Track | TrackDTO, image) {
     if (track.type != "text") return;
     let text = track.name;
     let clone = image.clone();
@@ -173,7 +174,7 @@ function applyText(track: Track, image) {
     // image.crop(start, 0, end, image.bitmap.height - 1);
 }
 
-export function tranformImage(track: Track, image, NUM_LEDS, height, callback) {
+export function tranformImage(track: Track | TrackDTO, image, NUM_LEDS, height, callback) {
     let clone = image.clone();
     applyText(track, clone);
     clone.flip(track.flipX, track.flipY);
@@ -269,4 +270,104 @@ export function tranformImage(track: Track, image, NUM_LEDS, height, callback) {
 
         callback(err, out);
     });
+}
+
+export async function tranformImage2(image, track: Track | TrackDTO, brightness, NUM_LEDS, height) {
+    let clone = image.clone();
+    applyText(track, clone);
+    clone.flip(track.flipX, track.flipY);
+    clone.rotate(track.rotate);
+    clone.scale(NUM_LEDS / clone.bitmap.height);
+
+    applyEndRepeat(track, clone);
+    applyEndStyle(track, clone, NUM_LEDS);
+
+    clone.scale(track.scale);
+    if (track.useColor && (track.useColor1 || track.useColor2 || track.useColor3)) {
+        for (let x = 0; x < clone.bitmap.width; x++) {
+            for (let y = 0; y < clone.bitmap.height; y++) {
+                let c = Jimp.intToRGBA(clone.getPixelColor(x, y));
+                let r = 0;
+                let g = 0;
+                let b = 0;
+                let rmax = 0;
+                let gmax = 0;
+                let bmax = 0;
+
+                if (track.useColor1 && track.color1) {
+                    let color1 = hexToRgb(track.color1);
+                    r += c.r * color1.r;
+                    g += c.r * color1.g;
+                    b += c.r * color1.b;
+                    rmax += 255 * color1.r;
+                    gmax += 255 * color1.g;
+                    bmax += 255 * color1.b;
+                }
+                if (track.useColor2 && track.color2) {
+                    let color2 = hexToRgb(track.color2);
+                    r += c.g * color2.r;
+                    g += c.g * color2.g;
+                    b += c.g * color2.b;
+                    rmax += 255 * color2.r;
+                    gmax += 255 * color2.g;
+                    bmax += 255 * color2.b;
+                }
+                if (track.useColor3 && track.color3) {
+                    let color3 = hexToRgb(track.color3);
+                    r += c.b * color3.r;
+                    g += c.b * color3.g;
+                    b += c.b * color3.b;
+                    rmax += 255 * color3.r;
+                    gmax += 255 * color3.g;
+                    bmax += 255 * color3.b;
+                }
+
+                if (track.limitColor) {
+                    r = (r == 0) ? 0 : Math.round(255 * r / rmax);
+                    g = (g == 0) ? 0 : Math.round(255 * g / gmax);
+                    b = (b == 0) ? 0 : Math.round(255 * b / bmax);
+                } else {
+                    r = Math.min(255, Math.round(r / 255));
+                    g = Math.min(255, Math.round(g / 255));
+                    b = Math.min(255, Math.round(b / 255));
+                }
+
+                clone.setPixelColor(Jimp.rgbaToInt(r, g, b, 255), x, y)
+            }
+        }
+    }
+
+    let out = await new Jimp(Math.round((track.marginLeft + 1 + track.marginRight) * clone.bitmap.width), NUM_LEDS, 0x000000);
+    let h = (track.alignment == 'middle') ? (NUM_LEDS - clone.bitmap.height) / 2 :
+        (track.alignment == 'bottom') ? NUM_LEDS - clone.bitmap.height : 0;
+    out.blit(clone, Math.round(track.marginLeft * clone.bitmap.width), h, 0, 0, clone.bitmap.width, clone.bitmap.height);
+
+    const d = 100 * (1 - (track.brightness / 255.0) * (brightness / 255.0));
+    out.color([{apply: 'darken', params: [d]}]);
+
+    if (track.useStripes == 'horizontal') {
+        for (let x = 0; x < out.bitmap.width; x++) {
+            for (let y = 0; y < out.bitmap.height; y += track.stripeTotalWidth) {
+                for (let s = 0; s < track.stripeBlackWidth; s++) {
+                    out.setPixelColor(0, x, y + s)
+                }
+            }
+        }
+    }
+
+    if (track.useStripes == 'vertical') {
+        for (let y = 0; y < out.bitmap.height; y++) {
+            for (let x = 0; x < out.bitmap.width; x += track.stripeTotalWidth) {
+                for (let s = 0; s < track.stripeBlackWidth; s++) {
+                    out.setPixelColor(0, x + s, y)
+                }
+            }
+        }
+    }
+
+    if (height && height != out.bitmap.height) {
+        out.scale(height / out.bitmap.height);
+    }
+
+    return out;
 }

@@ -9,7 +9,7 @@ const gpio = require('rpi-gpio');
 const fs = require('fs');
 const si = require('systeminformation');
 
-const {getConfig} = require('../../serverCommon/dist/config');
+const {getConfig} = require('../../serverCommon/dist/configService');
 const {NeoPixelDriver} = require('../../serverCommon/dist/NeoPixelDriver');
 
 const server = require('../../serverCommon/dist/server');

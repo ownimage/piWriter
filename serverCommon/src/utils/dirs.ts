@@ -3,7 +3,7 @@ export {};
 import * as  fs from "fs";
 import * as  path from "path";
 
-import { getConfig } from "../config";
+import { getConfig } from "../configService";
 import { serverConfig} from "../serverConfig";
 import { logError } from "./common";
 

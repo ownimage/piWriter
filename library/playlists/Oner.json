@@ -2,13 +2,35 @@
   "version": 1,
   "tracks": [
     {
-      "name": "Kong-1.jpg",
-      "path": "/Donkey Kong/Kong-1.jpg",
+      "type": "image",
+      "name": "Rainbow_01.jpg",
+      "path": "/Rainbow_01.jpg",
       "repeat": false,
       "autostartNext": false,
       "enabled": true,
-      "speed": 1.9087999999999998,
-      "brightness": 51
+      "speed": 1,
+      "brightness": 255,
+      "flipX": false,
+      "flipY": false,
+      "scale": 1,
+      "alignment": "top",
+      "rotate": 0,
+      "marginLeft": 0,
+      "marginRight": 0,
+      "useColor": false,
+      "limitColor": false,
+      "useColor1": false,
+      "color1": "",
+      "useColor2": false,
+      "color2": "",
+      "useColor3": false,
+      "color3": "",
+      "useStripes": "false",
+      "stripeBlackWidth": 1,
+      "stripeTotalWidth": 2,
+      "endStyleLeft": "none",
+      "endStyleRight": "none",
+      "endStyleRepeat": 1
     }
   ]
 }
