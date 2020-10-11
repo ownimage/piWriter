@@ -19,11 +19,6 @@ sudo apt install -y curl
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source ~/.bashrc
 nvm i 9.9.0
-nvm use 9.9.0
-npm i -g ts-node@v6.0.1
-npm i -g typescript@v2.8.3
-npm i -g @types/node@10.0.2
-npm i -g @angular/cli@1.7.4
 ```
 Note that I am using node 9.9.0 atm as node 10 does not seem to allow the serverRPi to compile.
 
